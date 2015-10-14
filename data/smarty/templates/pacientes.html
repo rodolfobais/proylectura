@@ -1,0 +1,96 @@
+<div class="container">
+    <input type="hidden" name="item" id="item" value="0" />
+    <h3>{$titulo}</h3>
+    <hr>
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="table-responsive">
+                <a href="pacientes.php?accion=n" class="btn btn-new btn-xs iframe cboxElement">
+                    <span class="glyphicon glyphicon-plus">Nuevo</span>
+                </a>
+                <table class="table table-striped table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Obra social</th>
+                            <th class="text-center">Asistencia</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {foreach $pacientes as $item}
+                            <tr>
+                                <td>{$item.id}</td>
+                                <td>{$item.nombre}</td>
+                                <td>{$item.apellido}</td>
+                                <td>{$item.obraSocial}</td>
+                                <td class="text-center">
+                                    <a href="asistencias.php?pac={$item.id}"><img src="/images/asistencia.png" width="25" /></a>
+                                </td>
+                                <td class="text-center">
+                                    <a href="pacientes.php?id={$item.id}&accion=e" class="btn btn-warning btn-xs iframe cboxElement">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </a> &nbsp;
+                                    <a href="pacientes.php?id={$item.id}&accion=d" onclick="javacript:valor({$item.id});"  id="dialog-link{$item.id}" class="btn btn-danger btn-xs">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </a> &nbsp;
+                                </td>
+                            </tr>
+                        {foreachelse}
+                            <tr>
+                                <td colspan="5">No se encontraron registros.</td>
+                            </tr>
+                        {/foreach}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>		
+</div>
+<!-- ui-dialog -->
+<div id="dialog" title="Eliminar">
+    <p>Se dispone a eliminar este registro<br>¿Realmente desea eliminarlo?</p>
+</div>	
+<script>
+    {literal}
+	function valor(idx) {
+            $("#item").val(idx);
+	}
+	$( "#dialog" ).dialog({
+            autoOpen: false,
+            width: 300,
+            buttons: [
+                    {
+                        text: "Cancelar",
+                        click: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    },
+                    {
+                        text: "Eliminar",
+                        click: function() {
+                            //alert($("#item").val());
+                            window.open("pacientes.php?id="+$("#item").val()+"&accion=d","_self");
+                            $( this ).dialog( "close" );
+                        }
+                    }
+            ]
+	});
+    {/literal}
+    {foreach $profesionales as $item}
+        $( "#dialog-link{$item.id}" ).click(function( event ) {
+            $( "#dialog" ).dialog( "open" );
+            event.preventDefault();
+        });
+        $( "#dialog-link{$item.id}, #icons li" ).hover(
+            function() {
+                $( this ).addClass( "ui-state-hover" );
+            },
+            function() {
+                $( this ).removeClass( "ui-state-hover" );
+            }
+        );
+    {/foreach}
+</script>

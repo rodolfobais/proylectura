@@ -1,0 +1,20 @@
+<div class="contact">
+    <h3>{$nombreSubpagina}</h3>
+    {if $mensaje neq ""}
+        <div class="footer-text">
+            <div class="container">
+                <h3>{$mensaje}</h3>
+            </div>
+        </div>	
+    {/if}
+    <div class="contact-form">
+    <form method="POST" action="obrassociales.php" id="formulario" name="formulario"/>
+        <input type="hidden" id="id" name="id" value="{$id}"/>
+        <input type="hidden" id="metodo" name="metodo" value="{$metodo}"/>
+        <label>Nombre</label>
+        <input type="text" value="{$nombre}" id="nombre" name="nombre"/>
+        <input type="submit" value="Guardar Datos"/>
+    </form>
+    </div>
+
+</div>
