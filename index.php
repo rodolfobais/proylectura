@@ -17,6 +17,7 @@ $smarty->caching = true;
 $smarty->cache_lifetime = 120;
 
 $plantillaPrin = "maestro.html";
+
 $subPlantilla = "asistencias.html";
 $smarty->assign("titulo_pagina", "..::Proyecto lectura::.."); //Título debajo del gráfico
 $smarty->assign("titulo", "Asistencia"); //Título en la barra del explorador
@@ -99,7 +100,7 @@ function cargarValoresProfesionales($smarty,$ret = false){
     else {return $profesionales;}
 }
 
-$nombre_archivo = $rutaPlantillas.$subPlantilla;
+
 
 $smarty->assign("subPlantilla", $subPlantilla); 
 $smarty->display($rutaPlantillas.$plantillaPrin);

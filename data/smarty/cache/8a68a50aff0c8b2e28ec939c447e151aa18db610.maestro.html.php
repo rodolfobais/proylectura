@@ -1,25 +1,45 @@
-<?php /*%%SmartyHeaderCode:1162454326561edc0b3de8e1-85881918%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:1491435051561ee5e14a6882-09196499%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '8a68a50aff0c8b2e28ec939c447e151aa18db610' => 
     array (
       0 => '/var/www/proylectura/data/smarty/templates/maestro.html',
-      1 => 1444862795,
+      1 => 1444865503,
+      2 => 'file',
+    ),
+    'f2424695a8aa50f34e64eb3db80a24ceb1ac6b99' => 
+    array (
+      0 => './/data/smarty/templates/plantillaHeader.html',
+      1 => 1444865144,
+      2 => 'file',
+    ),
+    '3c37234591888b0227d64205e109d6b6e8f30544' => 
+    array (
+      0 => './/data/smarty/templates/plantillaMenuLateral.html',
+      1 => 1444863786,
+      2 => 'file',
+    ),
+    '9f644c034ebc67df0dbc7e24045cb916afb659bb' => 
+    array (
+      0 => './/data/smarty/templates/menuDerecha.html',
+      1 => 1444865490,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '1162454326561edc0b3de8e1-85881918',
+  'nocache_hash' => '1491435051561ee5e14a6882-09196499',
   'variables' => 
   array (
     'titulo_pagina' => 0,
+    'plantillaHeader' => 0,
+    'plantillaMenuLateral' => 0,
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.19',
-  'unifunc' => 'content_561edc0b485833_58076273',
+  'unifunc' => 'content_561ee5e1547a11_16289650',
   'cache_lifetime' => 120,
 ),true); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_561edc0b485833_58076273')) {function content_561edc0b485833_58076273($_smarty_tpl) {?><!DOCTYPE html>
+<?php if ($_valid && !is_callable('content_561ee5e1547a11_16289650')) {function content_561ee5e1547a11_16289650($_smarty_tpl) {?><!DOCTYPE html>
 <html>
     <head>
         <title>..::Proyecto lectura::..</title>
@@ -50,9 +70,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
         <![endif]-->
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
-            <div class="wrapper">
-
-      <header class="main-header">
+        <div class="wrapper">
+            <header class="main-header">
 
         <!-- Logo -->
         <a href="index2.html" class="logo">
@@ -304,9 +323,9 @@ $_valid = $_smarty_tpl->decodeProperties(array (
           </div>
 
         </nav>
+      
       </header>
-      <!-- Left side column. contains the logo and sidebar -->
-      <aside class="main-sidebar">
+            <aside class="main-sidebar">
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
           <!-- Sidebar user panel -->
@@ -468,21 +487,18 @@ $_valid = $_smarty_tpl->decodeProperties(array (
         </section>
         <!-- /.sidebar -->
       </aside>
+      
+            <div class="content-wrapper" id ="cuerpo-central" >
+                Contenido
+            </div>
 
-      <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper" id ="cuerpo-central" >
-          Contenido
-      </div>
-
-      <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-          <b>Version</b> 2.3.0
-        </div>
-        <strong>Copyright &copy; 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights reserved.
-      </footer>
-
-      <!-- Control Sidebar -->
-      <aside class="control-sidebar control-sidebar-dark">
+            <footer class="main-footer">
+              <div class="pull-right hidden-xs">
+                <b>Version</b> 2.3.0
+              </div>
+              <strong>Copyright &copy; 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights reserved.
+            </footer>
+            <aside class="control-sidebar control-sidebar-dark">
         <!-- Create the tabs -->
         <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
           <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
@@ -641,7 +657,9 @@ $_valid = $_smarty_tpl->decodeProperties(array (
             </form>
           </div><!-- /.tab-pane -->
         </div>
-      </aside><!-- /.control-sidebar -->
+      </aside>
+      <!-- Control Sidebar -->
+      <!-- /.control-sidebar -->
       <!-- Add the sidebar's background. This div must be placed
            immediately after the control sidebar -->
       <div class="control-sidebar-bg"></div>
