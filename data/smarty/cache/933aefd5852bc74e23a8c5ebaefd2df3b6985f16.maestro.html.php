@@ -1,45 +1,49 @@
-<?php /*%%SmartyHeaderCode:1491435051561ee5e14a6882-09196499%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:2434562420d34214e1-06542058%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
-    '8a68a50aff0c8b2e28ec939c447e151aa18db610' => 
+    '933aefd5852bc74e23a8c5ebaefd2df3b6985f16' => 
     array (
-      0 => '/var/www/proylectura/data/smarty/templates/maestro.html',
-      1 => 1444865503,
+      0 => 'C:\\xampp\\htdocs\\proylectura\\data\\smarty\\templates\\maestro.html',
+      1 => 1445208259,
       2 => 'file',
     ),
-    'f2424695a8aa50f34e64eb3db80a24ceb1ac6b99' => 
+    '283fd1115bd6cd8cee26d5115d7a3de5f24114ee' => 
     array (
-      0 => './/data/smarty/templates/plantillaHeader.html',
-      1 => 1444865144,
+      0 => '.\\\\data\\smarty\\templates\\plantillaHeader.html',
+      1 => 1444865958,
       2 => 'file',
     ),
-    '3c37234591888b0227d64205e109d6b6e8f30544' => 
+    '804930d73873055802de3abb762dce8bfd0646ce' => 
     array (
-      0 => './/data/smarty/templates/plantillaMenuLateral.html',
-      1 => 1444863786,
+      0 => '.\\\\data\\smarty\\templates\\plantillaMenuLateral.html',
+      1 => 1444865958,
       2 => 'file',
     ),
-    '9f644c034ebc67df0dbc7e24045cb916afb659bb' => 
+    '3144f9c262b25caa89a776a00a1c6245d22ee3fb' => 
     array (
-      0 => './/data/smarty/templates/menuDerecha.html',
-      1 => 1444865490,
+      0 => '.\\\\data\\smarty\\templates\\footer.html',
+      1 => 1444865958,
+      2 => 'file',
+    ),
+    '6038acba3dd5995eb4ee3a13c4fb08cad473bc63' => 
+    array (
+      0 => '.\\\\data\\smarty\\templates\\menuDerecha.html',
+      1 => 1444865958,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '1491435051561ee5e14a6882-09196499',
+  'nocache_hash' => '2434562420d34214e1-06542058',
   'variables' => 
   array (
     'titulo_pagina' => 0,
-    'plantillaHeader' => 0,
-    'plantillaMenuLateral' => 0,
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.19',
-  'unifunc' => 'content_561ee5e1547a11_16289650',
+  'unifunc' => 'content_562420d38aa820_23017701',
   'cache_lifetime' => 120,
 ),true); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_561ee5e1547a11_16289650')) {function content_561ee5e1547a11_16289650($_smarty_tpl) {?><!DOCTYPE html>
+<?php if ($_valid && !is_callable('content_562420d38aa820_23017701')) {function content_562420d38aa820_23017701($_smarty_tpl) {?><!DOCTYPE html>
 <html>
     <head>
         <title>..::Proyecto lectura::..</title>
@@ -49,6 +53,12 @@ $_valid = $_smarty_tpl->decodeProperties(array (
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.5 -->
+        <script type="text/javascript" src="../../../js/jquery-1.4.2.min.js"></script>
+        <script type="text/javascript" src="../../../js/ajax.js"></script>
+        <script type="text/javascript" src="../../../js/footer.js"></script>
+        <link href="../../../css/base.css" type="text/css"  rel="stylesheet"/>
+        <link href="../../../css/cuerpo.css" type="text/css"  rel="stylesheet"/>
+        <script type="text/javascript" src="../../../js/jquery-1.9.0.min.js"></script>
         <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
         <!-- Font Awesome -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -487,11 +497,12 @@ $_valid = $_smarty_tpl->decodeProperties(array (
         </section>
         <!-- /.sidebar -->
       </aside>
-      
-            <div class="content-wrapper" id ="cuerpo-central" >
-                Contenido
-            </div>
+<div class="control-sidebar-bg"></div>
+            <div class="content-wrapper" id="cuerpocentro">
+                <?php echo '<?php'; ?>
+ include("home.php"); <?php echo '?>'; ?>
 
+            </div>
             <footer class="main-footer">
               <div class="pull-right hidden-xs">
                 <b>Version</b> 2.3.0
@@ -657,35 +668,29 @@ $_valid = $_smarty_tpl->decodeProperties(array (
             </form>
           </div><!-- /.tab-pane -->
         </div>
-      </aside>
-      <!-- Control Sidebar -->
-      <!-- /.control-sidebar -->
-      <!-- Add the sidebar's background. This div must be placed
-           immediately after the control sidebar -->
-      <div class="control-sidebar-bg"></div>
+      </aside>   
+        </div><!-- ./wrapper -->
 
-    </div><!-- ./wrapper -->
-
-    <!-- jQuery 2.1.4 -->
-    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
-    <!-- Bootstrap 3.3.5 -->
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <!-- FastClick -->
-    <script src="plugins/fastclick/fastclick.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="dist/js/app.min.js"></script>
-    <!-- Sparkline -->
-    <script src="plugins/sparkline/jquery.sparkline.min.js"></script>
-    <!-- jvectormap -->
-    <script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-    <script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-    <!-- SlimScroll 1.3.0 -->
-    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
-    <!-- ChartJS 1.0.1 -->
-    <script src="plugins/chartjs/Chart.min.js"></script>
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="dist/js/pages/dashboard2.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="dist/js/demo.js"></script>
+        <!-- jQuery 2.1.4 -->
+        <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+        <!-- Bootstrap 3.3.5 -->
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <!-- FastClick -->
+        <script src="plugins/fastclick/fastclick.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="dist/js/app.min.js"></script>
+        <!-- Sparkline -->
+        <script src="plugins/sparkline/jquery.sparkline.min.js"></script>
+        <!-- jvectormap -->
+        <script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+        <script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+        <!-- SlimScroll 1.3.0 -->
+        <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+        <!-- ChartJS 1.0.1 -->
+        <script src="plugins/chartjs/Chart.min.js"></script>
+        <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+        <script src="dist/js/pages/dashboard2.js"></script>
+        <!-- AdminLTE for demo purposes -->
+        <script src="dist/js/demo.js"></script>
     </body>
 </html>	<?php }} ?>

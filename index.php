@@ -16,7 +16,7 @@ $smarty->debugging = false;
 $smarty->caching = true;
 $smarty->cache_lifetime = 120;
 
-$plantillaPrin = "maestro.html";
+$plantillaPrin = "maestro.php";
 
 $subPlantilla = "asistencias.html";
 $smarty->assign("titulo_pagina", "..::Proyecto lectura::.."); //Título debajo del gráfico
@@ -26,7 +26,7 @@ $smarty->assign("menu", "asistencias"); //indentificador de menú
 if(isset($_GET["accion"])){
     //formularios para edición y nuevo
     if($_GET["accion"] == "e"){
-        $plantillaPrin = "maestro.html";
+        $plantillaPrin = "maestro.php";
         $subPlantilla = "asistencias.html";       
 
         $id = $_GET["id"];

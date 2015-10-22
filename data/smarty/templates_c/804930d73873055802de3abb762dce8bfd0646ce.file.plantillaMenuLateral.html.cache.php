@@ -1,4 +1,25 @@
-<aside class="main-sidebar">
+<?php /* Smarty version Smarty-3.1.19, created on 2015-10-23 00:55:57
+         compiled from ".\\data\smarty\templates\plantillaMenuLateral.html" */ ?>
+<?php /*%%SmartyHeaderCode:206835629697d135794-07279948%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+$_valid = $_smarty_tpl->decodeProperties(array (
+  'file_dependency' => 
+  array (
+    '804930d73873055802de3abb762dce8bfd0646ce' => 
+    array (
+      0 => '.\\\\data\\smarty\\templates\\plantillaMenuLateral.html',
+      1 => 1445554551,
+      2 => 'file',
+    ),
+  ),
+  'nocache_hash' => '206835629697d135794-07279948',
+  'function' => 
+  array (
+  ),
+  'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.19',
+  'unifunc' => 'content_5629697d143d50_84263902',
+),false); /*/%%SmartyHeaderCode%%*/?>
+<?php if ($_valid && !is_callable('content_5629697d143d50_84263902')) {function content_5629697d143d50_84263902($_smarty_tpl) {?><aside class="main-sidebar">
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
           <!-- Sidebar user panel -->
@@ -96,4 +117,4 @@
         </section>
         <!-- /.sidebar -->
       </aside>
-<div class="control-sidebar-bg"></div>
+<div class="control-sidebar-bg"></div><?php }} ?>
