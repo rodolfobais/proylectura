@@ -1,31 +1,29 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2015-10-14 20:31:45
+<?php /* Smarty version Smarty-3.1.19, created on 2015-10-14 20:59:11
          compiled from "/var/www/proylectura/data/smarty/templates/maestro.html" */ ?>
-<?php /*%%SmartyHeaderCode:1491435051561ee5e14a6882-09196499%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:2124430878561eec4ff0fbf1-40803159%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '8a68a50aff0c8b2e28ec939c447e151aa18db610' => 
     array (
       0 => '/var/www/proylectura/data/smarty/templates/maestro.html',
-      1 => 1444865503,
+      1 => 1444865649,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '1491435051561ee5e14a6882-09196499',
+  'nocache_hash' => '2124430878561eec4ff0fbf1-40803159',
   'function' => 
   array (
   ),
   'variables' => 
   array (
     'titulo_pagina' => 0,
-    'plantillaHeader' => 0,
-    'plantillaMenuLateral' => 0,
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.19',
-  'unifunc' => 'content_561ee5e14ea831_22688859',
+  'unifunc' => 'content_561eec5000b0f5_50149207',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_561ee5e14ea831_22688859')) {function content_561ee5e14ea831_22688859($_smarty_tpl) {?><!DOCTYPE html>
+<?php if ($_valid && !is_callable('content_561eec5000b0f5_50149207')) {function content_561eec5000b0f5_50149207($_smarty_tpl) {?><!DOCTYPE html>
 <html>
     <head>
         <title><?php echo $_smarty_tpl->tpl_vars['titulo_pagina']->value;?>
@@ -58,51 +56,39 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
         <div class="wrapper">
-            <?php echo $_smarty_tpl->getSubTemplate ($_smarty_tpl->tpl_vars['plantillaHeader']->value, $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 9999, null, array(), 0);?>
+            <?php echo $_smarty_tpl->getSubTemplate ("plantillaHeader.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 9999, null, array(), 0);?>
 
-            <?php echo $_smarty_tpl->getSubTemplate ($_smarty_tpl->tpl_vars['plantillaMenuLateral']->value, $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 9999, null, array(), 0);?>
+            <?php echo $_smarty_tpl->getSubTemplate ("plantillaMenuLateral.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 9999, null, array(), 0);?>
 
-      
             <div class="content-wrapper" id ="cuerpo-central" >
                 Contenido
             </div>
+            <?php echo $_smarty_tpl->getSubTemplate ("footer.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 9999, null, array(), 0);?>
 
-            <footer class="main-footer">
-              <div class="pull-right hidden-xs">
-                <b>Version</b> 2.3.0
-              </div>
-              <strong>Copyright &copy; 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights reserved.
-            </footer>
             <?php echo $_smarty_tpl->getSubTemplate ("menuDerecha.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 9999, null, array(), 0);?>
+   
+        </div><!-- ./wrapper -->
 
-      <!-- Control Sidebar -->
-      <!-- /.control-sidebar -->
-      <!-- Add the sidebar's background. This div must be placed
-           immediately after the control sidebar -->
-      <div class="control-sidebar-bg"></div>
-
-    </div><!-- ./wrapper -->
-
-    <!-- jQuery 2.1.4 -->
-    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
-    <!-- Bootstrap 3.3.5 -->
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <!-- FastClick -->
-    <script src="plugins/fastclick/fastclick.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="dist/js/app.min.js"></script>
-    <!-- Sparkline -->
-    <script src="plugins/sparkline/jquery.sparkline.min.js"></script>
-    <!-- jvectormap -->
-    <script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-    <script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-    <!-- SlimScroll 1.3.0 -->
-    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
-    <!-- ChartJS 1.0.1 -->
-    <script src="plugins/chartjs/Chart.min.js"></script>
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="dist/js/pages/dashboard2.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="dist/js/demo.js"></script>
+        <!-- jQuery 2.1.4 -->
+        <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+        <!-- Bootstrap 3.3.5 -->
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <!-- FastClick -->
+        <script src="plugins/fastclick/fastclick.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="dist/js/app.min.js"></script>
+        <!-- Sparkline -->
+        <script src="plugins/sparkline/jquery.sparkline.min.js"></script>
+        <!-- jvectormap -->
+        <script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+        <script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+        <!-- SlimScroll 1.3.0 -->
+        <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+        <!-- ChartJS 1.0.1 -->
+        <script src="plugins/chartjs/Chart.min.js"></script>
+        <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+        <script src="dist/js/pages/dashboard2.js"></script>
+        <!-- AdminLTE for demo purposes -->
+        <script src="dist/js/demo.js"></script>
     </body>
 </html>	<?php }} ?>

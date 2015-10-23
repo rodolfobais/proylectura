@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database defaultIdMethod="native" defaultPhpNamingMethod="phpname" name="proylectura">
+  	<external-schema filename="schemaProylectura.xml" referenceOnly="false" />
+</database>

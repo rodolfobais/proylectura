@@ -7,7 +7,7 @@
 	define('SITE_TITLE','Panel :: ' . PROJECT_NAME);      
 
 	/*Constantes usadas por propel*/
-	define('SITE_PATH', 'C:/xampp/htdocs/proylectura');
+	define('SITE_PATH', '/var/www/proylectura');
 	define('SITE_PATH_ADMIN', SITE_PATH . '/data/proylectura');
 	define('SITE_PATH_CONFIG', SITE_PATH . '/data');
 	define('SITE_PATH_CONFIG_PROPEL', SITE_PATH . '/data/proylectura-conf.php');
