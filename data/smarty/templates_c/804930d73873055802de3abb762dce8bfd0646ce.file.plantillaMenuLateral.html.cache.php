@@ -1,25 +1,25 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2015-10-23 00:55:57
+<?php /* Smarty version Smarty-3.1.19, created on 2015-10-23 02:02:05
          compiled from ".\\data\smarty\templates\plantillaMenuLateral.html" */ ?>
-<?php /*%%SmartyHeaderCode:206835629697d135794-07279948%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:7361562978fdc56856-50297450%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '804930d73873055802de3abb762dce8bfd0646ce' => 
     array (
       0 => '.\\\\data\\smarty\\templates\\plantillaMenuLateral.html',
-      1 => 1445554551,
+      1 => 1445558291,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '206835629697d135794-07279948',
+  'nocache_hash' => '7361562978fdc56856-50297450',
   'function' => 
   array (
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.19',
-  'unifunc' => 'content_5629697d143d50_84263902',
+  'unifunc' => 'content_562978fdc614c4_93480954',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_5629697d143d50_84263902')) {function content_5629697d143d50_84263902($_smarty_tpl) {?><aside class="main-sidebar">
+<?php if ($_valid && !is_callable('content_562978fdc614c4_93480954')) {function content_562978fdc614c4_93480954($_smarty_tpl) {?><aside class="main-sidebar">
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
           <!-- Sidebar user panel -->
@@ -85,8 +85,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
                 <span class="label label-primary pull-right">4</span>
               </a>
                 <ul class="treeview-menu">
-                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/testmp3.php')"><i class="fa fa-circle-o"></i> Subir Audiolibro</a></li>
-                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/testlista.php')"><i class="fa fa-circle-o"></i> Crear Lista de Audiolibros</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/mp3.php')"><i class="fa fa-circle-o"></i> Subir Audiolibro</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/audiolista.php')"><i class="fa fa-circle-o"></i> Crear Lista de Audiolibros</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -96,8 +96,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
                 <span class="label label-primary pull-right">4</span>
               </a>
               <ul class="treeview-menu">
-                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/testbusca.php')"><i class="fa fa-circle-o"></i> Buscar amigos</a></li>
-                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/testamigo.php')"><i class="fa fa-circle-o"></i> Lectores Amigos</a></li>
+                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/buscaamigos.php')"><i class="fa fa-circle-o"></i> Buscar amigos</a></li>
+                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/amigos.php')"><i class="fa fa-circle-o"></i> Lectores Amigos</a></li>
               </ul>
             </li>
             <li class="treeview">
@@ -112,7 +112,9 @@ $_valid = $_smarty_tpl->decodeProperties(array (
                     <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i> Generos</a></li>
                 </ul>
             </li>  
-              
+            <div class="reproductor" id="contenedorReproductor">
+                <embed src="reproductor/dewplayer-playlist.swf" height="200" width="240" wmode="transparent" flashvars="xml=listas/<<?php ?>?php echo $ultimaCreada; ?<?php ?>>.xml&autoplay=0&autoreplay=1&randomplay=0&volume=100"></embed>
+    </div>
           </ul>
         </section>
         <!-- /.sidebar -->

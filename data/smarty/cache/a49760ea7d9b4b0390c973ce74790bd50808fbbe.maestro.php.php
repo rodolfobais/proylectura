@@ -1,23 +1,23 @@
-<?php /*%%SmartyHeaderCode:154295629697ce66954-50789420%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:19915562978fdadcea5-97756091%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     'a49760ea7d9b4b0390c973ce74790bd50808fbbe' => 
     array (
       0 => 'C:\\xampp\\htdocs\\proylectura\\data\\smarty\\templates\\maestro.php',
-      1 => 1445247084,
+      1 => 1445557263,
       2 => 'file',
     ),
     '283fd1115bd6cd8cee26d5115d7a3de5f24114ee' => 
     array (
       0 => '.\\\\data\\smarty\\templates\\plantillaHeader.html',
-      1 => 1444865958,
+      1 => 1445558475,
       2 => 'file',
     ),
     '804930d73873055802de3abb762dce8bfd0646ce' => 
     array (
       0 => '.\\\\data\\smarty\\templates\\plantillaMenuLateral.html',
-      1 => 1445554551,
+      1 => 1445558291,
       2 => 'file',
     ),
     '3144f9c262b25caa89a776a00a1c6245d22ee3fb' => 
@@ -33,17 +33,17 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '154295629697ce66954-50789420',
+  'nocache_hash' => '19915562978fdadcea5-97756091',
   'variables' => 
   array (
     'titulo_pagina' => 0,
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.19',
-  'unifunc' => 'content_5629697d2f9122_46452409',
+  'unifunc' => 'content_562978fdec11f5_15110053',
   'cache_lifetime' => 120,
 ),true); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_5629697d2f9122_46452409')) {function content_5629697d2f9122_46452409($_smarty_tpl) {?><!DOCTYPE html>
+<?php if ($_valid && !is_callable('content_562978fdec11f5_15110053')) {function content_562978fdec11f5_15110053($_smarty_tpl) {?><!DOCTYPE html>
 <html>
     <head>
         <title>..::Proyecto lectura::..</title>
@@ -401,8 +401,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
                 <span class="label label-primary pull-right">4</span>
               </a>
                 <ul class="treeview-menu">
-                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/testmp3.php')"><i class="fa fa-circle-o"></i> Subir Audiolibro</a></li>
-                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/testlista.php')"><i class="fa fa-circle-o"></i> Crear Lista de Audiolibros</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/mp3.php')"><i class="fa fa-circle-o"></i> Subir Audiolibro</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/audiolista.php')"><i class="fa fa-circle-o"></i> Crear Lista de Audiolibros</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -412,8 +412,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
                 <span class="label label-primary pull-right">4</span>
               </a>
               <ul class="treeview-menu">
-                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/testbusca.php')"><i class="fa fa-circle-o"></i> Buscar amigos</a></li>
-                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/testamigo.php')"><i class="fa fa-circle-o"></i> Lectores Amigos</a></li>
+                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/buscaamigos.php')"><i class="fa fa-circle-o"></i> Buscar amigos</a></li>
+                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/amigos.php')"><i class="fa fa-circle-o"></i> Lectores Amigos</a></li>
               </ul>
             </li>
             <li class="treeview">
@@ -428,7 +428,11 @@ $_valid = $_smarty_tpl->decodeProperties(array (
                     <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i> Generos</a></li>
                 </ul>
             </li>  
-              
+            <div class="reproductor" id="contenedorReproductor">
+                <embed src="reproductor/dewplayer-playlist.swf" height="200" width="240" wmode="transparent" flashvars="xml=listas/<?php echo '<?php'; ?>
+ echo $ultimaCreada; <?php echo '?>'; ?>
+.xml&autoplay=0&autoreplay=1&randomplay=0&volume=100"></embed>
+    </div>
           </ul>
         </section>
         <!-- /.sidebar -->
@@ -631,5 +635,4 @@ $_valid = $_smarty_tpl->decodeProperties(array (
         <!-- AdminLTE for demo purposes -->
         <script src="dist/js/demo.js"></script>
     </body>
-</html>	
-<?php }} ?>
+</html>	<?php }} ?>

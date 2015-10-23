@@ -64,8 +64,8 @@
                 <span class="label label-primary pull-right">4</span>
               </a>
                 <ul class="treeview-menu">
-                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/testmp3.php')"><i class="fa fa-circle-o"></i> Subir Audiolibro</a></li>
-                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/testlista.php')"><i class="fa fa-circle-o"></i> Crear Lista de Audiolibros</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/mp3.php')"><i class="fa fa-circle-o"></i> Subir Audiolibro</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/audiolista.php')"><i class="fa fa-circle-o"></i> Crear Lista de Audiolibros</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -75,8 +75,8 @@
                 <span class="label label-primary pull-right">4</span>
               </a>
               <ul class="treeview-menu">
-                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/testbusca.php')"><i class="fa fa-circle-o"></i> Buscar amigos</a></li>
-                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/testamigo.php')"><i class="fa fa-circle-o"></i> Lectores Amigos</a></li>
+                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/buscaamigos.php')"><i class="fa fa-circle-o"></i> Buscar amigos</a></li>
+                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/amigos.php')"><i class="fa fa-circle-o"></i> Lectores Amigos</a></li>
               </ul>
             </li>
             <li class="treeview">
@@ -91,7 +91,9 @@
                     <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i> Generos</a></li>
                 </ul>
             </li>  
-              
+            <div class="reproductor" id="contenedorReproductor">
+                <embed src="reproductor/dewplayer-playlist.swf" height="200" width="240" wmode="transparent" flashvars="xml=listas/<?php echo $ultimaCreada; ?>.xml&autoplay=0&autoreplay=1&randomplay=0&volume=100"></embed>
+    </div>
           </ul>
         </section>
         <!-- /.sidebar -->
