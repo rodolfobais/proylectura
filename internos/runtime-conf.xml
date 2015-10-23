@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<propel>
+		<datasources default="prueba">
+			<datasource id="prueba">
+				<adapter>mysql</adapter> <!-- sqlite, mysql, mssql, oracle, or pgsql -->
+				<connection>
+					<dsn>mysql:host=localhost;dbname=proylectura</dsn>
+					<user>root</user>
+					<password>root</password>
+					<settings>
+						<setting id="charset">utf8</setting>
+					</settings>
+				</connection>
+			</datasource>
+		</datasources>
+	</propel>
+</config>
+
+
