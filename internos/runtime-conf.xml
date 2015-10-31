@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
 	<propel>
-		<datasources default="prueba">
-			<datasource id="prueba">
+		<datasources default="proylectura">
+			<datasource id="proylectura">
 				<adapter>mysql</adapter> <!-- sqlite, mysql, mssql, oracle, or pgsql -->
 				<connection>
 					<dsn>mysql:host=localhost;dbname=proylectura</dsn>
