@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2015-11-04 19:35:02
+<?php /* Smarty version Smarty-3.1.19, created on 2015-11-04 20:47:29
          compiled from "/var/www/proylectura/data/smarty/templates/maestro.php" */ ?>
-<?php /*%%SmartyHeaderCode:802151864563a881644e0f3-89506656%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:1067045123563a9911d1a7c5-92380398%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     'b73060a2f54cc2117193af1e873463a8bac2ae46' => 
     array (
       0 => '/var/www/proylectura/data/smarty/templates/maestro.php',
-      1 => 1446673016,
+      1 => 1446680632,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '802151864563a881644e0f3-89506656',
+  'nocache_hash' => '1067045123563a9911d1a7c5-92380398',
   'function' => 
   array (
   ),
@@ -21,9 +21,9 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.19',
-  'unifunc' => 'content_563a8816481600_29224701',
+  'unifunc' => 'content_563a9911d59d76_13116428',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_563a8816481600_29224701')) {function content_563a8816481600_29224701($_smarty_tpl) {?><!DOCTYPE html>
+<?php if ($_valid && !is_callable('content_563a9911d59d76_13116428')) {function content_563a9911d59d76_13116428($_smarty_tpl) {?><!DOCTYPE html>
 <html>
     <head>
         <title><?php echo $_smarty_tpl->tpl_vars['titulo_pagina']->value;?>
@@ -36,7 +36,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
         <!-- Bootstrap 3.3.5 -->
         <script type="text/javascript" src="/proylectura/js/jquery-1.4.2.min.js"></script>
         <script type="text/javascript" src="/proylectura/js/ajax.js"></script>
-        <script type="text/javascript" src="/proylectura/js/footer.js"></script>
+        
         <link href="/proylectura/css/base.css" type="text/css"  rel="stylesheet"/>
         <link href="/proylectura/css/cuerpo.css" type="text/css"  rel="stylesheet"/>
         <script type="text/javascript" src="/proylectura/js/jquery-1.9.0.min.js"></script>
@@ -67,8 +67,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
             <?php echo $_smarty_tpl->getSubTemplate ("plantillaMenuLateral.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 9999, null, array(), 0);?>
 
             <div class="content-wrapper" id="cuerpocentro">
-                <?php echo $_smarty_tpl->getSubTemplate ("home.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 9999, null, array(), 0);?>
-
+                
             </div>
             <?php echo $_smarty_tpl->getSubTemplate ("footer.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 9999, null, array(), 0);?>
 
@@ -93,10 +92,16 @@ $_valid = $_smarty_tpl->decodeProperties(array (
         <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
         <!-- ChartJS 1.0.1 -->
         <script src="plugins/chartjs/Chart.min.js"></script>
-        <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-        <script src="dist/js/pages/dashboard2.js"></script>
+        <!-- AdminLTE dashboard demo (This is only for demo purposes)
+        <script src="dist/js/pages/dashboard2.js"></script> -->
         <!-- AdminLTE for demo purposes -->
         <script src="dist/js/demo.js"></script>
+        <script type="text/javascript">
+            $( document ).ready(function() {
+                refreshDivs('cuerpocentro','data/smarty/templates/home.php');
+            });
+            
+        </script>
     </body>
 </html>	
 <?php }} ?>

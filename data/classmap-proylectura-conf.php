@@ -28,6 +28,9 @@ return array (
   'BaseGenero' => 'proylectura/model/om/BaseGenero.php',
   'BaseGeneroPeer' => 'proylectura/model/om/BaseGeneroPeer.php',
   'BaseGeneroQuery' => 'proylectura/model/om/BaseGeneroQuery.php',
+  'BaseLibro' => 'proylectura/model/om/BaseLibro.php',
+  'BaseLibroPeer' => 'proylectura/model/om/BaseLibroPeer.php',
+  'BaseLibroQuery' => 'proylectura/model/om/BaseLibroQuery.php',
   'Calificacion' => 'proylectura/model/Calificacion.php',
   'CalificacionPeer' => 'proylectura/model/CalificacionPeer.php',
   'CalificacionQuery' => 'proylectura/model/CalificacionQuery.php',
@@ -36,4 +39,8 @@ return array (
   'GeneroPeer' => 'proylectura/model/GeneroPeer.php',
   'GeneroQuery' => 'proylectura/model/GeneroQuery.php',
   'GeneroTableMap' => 'proylectura/model/map/GeneroTableMap.php',
+  'Libro' => 'proylectura/model/Libro.php',
+  'LibroPeer' => 'proylectura/model/LibroPeer.php',
+  'LibroQuery' => 'proylectura/model/LibroQuery.php',
+  'LibroTableMap' => 'proylectura/model/map/LibroTableMap.php',
 );

@@ -29,7 +29,7 @@ CREATE TABLE `audiolibro`
 	`id` INT(10) NOT NULL AUTO_INCREMENT,
 	`nombre` CHAR(50) NOT NULL,
 	`fecha` DATE NOT NULL,
-	`hash` INT(10) NOT NULL,
+	`hash` CHAR(250) NOT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
@@ -72,6 +72,25 @@ CREATE TABLE `genero`
 (
 	`id` INT(10) NOT NULL AUTO_INCREMENT,
 	`nombre` CHAR(50) NOT NULL,
+	PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- libro
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `libro`;
+
+CREATE TABLE `libro`
+(
+	`id` INT(10) NOT NULL AUTO_INCREMENT,
+	`nombre` CHAR(50) NOT NULL,
+	`fecha` DATE NOT NULL,
+	`hash` CHAR(250) NOT NULL,
+	`id_genero` INT(10) NOT NULL,
+	`id_autor` INT(10) NOT NULL,
+	`image` CHAR(255) NOT NULL,
+	`sinopsis` CHAR(255) NOT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 

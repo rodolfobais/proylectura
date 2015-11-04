@@ -3,7 +3,7 @@
 
 
 /**
- * This class defines the structure of the 'audiolibro' table.
+ * This class defines the structure of the 'libro' table.
  *
  *
  *
@@ -14,13 +14,13 @@
  *
  * @package    propel.generator.proylectura.model.map
  */
-class AudiolibroTableMap extends TableMap
+class LibroTableMap extends TableMap
 {
 
 	/**
 	 * The (dot-path) name of this class
 	 */
-	const CLASS_NAME = 'proylectura.model.map.AudiolibroTableMap';
+	const CLASS_NAME = 'proylectura.model.map.LibroTableMap';
 
 	/**
 	 * Initialize the table attributes, columns and validators
@@ -32,9 +32,9 @@ class AudiolibroTableMap extends TableMap
 	public function initialize()
 	{
 		// attributes
-		$this->setName('audiolibro');
-		$this->setPhpName('Audiolibro');
-		$this->setClassname('Audiolibro');
+		$this->setName('libro');
+		$this->setPhpName('Libro');
+		$this->setClassname('Libro');
 		$this->setPackage('proylectura.model');
 		$this->setUseIdGenerator(true);
 		// columns
@@ -42,6 +42,10 @@ class AudiolibroTableMap extends TableMap
 		$this->addColumn('NOMBRE', 'Nombre', 'CHAR', true, 50, null);
 		$this->addColumn('FECHA', 'Fecha', 'DATE', true, null, null);
 		$this->addColumn('HASH', 'Hash', 'CHAR', true, 250, null);
+		$this->addColumn('ID_GENERO', 'Id_genero', 'INTEGER', true, null, null);
+		$this->addColumn('ID_AUTOR', 'Id_autor', 'INTEGER', true, null, null);
+		$this->addColumn('IMAGE', 'Image', 'CHAR', true, 255, null);
+		$this->addColumn('SINOPSIS', 'Sinopsis', 'CHAR', true, 255, null);
 		// validators
 	} // initialize()
 
@@ -52,4 +56,4 @@ class AudiolibroTableMap extends TableMap
 	{
 	} // buildRelations()
 
-} // AudiolibroTableMap
+} // LibroTableMap

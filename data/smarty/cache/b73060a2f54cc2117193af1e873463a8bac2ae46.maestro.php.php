@@ -1,11 +1,11 @@
-<?php /*%%SmartyHeaderCode:802151864563a881644e0f3-89506656%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:1067045123563a9911d1a7c5-92380398%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     'b73060a2f54cc2117193af1e873463a8bac2ae46' => 
     array (
       0 => '/var/www/proylectura/data/smarty/templates/maestro.php',
-      1 => 1446673016,
+      1 => 1446680632,
       2 => 'file',
     ),
     'f2424695a8aa50f34e64eb3db80a24ceb1ac6b99' => 
@@ -18,12 +18,6 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     array (
       0 => './/data/smarty/templates/plantillaMenuLateral.html',
       1 => 1446672411,
-      2 => 'file',
-    ),
-    '728412d0b13f39668432d1210ba3031d31c4397c' => 
-    array (
-      0 => './/data/smarty/templates/home.php',
-      1 => 1446676499,
       2 => 'file',
     ),
     '9688b01bb49966e8f9e97f9a779e25034aaad75c' => 
@@ -39,17 +33,17 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '802151864563a881644e0f3-89506656',
+  'nocache_hash' => '1067045123563a9911d1a7c5-92380398',
   'variables' => 
   array (
     'titulo_pagina' => 0,
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.19',
-  'unifunc' => 'content_563a88165057a4_79414513',
+  'unifunc' => 'content_563a9911dd1976_95962039',
   'cache_lifetime' => 120,
 ),true); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_563a88165057a4_79414513')) {function content_563a88165057a4_79414513($_smarty_tpl) {?><!DOCTYPE html>
+<?php if ($_valid && !is_callable('content_563a9911dd1976_95962039')) {function content_563a9911dd1976_95962039($_smarty_tpl) {?><!DOCTYPE html>
 <html>
     <head>
         <title>..::Proyecto lectura::..</title>
@@ -61,7 +55,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
         <!-- Bootstrap 3.3.5 -->
         <script type="text/javascript" src="/proylectura/js/jquery-1.4.2.min.js"></script>
         <script type="text/javascript" src="/proylectura/js/ajax.js"></script>
-        <script type="text/javascript" src="/proylectura/js/footer.js"></script>
+        
         <link href="/proylectura/css/base.css" type="text/css"  rel="stylesheet"/>
         <link href="/proylectura/css/cuerpo.css" type="text/css"  rel="stylesheet"/>
         <script type="text/javascript" src="/proylectura/js/jquery-1.9.0.min.js"></script>
@@ -441,151 +435,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       </aside>
 <div class="control-sidebar-bg"></div>
             <div class="content-wrapper" id="cuerpocentro">
-                <?php echo '<?php'; ?>
-
-//die;
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
-<?php echo '?>'; ?>
-
-
-<!DOCTYPE HTML>
-<html>
-    <head>
-        <title>Proyecto lectura</title>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>AdminLTE 2 | Widgets</title>
-        <!-- Tell the browser to be responsive to screen width -->
-        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        <!-- Bootstrap 3.3.5 -->
-        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="/css/font-awesome.min.css">
-        <!-- Ionicons -->
-        <link rel="stylesheet" href="/css/ionicons.min.css">
-        <!-- Theme style -->
-        <link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
-        <!-- AdminLTE Skins. Choose a skin from the css/skins
-             folder instead of downloading all of them to reduce the load. -->
-        <link rel="stylesheet" href="/dist/css/skins/_all-skins.min.css">
-
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-	<script>
-            
-	    // You can also use "$(window).load(function() {"
-                $(function () {
-		      // Slideshow 1
-                    $("#slider1").responsiveSlides({
-                        maxwidth: 1600, speed: 600
-                    });
-		});
-                function mostrar(){
-                    document.getElementById("boton").style.display = "none"; 
-                    var elements = document.getElementsByClassName("more");
-                    for(var i=0; i < elements.length; i++ ){
-                        elements[i].style.display = "block";
-                    }
-                }
-            
-	</script>
-    </head>
-    <body>
-        <!---start-wrap---->
-       
-				
-        <!---end-header---->
-        <!--start-image-slider---->
-        <div class="wrap">
-            <div class="image-slider">
-                <ul class="rslides" id="slider1">
-                    <?php echo '<?php'; ?>
- echo $slider; <?php echo '?>'; ?>
-
-                </ul>		    		    
-                <!-- Slideshow 2 -->
-            </div>
-            <!--End-image-slider---->
-            <!---start-content---->
-            <div class="content">
-                <div class="section group">
-                    <div class="col-md-3">
-                        <div class="box box-warning">
-                            <div class="box-header with-border">
-                                <h3 class="box-title">Mi biblioteca</h3>
-                                    <div class="box-tools pull-right">
-                                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                                    </div><!-- /.box-tools -->
-                            </div><!-- /.box-header -->
-                            <div class="box-body">
-                                <ul>
-                                  <li>Lorem ipsum dolor sit amet</li>
-                                  <li>Consectetur adipiscing elit</li>
-                                  <li>Integer molestie lorem at massa</li>
-                                  <li>Facilisis in pretium nisl aliquet</li>
-                                  <li>Faucibus porta lacus fringilla vel</li>
-                                  <li>Aenean sit amet erat nunc</li>
-                                  <li>Eget porttitor lorem</li>
-                                </ul>
-                              </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-3">
-                        <div class="box box-warning">
-                            <div class="box-header with-border">
-                                <h3 class="box-title">Notificaciones</h3>
-                                    <div class="box-tools pull-right">
-                                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                                    </div><!-- /.box-tools -->
-                            </div><!-- /.box-header -->
-                            <div class="box-body">
-                                <ul>
-                                  <li>Lorem ipsum dolor sit amet</li>
-                                  <li>Consectetur adipiscing elit</li>
-                                  <li>Integer molestie lorem at massa</li>
-                                  <li>Facilisis in pretium nisl aliquet</li>
-                                  <li>Faucibus porta lacus fringilla vel</li>
-                                  <li>Aenean sit amet erat nunc</li>
-                                  <li>Eget porttitor lorem</li>
-                                </ul>
-                              </div>
-                        </div>
-                    </div>
-                    
-                   <div class="col-md-3">
-                        <div class="box box-warning">
-                            <div class="box-header with-border">
-                                <h3 class="box-title">Clasificados</h3>
-                                    <div class="box-tools pull-right">
-                                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                                    </div><!-- /.box-tools -->
-                            </div><!-- /.box-header -->
-                            <div class="box-body">
-                                <ul>
-                                  <li>Lorem ipsum dolor sit amet</li>
-                                  <li>Consectetur adipiscing elit</li>
-                                  <li>Integer molestie lorem at massa</li>
-                                  <li>Facilisis in pretium nisl aliquet</li>
-                                  <li>Faucibus porta lacus fringilla vel</li>
-                                  <li>Aenean sit amet erat nunc</li>
-                                  <li>Eget porttitor lorem</li>
-                                </ul>
-                              </div>
-                        </div>
-                    </div>
-                </div>			
-            </div>
-            <!---End-content---->
-            <div class="clear"> </div>
-        </div>
-    </body>
-</html>
+                
             </div>
             <footer class="main-footer">
               <div class="pull-right hidden-xs">
@@ -772,10 +622,16 @@ ini_set("display_errors", 1);
         <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
         <!-- ChartJS 1.0.1 -->
         <script src="plugins/chartjs/Chart.min.js"></script>
-        <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-        <script src="dist/js/pages/dashboard2.js"></script>
+        <!-- AdminLTE dashboard demo (This is only for demo purposes)
+        <script src="dist/js/pages/dashboard2.js"></script> -->
         <!-- AdminLTE for demo purposes -->
         <script src="dist/js/demo.js"></script>
+        <script type="text/javascript">
+            $( document ).ready(function() {
+                refreshDivs('cuerpocentro','data/smarty/templates/home.php');
+            });
+            
+        </script>
     </body>
 </html>	
 <?php }} ?>

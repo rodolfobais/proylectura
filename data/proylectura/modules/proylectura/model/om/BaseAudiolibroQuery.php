@@ -26,12 +26,12 @@
  * @method     Audiolibro findOneById(int $id) Return the first Audiolibro filtered by the id column
  * @method     Audiolibro findOneByNombre(string $nombre) Return the first Audiolibro filtered by the nombre column
  * @method     Audiolibro findOneByFecha(string $fecha) Return the first Audiolibro filtered by the fecha column
- * @method     Audiolibro findOneByHash(int $hash) Return the first Audiolibro filtered by the hash column
+ * @method     Audiolibro findOneByHash(string $hash) Return the first Audiolibro filtered by the hash column
  *
  * @method     array findById(int $id) Return Audiolibro objects filtered by the id column
  * @method     array findByNombre(string $nombre) Return Audiolibro objects filtered by the nombre column
  * @method     array findByFecha(string $fecha) Return Audiolibro objects filtered by the fecha column
- * @method     array findByHash(int $hash) Return Audiolibro objects filtered by the hash column
+ * @method     array findByHash(string $hash) Return Audiolibro objects filtered by the hash column
  *
  * @package    propel.generator.proylectura.model.om
  */
@@ -306,36 +306,24 @@ abstract class BaseAudiolibroQuery extends ModelCriteria
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByHash(1234); // WHERE hash = 1234
-	 * $query->filterByHash(array(12, 34)); // WHERE hash IN (12, 34)
-	 * $query->filterByHash(array('min' => 12)); // WHERE hash > 12
+	 * $query->filterByHash('fooValue');   // WHERE hash = 'fooValue'
+	 * $query->filterByHash('%fooValue%'); // WHERE hash LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     mixed $hash The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param     string $hash The value to use as filter.
+	 *              Accepts wildcards (* and % trigger a LIKE)
 	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
 	 *
 	 * @return    AudiolibroQuery The current query, for fluid interface
 	 */
 	public function filterByHash($hash = null, $comparison = null)
 	{
-		if (is_array($hash)) {
-			$useMinMax = false;
-			if (isset($hash['min'])) {
-				$this->addUsingAlias(AudiolibroPeer::HASH, $hash['min'], Criteria::GREATER_EQUAL);
-				$useMinMax = true;
-			}
-			if (isset($hash['max'])) {
-				$this->addUsingAlias(AudiolibroPeer::HASH, $hash['max'], Criteria::LESS_EQUAL);
-				$useMinMax = true;
-			}
-			if ($useMinMax) {
-				return $this;
-			}
-			if (null === $comparison) {
+		if (null === $comparison) {
+			if (is_array($hash)) {
 				$comparison = Criteria::IN;
+			} elseif (preg_match('/[\%\*]/', $hash)) {
+				$hash = str_replace('*', '%', $hash);
+				$comparison = Criteria::LIKE;
 			}
 		}
 		return $this->addUsingAlias(AudiolibroPeer::HASH, $hash, $comparison);

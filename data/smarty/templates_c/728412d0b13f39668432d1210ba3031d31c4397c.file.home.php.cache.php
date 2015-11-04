@@ -1,28 +1,37 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2015-11-04 19:35:02
+<?php /* Smarty version Smarty-3.1.19, created on 2015-11-04 20:29:34
          compiled from ".//data/smarty/templates/home.php" */ ?>
-<?php /*%%SmartyHeaderCode:280005215563a88164b2986-08168435%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:259993336563a94de294311-61947935%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '728412d0b13f39668432d1210ba3031d31c4397c' => 
     array (
       0 => './/data/smarty/templates/home.php',
-      1 => 1446676499,
+      1 => 1446679765,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '280005215563a88164b2986-08168435',
+  'nocache_hash' => '259993336563a94de294311-61947935',
   'function' => 
   array (
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.19',
-  'unifunc' => 'content_563a88164c2eb5_58324229',
+  'unifunc' => 'content_563a94de2a6766_49308471',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_563a88164c2eb5_58324229')) {function content_563a88164c2eb5_58324229($_smarty_tpl) {?><<?php ?>?php
+<?php if ($_valid && !is_callable('content_563a94de2a6766_49308471')) {function content_563a94de2a6766_49308471($_smarty_tpl) {?>
+<<?php ?>?
 //die;
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
+include_once("/data/config.php");
+
+$libros = LibroQuery::create()->find();
+
+$listaLibros = "";
+foreach ($libros as $reg) {
+    $listaLibros .= "<li>".$reg->getNombre()."</li>";
+}
 ?<?php ?>>
 
 <!DOCTYPE HTML>
@@ -31,7 +40,6 @@ ini_set("display_errors", 1);
         <title>Proyecto lectura</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>AdminLTE 2 | Widgets</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.5 -->
@@ -92,19 +100,13 @@ ini_set("display_errors", 1);
                         <div class="box box-warning">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Mi biblioteca</h3>
-                                    <div class="box-tools pull-right">
-                                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                                    </div><!-- /.box-tools -->
+                                <div class="box-tools pull-right">
+                                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                </div><!-- /.box-tools -->
                             </div><!-- /.box-header -->
                             <div class="box-body">
                                 <ul>
-                                  <li>Lorem ipsum dolor sit amet</li>
-                                  <li>Consectetur adipiscing elit</li>
-                                  <li>Integer molestie lorem at massa</li>
-                                  <li>Facilisis in pretium nisl aliquet</li>
-                                  <li>Faucibus porta lacus fringilla vel</li>
-                                  <li>Aenean sit amet erat nunc</li>
-                                  <li>Eget porttitor lorem</li>
+                                    <<?php ?>?php echo $listaLibros;?<?php ?>>
                                 </ul>
                               </div>
                         </div>

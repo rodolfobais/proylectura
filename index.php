@@ -22,9 +22,16 @@ $subPlantilla = "asistencias.html";
 $smarty->assign("titulo_pagina", "..::Proyecto lectura::.."); //Título debajo del gráfico
 $smarty->assign("titulo", "Asistencia"); //Título en la barra del explorador
 $smarty->assign("menu", "asistencias"); //indentificador de menú
+/*
+$objAutor = AutorQuery::create()->findOneById(1);
+echo $objAutor->getNombre();die;
+$objAutor->setNombre("nuevo nombre");
+$objAutor->save();
+die;
+*/
+echo "Autor:".$objAutor->setNombre("nuevo nombre");
 
-//$objAutor = AutorQuery::create()->findOneById(1);
-//echo "Autor:".$objAutor->getNombre();die;
+die;
 
 if(isset($_GET["accion"])){
     //formularios para edición y nuevo

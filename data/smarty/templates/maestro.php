@@ -10,7 +10,7 @@
         <!-- Bootstrap 3.3.5 -->
         <script type="text/javascript" src="/proylectura/js/jquery-1.4.2.min.js"></script>
         <script type="text/javascript" src="/proylectura/js/ajax.js"></script>
-        <script type="text/javascript" src="/proylectura/js/footer.js"></script>
+        
         <link href="/proylectura/css/base.css" type="text/css"  rel="stylesheet"/>
         <link href="/proylectura/css/cuerpo.css" type="text/css"  rel="stylesheet"/>
         <script type="text/javascript" src="/proylectura/js/jquery-1.9.0.min.js"></script>
@@ -39,7 +39,7 @@
             {include file="plantillaHeader.html"}
             {include file="plantillaMenuLateral.html"}
             <div class="content-wrapper" id="cuerpocentro">
-                {include file="home.php"}
+                
             </div>
             {include file="footer.html"}
             {include file="menuDerecha.html"}   
@@ -62,9 +62,15 @@
         <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
         <!-- ChartJS 1.0.1 -->
         <script src="plugins/chartjs/Chart.min.js"></script>
-        <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-        <script src="dist/js/pages/dashboard2.js"></script>
+        <!-- AdminLTE dashboard demo (This is only for demo purposes)
+        <script src="dist/js/pages/dashboard2.js"></script> -->
         <!-- AdminLTE for demo purposes -->
         <script src="dist/js/demo.js"></script>
+        <script type="text/javascript">
+            $( document ).ready(function() {
+                refreshDivs('cuerpocentro','data/smarty/templates/home.php');
+            });
+            
+        </script>
     </body>
 </html>	
