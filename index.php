@@ -23,8 +23,8 @@ $smarty->assign("titulo_pagina", "..::Proyecto lectura::.."); //Título debajo d
 $smarty->assign("titulo", "Asistencia"); //Título en la barra del explorador
 $smarty->assign("menu", "asistencias"); //indentificador de menú
 
-$objAutor = AutorQuery::create()->findOneById(1);
-echo "Autor:".$objAutor->getNombre();die;
+//$objAutor = AutorQuery::create()->findOneById(1);
+//echo "Autor:".$objAutor->getNombre();die;
 
 if(isset($_GET["accion"])){
     //formularios para edición y nuevo

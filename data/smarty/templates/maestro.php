@@ -39,9 +39,7 @@
             {include file="plantillaHeader.html"}
             {include file="plantillaMenuLateral.html"}
             <div class="content-wrapper" id="cuerpocentro">
-                <?php include('data/smarty/templates/home.php'); ?>
-                Aqui debe cargarse la pagina home cuando se loguea.
-                Ver por que al incluir home.php no trae ningun contenido
+                {include file="home.php"}
             </div>
             {include file="footer.html"}
             {include file="menuDerecha.html"}   

@@ -1,3 +1,8 @@
+<?php
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+include_once '../../data/config.php';
+?>
 <link href="css/cuerpo.css" type="text/css"  rel="stylesheet"/>
 <link href="css/crearlista.css" type="text/css"  rel="stylesheet"/>
        <div id="columna_izq">
@@ -32,13 +37,20 @@
                     <label style="margin-left:10px;">G&eacute;nero: </label>
                     <br />
                     <select id="generolista" id="libro" >
-                    	<?php 
+                    	<?php /*
                             include('php/servicio.php');
         					$sql = "SELECT * FROM genero";
         					$result= query($sql,0);
         					while($row = mysql_fetch_array($result))
                                 {echo '<option value="'.$row['id'].'">'.$row['nombre'].'</option>';
-        						}
+        						}*/
+                        //$genero = au
+                        $objGeneros = GeneroQuery::create()->find();
+
+                        foreach ($objGeneros as $pf) {
+                            //$obrassociales[] = array('id'=>$pf->getId(),'nombre'=>$pf->getNombre());		
+                            echo '<option value="'.$pf->getId().'">'.$pf->getNombre().'</option>';
+                        }
         			     ?>
                     </select>
                 </div>
@@ -58,7 +70,7 @@
                     <label style="margin-left:10px;">Compartir con: </label>
                     <br />
                     <select id="compartidaconamigos" name="compartidaconamigos" multiple height="40">
-                    	 <?php 
+                    	 <?php /*
                             @session_start();
 							$sql = "SELECT * FROM amistad where (id_usuario=".$_SESSION['login']." or id_usuarioamigo=".$_SESSION['login'].") and estado =1";
         					$result= query($sql,0);
@@ -84,7 +96,7 @@
 										}
 										echo '<option value="'.$row['id_usuario'].'">'.$nombre.'</option>';
 									}
-								}
+								}*/
         			     ?>
                     </select>
                     <span onclick="verdatosmultipleselect();">tomar datos multiple select</span>
