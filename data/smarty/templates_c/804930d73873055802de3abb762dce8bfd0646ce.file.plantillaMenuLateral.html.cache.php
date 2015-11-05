@@ -1,25 +1,25 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2015-10-23 02:02:05
+<?php /* Smarty version Smarty-3.1.19, created on 2015-11-06 00:20:33
          compiled from ".\\data\smarty\templates\plantillaMenuLateral.html" */ ?>
-<?php /*%%SmartyHeaderCode:7361562978fdc56856-50297450%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:2359563be4413abd92-87533535%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '804930d73873055802de3abb762dce8bfd0646ce' => 
     array (
       0 => '.\\\\data\\smarty\\templates\\plantillaMenuLateral.html',
-      1 => 1445558291,
+      1 => 1446765474,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '7361562978fdc56856-50297450',
+  'nocache_hash' => '2359563be4413abd92-87533535',
   'function' => 
   array (
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.19',
-  'unifunc' => 'content_562978fdc614c4_93480954',
+  'unifunc' => 'content_563be4413b5493_95886994',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_562978fdc614c4_93480954')) {function content_562978fdc614c4_93480954($_smarty_tpl) {?><aside class="main-sidebar">
+<?php if ($_valid && !is_callable('content_563be4413b5493_95886994')) {function content_563be4413b5493_95886994($_smarty_tpl) {?><aside class="main-sidebar">
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
           <!-- Sidebar user panel -->
@@ -49,7 +49,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
               <a href="#">
                 <i class="fa fa-files-o"></i>
                 <span>Biblioteca</span>
-                <span class="label label-primary pull-right">4</span>
+                <!--<span class="label label-primary pull-right">4</span>-->
               </a>
                 <ul class="treeview-menu">
                     <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> Subir PDF</a></li>
@@ -60,7 +60,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
               <a href="#">
                 <i class="fa fa-files-o"></i>
                 <span>Centro de Redaccion</span>
-                <span class="label label-primary pull-right">4</span>
+                
               </a>
                 <ul class="treeview-menu">
                     <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> Redactor</a></li>
@@ -71,7 +71,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
               <a href="#">
                 <i class="fa fa-files-o"></i>
                 <span>Clasificados</span>
-                <span class="label label-primary pull-right">4</span>
+                
               </a>
                 <ul class="treeview-menu">
                     <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> Nuevo Anuncio</a></li>
@@ -82,7 +82,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
               <a href="#">
                 <i class="fa fa-music"></i>
                 <span>Audiolibros</span>
-                <span class="label label-primary pull-right">4</span>
+                
               </a>
                 <ul class="treeview-menu">
                     <li><a onclick="refreshDivs('cuerpocentro','pages/layout/mp3.php')"><i class="fa fa-circle-o"></i> Subir Audiolibro</a></li>
@@ -93,7 +93,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
               <a href="#">
                 <i class="fa fa-users"></i>
                 <span>Social</span>
-                <span class="label label-primary pull-right">4</span>
+                
               </a>
               <ul class="treeview-menu">
                 <li><a onclick="refreshDivs('cuerpocentro','pages/layout/buscaamigos.php')"><i class="fa fa-circle-o"></i> Buscar amigos</a></li>
@@ -104,7 +104,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
               <a href="#">
                 <i class="fa fa-files-o"></i>
                 <span>Administrador</span>
-                <span class="label label-primary pull-right">4</span>
+                
               </a>
                 <ul class="treeview-menu">
                     <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> Usuarios</a></li>

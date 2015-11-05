@@ -1,32 +1,32 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2015-10-23 02:02:05
+<?php /* Smarty version Smarty-3.1.19, created on 2015-11-06 00:20:33
          compiled from ".\\data\smarty\templates\plantillaHeader.html" */ ?>
-<?php /*%%SmartyHeaderCode:10664562978fdbe2071-80719881%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:17974563be44136da97-47420320%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '283fd1115bd6cd8cee26d5115d7a3de5f24114ee' => 
     array (
       0 => '.\\\\data\\smarty\\templates\\plantillaHeader.html',
-      1 => 1445558475,
+      1 => 1445559560,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '10664562978fdbe2071-80719881',
+  'nocache_hash' => '17974563be44136da97-47420320',
   'function' => 
   array (
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.19',
-  'unifunc' => 'content_562978fdc0bf11_31376861',
+  'unifunc' => 'content_563be44137a716_76235822',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_562978fdc0bf11_31376861')) {function content_562978fdc0bf11_31376861($_smarty_tpl) {?><header class="main-header">
+<?php if ($_valid && !is_callable('content_563be44137a716_76235822')) {function content_563be44137a716_76235822($_smarty_tpl) {?><header class="main-header">
 
         <!-- Logo -->
         <a href="index2.html" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini"><b>A</b>LT</span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>Admin</b>LTE</span>
+          <span class="logo-lg"><b>Proyecto</b>Lectura</span>
         </a>
 
         <!-- Header Navbar: style can be found in header.less -->
@@ -229,7 +229,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                  <span class="hidden-xs">Alexander Pierce</span>
+                  <span class="hidden-xs">Administrador Admin</span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
