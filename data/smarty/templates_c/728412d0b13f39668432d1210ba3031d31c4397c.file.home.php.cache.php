@@ -1,8 +1,29 @@
-<?php
+<?php /* Smarty version Smarty-3.1.19, created on 2015-11-04 19:35:02
+         compiled from ".//data/smarty/templates/home.php" */ ?>
+<?php /*%%SmartyHeaderCode:280005215563a88164b2986-08168435%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+$_valid = $_smarty_tpl->decodeProperties(array (
+  'file_dependency' => 
+  array (
+    '728412d0b13f39668432d1210ba3031d31c4397c' => 
+    array (
+      0 => './/data/smarty/templates/home.php',
+      1 => 1446676499,
+      2 => 'file',
+    ),
+  ),
+  'nocache_hash' => '280005215563a88164b2986-08168435',
+  'function' => 
+  array (
+  ),
+  'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.19',
+  'unifunc' => 'content_563a88164c2eb5_58324229',
+),false); /*/%%SmartyHeaderCode%%*/?>
+<?php if ($_valid && !is_callable('content_563a88164c2eb5_58324229')) {function content_563a88164c2eb5_58324229($_smarty_tpl) {?><<?php ?>?php
 //die;
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
-?>
+?<?php ?>>
 
 <!DOCTYPE HTML>
 <html>
@@ -32,7 +53,7 @@ ini_set("display_errors", 1);
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
 	<script>
-            {literal}
+            
 	    // You can also use "$(window).load(function() {"
                 $(function () {
 		      // Slideshow 1
@@ -47,7 +68,7 @@ ini_set("display_errors", 1);
                         elements[i].style.display = "block";
                     }
                 }
-            {/literal}
+            
 	</script>
     </head>
     <body>
@@ -59,7 +80,7 @@ ini_set("display_errors", 1);
         <div class="wrap">
             <div class="image-slider">
                 <ul class="rslides" id="slider1">
-                    <?php echo $slider; ?>
+                    <<?php ?>?php echo $slider; ?<?php ?>>
                 </ul>		    		    
                 <!-- Slideshow 2 -->
             </div>
@@ -138,4 +159,4 @@ ini_set("display_errors", 1);
             <div class="clear"> </div>
         </div>
     </body>
-</html>
+</html><?php }} ?>

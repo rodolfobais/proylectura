@@ -28,4 +28,9 @@
         <column name="id_lista"   phpName="Id_lista"    type="INTEGER" required="true" sqlType="INT(10)" />
     </table>
 
+    <table name="genero"  phpName="Genero" idMethod="native" package="proylectura.model">
+        <column name="id"           phpName="Id"            type="INTEGER" required="true" sqlType="INT(10)" primaryKey="true" autoIncrement="true" />
+        <column name="nombre"   phpName="Nombre"    size="50"     required="true" type="CHAR" />
+    </table>
+
 </database>

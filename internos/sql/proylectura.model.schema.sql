@@ -62,5 +62,18 @@ CREATE TABLE `calificacion`
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
+-- ---------------------------------------------------------------------
+-- genero
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `genero`;
+
+CREATE TABLE `genero`
+(
+	`id` INT(10) NOT NULL AUTO_INCREMENT,
+	`nombre` CHAR(50) NOT NULL,
+	PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
 # This restores the fkey checks, after having unset them earlier
 SET FOREIGN_KEY_CHECKS = 1;
