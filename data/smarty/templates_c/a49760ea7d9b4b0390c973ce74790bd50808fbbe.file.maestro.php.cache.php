@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2015-10-23 00:55:56
+<?php /* Smarty version Smarty-3.1.19, created on 2015-11-06 00:20:33
          compiled from "C:\xampp\htdocs\proylectura\data\smarty\templates\maestro.php" */ ?>
-<?php /*%%SmartyHeaderCode:154295629697ce66954-50789420%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:27601563be4411cdb00-21233612%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     'a49760ea7d9b4b0390c973ce74790bd50808fbbe' => 
     array (
       0 => 'C:\\xampp\\htdocs\\proylectura\\data\\smarty\\templates\\maestro.php',
-      1 => 1445247084,
+      1 => 1446765474,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '154295629697ce66954-50789420',
+  'nocache_hash' => '27601563be4411cdb00-21233612',
   'function' => 
   array (
   ),
@@ -21,9 +21,9 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.19',
-  'unifunc' => 'content_5629697ceffd39_28229122',
+  'unifunc' => 'content_563be4412b4d13_99457707',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_5629697ceffd39_28229122')) {function content_5629697ceffd39_28229122($_smarty_tpl) {?><!DOCTYPE html>
+<?php if ($_valid && !is_callable('content_563be4412b4d13_99457707')) {function content_563be4412b4d13_99457707($_smarty_tpl) {?><!DOCTYPE html>
 <html>
     <head>
         <title><?php echo $_smarty_tpl->tpl_vars['titulo_pagina']->value;?>
@@ -67,9 +67,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
             <?php echo $_smarty_tpl->getSubTemplate ("plantillaMenuLateral.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 9999, null, array(), 0);?>
 
             <div class="content-wrapper" id="cuerpocentro">
-                <<?php ?>?php include('data/smarty/templates/home.php'); ?<?php ?>>
-                Aqui debe cargarse la pagina home cuando se loguea.
-                Ver por que al incluir home.php no trae ningun contenido
+                <?php echo $_smarty_tpl->getSubTemplate ("home.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 9999, null, array(), 0);?>
+
             </div>
             <?php echo $_smarty_tpl->getSubTemplate ("footer.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 9999, null, array(), 0);?>
 

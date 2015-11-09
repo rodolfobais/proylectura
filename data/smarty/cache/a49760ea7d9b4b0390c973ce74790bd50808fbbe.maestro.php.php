@@ -1,49 +1,55 @@
-<?php /*%%SmartyHeaderCode:154295629697ce66954-50789420%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:27601563be4411cdb00-21233612%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     'a49760ea7d9b4b0390c973ce74790bd50808fbbe' => 
     array (
       0 => 'C:\\xampp\\htdocs\\proylectura\\data\\smarty\\templates\\maestro.php',
-      1 => 1445247084,
+      1 => 1446765474,
       2 => 'file',
     ),
     '283fd1115bd6cd8cee26d5115d7a3de5f24114ee' => 
     array (
       0 => '.\\\\data\\smarty\\templates\\plantillaHeader.html',
-      1 => 1444865958,
+      1 => 1445559560,
       2 => 'file',
     ),
     '804930d73873055802de3abb762dce8bfd0646ce' => 
     array (
       0 => '.\\\\data\\smarty\\templates\\plantillaMenuLateral.html',
-      1 => 1445554551,
+      1 => 1446765474,
+      2 => 'file',
+    ),
+    '27e29ff4dfcc6686643aafe9a27bc32c80747e38' => 
+    array (
+      0 => '.\\\\data\\smarty\\templates\\home.php',
+      1 => 1446765474,
       2 => 'file',
     ),
     '3144f9c262b25caa89a776a00a1c6245d22ee3fb' => 
     array (
       0 => '.\\\\data\\smarty\\templates\\footer.html',
-      1 => 1444865958,
+      1 => 1445558842,
       2 => 'file',
     ),
     '6038acba3dd5995eb4ee3a13c4fb08cad473bc63' => 
     array (
       0 => '.\\\\data\\smarty\\templates\\menuDerecha.html',
-      1 => 1444865958,
+      1 => 1445558842,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '154295629697ce66954-50789420',
+  'nocache_hash' => '27601563be4411cdb00-21233612',
   'variables' => 
   array (
     'titulo_pagina' => 0,
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.19',
-  'unifunc' => 'content_5629697d2f9122_46452409',
+  'unifunc' => 'content_563be4414a8380_71459446',
   'cache_lifetime' => 120,
 ),true); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_5629697d2f9122_46452409')) {function content_5629697d2f9122_46452409($_smarty_tpl) {?><!DOCTYPE html>
+<?php if ($_valid && !is_callable('content_563be4414a8380_71459446')) {function content_563be4414a8380_71459446($_smarty_tpl) {?><!DOCTYPE html>
 <html>
     <head>
         <title>..::Proyecto lectura::..</title>
@@ -88,7 +94,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini"><b>A</b>LT</span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>Admin</b>LTE</span>
+          <span class="logo-lg"><b>Proyecto</b>Lectura</span>
         </a>
 
         <!-- Header Navbar: style can be found in header.less -->
@@ -291,7 +297,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                  <span class="hidden-xs">Alexander Pierce</span>
+                  <span class="hidden-xs">Administrador Admin</span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
@@ -365,7 +371,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
               <a href="#">
                 <i class="fa fa-files-o"></i>
                 <span>Biblioteca</span>
-                <span class="label label-primary pull-right">4</span>
+                <!--<span class="label label-primary pull-right">4</span>-->
               </a>
                 <ul class="treeview-menu">
                     <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> Subir PDF</a></li>
@@ -376,7 +382,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
               <a href="#">
                 <i class="fa fa-files-o"></i>
                 <span>Centro de Redaccion</span>
-                <span class="label label-primary pull-right">4</span>
+                
               </a>
                 <ul class="treeview-menu">
                     <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> Redactor</a></li>
@@ -387,7 +393,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
               <a href="#">
                 <i class="fa fa-files-o"></i>
                 <span>Clasificados</span>
-                <span class="label label-primary pull-right">4</span>
+                
               </a>
                 <ul class="treeview-menu">
                     <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> Nuevo Anuncio</a></li>
@@ -398,29 +404,29 @@ $_valid = $_smarty_tpl->decodeProperties(array (
               <a href="#">
                 <i class="fa fa-music"></i>
                 <span>Audiolibros</span>
-                <span class="label label-primary pull-right">4</span>
+                
               </a>
                 <ul class="treeview-menu">
-                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/testmp3.php')"><i class="fa fa-circle-o"></i> Subir Audiolibro</a></li>
-                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/testlista.php')"><i class="fa fa-circle-o"></i> Crear Lista de Audiolibros</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/mp3.php')"><i class="fa fa-circle-o"></i> Subir Audiolibro</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/audiolista.php')"><i class="fa fa-circle-o"></i> Crear Lista de Audiolibros</a></li>
                 </ul>
             </li>
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-users"></i>
                 <span>Social</span>
-                <span class="label label-primary pull-right">4</span>
+                
               </a>
               <ul class="treeview-menu">
-                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/testbusca.php')"><i class="fa fa-circle-o"></i> Buscar amigos</a></li>
-                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/testamigo.php')"><i class="fa fa-circle-o"></i> Lectores Amigos</a></li>
+                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/buscaamigos.php')"><i class="fa fa-circle-o"></i> Buscar amigos</a></li>
+                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/amigos.php')"><i class="fa fa-circle-o"></i> Lectores Amigos</a></li>
               </ul>
             </li>
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-files-o"></i>
                 <span>Administrador</span>
-                <span class="label label-primary pull-right">4</span>
+                
               </a>
                 <ul class="treeview-menu">
                     <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> Usuarios</a></li>
@@ -428,7 +434,11 @@ $_valid = $_smarty_tpl->decodeProperties(array (
                     <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i> Generos</a></li>
                 </ul>
             </li>  
-              
+            <div class="reproductor" id="contenedorReproductor">
+                <embed src="reproductor/dewplayer-playlist.swf" height="200" width="240" wmode="transparent" flashvars="xml=listas/<?php echo '<?php'; ?>
+ echo $ultimaCreada; <?php echo '?>'; ?>
+.xml&autoplay=0&autoreplay=1&randomplay=0&volume=100"></embed>
+    </div>
           </ul>
         </section>
         <!-- /.sidebar -->
@@ -436,10 +446,150 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 <div class="control-sidebar-bg"></div>
             <div class="content-wrapper" id="cuerpocentro">
                 <?php echo '<?php'; ?>
- include('data/smarty/templates/home.php'); <?php echo '?>'; ?>
 
-                Aqui debe cargarse la pagina home cuando se loguea.
-                Ver por que al incluir home.php no trae ningun contenido
+//die;
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+<?php echo '?>'; ?>
+
+
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Proyecto lectura</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>AdminLTE 2 | Widgets</title>
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <!-- Bootstrap 3.3.5 -->
+        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="/css/font-awesome.min.css">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="/css/ionicons.min.css">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
+        <!-- AdminLTE Skins. Choose a skin from the css/skins
+             folder instead of downloading all of them to reduce the load. -->
+        <link rel="stylesheet" href="/dist/css/skins/_all-skins.min.css">
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+	<script>
+            
+	    // You can also use "$(window).load(function() {"
+                $(function () {
+		      // Slideshow 1
+                    $("#slider1").responsiveSlides({
+                        maxwidth: 1600, speed: 600
+                    });
+		});
+                function mostrar(){
+                    document.getElementById("boton").style.display = "none"; 
+                    var elements = document.getElementsByClassName("more");
+                    for(var i=0; i < elements.length; i++ ){
+                        elements[i].style.display = "block";
+                    }
+                }
+            
+	</script>
+    </head>
+    <body>
+        <!---start-wrap---->
+       
+				
+        <!---end-header---->
+        <!--start-image-slider---->
+        <div class="wrap">
+            <div class="image-slider">
+                <ul class="rslides" id="slider1">
+                    <?php echo '<?php'; ?>
+ echo $slider; <?php echo '?>'; ?>
+
+                </ul>		    		    
+                <!-- Slideshow 2 -->
+            </div>
+            <!--End-image-slider---->
+            <!---start-content---->
+            <div class="content">
+                <div class="section group">
+                    <div class="col-md-3">
+                        <div class="box box-warning">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Mi biblioteca</h3>
+                                    <div class="box-tools pull-right">
+                                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                    </div><!-- /.box-tools -->
+                            </div><!-- /.box-header -->
+                            <div class="box-body">
+                                <ul>
+                                  <li>Lorem ipsum dolor sit amet</li>
+                                  <li>Consectetur adipiscing elit</li>
+                                  <li>Integer molestie lorem at massa</li>
+                                  <li>Facilisis in pretium nisl aliquet</li>
+                                  <li>Faucibus porta lacus fringilla vel</li>
+                                  <li>Aenean sit amet erat nunc</li>
+                                  <li>Eget porttitor lorem</li>
+                                </ul>
+                              </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="box box-warning">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Notificaciones</h3>
+                                    <div class="box-tools pull-right">
+                                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                    </div><!-- /.box-tools -->
+                            </div><!-- /.box-header -->
+                            <div class="box-body">
+                                <ul>
+                                  <li>Lorem ipsum dolor sit amet</li>
+                                  <li>Consectetur adipiscing elit</li>
+                                  <li>Integer molestie lorem at massa</li>
+                                  <li>Facilisis in pretium nisl aliquet</li>
+                                  <li>Faucibus porta lacus fringilla vel</li>
+                                  <li>Aenean sit amet erat nunc</li>
+                                  <li>Eget porttitor lorem</li>
+                                </ul>
+                              </div>
+                        </div>
+                    </div>
+                    
+                   <div class="col-md-3">
+                        <div class="box box-warning">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Clasificados</h3>
+                                    <div class="box-tools pull-right">
+                                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                    </div><!-- /.box-tools -->
+                            </div><!-- /.box-header -->
+                            <div class="box-body">
+                                <ul>
+                                  <li>Lorem ipsum dolor sit amet</li>
+                                  <li>Consectetur adipiscing elit</li>
+                                  <li>Integer molestie lorem at massa</li>
+                                  <li>Facilisis in pretium nisl aliquet</li>
+                                  <li>Faucibus porta lacus fringilla vel</li>
+                                  <li>Aenean sit amet erat nunc</li>
+                                  <li>Eget porttitor lorem</li>
+                                </ul>
+                              </div>
+                        </div>
+                    </div>
+                </div>			
+            </div>
+            <!---End-content---->
+            <div class="clear"> </div>
+        </div>
+    </body>
+</html>
             </div>
             <footer class="main-footer">
               <div class="pull-right hidden-xs">
