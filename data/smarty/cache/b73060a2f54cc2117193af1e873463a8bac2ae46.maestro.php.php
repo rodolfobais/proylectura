@@ -1,4 +1,4 @@
-<?php /*%%SmartyHeaderCode:11346795385643bc381dc8f9-65558289%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:13410663365643c492d427e6-50375794%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
@@ -33,7 +33,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '11346795385643bc381dc8f9-65558289',
+  'nocache_hash' => '13410663365643c492d427e6-50375794',
   'variables' => 
   array (
     'titulo_pagina' => 0,
@@ -41,10 +41,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.19',
-  'unifunc' => 'content_5643bc382e87e6_42908888',
+  'unifunc' => 'content_5643c492e2a7b2_61554401',
   'cache_lifetime' => 120,
 ),true); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_5643bc382e87e6_42908888')) {function content_5643bc382e87e6_42908888($_smarty_tpl) {?><!DOCTYPE html>
+<?php if ($_valid && !is_callable('content_5643c492e2a7b2_61554401')) {function content_5643c492e2a7b2_61554401($_smarty_tpl) {?><!DOCTYPE html>
 <html>
     <head>
         <title>..::Proyecto lectura::..</title>
@@ -295,7 +295,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                  <span class="hidden-xs">Admin</span>
+                  <span class="hidden-xs">admin@admin.com</span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
@@ -348,7 +348,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
               <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-              <p>Admin</p>
+              <p>admin@admin.com</p>
               <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
           </div>

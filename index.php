@@ -1,11 +1,13 @@
 <?php 
-//error_reporting(E_ALL);
+//@session_star();
+error_reporting(E_ALL);
 ini_set("display_errors", 1);
 include_once("data/config.php");
-//if(!isset($_SESSION["login"])){
- //   header("Location:login.php");
- //   die();
-//}
+
+if(!isset($_SESSION["userid"])){
+    header("Location:login.php");
+    //die();
+}
 
 require 'data/smarty/libs/Smarty.class.php';
 
@@ -23,7 +25,7 @@ $smarty->assign("titulo_pagina", "..::Proyecto lectura::.."); //Título debajo d
 $smarty->assign("titulo", "Asistencia"); //Título en la barra del explorador
 $smarty->assign("menu", "asistencias"); //indentificador de menú
 $smarty->assign("PROJECT_REL_DIR", PROJECT_REL_DIR); //indentificador de menú
-$smarty->assign("user_name", "Admin");
+$smarty->assign("user_name", $_SESSION["mail"]);
 /*
 $objAutor = AutorQuery::create()->findOneById(1);
 echo $objAutor->getNombre();die;
