@@ -55,6 +55,22 @@
         <column name="image"   phpName="Image"   type="CHAR" size="255" required="true" />
         <column name="sinopsis"   phpName="Sinopsis"   type="CHAR" size="255" required="true" />
     </table>
-    
-
+/*
+CREATE TABLE IF NOT EXISTS `usuario` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nick` varchar(50) NOT NULL,
+  `nombre` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `mail` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `password` varchar(15) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `admin` int(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) */    
+    <table name="usuario"  phpName="Usuario" idMethod="native" package="proylectura.model">
+        <column name="id"           phpName="Id"            type="INTEGER" required="true" sqlType="INT(10)" primaryKey="true" autoIncrement="true" />
+        <column name="nick"   phpName="Nick"    size="50"     required="true" type="CHAR" />
+        <column name="nombre"   phpName="Nombre"    size="50"     required="true" type="CHAR" />
+        <column name="mail"   phpName="mail"   type="CHAR" size="100" required="true" />
+        <column name="password"   phpName="Password"   type="CHAR" size="255" required="true" />
+        <column name="admin"   phpName="Admin"   type="INTEGER" required="true" />
+    </table>
 </database>

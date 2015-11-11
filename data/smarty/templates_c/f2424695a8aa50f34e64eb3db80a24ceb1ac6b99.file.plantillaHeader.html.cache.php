@@ -1,32 +1,36 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2015-11-04 20:47:29
+<?php /* Smarty version Smarty-3.1.19, created on 2015-11-11 19:07:52
          compiled from ".//data/smarty/templates/plantillaHeader.html" */ ?>
-<?php /*%%SmartyHeaderCode:166657113563a9911d5fb35-21812071%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:2470671735643bc38279691-75436240%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     'f2424695a8aa50f34e64eb3db80a24ceb1ac6b99' => 
     array (
       0 => './/data/smarty/templates/plantillaHeader.html',
-      1 => 1444865144,
+      1 => 1447277496,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '166657113563a9911d5fb35-21812071',
+  'nocache_hash' => '2470671735643bc38279691-75436240',
   'function' => 
   array (
   ),
+  'variables' => 
+  array (
+    'user_name' => 0,
+  ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.19',
-  'unifunc' => 'content_563a9911d83025_87358687',
+  'unifunc' => 'content_5643bc38293827_01043939',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_563a9911d83025_87358687')) {function content_563a9911d83025_87358687($_smarty_tpl) {?><header class="main-header">
+<?php if ($_valid && !is_callable('content_5643bc38293827_01043939')) {function content_5643bc38293827_01043939($_smarty_tpl) {?><header class="main-header">
 
         <!-- Logo -->
         <a href="index2.html" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b>A</b>LT</span>
+          <span class="logo-mini"><img src = "imagen/logoPLMini.png" width = 100%<?php ?>></span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>Admin</b>LTE</span>
+          <span class="logo-lg"><img src = "imagen/logoPL.png" width = 100%<?php ?>></span>
         </a>
 
         <!-- Header Navbar: style can be found in header.less -->
@@ -229,7 +233,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                  <span class="hidden-xs">Alexander Pierce</span>
+                  <span class="hidden-xs"><?php echo $_smarty_tpl->tpl_vars['user_name']->value;?>
+</span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->

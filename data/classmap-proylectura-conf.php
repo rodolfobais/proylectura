@@ -31,6 +31,9 @@ return array (
   'BaseLibro' => 'proylectura/model/om/BaseLibro.php',
   'BaseLibroPeer' => 'proylectura/model/om/BaseLibroPeer.php',
   'BaseLibroQuery' => 'proylectura/model/om/BaseLibroQuery.php',
+  'BaseUsuario' => 'proylectura/model/om/BaseUsuario.php',
+  'BaseUsuarioPeer' => 'proylectura/model/om/BaseUsuarioPeer.php',
+  'BaseUsuarioQuery' => 'proylectura/model/om/BaseUsuarioQuery.php',
   'Calificacion' => 'proylectura/model/Calificacion.php',
   'CalificacionPeer' => 'proylectura/model/CalificacionPeer.php',
   'CalificacionQuery' => 'proylectura/model/CalificacionQuery.php',
@@ -43,4 +46,8 @@ return array (
   'LibroPeer' => 'proylectura/model/LibroPeer.php',
   'LibroQuery' => 'proylectura/model/LibroQuery.php',
   'LibroTableMap' => 'proylectura/model/map/LibroTableMap.php',
+  'Usuario' => 'proylectura/model/Usuario.php',
+  'UsuarioPeer' => 'proylectura/model/UsuarioPeer.php',
+  'UsuarioQuery' => 'proylectura/model/UsuarioQuery.php',
+  'UsuarioTableMap' => 'proylectura/model/map/UsuarioTableMap.php',
 );

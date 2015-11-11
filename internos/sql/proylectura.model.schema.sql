@@ -94,5 +94,22 @@ CREATE TABLE `libro`
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
+-- ---------------------------------------------------------------------
+-- usuario
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `usuario`;
+
+CREATE TABLE `usuario`
+(
+	`id` INT(10) NOT NULL AUTO_INCREMENT,
+	`nick` CHAR(50) NOT NULL,
+	`nombre` CHAR(50) NOT NULL,
+	`mail` CHAR(100) NOT NULL,
+	`password` CHAR(255) NOT NULL,
+	`admin` INTEGER NOT NULL,
+	PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
 # This restores the fkey checks, after having unset them earlier
 SET FOREIGN_KEY_CHECKS = 1;

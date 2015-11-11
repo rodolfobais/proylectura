@@ -1,23 +1,23 @@
-<?php /*%%SmartyHeaderCode:1067045123563a9911d1a7c5-92380398%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:11346795385643bc381dc8f9-65558289%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     'b73060a2f54cc2117193af1e873463a8bac2ae46' => 
     array (
       0 => '/var/www/proylectura/data/smarty/templates/maestro.php',
-      1 => 1446680632,
+      1 => 1447277983,
       2 => 'file',
     ),
     'f2424695a8aa50f34e64eb3db80a24ceb1ac6b99' => 
     array (
       0 => './/data/smarty/templates/plantillaHeader.html',
-      1 => 1444865144,
+      1 => 1447277496,
       2 => 'file',
     ),
     '3c37234591888b0227d64205e109d6b6e8f30544' => 
     array (
       0 => './/data/smarty/templates/plantillaMenuLateral.html',
-      1 => 1446672411,
+      1 => 1447277491,
       2 => 'file',
     ),
     '9688b01bb49966e8f9e97f9a779e25034aaad75c' => 
@@ -33,44 +33,46 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '1067045123563a9911d1a7c5-92380398',
+  'nocache_hash' => '11346795385643bc381dc8f9-65558289',
   'variables' => 
   array (
     'titulo_pagina' => 0,
+    'PROJECT_REL_DIR' => 0,
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.19',
-  'unifunc' => 'content_563a9911dd1976_95962039',
+  'unifunc' => 'content_5643bc382e87e6_42908888',
   'cache_lifetime' => 120,
 ),true); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_563a9911dd1976_95962039')) {function content_563a9911dd1976_95962039($_smarty_tpl) {?><!DOCTYPE html>
+<?php if ($_valid && !is_callable('content_5643bc382e87e6_42908888')) {function content_5643bc382e87e6_42908888($_smarty_tpl) {?><!DOCTYPE html>
 <html>
     <head>
         <title>..::Proyecto lectura::..</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>AdminLTE 2 | Dashboard</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.5 -->
         <script type="text/javascript" src="/proylectura/js/jquery-1.4.2.min.js"></script>
+        <!--  <script src="/proylectura/plugins/jQuery/jQuery-2.1.4.min.js"></script>-->
         <script type="text/javascript" src="/proylectura/js/ajax.js"></script>
         
         <link href="/proylectura/css/base.css" type="text/css"  rel="stylesheet"/>
         <link href="/proylectura/css/cuerpo.css" type="text/css"  rel="stylesheet"/>
         <script type="text/javascript" src="/proylectura/js/jquery-1.9.0.min.js"></script>
-        <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/proylectura/bootstrap/css/bootstrap.min.css">
         <!-- Font Awesome -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/proylectura/css/font-awesome.min.css">
+        
         <!-- Ionicons -->
-        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+        <link rel="stylesheet" href="/proylectura/css/ionicons.min.css">
         <!-- jvectormap -->
-        <link rel="stylesheet" href="plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+        <link rel="stylesheet" href="/proylectura/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
         <!-- Theme style -->
-        <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+        <link rel="stylesheet" href="/proylectura/dist/css/AdminLTE.min.css">
         <!-- AdminLTE Skins. Choose a skin from the css/skins
              folder instead of downloading all of them to reduce the load. -->
-        <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+        <link rel="stylesheet" href="/proylectura/dist/css/skins/_all-skins.min.css">
         <link href="/proylectura/css/crearlista.css" type="text/css"  rel="stylesheet"/>
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -86,9 +88,11 @@ $_valid = $_smarty_tpl->decodeProperties(array (
         <!-- Logo -->
         <a href="index2.html" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b>A</b>LT</span>
+          <span class="logo-mini"><img src = "imagen/logoPLMini.png" width = 100<?php echo '%>'; ?>
+</span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>Admin</b>LTE</span>
+          <span class="logo-lg"><img src = "imagen/logoPL.png" width = 100<?php echo '%>'; ?>
+</span>
         </a>
 
         <!-- Header Navbar: style can be found in header.less -->
@@ -291,7 +295,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                  <span class="hidden-xs">Alexander Pierce</span>
+                  <span class="hidden-xs">Admin</span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
@@ -344,20 +348,11 @@ $_valid = $_smarty_tpl->decodeProperties(array (
               <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-              <p>Alexander Pierce</p>
+              <p>Admin</p>
               <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
           </div>
-          <!-- search form -->
-          <form action="#" method="get" class="sidebar-form">
-            <div class="input-group">
-              <input type="text" name="q" class="form-control" placeholder="Search...">
-              <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
-              </span>
-            </div>
-          </form>
-          <!-- /.search form -->
+          
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="header">PRINCIPAL</li>
@@ -401,8 +396,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
                 
               </a>
                 <ul class="treeview-menu">
-                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/testmp3.php')"><i class="fa fa-circle-o"></i> Subir Audiolibro</a></li>
-                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/testlista.php')"><i class="fa fa-circle-o"></i> Crear Lista de Audiolibros</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/mp3.php')"><i class="fa fa-circle-o"></i> Subir Audiolibro</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/audiolista.php')"><i class="fa fa-circle-o"></i> Crear Lista de Audiolibros</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -412,8 +407,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
                 
               </a>
               <ul class="treeview-menu">
-                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/testbusca.php')"><i class="fa fa-circle-o"></i> Buscar amigos</a></li>
-                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/testamigo.php')"><i class="fa fa-circle-o"></i> Lectores Amigos</a></li>
+                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/buscaamigos.php')"><i class="fa fa-circle-o"></i> Buscar amigos</a></li>
+                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/amigos.php')"><i class="fa fa-circle-o"></i> Lectores Amigos</a></li>
               </ul>
             </li>
             <li class="treeview">
@@ -423,12 +418,16 @@ $_valid = $_smarty_tpl->decodeProperties(array (
                 
               </a>
                 <ul class="treeview-menu">
-                    <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> Usuarios</a></li>
-                    <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> Libros</a></li>
-                    <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i> Generos</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/usuarios.php')"><i class="fa fa-circle-o"></i> Usuarios</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/libros.php')"><i class="fa fa-circle-o"></i> Libros</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/generos.php')"><i class="fa fa-circle-o"></i> Generos</a></li>
                 </ul>
             </li>  
-              
+            <div class="reproductor" id="contenedorReproductor">
+                <embed src="reproductor/dewplayer-playlist.swf" height="200" width="240" wmode="transparent" flashvars="xml=listas/<?php echo '<?php'; ?>
+ echo $ultimaCreada; <?php echo '?>'; ?>
+.xml&autoplay=0&autoreplay=1&randomplay=0&volume=100"></embed>
+            </div>
           </ul>
         </section>
         <!-- /.sidebar -->
@@ -606,26 +605,26 @@ $_valid = $_smarty_tpl->decodeProperties(array (
         </div><!-- ./wrapper -->
 
         <!-- jQuery 2.1.4 -->
-        <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+        <script src="/proylectura/plugins/jQuery/jQuery-2.1.4.min.js"></script>
         <!-- Bootstrap 3.3.5 -->
-        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <script src="/proylectura/bootstrap/js/bootstrap.min.js"></script>
         <!-- FastClick -->
-        <script src="plugins/fastclick/fastclick.min.js"></script>
+        <script src="/proylectura/plugins/fastclick/fastclick.min.js"></script>
         <!-- AdminLTE App -->
-        <script src="dist/js/app.min.js"></script>
+        <script src="/proylectura/dist/js/app.min.js"></script>
         <!-- Sparkline -->
-        <script src="plugins/sparkline/jquery.sparkline.min.js"></script>
+        <script src="/proylectura/plugins/sparkline/jquery.sparkline.min.js"></script>
         <!-- jvectormap -->
-        <script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-        <script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+        <script src="/proylectura/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+        <script src="/proylectura/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
         <!-- SlimScroll 1.3.0 -->
-        <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+        <script src="/proylectura/plugins/slimScroll/jquery.slimscroll.min.js"></script>
         <!-- ChartJS 1.0.1 -->
-        <script src="plugins/chartjs/Chart.min.js"></script>
+        <script src="/proylectura/plugins/chartjs/Chart.min.js"></script>
         <!-- AdminLTE dashboard demo (This is only for demo purposes)
         <script src="dist/js/pages/dashboard2.js"></script> -->
         <!-- AdminLTE for demo purposes -->
-        <script src="dist/js/demo.js"></script>
+        <script src="/proylectura/dist/js/demo.js"></script>
         <script type="text/javascript">
             $( document ).ready(function() {
                 refreshDivs('cuerpocentro','data/smarty/templates/home.php');

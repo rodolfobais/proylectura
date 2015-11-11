@@ -1,25 +1,29 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2015-11-04 20:47:29
+<?php /* Smarty version Smarty-3.1.19, created on 2015-11-11 19:07:52
          compiled from ".//data/smarty/templates/plantillaMenuLateral.html" */ ?>
-<?php /*%%SmartyHeaderCode:1216575724563a9911d88617-04888616%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:9259433935643bc3829a881-37226573%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '3c37234591888b0227d64205e109d6b6e8f30544' => 
     array (
       0 => './/data/smarty/templates/plantillaMenuLateral.html',
-      1 => 1446672411,
+      1 => 1447277491,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '1216575724563a9911d88617-04888616',
+  'nocache_hash' => '9259433935643bc3829a881-37226573',
   'function' => 
   array (
   ),
+  'variables' => 
+  array (
+    'user_name' => 0,
+  ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.19',
-  'unifunc' => 'content_563a9911d92537_05802452',
+  'unifunc' => 'content_5643bc382a8df2_84069467',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_563a9911d92537_05802452')) {function content_563a9911d92537_05802452($_smarty_tpl) {?><aside class="main-sidebar">
+<?php if ($_valid && !is_callable('content_5643bc382a8df2_84069467')) {function content_5643bc382a8df2_84069467($_smarty_tpl) {?><aside class="main-sidebar">
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
           <!-- Sidebar user panel -->
@@ -28,20 +32,12 @@ $_valid = $_smarty_tpl->decodeProperties(array (
               <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-              <p>Alexander Pierce</p>
+              <p><?php echo $_smarty_tpl->tpl_vars['user_name']->value;?>
+</p>
               <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
           </div>
-          <!-- search form -->
-          <form action="#" method="get" class="sidebar-form">
-            <div class="input-group">
-              <input type="text" name="q" class="form-control" placeholder="Search...">
-              <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
-              </span>
-            </div>
-          </form>
-          <!-- /.search form -->
+          
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="header">PRINCIPAL</li>
@@ -85,8 +81,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
                 
               </a>
                 <ul class="treeview-menu">
-                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/testmp3.php')"><i class="fa fa-circle-o"></i> Subir Audiolibro</a></li>
-                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/testlista.php')"><i class="fa fa-circle-o"></i> Crear Lista de Audiolibros</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/mp3.php')"><i class="fa fa-circle-o"></i> Subir Audiolibro</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/audiolista.php')"><i class="fa fa-circle-o"></i> Crear Lista de Audiolibros</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -96,8 +92,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
                 
               </a>
               <ul class="treeview-menu">
-                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/testbusca.php')"><i class="fa fa-circle-o"></i> Buscar amigos</a></li>
-                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/testamigo.php')"><i class="fa fa-circle-o"></i> Lectores Amigos</a></li>
+                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/buscaamigos.php')"><i class="fa fa-circle-o"></i> Buscar amigos</a></li>
+                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/amigos.php')"><i class="fa fa-circle-o"></i> Lectores Amigos</a></li>
               </ul>
             </li>
             <li class="treeview">
@@ -107,12 +103,14 @@ $_valid = $_smarty_tpl->decodeProperties(array (
                 
               </a>
                 <ul class="treeview-menu">
-                    <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> Usuarios</a></li>
-                    <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> Libros</a></li>
-                    <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i> Generos</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/usuarios.php')"><i class="fa fa-circle-o"></i> Usuarios</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/libros.php')"><i class="fa fa-circle-o"></i> Libros</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/generos.php')"><i class="fa fa-circle-o"></i> Generos</a></li>
                 </ul>
             </li>  
-              
+            <div class="reproductor" id="contenedorReproductor">
+                <embed src="reproductor/dewplayer-playlist.swf" height="200" width="240" wmode="transparent" flashvars="xml=listas/<<?php ?>?php echo $ultimaCreada; ?<?php ?>>.xml&autoplay=0&autoreplay=1&randomplay=0&volume=100"></embed>
+            </div>
           </ul>
         </section>
         <!-- /.sidebar -->
