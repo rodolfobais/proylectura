@@ -5,12 +5,11 @@ error_reporting(E_ALL);
 ini_set("display_errors", 1);
 include_once("../../data/config.php");
 
-$libros = LibroQuery::create()->find();
+//$libros = LibroQuery::create()->find();
+$usuarios = UsuarioQuery::create()->find();
 
-$listaLibros = "";
-foreach ($libros as $reg) {
-    $listaLibros .= "<li>".$reg->getNombre()."</li>";
-}
+//$listaLibros = "";
+
 ?>
 
 <!DOCTYPE HTML>
@@ -39,24 +38,7 @@ foreach ($libros as $reg) {
             <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
-	<script>
-            {literal}
-	    // You can also use "$(window).load(function() {"
-                $(function () {
-		      // Slideshow 1
-                    $("#slider1").responsiveSlides({
-                        maxwidth: 1600, speed: 600
-                    });
-		});
-                function mostrar(){
-                    document.getElementById("boton").style.display = "none"; 
-                    var elements = document.getElementsByClassName("more");
-                    for(var i=0; i < elements.length; i++ ){
-                        elements[i].style.display = "block";
-                    }
-                }
-            {/literal}
-	</script>
+	
     </head>
     <body>
         <!---start-wrap---->
@@ -65,76 +47,80 @@ foreach ($libros as $reg) {
         <!---end-header---->
         <!--start-image-slider---->
         <div class="wrap">
-            <div class="image-slider">
-                <ul class="rslides" id="slider1">
-                    <?php echo $slider; ?>
-                </ul>		    		    
-                <!-- Slideshow 2 -->
-            </div>
             <!--End-image-slider---->
             <!---start-content---->
             <div class="content">
                 <div class="section group">
-                    <div class="col-md-3">
-                        <div class="box box-warning">
+                    <div >
+                        <div class="box box-default box-solid collapsed-box"> <!--box box-warning-->
                             <div class="box-header with-border">
-                                <h3 class="box-title">Mi biblioteca</h3>
+                                <h3 class="box-title">Nuevo usuario</h3>
                                 <div class="box-tools pull-right">
                                     <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                                 </div><!-- /.box-tools -->
                             </div><!-- /.box-header -->
                             <div class="box-body">
-                                <ul>
-                                    <?php echo $listaLibros;?>
-                                </ul>
-                              </div>
+                                <!--
+                                id
+                                nick
+                                nombre
+                                mail
+                                passw
+                                admin
+                                -->
+                                <div class="form-group">
+                                    <label>Id</label>
+                                    <input type="text" class="form-control" placeholder="ID" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label>Nick</label>
+                                    <input type="text" class="form-control" placeholder="Nick">
+                                </div>
+                                <div class="form-group">
+                                    <label>Nombre</label>
+                                    <input type="text" class="form-control" placeholder="Nick">
+                                </div>
+                                <div class="form-group">
+                                    <label>E-Mail</label>
+                                    <input type="email" class="form-control" placeholder="E-Mail">
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="col-md-3">
-                        <div class="box box-warning">
-                            <div class="box-header with-border">
-                                <h3 class="box-title">Notificaciones</h3>
-                                    <div class="box-tools pull-right">
-                                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                                    </div><!-- /.box-tools -->
-                            </div><!-- /.box-header -->
-                            <div class="box-body">
-                                <ul>
-                                  <li>Lorem ipsum dolor sit amet</li>
-                                  <li>Consectetur adipiscing elit</li>
-                                  <li>Integer molestie lorem at massa</li>
-                                  <li>Facilisis in pretium nisl aliquet</li>
-                                  <li>Faucibus porta lacus fringilla vel</li>
-                                  <li>Aenean sit amet erat nunc</li>
-                                  <li>Eget porttitor lorem</li>
-                                </ul>
-                              </div>
-                        </div>
-                    </div>
-                    
-                   <div class="col-md-3">
-                        <div class="box box-warning">
-                            <div class="box-header with-border">
-                                <h3 class="box-title">Clasificados</h3>
-                                    <div class="box-tools pull-right">
-                                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                                    </div><!-- /.box-tools -->
-                            </div><!-- /.box-header -->
-                            <div class="box-body">
-                                <ul>
-                                  <li>Lorem ipsum dolor sit amet</li>
-                                  <li>Consectetur adipiscing elit</li>
-                                  <li>Integer molestie lorem at massa</li>
-                                  <li>Facilisis in pretium nisl aliquet</li>
-                                  <li>Faucibus porta lacus fringilla vel</li>
-                                  <li>Aenean sit amet erat nunc</li>
-                                  <li>Eget porttitor lorem</li>
-                                </ul>
-                              </div>
-                        </div>
-                    </div>
-                </div>			
+                </div>	
+                
+                <!--Tabla -->
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Usuarios</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Nick</th>
+                                    <th>Nombre</th>
+                                    <th>E-Mail</th>
+                                    <th>Password</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                    foreach ($usuarios as $reg) {
+                                        //$listaLibros .= "<li>".$reg->getNombre()."</li>";
+                                        echo "<tr>"
+                                        . "<td>".$reg->getId()."</td>"
+                                        . "<td>".$reg->getNick()."</td>"
+                                        . "<td>".$reg->getNombre()."</td>"
+                                        . "<td>".$reg->getMail()."</td>"
+                                        . "<td>".$reg->getPassword()."</td>"
+                                        . "</tr>";
+                                    }
+                                ?>
+                        </table>
+                    </div><!-- /.box-body -->
+                </div>
             </div>
             <!---End-content---->
             <div class="clear"> </div>

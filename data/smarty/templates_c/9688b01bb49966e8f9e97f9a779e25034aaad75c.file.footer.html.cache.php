@@ -1,6 +1,6 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2015-11-11 19:43:30
+<?php /* Smarty version Smarty-3.1.19, created on 2015-11-11 21:07:43
          compiled from ".//data/smarty/templates/footer.html" */ ?>
-<?php /*%%SmartyHeaderCode:11906224295643c492df7d42-20781022%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:20157530365643d84f796c74-20692007%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
@@ -11,15 +11,15 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '11906224295643c492df7d42-20781022',
+  'nocache_hash' => '20157530365643d84f796c74-20692007',
   'function' => 
   array (
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.19',
-  'unifunc' => 'content_5643c492df9f28_73102397',
+  'unifunc' => 'content_5643d84f799774_81515939',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_5643c492df9f28_73102397')) {function content_5643c492df9f28_73102397($_smarty_tpl) {?><footer class="main-footer">
+<?php if ($_valid && !is_callable('content_5643d84f799774_81515939')) {function content_5643d84f799774_81515939($_smarty_tpl) {?><footer class="main-footer">
               <div class="pull-right hidden-xs">
                 <b>Version</b> 2.3.0
               </div>
