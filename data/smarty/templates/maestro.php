@@ -63,10 +63,12 @@
         <script src="{$PROJECT_REL_DIR}/plugins/slimScroll/jquery.slimscroll.min.js"></script>
         <!-- ChartJS 1.0.1 -->
         <script src="{$PROJECT_REL_DIR}/plugins/chartjs/Chart.min.js"></script>
+        <script type="text/javascript" src="{$PROJECT_REL_DIR}/js/jquery.json.js"></script>
         <!-- AdminLTE dashboard demo (This is only for demo purposes)
         <script src="dist/js/pages/dashboard2.js"></script> -->
         <!-- AdminLTE for demo purposes -->
         <script src="{$PROJECT_REL_DIR}/dist/js/demo.js"></script>
+        <script src="{$PROJECT_REL_DIR}/js/usuarios.js"></script>
         <script type="text/javascript">
             $( document ).ready(function() {
                 refreshDivs('cuerpocentro','data/smarty/templates/home.php');
