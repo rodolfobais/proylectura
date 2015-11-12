@@ -20,25 +20,13 @@ $usuarios = UsuarioQuery::create()->find();
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        <!-- Bootstrap 3.3.5 
-        <link rel="stylesheet" href="../../../bootstrap/css/bootstrap.min.css">-->
-        <!-- Font Awesome 
-        <link rel="stylesheet" href="../../../css/font-awesome.min.css">-->
-        <!-- Ionicons 
-        <link rel="stylesheet" href="../../../css/ionicons.min.css">-->
-        <!-- Theme style 
-        <link rel="stylesheet" href="../../../dist/css/AdminLTE.min.css">-->
-        <!-- AdminLTE Skins. Choose a skin from the css/skins
-             folder instead of downloading all of them to reduce the load. 
-        <link rel="stylesheet" href="../../../dist/css/skins/_all-skins.min.css">-->
-
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
-	
+        
     </head>
     <body>
         <!---start-wrap---->
@@ -50,40 +38,34 @@ $usuarios = UsuarioQuery::create()->find();
             <!--End-image-slider---->
             <!---start-content---->
             <div class="content">
-                <div class="section group">
-                    <div >
-                        <div class="box box-default box-solid collapsed-box"> <!--box box-warning-->
-                            <div class="box-header with-border">
-                                <h3 class="box-title">Nuevo usuario</h3>
-                                <div class="box-tools pull-right">
-                                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                                </div><!-- /.box-tools -->
-                            </div><!-- /.box-header -->
-                            <div class="box-body">
-                                <!--
-                                id
-                                nick
-                                nombre
-                                mail
-                                passw
-                                admin
-                                -->
-                                <div class="form-group">
-                                    <label>Id</label>
-                                    <input type="text" class="form-control" placeholder="ID" disabled>
-                                </div>
-                                <div class="form-group">
-                                    <label>Nick</label>
-                                    <input type="text" class="form-control" placeholder="Nick">
-                                </div>
-                                <div class="form-group">
-                                    <label>Nombre</label>
-                                    <input type="text" class="form-control" placeholder="Nick">
-                                </div>
-                                <div class="form-group">
-                                    <label>E-Mail</label>
-                                    <input type="email" class="form-control" placeholder="E-Mail">
-                                </div>
+                <div class="section group" id="formulario_usuarios">
+                    <div class="box box-default box-solid collapsed-box"> <!--box box-warning-->
+                        <div class="box-header with-border">
+                            <h3 class="box-title" id="titulo_formulario">Nuevo usuario</h3>
+                            <div class="box-tools pull-right">
+                                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                            </div><!-- /.box-tools -->
+                        </div><!-- /.box-header -->
+                        <div class="box-body" >
+                            <input type="hidden" id="accion" value="n"/>
+                            <div class="form-group">
+                                <label>Id</label>
+                                <input type="text" class="form-control" placeholder="ID" disabled id="id">
+                            </div>
+                            <div class="form-group">
+                                <label>Nick</label>
+                                <input type="text" class="form-control" placeholder="Nick" id="nick">
+                            </div>
+                            <div class="form-group">
+                                <label>Nombre</label>
+                                <input type="text" class="form-control" placeholder="Nick" id="nombre">
+                            </div>
+                            <div class="form-group">
+                                <label>E-Mail</label>
+                                <input type="email" class="form-control" placeholder="E-Mail" id="mail">
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-block btn-default" onclick="enviar_form_usuarios()">Enviar</button>
                             </div>
                         </div>
                     </div>
@@ -103,6 +85,7 @@ $usuarios = UsuarioQuery::create()->find();
                                     <th>Nombre</th>
                                     <th>E-Mail</th>
                                     <th>Password</th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -111,10 +94,12 @@ $usuarios = UsuarioQuery::create()->find();
                                         //$listaLibros .= "<li>".$reg->getNombre()."</li>";
                                         echo "<tr>"
                                         . "<td>".$reg->getId()."</td>"
-                                        . "<td>".$reg->getNick()."</td>"
-                                        . "<td>".$reg->getNombre()."</td>"
-                                        . "<td>".$reg->getMail()."</td>"
-                                        . "<td>".$reg->getPassword()."</td>"
+                                        . "<td id = \"nick_".$reg->getId()."\">".$reg->getNick()."</td>"
+                                        . "<td id = \"nombre_".$reg->getId()."\">".$reg->getNombre()."</td>"
+                                        . "<td id = \"mail_".$reg->getId()."\">".$reg->getMail()."</td>"
+                                        . "<td id = \"passw_".$reg->getId()."\">".$reg->getPassword()."</td>"
+                                        . "<td><a href = \"#\" onclick=\"editaregistro('".$reg->getId()."')\"><span class=\"glyphicon glyphicon-pencil\"></span></a>&nbsp;&nbsp;&nbsp;"
+                                                . "<a href = \"#\" onclick=\"borrar_usuario('".$reg->getId()."')\"><span class=\"glyphicon glyphicon-remove\"></span></a></td>"
                                         . "</tr>";
                                     }
                                 ?>
