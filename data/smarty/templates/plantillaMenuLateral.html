@@ -1,3 +1,4 @@
+
 <aside class="main-sidebar">
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
@@ -22,8 +23,8 @@
                 <!--<span class="label label-primary pull-right">4</span>-->
               </a>
                 <ul class="treeview-menu">
-                    <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> Subir PDF</a></li>
-                    <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> Listado</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/pdf.php')"><i class="fa fa-circle-o"></i> Subir PDF</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/biblioteca.php')"><i class="fa fa-circle-o"></i> Listado</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -44,7 +45,7 @@
                 
               </a>
                 <ul class="treeview-menu">
-                    <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> Nuevo Anuncio</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/clasificados.php')"><i class="fa fa-circle-o"></i> Clasificados</a></li>
                     <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> Listado</a></li>
                 </ul>
             </li>
@@ -68,6 +69,8 @@
               <ul class="treeview-menu">
                 <li><a onclick="refreshDivs('cuerpocentro','pages/layout/buscaamigos.php')"><i class="fa fa-circle-o"></i> Buscar amigos</a></li>
                 <li><a onclick="refreshDivs('cuerpocentro','pages/layout/amigos.php')"><i class="fa fa-circle-o"></i> Lectores Amigos</a></li>
+                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/perfil.php')"><i class="fa fa-circle-o"></i> perfil </a></li>
+                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/perfilvisita.php')"><i class="fa fa-circle-o"></i> perfil Visita</a></li>
               </ul>
             </li>
             <li class="treeview">

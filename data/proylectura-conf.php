@@ -11,7 +11,7 @@ $conf = array (
       array (
         'dsn' => 'mysql:host=localhost;dbname=proylectura',
         'user' => 'root',
-        'password' => 'root',
+        'password' => '',
         'settings' => 
         array (
           'charset' => 

@@ -36,11 +36,11 @@
         <p class="login-box-msg">Ingrese sus datos para iniciar sesion</p>
         <form action="../../index2.html" method="post">
           <div class="form-group has-feedback">
-            <input type="email" class="form-control" placeholder="Correo">
+            <input type="email" id="username" class="form-control" placeholder="Correo">
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
-            <input type="password" class="form-control" placeholder="Contraseña">
+            <input type="password" id="password" class="form-control" placeholder="Contraseña">
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
           </div>
           <div class="row">

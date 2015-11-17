@@ -1,37 +1,35 @@
-
-<?php
-//die;
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
-include_once("../../../data/config.php");
-
-$libros = LibroQuery::create()->find();
-
-$listaLibros = "";
-foreach ($libros as $reg) {
-    $listaLibros .= "<li>".$reg->getNombre()."</li>";
-}
-?>
-
+<?php 
+ //die; 
+ error_reporting(E_ALL); 
+ ini_set("display_errors", 1); 
+ include_once("../../../data/config.php"); 
+  
+ $libros = LibroQuery::create()->find(); 
+  
+ $listaLibros = ""; 
+ foreach ($libros as $reg) { 
+     $listaLibros .= "<li>".$reg->getNombre()."</li>"; 
+ } 
+ ?> 
 <!DOCTYPE HTML>
 <html>
     <head>
         <title>Proyecto lectura</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>AdminLTE 2 | Widgets</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        <!-- Bootstrap 3.3.5 
-        <link rel="stylesheet" href="../../../bootstrap/css/bootstrap.min.css">-->
-        <!-- Font Awesome 
-        <link rel="stylesheet" href="../../../css/font-awesome.min.css">-->
-        <!-- Ionicons 
-        <link rel="stylesheet" href="../../../css/ionicons.min.css">-->
-        <!-- Theme style 
-        <link rel="stylesheet" href="../../../dist/css/AdminLTE.min.css">-->
+        <!-- Bootstrap 3.3.5 -->
+        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="/css/font-awesome.min.css">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="/css/ionicons.min.css">
+        <!-- Theme style -->
         <!-- AdminLTE Skins. Choose a skin from the css/skins
-             folder instead of downloading all of them to reduce the load. 
-        <link rel="stylesheet" href="../../../dist/css/skins/_all-skins.min.css">-->
+             folder instead of downloading all of them to reduce the load. -->
+        <link rel="stylesheet" href="/dist/css/skins/_all-skins.min.css">
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -79,13 +77,19 @@ foreach ($libros as $reg) {
                         <div class="box box-warning">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Mi biblioteca</h3>
-                                <div class="box-tools pull-right">
-                                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                                </div><!-- /.box-tools -->
+                                    <div class="box-tools pull-right">
+                                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                    </div><!-- /.box-tools -->
                             </div><!-- /.box-header -->
                             <div class="box-body">
                                 <ul>
-                                    <?php echo $listaLibros;?>
+                                  <li>Lorem ipsum dolor sit amet</li>
+                                  <li>Consectetur adipiscing elit</li>
+                                  <li>Integer molestie lorem at massa</li>
+                                  <li>Facilisis in pretium nisl aliquet</li>
+                                  <li>Faucibus porta lacus fringilla vel</li>
+                                  <li>Aenean sit amet erat nunc</li>
+                                  <li>Eget porttitor lorem</li>
                                 </ul>
                               </div>
                         </div>

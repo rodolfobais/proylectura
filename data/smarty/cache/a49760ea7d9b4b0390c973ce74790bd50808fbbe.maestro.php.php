@@ -1,35 +1,29 @@
-<?php /*%%SmartyHeaderCode:27601563be4411cdb00-21233612%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:2575756499eae72ea93-64332151%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     'a49760ea7d9b4b0390c973ce74790bd50808fbbe' => 
     array (
       0 => 'C:\\xampp\\htdocs\\proylectura\\data\\smarty\\templates\\maestro.php',
-      1 => 1446765474,
+      1 => 1447631368,
       2 => 'file',
     ),
     '283fd1115bd6cd8cee26d5115d7a3de5f24114ee' => 
     array (
       0 => '.\\\\data\\smarty\\templates\\plantillaHeader.html',
-      1 => 1445559560,
+      1 => 1447463111,
       2 => 'file',
     ),
     '804930d73873055802de3abb762dce8bfd0646ce' => 
     array (
       0 => '.\\\\data\\smarty\\templates\\plantillaMenuLateral.html',
-      1 => 1446765474,
-      2 => 'file',
-    ),
-    '27e29ff4dfcc6686643aafe9a27bc32c80747e38' => 
-    array (
-      0 => '.\\\\data\\smarty\\templates\\home.php',
-      1 => 1446765474,
+      1 => 1447635210,
       2 => 'file',
     ),
     '3144f9c262b25caa89a776a00a1c6245d22ee3fb' => 
     array (
       0 => '.\\\\data\\smarty\\templates\\footer.html',
-      1 => 1445558842,
+      1 => 1446766910,
       2 => 'file',
     ),
     '6038acba3dd5995eb4ee3a13c4fb08cad473bc63' => 
@@ -39,45 +33,49 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '27601563be4411cdb00-21233612',
+  'nocache_hash' => '2575756499eae72ea93-64332151',
   'variables' => 
   array (
     'titulo_pagina' => 0,
+    'PROJECT_REL_DIR' => 0,
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.19',
-  'unifunc' => 'content_563be4414a8380_71459446',
+  'unifunc' => 'content_56499eae93e670_62028495',
   'cache_lifetime' => 120,
 ),true); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_563be4414a8380_71459446')) {function content_563be4414a8380_71459446($_smarty_tpl) {?><!DOCTYPE html>
+<?php if ($_valid && !is_callable('content_56499eae93e670_62028495')) {function content_56499eae93e670_62028495($_smarty_tpl) {?><!DOCTYPE html>
 <html>
     <head>
         <title>..::Proyecto lectura::..</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>AdminLTE 2 | Dashboard</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.5 -->
         <script type="text/javascript" src="/proylectura/js/jquery-1.4.2.min.js"></script>
+        <!--  <script src="/proylectura/plugins/jQuery/jQuery-2.1.4.min.js"></script>-->
         <script type="text/javascript" src="/proylectura/js/ajax.js"></script>
-        <script type="text/javascript" src="/proylectura/js/footer.js"></script>
+        
         <link href="/proylectura/css/base.css" type="text/css"  rel="stylesheet"/>
         <link href="/proylectura/css/cuerpo.css" type="text/css"  rel="stylesheet"/>
         <script type="text/javascript" src="/proylectura/js/jquery-1.9.0.min.js"></script>
-        <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/proylectura/bootstrap/css/bootstrap.min.css">
         <!-- Font Awesome -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/proylectura/css/font-awesome.min.css">
+        
         <!-- Ionicons -->
-        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+        <link rel="stylesheet" href="/proylectura/css/ionicons.min.css">
         <!-- jvectormap -->
-        <link rel="stylesheet" href="plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+        <link rel="stylesheet" href="/proylectura/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
         <!-- Theme style -->
-        <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+        <link rel="stylesheet" href="/proylectura/dist/css/AdminLTE.min.css">
         <!-- AdminLTE Skins. Choose a skin from the css/skins
              folder instead of downloading all of them to reduce the load. -->
-        <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+        <link rel="stylesheet" href="/proylectura/dist/css/skins/_all-skins.min.css">
         <link href="/proylectura/css/crearlista.css" type="text/css"  rel="stylesheet"/>
+        
+        
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -90,11 +88,14 @@ $_valid = $_smarty_tpl->decodeProperties(array (
             <header class="main-header">
 
         <!-- Logo -->
-        <a href="index2.html" class="logo">
+        <a onclick="refreshDivs('cuerpocentro','data/smarty/templates/home.php')" class="logo">
+            
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b>A</b>LT</span>
+          <span class="logo-mini"><img src = "imagen/logoPLMini.png" width = 100<?php echo '%>'; ?>
+</span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>Proyecto</b>Lectura</span>
+          <span class="logo-lg"><img src = "imagen/logoPL.png" width = 100<?php echo '%>'; ?>
+</span>
         </a>
 
         <!-- Header Navbar: style can be found in header.less -->
@@ -297,7 +298,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                  <span class="hidden-xs">Administrador Admin</span>
+                  <span class="hidden-xs">admin@admin.com</span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
@@ -350,20 +351,11 @@ $_valid = $_smarty_tpl->decodeProperties(array (
               <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-              <p>Alexander Pierce</p>
+              <p>admin@admin.com</p>
               <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
           </div>
-          <!-- search form -->
-          <form action="#" method="get" class="sidebar-form">
-            <div class="input-group">
-              <input type="text" name="q" class="form-control" placeholder="Search...">
-              <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
-              </span>
-            </div>
-          </form>
-          <!-- /.search form -->
+          
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="header">PRINCIPAL</li>
@@ -374,8 +366,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
                 <!--<span class="label label-primary pull-right">4</span>-->
               </a>
                 <ul class="treeview-menu">
-                    <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> Subir PDF</a></li>
-                    <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> Listado</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/pdf.php')"><i class="fa fa-circle-o"></i> Subir PDF</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/biblioteca.php')"><i class="fa fa-circle-o"></i> Listado</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -396,7 +388,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
                 
               </a>
                 <ul class="treeview-menu">
-                    <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> Nuevo Anuncio</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/clasificados.php')"><i class="fa fa-circle-o"></i> Clasificados</a></li>
                     <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> Listado</a></li>
                 </ul>
             </li>
@@ -420,6 +412,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
               <ul class="treeview-menu">
                 <li><a onclick="refreshDivs('cuerpocentro','pages/layout/buscaamigos.php')"><i class="fa fa-circle-o"></i> Buscar amigos</a></li>
                 <li><a onclick="refreshDivs('cuerpocentro','pages/layout/amigos.php')"><i class="fa fa-circle-o"></i> Lectores Amigos</a></li>
+                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/perfil.php')"><i class="fa fa-circle-o"></i> perfil </a></li>
+                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/perfilvisita.php')"><i class="fa fa-circle-o"></i> perfil Visita</a></li>
               </ul>
             </li>
             <li class="treeview">
@@ -429,173 +423,29 @@ $_valid = $_smarty_tpl->decodeProperties(array (
                 
               </a>
                 <ul class="treeview-menu">
-                    <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> Usuarios</a></li>
-                    <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> Libros</a></li>
-                    <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i> Generos</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/usuarios.php')"><i class="fa fa-circle-o"></i> Usuarios</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/libros.php')"><i class="fa fa-circle-o"></i> Libros</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/generos.php')"><i class="fa fa-circle-o"></i> Generos</a></li>
                 </ul>
             </li>  
             <div class="reproductor" id="contenedorReproductor">
                 <embed src="reproductor/dewplayer-playlist.swf" height="200" width="240" wmode="transparent" flashvars="xml=listas/<?php echo '<?php'; ?>
  echo $ultimaCreada; <?php echo '?>'; ?>
 .xml&autoplay=0&autoreplay=1&randomplay=0&volume=100"></embed>
-    </div>
+            </div>
           </ul>
         </section>
         <!-- /.sidebar -->
       </aside>
 <div class="control-sidebar-bg"></div>
             <div class="content-wrapper" id="cuerpocentro">
-                <?php echo '<?php'; ?>
-
-//die;
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
-<?php echo '?>'; ?>
-
-
-<!DOCTYPE HTML>
-<html>
-    <head>
-        <title>Proyecto lectura</title>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>AdminLTE 2 | Widgets</title>
-        <!-- Tell the browser to be responsive to screen width -->
-        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        <!-- Bootstrap 3.3.5 -->
-        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="/css/font-awesome.min.css">
-        <!-- Ionicons -->
-        <link rel="stylesheet" href="/css/ionicons.min.css">
-        <!-- Theme style -->
-        <link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
-        <!-- AdminLTE Skins. Choose a skin from the css/skins
-             folder instead of downloading all of them to reduce the load. -->
-        <link rel="stylesheet" href="/dist/css/skins/_all-skins.min.css">
-
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-	<script>
-            
-	    // You can also use "$(window).load(function() {"
-                $(function () {
-		      // Slideshow 1
-                    $("#slider1").responsiveSlides({
-                        maxwidth: 1600, speed: 600
-                    });
-		});
-                function mostrar(){
-                    document.getElementById("boton").style.display = "none"; 
-                    var elements = document.getElementsByClassName("more");
-                    for(var i=0; i < elements.length; i++ ){
-                        elements[i].style.display = "block";
-                    }
-                }
-            
-	</script>
-    </head>
-    <body>
-        <!---start-wrap---->
-       
-				
-        <!---end-header---->
-        <!--start-image-slider---->
-        <div class="wrap">
-            <div class="image-slider">
-                <ul class="rslides" id="slider1">
-                    <?php echo '<?php'; ?>
- echo $slider; <?php echo '?>'; ?>
-
-                </ul>		    		    
-                <!-- Slideshow 2 -->
-            </div>
-            <!--End-image-slider---->
-            <!---start-content---->
-            <div class="content">
-                <div class="section group">
-                    <div class="col-md-3">
-                        <div class="box box-warning">
-                            <div class="box-header with-border">
-                                <h3 class="box-title">Mi biblioteca</h3>
-                                    <div class="box-tools pull-right">
-                                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                                    </div><!-- /.box-tools -->
-                            </div><!-- /.box-header -->
-                            <div class="box-body">
-                                <ul>
-                                  <li>Lorem ipsum dolor sit amet</li>
-                                  <li>Consectetur adipiscing elit</li>
-                                  <li>Integer molestie lorem at massa</li>
-                                  <li>Facilisis in pretium nisl aliquet</li>
-                                  <li>Faucibus porta lacus fringilla vel</li>
-                                  <li>Aenean sit amet erat nunc</li>
-                                  <li>Eget porttitor lorem</li>
-                                </ul>
-                              </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-3">
-                        <div class="box box-warning">
-                            <div class="box-header with-border">
-                                <h3 class="box-title">Notificaciones</h3>
-                                    <div class="box-tools pull-right">
-                                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                                    </div><!-- /.box-tools -->
-                            </div><!-- /.box-header -->
-                            <div class="box-body">
-                                <ul>
-                                  <li>Lorem ipsum dolor sit amet</li>
-                                  <li>Consectetur adipiscing elit</li>
-                                  <li>Integer molestie lorem at massa</li>
-                                  <li>Facilisis in pretium nisl aliquet</li>
-                                  <li>Faucibus porta lacus fringilla vel</li>
-                                  <li>Aenean sit amet erat nunc</li>
-                                  <li>Eget porttitor lorem</li>
-                                </ul>
-                              </div>
-                        </div>
-                    </div>
-                    
-                   <div class="col-md-3">
-                        <div class="box box-warning">
-                            <div class="box-header with-border">
-                                <h3 class="box-title">Clasificados</h3>
-                                    <div class="box-tools pull-right">
-                                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                                    </div><!-- /.box-tools -->
-                            </div><!-- /.box-header -->
-                            <div class="box-body">
-                                <ul>
-                                  <li>Lorem ipsum dolor sit amet</li>
-                                  <li>Consectetur adipiscing elit</li>
-                                  <li>Integer molestie lorem at massa</li>
-                                  <li>Facilisis in pretium nisl aliquet</li>
-                                  <li>Faucibus porta lacus fringilla vel</li>
-                                  <li>Aenean sit amet erat nunc</li>
-                                  <li>Eget porttitor lorem</li>
-                                </ul>
-                              </div>
-                        </div>
-                    </div>
-                </div>			
-            </div>
-            <!---End-content---->
-            <div class="clear"> </div>
-        </div>
-    </body>
-</html>
+                
             </div>
             <footer class="main-footer">
               <div class="pull-right hidden-xs">
                 <b>Version</b> 2.3.0
               </div>
-              <strong>Copyright &copy; 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights reserved.
+              <strong>Copyright &copy; 2014-2015 <a href="">La pandilla</a>.</strong> All rights reserved.
             </footer>
             <aside class="control-sidebar control-sidebar-dark">
         <!-- Create the tabs -->
@@ -760,26 +610,34 @@ ini_set("display_errors", 1);
         </div><!-- ./wrapper -->
 
         <!-- jQuery 2.1.4 -->
-        <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+        <script src="/proylectura/plugins/jQuery/jQuery-2.1.4.min.js"></script>
         <!-- Bootstrap 3.3.5 -->
-        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <script src="/proylectura/bootstrap/js/bootstrap.min.js"></script>
         <!-- FastClick -->
-        <script src="plugins/fastclick/fastclick.min.js"></script>
+        <script src="/proylectura/plugins/fastclick/fastclick.min.js"></script>
         <!-- AdminLTE App -->
-        <script src="dist/js/app.min.js"></script>
+        <script src="/proylectura/dist/js/app.min.js"></script>
         <!-- Sparkline -->
-        <script src="plugins/sparkline/jquery.sparkline.min.js"></script>
+        <script src="/proylectura/plugins/sparkline/jquery.sparkline.min.js"></script>
         <!-- jvectormap -->
-        <script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-        <script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+        <script src="/proylectura/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+        <script src="/proylectura/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
         <!-- SlimScroll 1.3.0 -->
-        <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+        <script src="/proylectura/plugins/slimScroll/jquery.slimscroll.min.js"></script>
         <!-- ChartJS 1.0.1 -->
-        <script src="plugins/chartjs/Chart.min.js"></script>
-        <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-        <script src="dist/js/pages/dashboard2.js"></script>
+        <script src="/proylectura/plugins/chartjs/Chart.min.js"></script>
+        <script type="text/javascript" src="/proylectura/js/jquery.json.js"></script>
+        <!-- AdminLTE dashboard demo (This is only for demo purposes)
+        <script src="dist/js/pages/dashboard2.js"></script> -->
         <!-- AdminLTE for demo purposes -->
-        <script src="dist/js/demo.js"></script>
+        <script src="/proylectura/dist/js/demo.js"></script>
+        <script src="/proylectura/js/usuarios.js"></script>
+        <script type="text/javascript">
+            $( document ).ready(function() {
+                refreshDivs('cuerpocentro','data/smarty/templates/home.php');
+            });
+            
+        </script>
     </body>
 </html>	
 <?php }} ?>

@@ -1,32 +1,37 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2015-11-06 00:20:33
+<?php /* Smarty version Smarty-3.1.19, created on 2015-11-16 10:15:26
          compiled from ".\\data\smarty\templates\plantillaHeader.html" */ ?>
-<?php /*%%SmartyHeaderCode:17974563be44136da97-47420320%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:2382656499eae82b892-63616958%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '283fd1115bd6cd8cee26d5115d7a3de5f24114ee' => 
     array (
       0 => '.\\\\data\\smarty\\templates\\plantillaHeader.html',
-      1 => 1445559560,
+      1 => 1447463111,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '17974563be44136da97-47420320',
+  'nocache_hash' => '2382656499eae82b892-63616958',
   'function' => 
   array (
   ),
+  'variables' => 
+  array (
+    'user_name' => 0,
+  ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.19',
-  'unifunc' => 'content_563be44137a716_76235822',
+  'unifunc' => 'content_56499eae83d308_75149774',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_563be44137a716_76235822')) {function content_563be44137a716_76235822($_smarty_tpl) {?><header class="main-header">
+<?php if ($_valid && !is_callable('content_56499eae83d308_75149774')) {function content_56499eae83d308_75149774($_smarty_tpl) {?><header class="main-header">
 
         <!-- Logo -->
-        <a href="index2.html" class="logo">
+        <a onclick="refreshDivs('cuerpocentro','data/smarty/templates/home.php')" class="logo">
+            
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b>A</b>LT</span>
+          <span class="logo-mini"><img src = "imagen/logoPLMini.png" width = 100%<?php ?>></span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>Proyecto</b>Lectura</span>
+          <span class="logo-lg"><img src = "imagen/logoPL.png" width = 100%<?php ?>></span>
         </a>
 
         <!-- Header Navbar: style can be found in header.less -->
@@ -229,7 +234,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                  <span class="hidden-xs">Administrador Admin</span>
+                  <span class="hidden-xs"><?php echo $_smarty_tpl->tpl_vars['user_name']->value;?>
+</span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->

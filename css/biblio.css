@@ -1,0 +1,61 @@
+
+/* GENERAL ------------------------------------------------------------*/
+
+.wrappe {
+  margin: 0 auto;
+  width: 940px;
+  position: relative;
+}
+
+
+/* FEATURE ----------------------------------------------------*/.feature {
+  width: 960px;
+  margin-left: -20px;
+}
+.feature li {
+  position: relative;
+  background: #f3e4c8;
+  width: 300px;
+  margin-bottom: 50px;
+  margin-left: 20px;
+  box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0.1);
+}
+.feature li .thumb {
+  display: block;
+  margin: 10px;
+  width: 280px;
+}
+.feature li .thumb img {
+  max-width: 100%;
+}
+.feature li .caption {
+  padding: 10px 10px 20px 10px;
+  text-align: center;
+}
+.feature li a {
+  color: #cb5432;
+}
+.feature li .thumb {
+  position: relative;
+}
+.feature li .thumb .date {
+  position: absolute;
+  bottom: -25px;
+  left: 110px;
+  display: block;
+  -moz-border-radius: 40px 40px 40px 40px;
+  -webkit-border-radius: 40px 40px 40px 40px;
+  border-radius: 40px 40px 40px 40px;
+  height: 50px;
+  width: 60px;
+  background: #f3e4c8;
+  float: left;
+  font-family: mensch;
+  padding-top: 10px;
+}
+.feature li .thumb .date span {
+  display: block;
+  text-align: center;
+  font-size: 20px;
+  line-height: 20px;
+}
