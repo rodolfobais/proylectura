@@ -32,6 +32,26 @@
  * @method     UsuarioQuery rightJoinLibro_version($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Libro_version relation
  * @method     UsuarioQuery innerJoinLibro_version($relationAlias = null) Adds a INNER JOIN clause to the query using the Libro_version relation
  *
+ * @method     UsuarioQuery leftJoinMensajeRelatedById_usuario_destinatario($relationAlias = null) Adds a LEFT JOIN clause to the query using the MensajeRelatedById_usuario_destinatario relation
+ * @method     UsuarioQuery rightJoinMensajeRelatedById_usuario_destinatario($relationAlias = null) Adds a RIGHT JOIN clause to the query using the MensajeRelatedById_usuario_destinatario relation
+ * @method     UsuarioQuery innerJoinMensajeRelatedById_usuario_destinatario($relationAlias = null) Adds a INNER JOIN clause to the query using the MensajeRelatedById_usuario_destinatario relation
+ *
+ * @method     UsuarioQuery leftJoinMensajeRelatedById_usuario_remitente($relationAlias = null) Adds a LEFT JOIN clause to the query using the MensajeRelatedById_usuario_remitente relation
+ * @method     UsuarioQuery rightJoinMensajeRelatedById_usuario_remitente($relationAlias = null) Adds a RIGHT JOIN clause to the query using the MensajeRelatedById_usuario_remitente relation
+ * @method     UsuarioQuery innerJoinMensajeRelatedById_usuario_remitente($relationAlias = null) Adds a INNER JOIN clause to the query using the MensajeRelatedById_usuario_remitente relation
+ *
+ * @method     UsuarioQuery leftJoinNotificacion($relationAlias = null) Adds a LEFT JOIN clause to the query using the Notificacion relation
+ * @method     UsuarioQuery rightJoinNotificacion($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Notificacion relation
+ * @method     UsuarioQuery innerJoinNotificacion($relationAlias = null) Adds a INNER JOIN clause to the query using the Notificacion relation
+ *
+ * @method     UsuarioQuery leftJoinSolicitudRelatedById_usuario_solicitado($relationAlias = null) Adds a LEFT JOIN clause to the query using the SolicitudRelatedById_usuario_solicitado relation
+ * @method     UsuarioQuery rightJoinSolicitudRelatedById_usuario_solicitado($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SolicitudRelatedById_usuario_solicitado relation
+ * @method     UsuarioQuery innerJoinSolicitudRelatedById_usuario_solicitado($relationAlias = null) Adds a INNER JOIN clause to the query using the SolicitudRelatedById_usuario_solicitado relation
+ *
+ * @method     UsuarioQuery leftJoinSolicitudRelatedById_usuario_solicitante($relationAlias = null) Adds a LEFT JOIN clause to the query using the SolicitudRelatedById_usuario_solicitante relation
+ * @method     UsuarioQuery rightJoinSolicitudRelatedById_usuario_solicitante($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SolicitudRelatedById_usuario_solicitante relation
+ * @method     UsuarioQuery innerJoinSolicitudRelatedById_usuario_solicitante($relationAlias = null) Adds a INNER JOIN clause to the query using the SolicitudRelatedById_usuario_solicitante relation
+ *
  * @method     Usuario findOne(PropelPDO $con = null) Return the first Usuario matching the query
  * @method     Usuario findOneOrCreate(PropelPDO $con = null) Return the first Usuario matching the query, or a new Usuario object populated from the query conditions when no match is found
  *
@@ -543,6 +563,371 @@ abstract class BaseUsuarioQuery extends ModelCriteria
 		return $this
 			->joinLibro_version($relationAlias, $joinType)
 			->useQuery($relationAlias ? $relationAlias : 'Libro_version', 'Libro_versionQuery');
+	}
+
+	/**
+	 * Filter the query by a related Mensaje object
+	 *
+	 * @param     Mensaje $mensaje  the related object to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    UsuarioQuery The current query, for fluid interface
+	 */
+	public function filterByMensajeRelatedById_usuario_destinatario($mensaje, $comparison = null)
+	{
+		if ($mensaje instanceof Mensaje) {
+			return $this
+				->addUsingAlias(UsuarioPeer::ID, $mensaje->getId_usuario_destinatario(), $comparison);
+		} elseif ($mensaje instanceof PropelCollection) {
+			return $this
+				->useMensajeRelatedById_usuario_destinatarioQuery()
+				->filterByPrimaryKeys($mensaje->getPrimaryKeys())
+				->endUse();
+		} else {
+			throw new PropelException('filterByMensajeRelatedById_usuario_destinatario() only accepts arguments of type Mensaje or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the MensajeRelatedById_usuario_destinatario relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    UsuarioQuery The current query, for fluid interface
+	 */
+	public function joinMensajeRelatedById_usuario_destinatario($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('MensajeRelatedById_usuario_destinatario');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'MensajeRelatedById_usuario_destinatario');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the MensajeRelatedById_usuario_destinatario relation Mensaje object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    MensajeQuery A secondary query class using the current class as primary query
+	 */
+	public function useMensajeRelatedById_usuario_destinatarioQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinMensajeRelatedById_usuario_destinatario($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'MensajeRelatedById_usuario_destinatario', 'MensajeQuery');
+	}
+
+	/**
+	 * Filter the query by a related Mensaje object
+	 *
+	 * @param     Mensaje $mensaje  the related object to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    UsuarioQuery The current query, for fluid interface
+	 */
+	public function filterByMensajeRelatedById_usuario_remitente($mensaje, $comparison = null)
+	{
+		if ($mensaje instanceof Mensaje) {
+			return $this
+				->addUsingAlias(UsuarioPeer::ID, $mensaje->getId_usuario_remitente(), $comparison);
+		} elseif ($mensaje instanceof PropelCollection) {
+			return $this
+				->useMensajeRelatedById_usuario_remitenteQuery()
+				->filterByPrimaryKeys($mensaje->getPrimaryKeys())
+				->endUse();
+		} else {
+			throw new PropelException('filterByMensajeRelatedById_usuario_remitente() only accepts arguments of type Mensaje or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the MensajeRelatedById_usuario_remitente relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    UsuarioQuery The current query, for fluid interface
+	 */
+	public function joinMensajeRelatedById_usuario_remitente($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('MensajeRelatedById_usuario_remitente');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'MensajeRelatedById_usuario_remitente');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the MensajeRelatedById_usuario_remitente relation Mensaje object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    MensajeQuery A secondary query class using the current class as primary query
+	 */
+	public function useMensajeRelatedById_usuario_remitenteQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinMensajeRelatedById_usuario_remitente($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'MensajeRelatedById_usuario_remitente', 'MensajeQuery');
+	}
+
+	/**
+	 * Filter the query by a related Notificacion object
+	 *
+	 * @param     Notificacion $notificacion  the related object to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    UsuarioQuery The current query, for fluid interface
+	 */
+	public function filterByNotificacion($notificacion, $comparison = null)
+	{
+		if ($notificacion instanceof Notificacion) {
+			return $this
+				->addUsingAlias(UsuarioPeer::ID, $notificacion->getId_usuario(), $comparison);
+		} elseif ($notificacion instanceof PropelCollection) {
+			return $this
+				->useNotificacionQuery()
+				->filterByPrimaryKeys($notificacion->getPrimaryKeys())
+				->endUse();
+		} else {
+			throw new PropelException('filterByNotificacion() only accepts arguments of type Notificacion or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the Notificacion relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    UsuarioQuery The current query, for fluid interface
+	 */
+	public function joinNotificacion($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('Notificacion');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'Notificacion');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the Notificacion relation Notificacion object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    NotificacionQuery A secondary query class using the current class as primary query
+	 */
+	public function useNotificacionQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinNotificacion($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Notificacion', 'NotificacionQuery');
+	}
+
+	/**
+	 * Filter the query by a related Solicitud object
+	 *
+	 * @param     Solicitud $solicitud  the related object to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    UsuarioQuery The current query, for fluid interface
+	 */
+	public function filterBySolicitudRelatedById_usuario_solicitado($solicitud, $comparison = null)
+	{
+		if ($solicitud instanceof Solicitud) {
+			return $this
+				->addUsingAlias(UsuarioPeer::ID, $solicitud->getId_usuario_solicitado(), $comparison);
+		} elseif ($solicitud instanceof PropelCollection) {
+			return $this
+				->useSolicitudRelatedById_usuario_solicitadoQuery()
+				->filterByPrimaryKeys($solicitud->getPrimaryKeys())
+				->endUse();
+		} else {
+			throw new PropelException('filterBySolicitudRelatedById_usuario_solicitado() only accepts arguments of type Solicitud or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the SolicitudRelatedById_usuario_solicitado relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    UsuarioQuery The current query, for fluid interface
+	 */
+	public function joinSolicitudRelatedById_usuario_solicitado($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('SolicitudRelatedById_usuario_solicitado');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'SolicitudRelatedById_usuario_solicitado');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the SolicitudRelatedById_usuario_solicitado relation Solicitud object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    SolicitudQuery A secondary query class using the current class as primary query
+	 */
+	public function useSolicitudRelatedById_usuario_solicitadoQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinSolicitudRelatedById_usuario_solicitado($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'SolicitudRelatedById_usuario_solicitado', 'SolicitudQuery');
+	}
+
+	/**
+	 * Filter the query by a related Solicitud object
+	 *
+	 * @param     Solicitud $solicitud  the related object to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    UsuarioQuery The current query, for fluid interface
+	 */
+	public function filterBySolicitudRelatedById_usuario_solicitante($solicitud, $comparison = null)
+	{
+		if ($solicitud instanceof Solicitud) {
+			return $this
+				->addUsingAlias(UsuarioPeer::ID, $solicitud->getId_usuario_solicitante(), $comparison);
+		} elseif ($solicitud instanceof PropelCollection) {
+			return $this
+				->useSolicitudRelatedById_usuario_solicitanteQuery()
+				->filterByPrimaryKeys($solicitud->getPrimaryKeys())
+				->endUse();
+		} else {
+			throw new PropelException('filterBySolicitudRelatedById_usuario_solicitante() only accepts arguments of type Solicitud or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the SolicitudRelatedById_usuario_solicitante relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    UsuarioQuery The current query, for fluid interface
+	 */
+	public function joinSolicitudRelatedById_usuario_solicitante($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('SolicitudRelatedById_usuario_solicitante');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'SolicitudRelatedById_usuario_solicitante');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the SolicitudRelatedById_usuario_solicitante relation Solicitud object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    SolicitudQuery A secondary query class using the current class as primary query
+	 */
+	public function useSolicitudRelatedById_usuario_solicitanteQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinSolicitudRelatedById_usuario_solicitante($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'SolicitudRelatedById_usuario_solicitante', 'SolicitudQuery');
 	}
 
 	/**

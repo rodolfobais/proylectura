@@ -54,6 +54,11 @@ class UsuarioTableMap extends TableMap
 	{
 		$this->addRelation('Libro_colaborador', 'Libro_colaborador', RelationMap::ONE_TO_MANY, array('id' => 'idusuario', ), null, null, 'Libro_colaboradors');
 		$this->addRelation('Libro_version', 'Libro_version', RelationMap::ONE_TO_MANY, array('id' => 'idusuario', ), null, null, 'Libro_versions');
+		$this->addRelation('MensajeRelatedById_usuario_destinatario', 'Mensaje', RelationMap::ONE_TO_MANY, array('id' => 'id_usuario_destinatario', ), null, null, 'MensajesRelatedById_usuario_destinatario');
+		$this->addRelation('MensajeRelatedById_usuario_remitente', 'Mensaje', RelationMap::ONE_TO_MANY, array('id' => 'id_usuario_remitente', ), null, null, 'MensajesRelatedById_usuario_remitente');
+		$this->addRelation('Notificacion', 'Notificacion', RelationMap::ONE_TO_MANY, array('id' => 'id_usuario', ), null, null, 'Notificacions');
+		$this->addRelation('SolicitudRelatedById_usuario_solicitado', 'Solicitud', RelationMap::ONE_TO_MANY, array('id' => 'id_usuario_solicitado', ), null, null, 'SolicitudsRelatedById_usuario_solicitado');
+		$this->addRelation('SolicitudRelatedById_usuario_solicitante', 'Solicitud', RelationMap::ONE_TO_MANY, array('id' => 'id_usuario_solicitante', ), null, null, 'SolicitudsRelatedById_usuario_solicitante');
 	} // buildRelations()
 
 } // UsuarioTableMap

@@ -137,4 +137,44 @@ Tabla reproducido
     </table>
     
     
+    
+    <table name="mensaje" phpName="Mensaje" idMethod="native" package="proylectura.model">
+        <column name="id"    phpName="Id"   type="INTEGER" required="true" sqlType="INT(10)" primaryKey= "true" autoIncrement="true" />
+        <column name="id_usuario_destinatario"    phpName="Id_usuario_destinatario"   type="INTEGER" required="true" sqlType="INT(10)" />
+        <column name="id_usuario_remitente"   phpName="Id_usuario_remitente"  type="INTEGER" required="true" sqlType="INT(10)" />
+        <column name="mensaje"   phpName="mensaje"    size="800"     required="true" type="CHAR" />
+        <foreign-key foreignTable="usuario" name="mensaje_usuario_detinatario">
+            <reference local="id_usuario_destinatario" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="usuario" name="mensaje_usuario_remitente">
+            <reference local="id_usuario_remitente" foreign="id"/>
+        </foreign-key>
+    </table>
+
+   
+    <table name="notificacion" phpName="Notificacion" idMethod="native" package="proylectura.model">
+        <column name="id"    phpName="Id"   type="INTEGER" required="true" sqlType="INT(10)" primaryKey= "true" autoIncrement="true" />
+        <column name="id_notificacion"    phpName="Id_notificacion"   type="INTEGER" required="true" sqlType="INT(10)" />
+        <column name="id_usuario"   phpName="Id_usuario"  type="INTEGER" required="true" sqlType="INT(10)" />
+        <column name="descripcion"   phpName="Descripcion"    size="100"     required="true" type="CHAR" />
+        <foreign-key foreignTable="usuario" name="notificacion_usuario">
+            <reference local="id_usuario" foreign="id"/>
+        </foreign-key>
+    </table>     
+
+    <table name="solicitud" phpName="Solicitud" idMethod="native" package="proylectura.model">
+        <column name="id"    phpName="Id"   type="INTEGER" required="true" sqlType="INT(10)" primaryKey= "true" autoIncrement="true" />
+        <column name="id_usuario_solicitado"    phpName="Id_usuario_solicitado"   type="INTEGER" required="true" sqlType="INT(10)" />
+        <column name="id_usuario_solicitante"   phpName="Id_usuario_solicitante"  type="INTEGER" required="true" sqlType="INT(10)" />
+        <column name="estado"   phpName="Estado"  type="INTEGER"  required="true" sqlType="INT(10)" />
+        <column name="fecha"  phpName="Fecha" type="DATE" required="true"/>
+        <foreign-key foreignTable="usuario" name="solicitud_usuario_solicitado">
+            <reference local="id_usuario_solicitado" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="usuario" name="solicitud_usuario_solicitante">
+            <reference local="id_usuario_solicitante" foreign="id"/>
+        </foreign-key>
+    </table>
+    
+    
 </database>

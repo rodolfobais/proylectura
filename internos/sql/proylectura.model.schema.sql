@@ -189,5 +189,71 @@ CREATE TABLE `libro_version`
 		REFERENCES `usuario` (`id`)
 ) ENGINE=InnoDB;
 
+-- ---------------------------------------------------------------------
+-- mensaje
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `mensaje`;
+
+CREATE TABLE `mensaje`
+(
+	`id` INT(10) NOT NULL AUTO_INCREMENT,
+	`id_usuario_destinatario` INT(10) NOT NULL,
+	`id_usuario_remitente` INT(10) NOT NULL,
+	`mensaje` CHAR(800) NOT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `FI_saje_usuario_detinatario` (`id_usuario_destinatario`),
+	INDEX `FI_saje_usuario_remitente` (`id_usuario_remitente`),
+	CONSTRAINT `mensaje_usuario_detinatario`
+		FOREIGN KEY (`id_usuario_destinatario`)
+		REFERENCES `usuario` (`id`),
+	CONSTRAINT `mensaje_usuario_remitente`
+		FOREIGN KEY (`id_usuario_remitente`)
+		REFERENCES `usuario` (`id`)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- notificacion
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `notificacion`;
+
+CREATE TABLE `notificacion`
+(
+	`id` INT(10) NOT NULL AUTO_INCREMENT,
+	`id_notificacion` INT(10) NOT NULL,
+	`id_usuario` INT(10) NOT NULL,
+	`descripcion` CHAR(100) NOT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `FI_ificacion_usuario` (`id_usuario`),
+	CONSTRAINT `notificacion_usuario`
+		FOREIGN KEY (`id_usuario`)
+		REFERENCES `usuario` (`id`)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- solicitud
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `solicitud`;
+
+CREATE TABLE `solicitud`
+(
+	`id` INT(10) NOT NULL AUTO_INCREMENT,
+	`id_usuario_solicitado` INT(10) NOT NULL,
+	`id_usuario_solicitante` INT(10) NOT NULL,
+	`estado` INT(10) NOT NULL,
+	`fecha` DATE NOT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `FI_icitud_usuario_solicitado` (`id_usuario_solicitado`),
+	INDEX `FI_icitud_usuario_solicitante` (`id_usuario_solicitante`),
+	CONSTRAINT `solicitud_usuario_solicitado`
+		FOREIGN KEY (`id_usuario_solicitado`)
+		REFERENCES `usuario` (`id`),
+	CONSTRAINT `solicitud_usuario_solicitante`
+		FOREIGN KEY (`id_usuario_solicitante`)
+		REFERENCES `usuario` (`id`)
+) ENGINE=InnoDB;
+
 # This restores the fkey checks, after having unset them earlier
 SET FOREIGN_KEY_CHECKS = 1;
