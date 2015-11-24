@@ -24,6 +24,14 @@
  * @method     UsuarioQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     UsuarioQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     UsuarioQuery leftJoinLibro_colaborador($relationAlias = null) Adds a LEFT JOIN clause to the query using the Libro_colaborador relation
+ * @method     UsuarioQuery rightJoinLibro_colaborador($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Libro_colaborador relation
+ * @method     UsuarioQuery innerJoinLibro_colaborador($relationAlias = null) Adds a INNER JOIN clause to the query using the Libro_colaborador relation
+ *
+ * @method     UsuarioQuery leftJoinLibro_version($relationAlias = null) Adds a LEFT JOIN clause to the query using the Libro_version relation
+ * @method     UsuarioQuery rightJoinLibro_version($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Libro_version relation
+ * @method     UsuarioQuery innerJoinLibro_version($relationAlias = null) Adds a INNER JOIN clause to the query using the Libro_version relation
+ *
  * @method     Usuario findOne(PropelPDO $con = null) Return the first Usuario matching the query
  * @method     Usuario findOneOrCreate(PropelPDO $con = null) Return the first Usuario matching the query, or a new Usuario object populated from the query conditions when no match is found
  *
@@ -389,6 +397,152 @@ abstract class BaseUsuarioQuery extends ModelCriteria
 			}
 		}
 		return $this->addUsingAlias(UsuarioPeer::ADMIN, $admin, $comparison);
+	}
+
+	/**
+	 * Filter the query by a related Libro_colaborador object
+	 *
+	 * @param     Libro_colaborador $libro_colaborador  the related object to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    UsuarioQuery The current query, for fluid interface
+	 */
+	public function filterByLibro_colaborador($libro_colaborador, $comparison = null)
+	{
+		if ($libro_colaborador instanceof Libro_colaborador) {
+			return $this
+				->addUsingAlias(UsuarioPeer::ID, $libro_colaborador->getIdusuario(), $comparison);
+		} elseif ($libro_colaborador instanceof PropelCollection) {
+			return $this
+				->useLibro_colaboradorQuery()
+				->filterByPrimaryKeys($libro_colaborador->getPrimaryKeys())
+				->endUse();
+		} else {
+			throw new PropelException('filterByLibro_colaborador() only accepts arguments of type Libro_colaborador or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the Libro_colaborador relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    UsuarioQuery The current query, for fluid interface
+	 */
+	public function joinLibro_colaborador($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('Libro_colaborador');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'Libro_colaborador');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the Libro_colaborador relation Libro_colaborador object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    Libro_colaboradorQuery A secondary query class using the current class as primary query
+	 */
+	public function useLibro_colaboradorQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinLibro_colaborador($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Libro_colaborador', 'Libro_colaboradorQuery');
+	}
+
+	/**
+	 * Filter the query by a related Libro_version object
+	 *
+	 * @param     Libro_version $libro_version  the related object to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    UsuarioQuery The current query, for fluid interface
+	 */
+	public function filterByLibro_version($libro_version, $comparison = null)
+	{
+		if ($libro_version instanceof Libro_version) {
+			return $this
+				->addUsingAlias(UsuarioPeer::ID, $libro_version->getIdusuario(), $comparison);
+		} elseif ($libro_version instanceof PropelCollection) {
+			return $this
+				->useLibro_versionQuery()
+				->filterByPrimaryKeys($libro_version->getPrimaryKeys())
+				->endUse();
+		} else {
+			throw new PropelException('filterByLibro_version() only accepts arguments of type Libro_version or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the Libro_version relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    UsuarioQuery The current query, for fluid interface
+	 */
+	public function joinLibro_version($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('Libro_version');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'Libro_version');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the Libro_version relation Libro_version object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    Libro_versionQuery A secondary query class using the current class as primary query
+	 */
+	public function useLibro_versionQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinLibro_version($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Libro_version', 'Libro_versionQuery');
 	}
 
 	/**

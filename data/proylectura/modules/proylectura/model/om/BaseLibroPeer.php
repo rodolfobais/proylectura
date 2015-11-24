@@ -23,13 +23,13 @@ abstract class BaseLibroPeer {
 	const TM_CLASS = 'LibroTableMap';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 8;
+	const NUM_COLUMNS = 9;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
 	/** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-	const NUM_HYDRATE_COLUMNS = 8;
+	const NUM_HYDRATE_COLUMNS = 9;
 
 	/** the column name for the ID field */
 	const ID = 'libro.ID';
@@ -55,6 +55,9 @@ abstract class BaseLibroPeer {
 	/** the column name for the SINOPSIS field */
 	const SINOPSIS = 'libro.SINOPSIS';
 
+	/** the column name for the TEXTO field */
+	const TEXTO = 'libro.TEXTO';
+
 	/** The default string format for model objects of the related table **/
 	const DEFAULT_STRING_FORMAT = 'YAML';
 
@@ -74,12 +77,12 @@ abstract class BaseLibroPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	protected static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Nombre', 'Fecha', 'Hash', 'Id_genero', 'Id_autor', 'Image', 'Sinopsis', ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'nombre', 'fecha', 'hash', 'id_genero', 'id_autor', 'image', 'sinopsis', ),
-		BasePeer::TYPE_COLNAME => array (self::ID, self::NOMBRE, self::FECHA, self::HASH, self::ID_GENERO, self::ID_AUTOR, self::IMAGE, self::SINOPSIS, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'NOMBRE', 'FECHA', 'HASH', 'ID_GENERO', 'ID_AUTOR', 'IMAGE', 'SINOPSIS', ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'nombre', 'fecha', 'hash', 'id_genero', 'id_autor', 'image', 'sinopsis', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Nombre', 'Fecha', 'Hash', 'Id_genero', 'Id_autor', 'Image', 'Sinopsis', 'Texto', ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'nombre', 'fecha', 'hash', 'id_genero', 'id_autor', 'image', 'sinopsis', 'texto', ),
+		BasePeer::TYPE_COLNAME => array (self::ID, self::NOMBRE, self::FECHA, self::HASH, self::ID_GENERO, self::ID_AUTOR, self::IMAGE, self::SINOPSIS, self::TEXTO, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'NOMBRE', 'FECHA', 'HASH', 'ID_GENERO', 'ID_AUTOR', 'IMAGE', 'SINOPSIS', 'TEXTO', ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'nombre', 'fecha', 'hash', 'id_genero', 'id_autor', 'image', 'sinopsis', 'texto', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
 	);
 
 	/**
@@ -89,12 +92,12 @@ abstract class BaseLibroPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	protected static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Nombre' => 1, 'Fecha' => 2, 'Hash' => 3, 'Id_genero' => 4, 'Id_autor' => 5, 'Image' => 6, 'Sinopsis' => 7, ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'nombre' => 1, 'fecha' => 2, 'hash' => 3, 'id_genero' => 4, 'id_autor' => 5, 'image' => 6, 'sinopsis' => 7, ),
-		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::NOMBRE => 1, self::FECHA => 2, self::HASH => 3, self::ID_GENERO => 4, self::ID_AUTOR => 5, self::IMAGE => 6, self::SINOPSIS => 7, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'NOMBRE' => 1, 'FECHA' => 2, 'HASH' => 3, 'ID_GENERO' => 4, 'ID_AUTOR' => 5, 'IMAGE' => 6, 'SINOPSIS' => 7, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'nombre' => 1, 'fecha' => 2, 'hash' => 3, 'id_genero' => 4, 'id_autor' => 5, 'image' => 6, 'sinopsis' => 7, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Nombre' => 1, 'Fecha' => 2, 'Hash' => 3, 'Id_genero' => 4, 'Id_autor' => 5, 'Image' => 6, 'Sinopsis' => 7, 'Texto' => 8, ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'nombre' => 1, 'fecha' => 2, 'hash' => 3, 'id_genero' => 4, 'id_autor' => 5, 'image' => 6, 'sinopsis' => 7, 'texto' => 8, ),
+		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::NOMBRE => 1, self::FECHA => 2, self::HASH => 3, self::ID_GENERO => 4, self::ID_AUTOR => 5, self::IMAGE => 6, self::SINOPSIS => 7, self::TEXTO => 8, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'NOMBRE' => 1, 'FECHA' => 2, 'HASH' => 3, 'ID_GENERO' => 4, 'ID_AUTOR' => 5, 'IMAGE' => 6, 'SINOPSIS' => 7, 'TEXTO' => 8, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'nombre' => 1, 'fecha' => 2, 'hash' => 3, 'id_genero' => 4, 'id_autor' => 5, 'image' => 6, 'sinopsis' => 7, 'texto' => 8, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
 	);
 
 	/**
@@ -174,6 +177,7 @@ abstract class BaseLibroPeer {
 			$criteria->addSelectColumn(LibroPeer::ID_AUTOR);
 			$criteria->addSelectColumn(LibroPeer::IMAGE);
 			$criteria->addSelectColumn(LibroPeer::SINOPSIS);
+			$criteria->addSelectColumn(LibroPeer::TEXTO);
 		} else {
 			$criteria->addSelectColumn($alias . '.ID');
 			$criteria->addSelectColumn($alias . '.NOMBRE');
@@ -183,6 +187,7 @@ abstract class BaseLibroPeer {
 			$criteria->addSelectColumn($alias . '.ID_AUTOR');
 			$criteria->addSelectColumn($alias . '.IMAGE');
 			$criteria->addSelectColumn($alias . '.SINOPSIS');
+			$criteria->addSelectColumn($alias . '.TEXTO');
 		}
 	}
 

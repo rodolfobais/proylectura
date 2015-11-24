@@ -67,6 +67,16 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	protected $admin;
 
 	/**
+	 * @var        array Libro_colaborador[] Collection to store aggregation of Libro_colaborador objects.
+	 */
+	protected $collLibro_colaboradors;
+
+	/**
+	 * @var        array Libro_version[] Collection to store aggregation of Libro_version objects.
+	 */
+	protected $collLibro_versions;
+
+	/**
 	 * Flag to prevent endless save loop, if this object is referenced
 	 * by another object which falls in this transaction.
 	 * @var        boolean
@@ -79,6 +89,18 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	 * @var        boolean
 	 */
 	protected $alreadyInValidation = false;
+
+	/**
+	 * An array of objects scheduled for deletion.
+	 * @var		array
+	 */
+	protected $libro_colaboradorsScheduledForDeletion = null;
+
+	/**
+	 * An array of objects scheduled for deletion.
+	 * @var		array
+	 */
+	protected $libro_versionsScheduledForDeletion = null;
 
 	/**
 	 * Get the [id] column value.
@@ -368,6 +390,10 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 
 		if ($deep) {  // also de-associate any related objects?
 
+			$this->collLibro_colaboradors = null;
+
+			$this->collLibro_versions = null;
+
 		} // if (deep)
 	}
 
@@ -487,6 +513,40 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 				}
 				$affectedRows += 1;
 				$this->resetModified();
+			}
+
+			if ($this->libro_colaboradorsScheduledForDeletion !== null) {
+				if (!$this->libro_colaboradorsScheduledForDeletion->isEmpty()) {
+		Libro_colaboradorQuery::create()
+						->filterByPrimaryKeys($this->libro_colaboradorsScheduledForDeletion->getPrimaryKeys(false))
+						->delete($con);
+					$this->libro_colaboradorsScheduledForDeletion = null;
+				}
+			}
+
+			if ($this->collLibro_colaboradors !== null) {
+				foreach ($this->collLibro_colaboradors as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->libro_versionsScheduledForDeletion !== null) {
+				if (!$this->libro_versionsScheduledForDeletion->isEmpty()) {
+		Libro_versionQuery::create()
+						->filterByPrimaryKeys($this->libro_versionsScheduledForDeletion->getPrimaryKeys(false))
+						->delete($con);
+					$this->libro_versionsScheduledForDeletion = null;
+				}
+			}
+
+			if ($this->collLibro_versions !== null) {
+				foreach ($this->collLibro_versions as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
 			}
 
 			$this->alreadyInSave = false;
@@ -658,6 +718,22 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 			}
 
 
+				if ($this->collLibro_colaboradors !== null) {
+					foreach ($this->collLibro_colaboradors as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collLibro_versions !== null) {
+					foreach ($this->collLibro_versions as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
 
 			$this->alreadyInValidation = false;
 		}
@@ -726,10 +802,11 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	 *                    Defaults to BasePeer::TYPE_PHPNAME.
 	 * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
 	 * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
+	 * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
 	 *
 	 * @return    array an associative array containing the field names (as keys) and field values
 	 */
-	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
+	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
 	{
 		if (isset($alreadyDumpedObjects['Usuario'][$this->getPrimaryKey()])) {
 			return '*RECURSION*';
@@ -744,6 +821,14 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 			$keys[4] => $this->getPassword(),
 			$keys[5] => $this->getAdmin(),
 		);
+		if ($includeForeignObjects) {
+			if (null !== $this->collLibro_colaboradors) {
+				$result['Libro_colaboradors'] = $this->collLibro_colaboradors->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			}
+			if (null !== $this->collLibro_versions) {
+				$result['Libro_versions'] = $this->collLibro_versions->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			}
+		}
 		return $result;
 	}
 
@@ -906,6 +991,30 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 		$copyObj->setmail($this->getmail());
 		$copyObj->setPassword($this->getPassword());
 		$copyObj->setAdmin($this->getAdmin());
+
+		if ($deepCopy && !$this->startCopy) {
+			// important: temporarily setNew(false) because this affects the behavior of
+			// the getter/setter methods for fkey referrer objects.
+			$copyObj->setNew(false);
+			// store object hash to prevent cycle
+			$this->startCopy = true;
+
+			foreach ($this->getLibro_colaboradors() as $relObj) {
+				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addLibro_colaborador($relObj->copy($deepCopy));
+				}
+			}
+
+			foreach ($this->getLibro_versions() as $relObj) {
+				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addLibro_version($relObj->copy($deepCopy));
+				}
+			}
+
+			//unflag object copy
+			$this->startCopy = false;
+		} // if ($deepCopy)
+
 		if ($makeNew) {
 			$copyObj->setNew(true);
 			$copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -950,6 +1059,371 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 		return self::$peer;
 	}
 
+
+	/**
+	 * Initializes a collection based on the name of a relation.
+	 * Avoids crafting an 'init[$relationName]s' method name
+	 * that wouldn't work when StandardEnglishPluralizer is used.
+	 *
+	 * @param      string $relationName The name of the relation to initialize
+	 * @return     void
+	 */
+	public function initRelation($relationName)
+	{
+		if ('Libro_colaborador' == $relationName) {
+			return $this->initLibro_colaboradors();
+		}
+		if ('Libro_version' == $relationName) {
+			return $this->initLibro_versions();
+		}
+	}
+
+	/**
+	 * Clears out the collLibro_colaboradors collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addLibro_colaboradors()
+	 */
+	public function clearLibro_colaboradors()
+	{
+		$this->collLibro_colaboradors = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collLibro_colaboradors collection.
+	 *
+	 * By default this just sets the collLibro_colaboradors collection to an empty array (like clearcollLibro_colaboradors());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @param      boolean $overrideExisting If set to true, the method call initializes
+	 *                                        the collection even if it is not empty
+	 *
+	 * @return     void
+	 */
+	public function initLibro_colaboradors($overrideExisting = true)
+	{
+		if (null !== $this->collLibro_colaboradors && !$overrideExisting) {
+			return;
+		}
+		$this->collLibro_colaboradors = new PropelObjectCollection();
+		$this->collLibro_colaboradors->setModel('Libro_colaborador');
+	}
+
+	/**
+	 * Gets an array of Libro_colaborador objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this Usuario is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array Libro_colaborador[] List of Libro_colaborador objects
+	 * @throws     PropelException
+	 */
+	public function getLibro_colaboradors($criteria = null, PropelPDO $con = null)
+	{
+		if(null === $this->collLibro_colaboradors || null !== $criteria) {
+			if ($this->isNew() && null === $this->collLibro_colaboradors) {
+				// return empty collection
+				$this->initLibro_colaboradors();
+			} else {
+				$collLibro_colaboradors = Libro_colaboradorQuery::create(null, $criteria)
+					->filterByUsuario($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collLibro_colaboradors;
+				}
+				$this->collLibro_colaboradors = $collLibro_colaboradors;
+			}
+		}
+		return $this->collLibro_colaboradors;
+	}
+
+	/**
+	 * Sets a collection of Libro_colaborador objects related by a one-to-many relationship
+	 * to the current object.
+	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+	 * and new objects from the given Propel collection.
+	 *
+	 * @param      PropelCollection $libro_colaboradors A Propel collection.
+	 * @param      PropelPDO $con Optional connection object
+	 */
+	public function setLibro_colaboradors(PropelCollection $libro_colaboradors, PropelPDO $con = null)
+	{
+		$this->libro_colaboradorsScheduledForDeletion = $this->getLibro_colaboradors(new Criteria(), $con)->diff($libro_colaboradors);
+
+		foreach ($libro_colaboradors as $libro_colaborador) {
+			// Fix issue with collection modified by reference
+			if ($libro_colaborador->isNew()) {
+				$libro_colaborador->setUsuario($this);
+			}
+			$this->addLibro_colaborador($libro_colaborador);
+		}
+
+		$this->collLibro_colaboradors = $libro_colaboradors;
+	}
+
+	/**
+	 * Returns the number of related Libro_colaborador objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related Libro_colaborador objects.
+	 * @throws     PropelException
+	 */
+	public function countLibro_colaboradors(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collLibro_colaboradors || null !== $criteria) {
+			if ($this->isNew() && null === $this->collLibro_colaboradors) {
+				return 0;
+			} else {
+				$query = Libro_colaboradorQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterByUsuario($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collLibro_colaboradors);
+		}
+	}
+
+	/**
+	 * Method called to associate a Libro_colaborador object to this object
+	 * through the Libro_colaborador foreign key attribute.
+	 *
+	 * @param      Libro_colaborador $l Libro_colaborador
+	 * @return     Usuario The current object (for fluent API support)
+	 */
+	public function addLibro_colaborador(Libro_colaborador $l)
+	{
+		if ($this->collLibro_colaboradors === null) {
+			$this->initLibro_colaboradors();
+		}
+		if (!$this->collLibro_colaboradors->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddLibro_colaborador($l);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param	Libro_colaborador $libro_colaborador The libro_colaborador object to add.
+	 */
+	protected function doAddLibro_colaborador($libro_colaborador)
+	{
+		$this->collLibro_colaboradors[]= $libro_colaborador;
+		$libro_colaborador->setUsuario($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Usuario is new, it will return
+	 * an empty collection; or if this Usuario has previously
+	 * been saved, it will retrieve related Libro_colaboradors from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Usuario.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return     PropelCollection|array Libro_colaborador[] List of Libro_colaborador objects
+	 */
+	public function getLibro_colaboradorsJoinLibro($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$query = Libro_colaboradorQuery::create(null, $criteria);
+		$query->joinWith('Libro', $join_behavior);
+
+		return $this->getLibro_colaboradors($query, $con);
+	}
+
+	/**
+	 * Clears out the collLibro_versions collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addLibro_versions()
+	 */
+	public function clearLibro_versions()
+	{
+		$this->collLibro_versions = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collLibro_versions collection.
+	 *
+	 * By default this just sets the collLibro_versions collection to an empty array (like clearcollLibro_versions());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @param      boolean $overrideExisting If set to true, the method call initializes
+	 *                                        the collection even if it is not empty
+	 *
+	 * @return     void
+	 */
+	public function initLibro_versions($overrideExisting = true)
+	{
+		if (null !== $this->collLibro_versions && !$overrideExisting) {
+			return;
+		}
+		$this->collLibro_versions = new PropelObjectCollection();
+		$this->collLibro_versions->setModel('Libro_version');
+	}
+
+	/**
+	 * Gets an array of Libro_version objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this Usuario is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array Libro_version[] List of Libro_version objects
+	 * @throws     PropelException
+	 */
+	public function getLibro_versions($criteria = null, PropelPDO $con = null)
+	{
+		if(null === $this->collLibro_versions || null !== $criteria) {
+			if ($this->isNew() && null === $this->collLibro_versions) {
+				// return empty collection
+				$this->initLibro_versions();
+			} else {
+				$collLibro_versions = Libro_versionQuery::create(null, $criteria)
+					->filterByUsuario($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collLibro_versions;
+				}
+				$this->collLibro_versions = $collLibro_versions;
+			}
+		}
+		return $this->collLibro_versions;
+	}
+
+	/**
+	 * Sets a collection of Libro_version objects related by a one-to-many relationship
+	 * to the current object.
+	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+	 * and new objects from the given Propel collection.
+	 *
+	 * @param      PropelCollection $libro_versions A Propel collection.
+	 * @param      PropelPDO $con Optional connection object
+	 */
+	public function setLibro_versions(PropelCollection $libro_versions, PropelPDO $con = null)
+	{
+		$this->libro_versionsScheduledForDeletion = $this->getLibro_versions(new Criteria(), $con)->diff($libro_versions);
+
+		foreach ($libro_versions as $libro_version) {
+			// Fix issue with collection modified by reference
+			if ($libro_version->isNew()) {
+				$libro_version->setUsuario($this);
+			}
+			$this->addLibro_version($libro_version);
+		}
+
+		$this->collLibro_versions = $libro_versions;
+	}
+
+	/**
+	 * Returns the number of related Libro_version objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related Libro_version objects.
+	 * @throws     PropelException
+	 */
+	public function countLibro_versions(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collLibro_versions || null !== $criteria) {
+			if ($this->isNew() && null === $this->collLibro_versions) {
+				return 0;
+			} else {
+				$query = Libro_versionQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterByUsuario($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collLibro_versions);
+		}
+	}
+
+	/**
+	 * Method called to associate a Libro_version object to this object
+	 * through the Libro_version foreign key attribute.
+	 *
+	 * @param      Libro_version $l Libro_version
+	 * @return     Usuario The current object (for fluent API support)
+	 */
+	public function addLibro_version(Libro_version $l)
+	{
+		if ($this->collLibro_versions === null) {
+			$this->initLibro_versions();
+		}
+		if (!$this->collLibro_versions->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddLibro_version($l);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param	Libro_version $libro_version The libro_version object to add.
+	 */
+	protected function doAddLibro_version($libro_version)
+	{
+		$this->collLibro_versions[]= $libro_version;
+		$libro_version->setUsuario($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Usuario is new, it will return
+	 * an empty collection; or if this Usuario has previously
+	 * been saved, it will retrieve related Libro_versions from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Usuario.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return     PropelCollection|array Libro_version[] List of Libro_version objects
+	 */
+	public function getLibro_versionsJoinLibro($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$query = Libro_versionQuery::create(null, $criteria);
+		$query->joinWith('Libro', $join_behavior);
+
+		return $this->getLibro_versions($query, $con);
+	}
+
 	/**
 	 * Clears the current object and sets all attributes to their default values
 	 */
@@ -981,8 +1455,26 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	public function clearAllReferences($deep = false)
 	{
 		if ($deep) {
+			if ($this->collLibro_colaboradors) {
+				foreach ($this->collLibro_colaboradors as $o) {
+					$o->clearAllReferences($deep);
+				}
+			}
+			if ($this->collLibro_versions) {
+				foreach ($this->collLibro_versions as $o) {
+					$o->clearAllReferences($deep);
+				}
+			}
 		} // if ($deep)
 
+		if ($this->collLibro_colaboradors instanceof PropelCollection) {
+			$this->collLibro_colaboradors->clearIterator();
+		}
+		$this->collLibro_colaboradors = null;
+		if ($this->collLibro_versions instanceof PropelCollection) {
+			$this->collLibro_versions->clearIterator();
+		}
+		$this->collLibro_versions = null;
 	}
 
 	/**

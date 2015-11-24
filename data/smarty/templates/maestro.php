@@ -66,11 +66,15 @@
         <!-- ChartJS 1.0.1 -->
         <script src="{$PROJECT_REL_DIR}/plugins/chartjs/Chart.min.js"></script>
         <script type="text/javascript" src="{$PROJECT_REL_DIR}/js/jquery.json.js"></script>
+        <script src="{$PROJECT_REL_DIR}/plugins/fastclick/fastclick.min.js"></script>
+        <!--<script src="{$PROJECT_REL_DIR}/js/ckeditor.js"></script>-->
+        <script src="https://cdn.ckeditor.com/4.4.3/standard/ckeditor.js"></script>
         <!-- AdminLTE dashboard demo (This is only for demo purposes)
         <script src="dist/js/pages/dashboard2.js"></script> -->
         <!-- AdminLTE for demo purposes -->
-        <script src="{$PROJECT_REL_DIR}/dist/js/demo.js"></script>
+        <script src="{$PROJECT_REL_DIR}/dist/jsSubo la ultima version de la base/demo.js"></script>
         <script src="{$PROJECT_REL_DIR}/js/usuarios.js"></script>
+        <script src="{$PROJECT_REL_DIR}/js/editor.js"></script>
         <script type="text/javascript">
             $( document ).ready(function() {
                 refreshDivs('cuerpocentro','data/smarty/templates/home.php');

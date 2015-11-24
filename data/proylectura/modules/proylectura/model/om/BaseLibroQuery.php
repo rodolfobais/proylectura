@@ -14,6 +14,7 @@
  * @method     LibroQuery orderById_autor($order = Criteria::ASC) Order by the id_autor column
  * @method     LibroQuery orderByImage($order = Criteria::ASC) Order by the image column
  * @method     LibroQuery orderBySinopsis($order = Criteria::ASC) Order by the sinopsis column
+ * @method     LibroQuery orderByTexto($order = Criteria::ASC) Order by the texto column
  *
  * @method     LibroQuery groupById() Group by the id column
  * @method     LibroQuery groupByNombre() Group by the nombre column
@@ -23,10 +24,19 @@
  * @method     LibroQuery groupById_autor() Group by the id_autor column
  * @method     LibroQuery groupByImage() Group by the image column
  * @method     LibroQuery groupBySinopsis() Group by the sinopsis column
+ * @method     LibroQuery groupByTexto() Group by the texto column
  *
  * @method     LibroQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     LibroQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     LibroQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ *
+ * @method     LibroQuery leftJoinLibro_colaborador($relationAlias = null) Adds a LEFT JOIN clause to the query using the Libro_colaborador relation
+ * @method     LibroQuery rightJoinLibro_colaborador($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Libro_colaborador relation
+ * @method     LibroQuery innerJoinLibro_colaborador($relationAlias = null) Adds a INNER JOIN clause to the query using the Libro_colaborador relation
+ *
+ * @method     LibroQuery leftJoinLibro_version($relationAlias = null) Adds a LEFT JOIN clause to the query using the Libro_version relation
+ * @method     LibroQuery rightJoinLibro_version($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Libro_version relation
+ * @method     LibroQuery innerJoinLibro_version($relationAlias = null) Adds a INNER JOIN clause to the query using the Libro_version relation
  *
  * @method     Libro findOne(PropelPDO $con = null) Return the first Libro matching the query
  * @method     Libro findOneOrCreate(PropelPDO $con = null) Return the first Libro matching the query, or a new Libro object populated from the query conditions when no match is found
@@ -39,6 +49,7 @@
  * @method     Libro findOneById_autor(int $id_autor) Return the first Libro filtered by the id_autor column
  * @method     Libro findOneByImage(string $image) Return the first Libro filtered by the image column
  * @method     Libro findOneBySinopsis(string $sinopsis) Return the first Libro filtered by the sinopsis column
+ * @method     Libro findOneByTexto(resource $texto) Return the first Libro filtered by the texto column
  *
  * @method     array findById(int $id) Return Libro objects filtered by the id column
  * @method     array findByNombre(string $nombre) Return Libro objects filtered by the nombre column
@@ -48,6 +59,7 @@
  * @method     array findById_autor(int $id_autor) Return Libro objects filtered by the id_autor column
  * @method     array findByImage(string $image) Return Libro objects filtered by the image column
  * @method     array findBySinopsis(string $sinopsis) Return Libro objects filtered by the sinopsis column
+ * @method     array findByTexto(resource $texto) Return Libro objects filtered by the texto column
  *
  * @package    propel.generator.proylectura.model.om
  */
@@ -136,7 +148,7 @@ abstract class BaseLibroQuery extends ModelCriteria
 	 */
 	protected function findPkSimple($key, $con)
 	{
-		$sql = 'SELECT `ID`, `NOMBRE`, `FECHA`, `HASH`, `ID_GENERO`, `ID_AUTOR`, `IMAGE`, `SINOPSIS` FROM `libro` WHERE `ID` = :p0';
+		$sql = 'SELECT `ID`, `NOMBRE`, `FECHA`, `HASH`, `ID_GENERO`, `ID_AUTOR`, `IMAGE`, `SINOPSIS`, `TEXTO` FROM `libro` WHERE `ID` = :p0';
 		try {
 			$stmt = $con->prepare($sql);
 			$stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -479,6 +491,165 @@ abstract class BaseLibroQuery extends ModelCriteria
 			}
 		}
 		return $this->addUsingAlias(LibroPeer::SINOPSIS, $sinopsis, $comparison);
+	}
+
+	/**
+	 * Filter the query on the texto column
+	 *
+	 * @param     mixed $texto The value to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    LibroQuery The current query, for fluid interface
+	 */
+	public function filterByTexto($texto = null, $comparison = null)
+	{
+		return $this->addUsingAlias(LibroPeer::TEXTO, $texto, $comparison);
+	}
+
+	/**
+	 * Filter the query by a related Libro_colaborador object
+	 *
+	 * @param     Libro_colaborador $libro_colaborador  the related object to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    LibroQuery The current query, for fluid interface
+	 */
+	public function filterByLibro_colaborador($libro_colaborador, $comparison = null)
+	{
+		if ($libro_colaborador instanceof Libro_colaborador) {
+			return $this
+				->addUsingAlias(LibroPeer::ID, $libro_colaborador->getIdlibro(), $comparison);
+		} elseif ($libro_colaborador instanceof PropelCollection) {
+			return $this
+				->useLibro_colaboradorQuery()
+				->filterByPrimaryKeys($libro_colaborador->getPrimaryKeys())
+				->endUse();
+		} else {
+			throw new PropelException('filterByLibro_colaborador() only accepts arguments of type Libro_colaborador or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the Libro_colaborador relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    LibroQuery The current query, for fluid interface
+	 */
+	public function joinLibro_colaborador($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('Libro_colaborador');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'Libro_colaborador');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the Libro_colaborador relation Libro_colaborador object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    Libro_colaboradorQuery A secondary query class using the current class as primary query
+	 */
+	public function useLibro_colaboradorQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinLibro_colaborador($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Libro_colaborador', 'Libro_colaboradorQuery');
+	}
+
+	/**
+	 * Filter the query by a related Libro_version object
+	 *
+	 * @param     Libro_version $libro_version  the related object to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    LibroQuery The current query, for fluid interface
+	 */
+	public function filterByLibro_version($libro_version, $comparison = null)
+	{
+		if ($libro_version instanceof Libro_version) {
+			return $this
+				->addUsingAlias(LibroPeer::ID, $libro_version->getIdlibro(), $comparison);
+		} elseif ($libro_version instanceof PropelCollection) {
+			return $this
+				->useLibro_versionQuery()
+				->filterByPrimaryKeys($libro_version->getPrimaryKeys())
+				->endUse();
+		} else {
+			throw new PropelException('filterByLibro_version() only accepts arguments of type Libro_version or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the Libro_version relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    LibroQuery The current query, for fluid interface
+	 */
+	public function joinLibro_version($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('Libro_version');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'Libro_version');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the Libro_version relation Libro_version object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    Libro_versionQuery A secondary query class using the current class as primary query
+	 */
+	public function useLibro_versionQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinLibro_version($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Libro_version', 'Libro_versionQuery');
 	}
 
 	/**

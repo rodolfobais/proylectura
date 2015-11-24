@@ -40,12 +40,13 @@ class LibroTableMap extends TableMap
 		// columns
 		$this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
 		$this->addColumn('NOMBRE', 'Nombre', 'CHAR', true, 50, null);
-		$this->addColumn('FECHA', 'Fecha', 'DATE', true, null, null);
-		$this->addColumn('HASH', 'Hash', 'CHAR', true, 250, null);
-		$this->addColumn('ID_GENERO', 'Id_genero', 'INTEGER', true, null, null);
-		$this->addColumn('ID_AUTOR', 'Id_autor', 'INTEGER', true, null, null);
-		$this->addColumn('IMAGE', 'Image', 'CHAR', true, 255, null);
-		$this->addColumn('SINOPSIS', 'Sinopsis', 'CHAR', true, 255, null);
+		$this->addColumn('FECHA', 'Fecha', 'DATE', false, null, null);
+		$this->addColumn('HASH', 'Hash', 'CHAR', false, 250, null);
+		$this->addColumn('ID_GENERO', 'Id_genero', 'INTEGER', false, null, null);
+		$this->addColumn('ID_AUTOR', 'Id_autor', 'INTEGER', false, null, null);
+		$this->addColumn('IMAGE', 'Image', 'CHAR', false, 255, null);
+		$this->addColumn('SINOPSIS', 'Sinopsis', 'CHAR', false, 255, null);
+		$this->addColumn('TEXTO', 'Texto', 'BLOB', false, null, null);
 		// validators
 	} // initialize()
 
@@ -54,6 +55,8 @@ class LibroTableMap extends TableMap
 	 */
 	public function buildRelations()
 	{
+		$this->addRelation('Libro_colaborador', 'Libro_colaborador', RelationMap::ONE_TO_MANY, array('id' => 'idlibro', ), null, null, 'Libro_colaboradors');
+		$this->addRelation('Libro_version', 'Libro_version', RelationMap::ONE_TO_MANY, array('id' => 'idlibro', ), null, null, 'Libro_versions');
 	} // buildRelations()
 
 } // LibroTableMap

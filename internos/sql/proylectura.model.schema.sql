@@ -85,12 +85,13 @@ CREATE TABLE `libro`
 (
 	`id` INT(10) NOT NULL AUTO_INCREMENT,
 	`nombre` CHAR(50) NOT NULL,
-	`fecha` DATE NOT NULL,
-	`hash` CHAR(250) NOT NULL,
-	`id_genero` INT(10) NOT NULL,
-	`id_autor` INT(10) NOT NULL,
-	`image` CHAR(255) NOT NULL,
-	`sinopsis` CHAR(255) NOT NULL,
+	`fecha` DATE,
+	`hash` CHAR(250),
+	`id_genero` INT(10),
+	`id_autor` INT(10),
+	`image` CHAR(255),
+	`sinopsis` CHAR(255),
+	`texto` LONGBLOB,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
@@ -143,18 +144,49 @@ CREATE TABLE `lista_audiolibro`
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
--- reproducido
+-- libro_colaborador
 -- ---------------------------------------------------------------------
 
-DROP TABLE IF EXISTS `reproducido`;
+DROP TABLE IF EXISTS `libro_colaborador`;
 
-CREATE TABLE `reproducido`
+CREATE TABLE `libro_colaborador`
 (
 	`id` INT(10) NOT NULL AUTO_INCREMENT,
+	`idlibro` INT(10) NOT NULL,
+	`idusuario` INT(10) NOT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `FI_ro_colaborador_libro` (`idlibro`),
+	INDEX `FI_ro_colaborador_usuario` (`idusuario`),
+	CONSTRAINT `libro_colaborador_libro`
+		FOREIGN KEY (`idlibro`)
+		REFERENCES `libro` (`id`),
+	CONSTRAINT `libro_colaborador_usuario`
+		FOREIGN KEY (`idusuario`)
+		REFERENCES `usuario` (`id`)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- libro_version
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `libro_version`;
+
+CREATE TABLE `libro_version`
+(
+	`id` INT(10) NOT NULL AUTO_INCREMENT,
+	`idlibro` INT(10) NOT NULL,
 	`fecha` DATE NOT NULL,
-	`id_lista` INT(10) NOT NULL,
-	`id_usuario` INT(10) NOT NULL,
-	PRIMARY KEY (`id`)
+	`hora` CHAR(8) NOT NULL,
+	`idusuario` INT(10) NOT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `FI_ro_version_libro` (`idlibro`),
+	INDEX `FI_ro_version_usuario` (`idusuario`),
+	CONSTRAINT `libro_version_libro`
+		FOREIGN KEY (`idlibro`)
+		REFERENCES `libro` (`id`),
+	CONSTRAINT `libro_version_usuario`
+		FOREIGN KEY (`idusuario`)
+		REFERENCES `usuario` (`id`)
 ) ENGINE=InnoDB;
 
 # This restores the fkey checks, after having unset them earlier

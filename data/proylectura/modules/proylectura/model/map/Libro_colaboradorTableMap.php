@@ -3,7 +3,7 @@
 
 
 /**
- * This class defines the structure of the 'usuario' table.
+ * This class defines the structure of the 'libro_colaborador' table.
  *
  *
  *
@@ -14,13 +14,13 @@
  *
  * @package    propel.generator.proylectura.model.map
  */
-class UsuarioTableMap extends TableMap
+class Libro_colaboradorTableMap extends TableMap
 {
 
 	/**
 	 * The (dot-path) name of this class
 	 */
-	const CLASS_NAME = 'proylectura.model.map.UsuarioTableMap';
+	const CLASS_NAME = 'proylectura.model.map.Libro_colaboradorTableMap';
 
 	/**
 	 * Initialize the table attributes, columns and validators
@@ -32,18 +32,15 @@ class UsuarioTableMap extends TableMap
 	public function initialize()
 	{
 		// attributes
-		$this->setName('usuario');
-		$this->setPhpName('Usuario');
-		$this->setClassname('Usuario');
+		$this->setName('libro_colaborador');
+		$this->setPhpName('Libro_colaborador');
+		$this->setClassname('Libro_colaborador');
 		$this->setPackage('proylectura.model');
 		$this->setUseIdGenerator(true);
 		// columns
 		$this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
-		$this->addColumn('NICK', 'Nick', 'CHAR', true, 50, null);
-		$this->addColumn('NOMBRE', 'Nombre', 'CHAR', true, 50, null);
-		$this->addColumn('MAIL', 'mail', 'CHAR', true, 100, null);
-		$this->addColumn('PASSWORD', 'Password', 'CHAR', true, 255, null);
-		$this->addColumn('ADMIN', 'Admin', 'INTEGER', true, null, null);
+		$this->addForeignKey('IDLIBRO', 'Idlibro', 'INTEGER', 'libro', 'ID', true, null, null);
+		$this->addForeignKey('IDUSUARIO', 'Idusuario', 'INTEGER', 'usuario', 'ID', true, null, null);
 		// validators
 	} // initialize()
 
@@ -52,8 +49,8 @@ class UsuarioTableMap extends TableMap
 	 */
 	public function buildRelations()
 	{
-		$this->addRelation('Libro_colaborador', 'Libro_colaborador', RelationMap::ONE_TO_MANY, array('id' => 'idusuario', ), null, null, 'Libro_colaboradors');
-		$this->addRelation('Libro_version', 'Libro_version', RelationMap::ONE_TO_MANY, array('id' => 'idusuario', ), null, null, 'Libro_versions');
+		$this->addRelation('Libro', 'Libro', RelationMap::MANY_TO_ONE, array('idlibro' => 'id', ), null, null);
+		$this->addRelation('Usuario', 'Usuario', RelationMap::MANY_TO_ONE, array('idusuario' => 'id', ), null, null);
 	} // buildRelations()
 
-} // UsuarioTableMap
+} // Libro_colaboradorTableMap
