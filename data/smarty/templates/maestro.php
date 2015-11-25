@@ -75,6 +75,7 @@
         <script src="{$PROJECT_REL_DIR}/dist/jsSubo la ultima version de la base/demo.js"></script>
         <script src="{$PROJECT_REL_DIR}/js/usuarios.js"></script>
         <script src="{$PROJECT_REL_DIR}/js/editor.js"></script>
+        <script src="{$PROJECT_REL_DIR}/js/revision_de_modificaciones.js"></script>
         <script type="text/javascript">
             $( document ).ready(function() {
                 refreshDivs('cuerpocentro','data/smarty/templates/home.php');
