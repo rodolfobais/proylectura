@@ -42,7 +42,15 @@ function guardarlibro(){
         success: function(data){
                 //alert(data.msg);
                 $("#idlibro").val(data.idlibro);
+                mostrarEtiquetaGuardado()
                 proces = 0;
         }
    });
+}
+
+function mostrarEtiquetaGuardado(){
+    $("#etiquetaGuardado").show("slow");
+    setTimeout(function(){ 
+        $("#etiquetaGuardado").hide("slow"); }
+    , 5000);
 }

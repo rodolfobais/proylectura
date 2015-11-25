@@ -200,7 +200,7 @@ CREATE TABLE `mensaje`
 	`id` INT(10) NOT NULL AUTO_INCREMENT,
 	`id_usuario_destinatario` INT(10) NOT NULL,
 	`id_usuario_remitente` INT(10) NOT NULL,
-	`mensaje` CHAR(800) NOT NULL,
+	`mensaje` CHAR(255) NOT NULL,
 	PRIMARY KEY (`id`),
 	INDEX `FI_saje_usuario_detinatario` (`id_usuario_destinatario`),
 	INDEX `FI_saje_usuario_remitente` (`id_usuario_remitente`),

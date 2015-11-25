@@ -40,7 +40,12 @@ if(array_key_exists("id", $_GET)){
             <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
-        
+        <style>
+            #etiquetaGuardado{
+                color: green;
+                display: none;
+            }
+        </style>
     </head>
     <body>
         <!---start-wrap---->
@@ -62,7 +67,7 @@ if(array_key_exists("id", $_GET)){
                         <input type="hidden" id="idlibro" value="<?=$idlibro?>"/>
                         <textarea id="editor1" name="editor1" rows="10" cols="80"><?=$texto?></textarea>
                     </form>
-                    <button class="btn btn-block btn-default" onclick="guardarversion()">Guardar</button>
+                    <button class="btn btn-block btn-default" onclick="guardarversion()">Guardar&nbsp;<span id="etiquetaGuardado">(Guardado correctamente)</span></button>
                 </div>
               </div>
             <div class="clear"> </div>

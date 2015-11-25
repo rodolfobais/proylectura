@@ -46,7 +46,7 @@ switch ($datos->acc) {
         $libroVersion->setIdusuario($_SESSION['userid']);
         $libroVersion->save();
         
-        file_put_contents(SITE_PATH."/libros_version/libro_".$idLibro."_".$libroVersion->getId().".txt", $datos->texto);
+        file_put_contents(SITE_PATH."/libros_version/libro_".$idLibro."_".$libroVersion->getId().".txt",  base64_decode($datos->texto));
         echo json_encode(array('msg' => "Libro guardado correctamente", 'idlibro' => $idLibro));
     break;
 }
