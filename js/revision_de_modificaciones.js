@@ -31,7 +31,7 @@ function comparar(){
             dataType: 'json',
             url: 'pages/layout/revision_de_modificaciones_data.php',
             success: function(data){
-                    $("#listado").html(data.html);
+                    $("#comparacion").html(data.resultado);
             }
        });
     }

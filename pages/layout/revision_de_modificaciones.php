@@ -79,6 +79,7 @@ foreach ($versiones as $reg) {
                         </table>
                     </div>
                 </div>
+                <span id="comparacion">asdasdasd</span>
             </div>	
         </div>
         <div class="clear"> </div>
