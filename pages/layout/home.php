@@ -4,7 +4,7 @@
  ini_set("display_errors", 1); 
  include_once("../../data/config.php"); 
   
- $libros = LibroQuery::create()->find(); 
+ $libros = LibroQuery::create()->limit(5)->find(); 
   
  $listaLibros = ""; 
  foreach ($libros as $reg) { 
@@ -15,7 +15,7 @@
  //$sliderItem->getLibro()->getImage();
  //$sliderItem->getLibro()->getNombre();
  //Armo los slider
- $categoriasSlider = Slider_categQuery::create()->limit(3)->find();
+ $categoriasSlider = Slider_categQuery::create()->limit(4)->find();
  $sliders = "";
  foreach ($categoriasSlider as $categ) {
      $sliderMae = Slider_maeQuery::create()->filterById_categoria($categ->getId())->find();
@@ -60,7 +60,7 @@
         $pos++;
         $sliders .= '                <div class="item'.$active.'">
                                         <img style="max-height:300px" src="'.PROJECT_REL_DIR.'/imagen/'.$sliderItem->getLibro()->getImage().'" alt="'.$sliderItem->getLibro()->getNombre().'">
-                                        <div class="carousel-caption">'.$sliderItem->getLibro()->getNombre().'</div>
+                                        <div class="carousel-caption"><b>'.$sliderItem->getLibro()->getNombre().'</b></div>
                                     </div>
                             ';
     }
@@ -131,16 +131,16 @@
             <!--End-image-slider---->
             <!---start-content---->
             <div class="content">
-                <div class="section group">
+                <div class="row">
                     <?php echo $sliders; ?>
                 </div>
-                <div class="section group">
+                <div class="row">
                     <div class="col-md-3">
-                        <div class="box box-warning">
+                        <div class="box box-default box-solid">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Mi biblioteca</h3>
                                     <div class="box-tools pull-right">
-                                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                        <button data-widget="collapse" class="btn btn-box-tool"><i class="fa fa-minus"></i></button>
                                     </div><!-- /.box-tools -->
                             </div><!-- /.box-header -->
                             <div class="box-body">
@@ -152,11 +152,11 @@
                     </div>
                     
                     <div class="col-md-3">
-                        <div class="box box-warning">
+                        <div class="box box-default box-solid">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Notificaciones</h3>
                                     <div class="box-tools pull-right">
-                                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                        <button data-widget="collapse" class="btn btn-box-tool"><i class="fa fa-minus"></i></button>
                                     </div><!-- /.box-tools -->
                             </div><!-- /.box-header -->
                             <div class="box-body">
@@ -166,19 +166,17 @@
                                   <li>Integer molestie lorem at massa</li>
                                   <li>Facilisis in pretium nisl aliquet</li>
                                   <li>Faucibus porta lacus fringilla vel</li>
-                                  <li>Aenean sit amet erat nunc</li>
-                                  <li>Eget porttitor lorem</li>
                                 </ul>
                               </div>
                         </div>
                     </div>
                     
                    <div class="col-md-3">
-                        <div class="box box-warning">
+                        <div class="box box-default box-solid">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Clasificados</h3>
                                     <div class="box-tools pull-right">
-                                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                        <button data-widget="collapse" class="btn btn-box-tool"><i class="fa fa-minus"></i></button>
                                     </div><!-- /.box-tools -->
                             </div><!-- /.box-header -->
                             <div class="box-body">
@@ -188,8 +186,6 @@
                                   <li>Integer molestie lorem at massa</li>
                                   <li>Facilisis in pretium nisl aliquet</li>
                                   <li>Faucibus porta lacus fringilla vel</li>
-                                  <li>Aenean sit amet erat nunc</li>
-                                  <li>Eget porttitor lorem</li>
                                 </ul>
                               </div>
                         </div>
