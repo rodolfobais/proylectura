@@ -57,6 +57,7 @@ class LibroTableMap extends TableMap
 	{
 		$this->addRelation('Libro_colaborador', 'Libro_colaborador', RelationMap::ONE_TO_MANY, array('id' => 'idlibro', ), null, null, 'Libro_colaboradors');
 		$this->addRelation('Libro_version', 'Libro_version', RelationMap::ONE_TO_MANY, array('id' => 'idlibro', ), null, null, 'Libro_versions');
+		$this->addRelation('Slider_mae', 'Slider_mae', RelationMap::ONE_TO_MANY, array('id' => 'id_libro', ), null, null, 'Slider_maes');
 	} // buildRelations()
 
 } // LibroTableMap

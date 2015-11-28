@@ -200,7 +200,7 @@ CREATE TABLE `mensaje`
 	`id` INT(10) NOT NULL AUTO_INCREMENT,
 	`id_usuario_destinatario` INT(10) NOT NULL,
 	`id_usuario_remitente` INT(10) NOT NULL,
-	`mensaje` CHAR(255) NOT NULL,
+	`mensaje` CHAR(800) NOT NULL,
 	PRIMARY KEY (`id`),
 	INDEX `FI_saje_usuario_detinatario` (`id_usuario_destinatario`),
 	INDEX `FI_saje_usuario_remitente` (`id_usuario_remitente`),
@@ -253,6 +253,42 @@ CREATE TABLE `solicitud`
 	CONSTRAINT `solicitud_usuario_solicitante`
 		FOREIGN KEY (`id_usuario_solicitante`)
 		REFERENCES `usuario` (`id`)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- slider_categ
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `slider_categ`;
+
+CREATE TABLE `slider_categ`
+(
+	`id` INT(10) NOT NULL AUTO_INCREMENT,
+	`descrp` CHAR(50) NOT NULL,
+	PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- slider_mae
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `slider_mae`;
+
+CREATE TABLE `slider_mae`
+(
+	`id` INT(10) NOT NULL AUTO_INCREMENT,
+	`id_libro` INT(10) NOT NULL,
+	`posicion` INT(10) NOT NULL,
+	`id_categoria` INT(10) NOT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `FI_der_mae_libro` (`id_libro`),
+	INDEX `FI_der_mae_categoria` (`id_categoria`),
+	CONSTRAINT `slider_mae_libro`
+		FOREIGN KEY (`id_libro`)
+		REFERENCES `libro` (`id`),
+	CONSTRAINT `slider_mae_categoria`
+		FOREIGN KEY (`id_categoria`)
+		REFERENCES `slider_categ` (`id`)
 ) ENGINE=InnoDB;
 
 # This restores the fkey checks, after having unset them earlier

@@ -1,0 +1,3 @@
+function iniciarcarousel(){
+    $('.carousel').carousel();
+}

@@ -2,7 +2,7 @@
  //die; 
  error_reporting(E_ALL); 
  ini_set("display_errors", 1); 
- include_once("../../../data/config.php"); 
+ include_once("../../data/config.php"); 
   
  $libros = LibroQuery::create()->find(); 
   
@@ -10,7 +10,73 @@
  foreach ($libros as $reg) { 
      $listaLibros .= "<li>".$reg->getNombre()."</li>"; 
  } 
- ?> 
+ 
+ //$sliderItem = Slider_maeQuery::create()->findOneById(1);
+ //$sliderItem->getLibro()->getImage();
+ //$sliderItem->getLibro()->getNombre();
+ //Armo los slider
+ $categoriasSlider = Slider_categQuery::create()->limit(3)->find();
+ $sliders = "";
+ foreach ($categoriasSlider as $categ) {
+     $sliderMae = Slider_maeQuery::create()->filterById_categoria($categ->getId())->find();
+     $sliders .= '<div class="col-md-3">
+                    <div class="box box-solid">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">'.$categ->getDescrp().'</h3>
+                        </div>
+                        <div class="box-body">
+                            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                                <ol class="carousel-indicators">
+                    ';
+    /*
+    $sliders = '                    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                                    <li data-target="#carousel-example-generic" data-slide-to="1" class=""></li>
+                                    <li data-target="#carousel-example-generic" data-slide-to="2" class=""></li>';*/
+    $pos=0; $active = ' class="active"';
+    foreach ($sliderMae as $sliderItem) {
+        if($pos != 0){$active = "";}
+        $sliders .= '              <li data-target="#carousel-example-generic" data-slide-to="'.$pos++.'" '.$active.'></li>
+                            ';
+     }
+    $sliders .= '                </ol>
+                                <div class="carousel-inner">
+                            ';
+    /*
+    $sliders .= '                    <div class="item active">
+                                        <img src="http://placehold.it/900x500/39CCCC/ffffff&text=I+Love+Bootstrap" alt="First slide">
+                                        <div class="carousel-caption">First Slide</div>
+                                    </div>
+                                    <div class="item">
+                                        <img src="http://placehold.it/900x500/3c8dbc/ffffff&text=I+Love+Bootstrap" alt="Second slide">
+                                        <div class="carousel-caption">Second Slide</div>
+                                    </div>
+                                    <div class="item">
+                                        <img src="http://placehold.it/900x500/f39c12/ffffff&text=I+Love+Bootstrap" alt="Third slide">
+                                        <div class="carousel-caption">Third Slide</div>
+                                    </div>';*/
+    $pos=0; $active = ' active';
+    foreach ($sliderMae as $sliderItem) {
+        if($pos != 0){$active = "";}
+        $pos++;
+        $sliders .= '                <div class="item'.$active.'">
+                                        <img style="max-height:300px" src="'.PROJECT_REL_DIR.'/imagen/'.$sliderItem->getLibro()->getImage().'" alt="'.$sliderItem->getLibro()->getNombre().'">
+                                        <div class="carousel-caption">'.$sliderItem->getLibro()->getNombre().'</div>
+                                    </div>
+                            ';
+    }
+    $sliders .= '                </div>
+                                <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                                    <span class="fa fa-angle-left"></span>
+                                </a>
+                                <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                                    <span class="fa fa-angle-right"></span>
+                                </a>
+                            </div>
+                        </div><!-- /.box-body -->
+                    </div><!-- /.box -->
+                </div>';
+}
+?> 
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -42,9 +108,8 @@
 	    // You can also use "$(window).load(function() {"
                 $(function () {
 		      // Slideshow 1
-                    $("#slider1").responsiveSlides({
-                        maxwidth: 1600, speed: 600
-                    });
+                    //$("#slider1").responsiveSlides({maxwidth: 1600, speed: 600});
+                    $('.carousel').carousel();
 		});
                 function mostrar(){
                     document.getElementById("boton").style.display = "none"; 
@@ -63,15 +128,12 @@
         <!---end-header---->
         <!--start-image-slider---->
         <div class="wrap">
-            <div class="image-slider">
-                <ul class="rslides" id="slider1">
-                    <?php echo $slider; ?>
-                </ul>		    		    
-                <!-- Slideshow 2 -->
-            </div>
             <!--End-image-slider---->
             <!---start-content---->
             <div class="content">
+                <div class="section group">
+                    <?php echo $sliders; ?>
+                </div>
                 <div class="section group">
                     <div class="col-md-3">
                         <div class="box box-warning">
@@ -132,7 +194,7 @@
                               </div>
                         </div>
                     </div>
-                </div>			
+                </div>
             </div>
             <!---End-content---->
             <div class="clear"> </div>

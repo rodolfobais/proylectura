@@ -38,6 +38,10 @@
  * @method     LibroQuery rightJoinLibro_version($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Libro_version relation
  * @method     LibroQuery innerJoinLibro_version($relationAlias = null) Adds a INNER JOIN clause to the query using the Libro_version relation
  *
+ * @method     LibroQuery leftJoinSlider_mae($relationAlias = null) Adds a LEFT JOIN clause to the query using the Slider_mae relation
+ * @method     LibroQuery rightJoinSlider_mae($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Slider_mae relation
+ * @method     LibroQuery innerJoinSlider_mae($relationAlias = null) Adds a INNER JOIN clause to the query using the Slider_mae relation
+ *
  * @method     Libro findOne(PropelPDO $con = null) Return the first Libro matching the query
  * @method     Libro findOneOrCreate(PropelPDO $con = null) Return the first Libro matching the query, or a new Libro object populated from the query conditions when no match is found
  *
@@ -650,6 +654,79 @@ abstract class BaseLibroQuery extends ModelCriteria
 		return $this
 			->joinLibro_version($relationAlias, $joinType)
 			->useQuery($relationAlias ? $relationAlias : 'Libro_version', 'Libro_versionQuery');
+	}
+
+	/**
+	 * Filter the query by a related Slider_mae object
+	 *
+	 * @param     Slider_mae $slider_mae  the related object to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    LibroQuery The current query, for fluid interface
+	 */
+	public function filterBySlider_mae($slider_mae, $comparison = null)
+	{
+		if ($slider_mae instanceof Slider_mae) {
+			return $this
+				->addUsingAlias(LibroPeer::ID, $slider_mae->getId_libro(), $comparison);
+		} elseif ($slider_mae instanceof PropelCollection) {
+			return $this
+				->useSlider_maeQuery()
+				->filterByPrimaryKeys($slider_mae->getPrimaryKeys())
+				->endUse();
+		} else {
+			throw new PropelException('filterBySlider_mae() only accepts arguments of type Slider_mae or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the Slider_mae relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    LibroQuery The current query, for fluid interface
+	 */
+	public function joinSlider_mae($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('Slider_mae');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'Slider_mae');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the Slider_mae relation Slider_mae object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    Slider_maeQuery A secondary query class using the current class as primary query
+	 */
+	public function useSlider_maeQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinSlider_mae($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Slider_mae', 'Slider_maeQuery');
 	}
 
 	/**

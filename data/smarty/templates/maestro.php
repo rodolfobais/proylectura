@@ -76,9 +76,11 @@
         <script src="{$PROJECT_REL_DIR}/js/usuarios.js"></script>
         <script src="{$PROJECT_REL_DIR}/js/editor.js"></script>
         <script src="{$PROJECT_REL_DIR}/js/revision_de_modificaciones.js"></script>
+        <script src="{$PROJECT_REL_DIR}/js/home.js"></script>
         <script type="text/javascript">
             $( document ).ready(function() {
-                refreshDivs('cuerpocentro','data/smarty/templates/home.php');
+                refreshDivs('cuerpocentro','pages/layout/home.php');
+                iniciarcarousel();
             });
             
         </script>

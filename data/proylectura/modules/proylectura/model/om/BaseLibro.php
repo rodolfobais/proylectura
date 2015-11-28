@@ -95,6 +95,11 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	protected $collLibro_versions;
 
 	/**
+	 * @var        array Slider_mae[] Collection to store aggregation of Slider_mae objects.
+	 */
+	protected $collSlider_maes;
+
+	/**
 	 * Flag to prevent endless save loop, if this object is referenced
 	 * by another object which falls in this transaction.
 	 * @var        boolean
@@ -119,6 +124,12 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	 * @var		array
 	 */
 	protected $libro_versionsScheduledForDeletion = null;
+
+	/**
+	 * An array of objects scheduled for deletion.
+	 * @var		array
+	 */
+	protected $slider_maesScheduledForDeletion = null;
 
 	/**
 	 * Get the [id] column value.
@@ -544,6 +555,8 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 
 			$this->collLibro_versions = null;
 
+			$this->collSlider_maes = null;
+
 		} // if (deep)
 	}
 
@@ -698,6 +711,23 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 
 			if ($this->collLibro_versions !== null) {
 				foreach ($this->collLibro_versions as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->slider_maesScheduledForDeletion !== null) {
+				if (!$this->slider_maesScheduledForDeletion->isEmpty()) {
+		Slider_maeQuery::create()
+						->filterByPrimaryKeys($this->slider_maesScheduledForDeletion->getPrimaryKeys(false))
+						->delete($con);
+					$this->slider_maesScheduledForDeletion = null;
+				}
+			}
+
+			if ($this->collSlider_maes !== null) {
+				foreach ($this->collSlider_maes as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -910,6 +940,14 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 					}
 				}
 
+				if ($this->collSlider_maes !== null) {
+					foreach ($this->collSlider_maes as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
 
 			$this->alreadyInValidation = false;
 		}
@@ -1015,6 +1053,9 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			}
 			if (null !== $this->collLibro_versions) {
 				$result['Libro_versions'] = $this->collLibro_versions->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			}
+			if (null !== $this->collSlider_maes) {
+				$result['Slider_maes'] = $this->collSlider_maes->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
 			}
 		}
 		return $result;
@@ -1217,6 +1258,12 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 				}
 			}
 
+			foreach ($this->getSlider_maes() as $relObj) {
+				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addSlider_mae($relObj->copy($deepCopy));
+				}
+			}
+
 			//unflag object copy
 			$this->startCopy = false;
 		} // if ($deepCopy)
@@ -1281,6 +1328,9 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 		}
 		if ('Libro_version' == $relationName) {
 			return $this->initLibro_versions();
+		}
+		if ('Slider_mae' == $relationName) {
+			return $this->initSlider_maes();
 		}
 	}
 
@@ -1631,6 +1681,179 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	}
 
 	/**
+	 * Clears out the collSlider_maes collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addSlider_maes()
+	 */
+	public function clearSlider_maes()
+	{
+		$this->collSlider_maes = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collSlider_maes collection.
+	 *
+	 * By default this just sets the collSlider_maes collection to an empty array (like clearcollSlider_maes());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @param      boolean $overrideExisting If set to true, the method call initializes
+	 *                                        the collection even if it is not empty
+	 *
+	 * @return     void
+	 */
+	public function initSlider_maes($overrideExisting = true)
+	{
+		if (null !== $this->collSlider_maes && !$overrideExisting) {
+			return;
+		}
+		$this->collSlider_maes = new PropelObjectCollection();
+		$this->collSlider_maes->setModel('Slider_mae');
+	}
+
+	/**
+	 * Gets an array of Slider_mae objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this Libro is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array Slider_mae[] List of Slider_mae objects
+	 * @throws     PropelException
+	 */
+	public function getSlider_maes($criteria = null, PropelPDO $con = null)
+	{
+		if(null === $this->collSlider_maes || null !== $criteria) {
+			if ($this->isNew() && null === $this->collSlider_maes) {
+				// return empty collection
+				$this->initSlider_maes();
+			} else {
+				$collSlider_maes = Slider_maeQuery::create(null, $criteria)
+					->filterByLibro($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collSlider_maes;
+				}
+				$this->collSlider_maes = $collSlider_maes;
+			}
+		}
+		return $this->collSlider_maes;
+	}
+
+	/**
+	 * Sets a collection of Slider_mae objects related by a one-to-many relationship
+	 * to the current object.
+	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+	 * and new objects from the given Propel collection.
+	 *
+	 * @param      PropelCollection $slider_maes A Propel collection.
+	 * @param      PropelPDO $con Optional connection object
+	 */
+	public function setSlider_maes(PropelCollection $slider_maes, PropelPDO $con = null)
+	{
+		$this->slider_maesScheduledForDeletion = $this->getSlider_maes(new Criteria(), $con)->diff($slider_maes);
+
+		foreach ($slider_maes as $slider_mae) {
+			// Fix issue with collection modified by reference
+			if ($slider_mae->isNew()) {
+				$slider_mae->setLibro($this);
+			}
+			$this->addSlider_mae($slider_mae);
+		}
+
+		$this->collSlider_maes = $slider_maes;
+	}
+
+	/**
+	 * Returns the number of related Slider_mae objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related Slider_mae objects.
+	 * @throws     PropelException
+	 */
+	public function countSlider_maes(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collSlider_maes || null !== $criteria) {
+			if ($this->isNew() && null === $this->collSlider_maes) {
+				return 0;
+			} else {
+				$query = Slider_maeQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterByLibro($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collSlider_maes);
+		}
+	}
+
+	/**
+	 * Method called to associate a Slider_mae object to this object
+	 * through the Slider_mae foreign key attribute.
+	 *
+	 * @param      Slider_mae $l Slider_mae
+	 * @return     Libro The current object (for fluent API support)
+	 */
+	public function addSlider_mae(Slider_mae $l)
+	{
+		if ($this->collSlider_maes === null) {
+			$this->initSlider_maes();
+		}
+		if (!$this->collSlider_maes->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddSlider_mae($l);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param	Slider_mae $slider_mae The slider_mae object to add.
+	 */
+	protected function doAddSlider_mae($slider_mae)
+	{
+		$this->collSlider_maes[]= $slider_mae;
+		$slider_mae->setLibro($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Libro is new, it will return
+	 * an empty collection; or if this Libro has previously
+	 * been saved, it will retrieve related Slider_maes from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Libro.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return     PropelCollection|array Slider_mae[] List of Slider_mae objects
+	 */
+	public function getSlider_maesJoinSlider_categ($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$query = Slider_maeQuery::create(null, $criteria);
+		$query->joinWith('Slider_categ', $join_behavior);
+
+		return $this->getSlider_maes($query, $con);
+	}
+
+	/**
 	 * Clears the current object and sets all attributes to their default values
 	 */
 	public function clear()
@@ -1674,6 +1897,11 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 					$o->clearAllReferences($deep);
 				}
 			}
+			if ($this->collSlider_maes) {
+				foreach ($this->collSlider_maes as $o) {
+					$o->clearAllReferences($deep);
+				}
+			}
 		} // if ($deep)
 
 		if ($this->collLibro_colaboradors instanceof PropelCollection) {
@@ -1684,6 +1912,10 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			$this->collLibro_versions->clearIterator();
 		}
 		$this->collLibro_versions = null;
+		if ($this->collSlider_maes instanceof PropelCollection) {
+			$this->collSlider_maes->clearIterator();
+		}
+		$this->collSlider_maes = null;
 	}
 
 	/**
