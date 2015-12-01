@@ -42,6 +42,14 @@
  * @method     LibroQuery rightJoinSlider_mae($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Slider_mae relation
  * @method     LibroQuery innerJoinSlider_mae($relationAlias = null) Adds a INNER JOIN clause to the query using the Slider_mae relation
  *
+ * @method     LibroQuery leftJoinPostulantes($relationAlias = null) Adds a LEFT JOIN clause to the query using the Postulantes relation
+ * @method     LibroQuery rightJoinPostulantes($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Postulantes relation
+ * @method     LibroQuery innerJoinPostulantes($relationAlias = null) Adds a INNER JOIN clause to the query using the Postulantes relation
+ *
+ * @method     LibroQuery leftJoinClasificados($relationAlias = null) Adds a LEFT JOIN clause to the query using the Clasificados relation
+ * @method     LibroQuery rightJoinClasificados($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Clasificados relation
+ * @method     LibroQuery innerJoinClasificados($relationAlias = null) Adds a INNER JOIN clause to the query using the Clasificados relation
+ *
  * @method     Libro findOne(PropelPDO $con = null) Return the first Libro matching the query
  * @method     Libro findOneOrCreate(PropelPDO $con = null) Return the first Libro matching the query, or a new Libro object populated from the query conditions when no match is found
  *
@@ -727,6 +735,152 @@ abstract class BaseLibroQuery extends ModelCriteria
 		return $this
 			->joinSlider_mae($relationAlias, $joinType)
 			->useQuery($relationAlias ? $relationAlias : 'Slider_mae', 'Slider_maeQuery');
+	}
+
+	/**
+	 * Filter the query by a related Postulantes object
+	 *
+	 * @param     Postulantes $postulantes  the related object to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    LibroQuery The current query, for fluid interface
+	 */
+	public function filterByPostulantes($postulantes, $comparison = null)
+	{
+		if ($postulantes instanceof Postulantes) {
+			return $this
+				->addUsingAlias(LibroPeer::ID, $postulantes->getId_libro(), $comparison);
+		} elseif ($postulantes instanceof PropelCollection) {
+			return $this
+				->usePostulantesQuery()
+				->filterByPrimaryKeys($postulantes->getPrimaryKeys())
+				->endUse();
+		} else {
+			throw new PropelException('filterByPostulantes() only accepts arguments of type Postulantes or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the Postulantes relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    LibroQuery The current query, for fluid interface
+	 */
+	public function joinPostulantes($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('Postulantes');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'Postulantes');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the Postulantes relation Postulantes object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    PostulantesQuery A secondary query class using the current class as primary query
+	 */
+	public function usePostulantesQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinPostulantes($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Postulantes', 'PostulantesQuery');
+	}
+
+	/**
+	 * Filter the query by a related Clasificados object
+	 *
+	 * @param     Clasificados $clasificados  the related object to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    LibroQuery The current query, for fluid interface
+	 */
+	public function filterByClasificados($clasificados, $comparison = null)
+	{
+		if ($clasificados instanceof Clasificados) {
+			return $this
+				->addUsingAlias(LibroPeer::ID, $clasificados->getId_libro(), $comparison);
+		} elseif ($clasificados instanceof PropelCollection) {
+			return $this
+				->useClasificadosQuery()
+				->filterByPrimaryKeys($clasificados->getPrimaryKeys())
+				->endUse();
+		} else {
+			throw new PropelException('filterByClasificados() only accepts arguments of type Clasificados or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the Clasificados relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    LibroQuery The current query, for fluid interface
+	 */
+	public function joinClasificados($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('Clasificados');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'Clasificados');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the Clasificados relation Clasificados object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    ClasificadosQuery A secondary query class using the current class as primary query
+	 */
+	public function useClasificadosQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinClasificados($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Clasificados', 'ClasificadosQuery');
 	}
 
 	/**

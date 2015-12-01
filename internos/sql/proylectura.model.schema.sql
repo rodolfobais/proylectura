@@ -291,5 +291,47 @@ CREATE TABLE `slider_mae`
 		REFERENCES `slider_categ` (`id`)
 ) ENGINE=InnoDB;
 
+-- ---------------------------------------------------------------------
+-- postulantes
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `postulantes`;
+
+CREATE TABLE `postulantes`
+(
+	`id` INT(10) NOT NULL AUTO_INCREMENT,
+	`id_libro` INT(10) NOT NULL,
+	`id_postulante` INT(10) NOT NULL,
+	`estado` INT(10) NOT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `FI_tulantes_libro` (`id_libro`),
+	INDEX `FI_tulante_usuario` (`id_postulante`),
+	CONSTRAINT `postulantes_libro`
+		FOREIGN KEY (`id_libro`)
+		REFERENCES `libro` (`id`),
+	CONSTRAINT `postulante_usuario`
+		FOREIGN KEY (`id_postulante`)
+		REFERENCES `usuario` (`id`)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- clasificados
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `clasificados`;
+
+CREATE TABLE `clasificados`
+(
+	`id` INT(10) NOT NULL AUTO_INCREMENT,
+	`id_libro` INT(10) NOT NULL,
+	`texto_corto` CHAR(100) NOT NULL,
+	`texto_largo` CHAR(250) NOT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `FI_sificados_libro` (`id_libro`),
+	CONSTRAINT `clasificados_libro`
+		FOREIGN KEY (`id_libro`)
+		REFERENCES `libro` (`id`)
+) ENGINE=InnoDB;
+
 # This restores the fkey checks, after having unset them earlier
 SET FOREIGN_KEY_CHECKS = 1;

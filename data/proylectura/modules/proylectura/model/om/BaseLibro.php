@@ -100,6 +100,16 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	protected $collSlider_maes;
 
 	/**
+	 * @var        array Postulantes[] Collection to store aggregation of Postulantes objects.
+	 */
+	protected $collPostulantess;
+
+	/**
+	 * @var        array Clasificados[] Collection to store aggregation of Clasificados objects.
+	 */
+	protected $collClasificadoss;
+
+	/**
 	 * Flag to prevent endless save loop, if this object is referenced
 	 * by another object which falls in this transaction.
 	 * @var        boolean
@@ -130,6 +140,18 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	 * @var		array
 	 */
 	protected $slider_maesScheduledForDeletion = null;
+
+	/**
+	 * An array of objects scheduled for deletion.
+	 * @var		array
+	 */
+	protected $postulantessScheduledForDeletion = null;
+
+	/**
+	 * An array of objects scheduled for deletion.
+	 * @var		array
+	 */
+	protected $clasificadossScheduledForDeletion = null;
 
 	/**
 	 * Get the [id] column value.
@@ -557,6 +579,10 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 
 			$this->collSlider_maes = null;
 
+			$this->collPostulantess = null;
+
+			$this->collClasificadoss = null;
+
 		} // if (deep)
 	}
 
@@ -728,6 +754,40 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 
 			if ($this->collSlider_maes !== null) {
 				foreach ($this->collSlider_maes as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->postulantessScheduledForDeletion !== null) {
+				if (!$this->postulantessScheduledForDeletion->isEmpty()) {
+		PostulantesQuery::create()
+						->filterByPrimaryKeys($this->postulantessScheduledForDeletion->getPrimaryKeys(false))
+						->delete($con);
+					$this->postulantessScheduledForDeletion = null;
+				}
+			}
+
+			if ($this->collPostulantess !== null) {
+				foreach ($this->collPostulantess as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->clasificadossScheduledForDeletion !== null) {
+				if (!$this->clasificadossScheduledForDeletion->isEmpty()) {
+		ClasificadosQuery::create()
+						->filterByPrimaryKeys($this->clasificadossScheduledForDeletion->getPrimaryKeys(false))
+						->delete($con);
+					$this->clasificadossScheduledForDeletion = null;
+				}
+			}
+
+			if ($this->collClasificadoss !== null) {
+				foreach ($this->collClasificadoss as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -948,6 +1008,22 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 					}
 				}
 
+				if ($this->collPostulantess !== null) {
+					foreach ($this->collPostulantess as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collClasificadoss !== null) {
+					foreach ($this->collClasificadoss as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
 
 			$this->alreadyInValidation = false;
 		}
@@ -1056,6 +1132,12 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			}
 			if (null !== $this->collSlider_maes) {
 				$result['Slider_maes'] = $this->collSlider_maes->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			}
+			if (null !== $this->collPostulantess) {
+				$result['Postulantess'] = $this->collPostulantess->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			}
+			if (null !== $this->collClasificadoss) {
+				$result['Clasificadoss'] = $this->collClasificadoss->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
 			}
 		}
 		return $result;
@@ -1264,6 +1346,18 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 				}
 			}
 
+			foreach ($this->getPostulantess() as $relObj) {
+				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addPostulantes($relObj->copy($deepCopy));
+				}
+			}
+
+			foreach ($this->getClasificadoss() as $relObj) {
+				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addClasificados($relObj->copy($deepCopy));
+				}
+			}
+
 			//unflag object copy
 			$this->startCopy = false;
 		} // if ($deepCopy)
@@ -1331,6 +1425,12 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 		}
 		if ('Slider_mae' == $relationName) {
 			return $this->initSlider_maes();
+		}
+		if ('Postulantes' == $relationName) {
+			return $this->initPostulantess();
+		}
+		if ('Clasificados' == $relationName) {
+			return $this->initClasificadoss();
 		}
 	}
 
@@ -1854,6 +1954,327 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	}
 
 	/**
+	 * Clears out the collPostulantess collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addPostulantess()
+	 */
+	public function clearPostulantess()
+	{
+		$this->collPostulantess = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collPostulantess collection.
+	 *
+	 * By default this just sets the collPostulantess collection to an empty array (like clearcollPostulantess());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @param      boolean $overrideExisting If set to true, the method call initializes
+	 *                                        the collection even if it is not empty
+	 *
+	 * @return     void
+	 */
+	public function initPostulantess($overrideExisting = true)
+	{
+		if (null !== $this->collPostulantess && !$overrideExisting) {
+			return;
+		}
+		$this->collPostulantess = new PropelObjectCollection();
+		$this->collPostulantess->setModel('Postulantes');
+	}
+
+	/**
+	 * Gets an array of Postulantes objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this Libro is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array Postulantes[] List of Postulantes objects
+	 * @throws     PropelException
+	 */
+	public function getPostulantess($criteria = null, PropelPDO $con = null)
+	{
+		if(null === $this->collPostulantess || null !== $criteria) {
+			if ($this->isNew() && null === $this->collPostulantess) {
+				// return empty collection
+				$this->initPostulantess();
+			} else {
+				$collPostulantess = PostulantesQuery::create(null, $criteria)
+					->filterByLibro($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collPostulantess;
+				}
+				$this->collPostulantess = $collPostulantess;
+			}
+		}
+		return $this->collPostulantess;
+	}
+
+	/**
+	 * Sets a collection of Postulantes objects related by a one-to-many relationship
+	 * to the current object.
+	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+	 * and new objects from the given Propel collection.
+	 *
+	 * @param      PropelCollection $postulantess A Propel collection.
+	 * @param      PropelPDO $con Optional connection object
+	 */
+	public function setPostulantess(PropelCollection $postulantess, PropelPDO $con = null)
+	{
+		$this->postulantessScheduledForDeletion = $this->getPostulantess(new Criteria(), $con)->diff($postulantess);
+
+		foreach ($postulantess as $postulantes) {
+			// Fix issue with collection modified by reference
+			if ($postulantes->isNew()) {
+				$postulantes->setLibro($this);
+			}
+			$this->addPostulantes($postulantes);
+		}
+
+		$this->collPostulantess = $postulantess;
+	}
+
+	/**
+	 * Returns the number of related Postulantes objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related Postulantes objects.
+	 * @throws     PropelException
+	 */
+	public function countPostulantess(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collPostulantess || null !== $criteria) {
+			if ($this->isNew() && null === $this->collPostulantess) {
+				return 0;
+			} else {
+				$query = PostulantesQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterByLibro($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collPostulantess);
+		}
+	}
+
+	/**
+	 * Method called to associate a Postulantes object to this object
+	 * through the Postulantes foreign key attribute.
+	 *
+	 * @param      Postulantes $l Postulantes
+	 * @return     Libro The current object (for fluent API support)
+	 */
+	public function addPostulantes(Postulantes $l)
+	{
+		if ($this->collPostulantess === null) {
+			$this->initPostulantess();
+		}
+		if (!$this->collPostulantess->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddPostulantes($l);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param	Postulantes $postulantes The postulantes object to add.
+	 */
+	protected function doAddPostulantes($postulantes)
+	{
+		$this->collPostulantess[]= $postulantes;
+		$postulantes->setLibro($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Libro is new, it will return
+	 * an empty collection; or if this Libro has previously
+	 * been saved, it will retrieve related Postulantess from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Libro.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return     PropelCollection|array Postulantes[] List of Postulantes objects
+	 */
+	public function getPostulantessJoinUsuario($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$query = PostulantesQuery::create(null, $criteria);
+		$query->joinWith('Usuario', $join_behavior);
+
+		return $this->getPostulantess($query, $con);
+	}
+
+	/**
+	 * Clears out the collClasificadoss collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addClasificadoss()
+	 */
+	public function clearClasificadoss()
+	{
+		$this->collClasificadoss = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collClasificadoss collection.
+	 *
+	 * By default this just sets the collClasificadoss collection to an empty array (like clearcollClasificadoss());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @param      boolean $overrideExisting If set to true, the method call initializes
+	 *                                        the collection even if it is not empty
+	 *
+	 * @return     void
+	 */
+	public function initClasificadoss($overrideExisting = true)
+	{
+		if (null !== $this->collClasificadoss && !$overrideExisting) {
+			return;
+		}
+		$this->collClasificadoss = new PropelObjectCollection();
+		$this->collClasificadoss->setModel('Clasificados');
+	}
+
+	/**
+	 * Gets an array of Clasificados objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this Libro is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array Clasificados[] List of Clasificados objects
+	 * @throws     PropelException
+	 */
+	public function getClasificadoss($criteria = null, PropelPDO $con = null)
+	{
+		if(null === $this->collClasificadoss || null !== $criteria) {
+			if ($this->isNew() && null === $this->collClasificadoss) {
+				// return empty collection
+				$this->initClasificadoss();
+			} else {
+				$collClasificadoss = ClasificadosQuery::create(null, $criteria)
+					->filterByLibro($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collClasificadoss;
+				}
+				$this->collClasificadoss = $collClasificadoss;
+			}
+		}
+		return $this->collClasificadoss;
+	}
+
+	/**
+	 * Sets a collection of Clasificados objects related by a one-to-many relationship
+	 * to the current object.
+	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+	 * and new objects from the given Propel collection.
+	 *
+	 * @param      PropelCollection $clasificadoss A Propel collection.
+	 * @param      PropelPDO $con Optional connection object
+	 */
+	public function setClasificadoss(PropelCollection $clasificadoss, PropelPDO $con = null)
+	{
+		$this->clasificadossScheduledForDeletion = $this->getClasificadoss(new Criteria(), $con)->diff($clasificadoss);
+
+		foreach ($clasificadoss as $clasificados) {
+			// Fix issue with collection modified by reference
+			if ($clasificados->isNew()) {
+				$clasificados->setLibro($this);
+			}
+			$this->addClasificados($clasificados);
+		}
+
+		$this->collClasificadoss = $clasificadoss;
+	}
+
+	/**
+	 * Returns the number of related Clasificados objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related Clasificados objects.
+	 * @throws     PropelException
+	 */
+	public function countClasificadoss(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collClasificadoss || null !== $criteria) {
+			if ($this->isNew() && null === $this->collClasificadoss) {
+				return 0;
+			} else {
+				$query = ClasificadosQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterByLibro($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collClasificadoss);
+		}
+	}
+
+	/**
+	 * Method called to associate a Clasificados object to this object
+	 * through the Clasificados foreign key attribute.
+	 *
+	 * @param      Clasificados $l Clasificados
+	 * @return     Libro The current object (for fluent API support)
+	 */
+	public function addClasificados(Clasificados $l)
+	{
+		if ($this->collClasificadoss === null) {
+			$this->initClasificadoss();
+		}
+		if (!$this->collClasificadoss->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddClasificados($l);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param	Clasificados $clasificados The clasificados object to add.
+	 */
+	protected function doAddClasificados($clasificados)
+	{
+		$this->collClasificadoss[]= $clasificados;
+		$clasificados->setLibro($this);
+	}
+
+	/**
 	 * Clears the current object and sets all attributes to their default values
 	 */
 	public function clear()
@@ -1902,6 +2323,16 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 					$o->clearAllReferences($deep);
 				}
 			}
+			if ($this->collPostulantess) {
+				foreach ($this->collPostulantess as $o) {
+					$o->clearAllReferences($deep);
+				}
+			}
+			if ($this->collClasificadoss) {
+				foreach ($this->collClasificadoss as $o) {
+					$o->clearAllReferences($deep);
+				}
+			}
 		} // if ($deep)
 
 		if ($this->collLibro_colaboradors instanceof PropelCollection) {
@@ -1916,6 +2347,14 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			$this->collSlider_maes->clearIterator();
 		}
 		$this->collSlider_maes = null;
+		if ($this->collPostulantess instanceof PropelCollection) {
+			$this->collPostulantess->clearIterator();
+		}
+		$this->collPostulantess = null;
+		if ($this->collClasificadoss instanceof PropelCollection) {
+			$this->collClasificadoss->clearIterator();
+		}
+		$this->collClasificadoss = null;
 	}
 
 	/**

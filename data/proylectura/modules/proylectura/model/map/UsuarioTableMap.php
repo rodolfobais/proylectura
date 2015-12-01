@@ -59,6 +59,7 @@ class UsuarioTableMap extends TableMap
 		$this->addRelation('Notificacion', 'Notificacion', RelationMap::ONE_TO_MANY, array('id' => 'id_usuario', ), null, null, 'Notificacions');
 		$this->addRelation('SolicitudRelatedById_usuario_solicitado', 'Solicitud', RelationMap::ONE_TO_MANY, array('id' => 'id_usuario_solicitado', ), null, null, 'SolicitudsRelatedById_usuario_solicitado');
 		$this->addRelation('SolicitudRelatedById_usuario_solicitante', 'Solicitud', RelationMap::ONE_TO_MANY, array('id' => 'id_usuario_solicitante', ), null, null, 'SolicitudsRelatedById_usuario_solicitante');
+		$this->addRelation('Postulantes', 'Postulantes', RelationMap::ONE_TO_MANY, array('id' => 'id_postulante', ), null, null, 'Postulantess');
 	} // buildRelations()
 
 } // UsuarioTableMap

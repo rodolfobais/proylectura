@@ -207,6 +207,28 @@ CREATE TABLE IF NOT EXISTS `slider_mae` (
             <reference local="id_categoria" foreign="id"/>
         </foreign-key>
     </table>
-
+    
+    <table name="postulantes" phpName="Postulantes" idMethod="native" package="proylectura.model">
+        <column name="id"    phpName="Id"   type="INTEGER" required="true" sqlType="INT(10)" primaryKey= "true" autoIncrement="true" />
+        <column name="id_libro"    phpName="Id_libro"   type="INTEGER" required="true" sqlType="INT(10)" />
+        <column name="id_postulante"   phpName="Id_postulante"  type="INTEGER" required="true" sqlType="INT(10)" />
+        <column name="estado"   phpName="Estado"  type="INTEGER"  required="true" sqlType="INT(10)" />
+        <foreign-key foreignTable="libro" name="postulantes_libro">
+            <reference local="id_libro" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="usuario" name="postulante_usuario">
+            <reference local="id_postulante" foreign="id"/>
+        </foreign-key>
+    </table>
+    
+    <table name="clasificados" phpName="Clasificados" idMethod="native" package="proylectura.model">
+        <column name="id"    phpName="Id"   type="INTEGER" required="true" sqlType="INT(10)" primaryKey= "true" autoIncrement="true" />
+        <column name="id_libro"    phpName="Id_libro"   type="INTEGER" required="true" sqlType="INT(10)" />
+        <column name="texto_corto" phpName="Texto_corto" type="CHAR" size="100" required="true"/>
+        <column name="texto_largo" phpName="Texto_largo" type="CHAR" size="250" required="true"/>
+        <foreign-key foreignTable="libro" name="clasificados_libro">
+            <reference local="id_libro" foreign="id"/>
+        </foreign-key>
+    </table>
     
 </database>

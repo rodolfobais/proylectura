@@ -102,6 +102,11 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	protected $collSolicitudsRelatedById_usuario_solicitante;
 
 	/**
+	 * @var        array Postulantes[] Collection to store aggregation of Postulantes objects.
+	 */
+	protected $collPostulantess;
+
+	/**
 	 * Flag to prevent endless save loop, if this object is referenced
 	 * by another object which falls in this transaction.
 	 * @var        boolean
@@ -156,6 +161,12 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	 * @var		array
 	 */
 	protected $solicitudsRelatedById_usuario_solicitanteScheduledForDeletion = null;
+
+	/**
+	 * An array of objects scheduled for deletion.
+	 * @var		array
+	 */
+	protected $postulantessScheduledForDeletion = null;
 
 	/**
 	 * Get the [id] column value.
@@ -459,6 +470,8 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 
 			$this->collSolicitudsRelatedById_usuario_solicitante = null;
 
+			$this->collPostulantess = null;
+
 		} // if (deep)
 	}
 
@@ -699,6 +712,23 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 				}
 			}
 
+			if ($this->postulantessScheduledForDeletion !== null) {
+				if (!$this->postulantessScheduledForDeletion->isEmpty()) {
+		PostulantesQuery::create()
+						->filterByPrimaryKeys($this->postulantessScheduledForDeletion->getPrimaryKeys(false))
+						->delete($con);
+					$this->postulantessScheduledForDeletion = null;
+				}
+			}
+
+			if ($this->collPostulantess !== null) {
+				foreach ($this->collPostulantess as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			$this->alreadyInSave = false;
 
 		}
@@ -924,6 +954,14 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 					}
 				}
 
+				if ($this->collPostulantess !== null) {
+					foreach ($this->collPostulantess as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
 
 			$this->alreadyInValidation = false;
 		}
@@ -1032,6 +1070,9 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 			}
 			if (null !== $this->collSolicitudsRelatedById_usuario_solicitante) {
 				$result['SolicitudsRelatedById_usuario_solicitante'] = $this->collSolicitudsRelatedById_usuario_solicitante->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			}
+			if (null !== $this->collPostulantess) {
+				$result['Postulantess'] = $this->collPostulantess->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
 			}
 		}
 		return $result;
@@ -1246,6 +1287,12 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 				}
 			}
 
+			foreach ($this->getPostulantess() as $relObj) {
+				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addPostulantes($relObj->copy($deepCopy));
+				}
+			}
+
 			//unflag object copy
 			$this->startCopy = false;
 		} // if ($deepCopy)
@@ -1325,6 +1372,9 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 		}
 		if ('SolicitudRelatedById_usuario_solicitante' == $relationName) {
 			return $this->initSolicitudsRelatedById_usuario_solicitante();
+		}
+		if ('Postulantes' == $relationName) {
+			return $this->initPostulantess();
 		}
 	}
 
@@ -2415,6 +2465,179 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	}
 
 	/**
+	 * Clears out the collPostulantess collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addPostulantess()
+	 */
+	public function clearPostulantess()
+	{
+		$this->collPostulantess = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collPostulantess collection.
+	 *
+	 * By default this just sets the collPostulantess collection to an empty array (like clearcollPostulantess());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @param      boolean $overrideExisting If set to true, the method call initializes
+	 *                                        the collection even if it is not empty
+	 *
+	 * @return     void
+	 */
+	public function initPostulantess($overrideExisting = true)
+	{
+		if (null !== $this->collPostulantess && !$overrideExisting) {
+			return;
+		}
+		$this->collPostulantess = new PropelObjectCollection();
+		$this->collPostulantess->setModel('Postulantes');
+	}
+
+	/**
+	 * Gets an array of Postulantes objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this Usuario is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array Postulantes[] List of Postulantes objects
+	 * @throws     PropelException
+	 */
+	public function getPostulantess($criteria = null, PropelPDO $con = null)
+	{
+		if(null === $this->collPostulantess || null !== $criteria) {
+			if ($this->isNew() && null === $this->collPostulantess) {
+				// return empty collection
+				$this->initPostulantess();
+			} else {
+				$collPostulantess = PostulantesQuery::create(null, $criteria)
+					->filterByUsuario($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collPostulantess;
+				}
+				$this->collPostulantess = $collPostulantess;
+			}
+		}
+		return $this->collPostulantess;
+	}
+
+	/**
+	 * Sets a collection of Postulantes objects related by a one-to-many relationship
+	 * to the current object.
+	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+	 * and new objects from the given Propel collection.
+	 *
+	 * @param      PropelCollection $postulantess A Propel collection.
+	 * @param      PropelPDO $con Optional connection object
+	 */
+	public function setPostulantess(PropelCollection $postulantess, PropelPDO $con = null)
+	{
+		$this->postulantessScheduledForDeletion = $this->getPostulantess(new Criteria(), $con)->diff($postulantess);
+
+		foreach ($postulantess as $postulantes) {
+			// Fix issue with collection modified by reference
+			if ($postulantes->isNew()) {
+				$postulantes->setUsuario($this);
+			}
+			$this->addPostulantes($postulantes);
+		}
+
+		$this->collPostulantess = $postulantess;
+	}
+
+	/**
+	 * Returns the number of related Postulantes objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related Postulantes objects.
+	 * @throws     PropelException
+	 */
+	public function countPostulantess(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collPostulantess || null !== $criteria) {
+			if ($this->isNew() && null === $this->collPostulantess) {
+				return 0;
+			} else {
+				$query = PostulantesQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterByUsuario($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collPostulantess);
+		}
+	}
+
+	/**
+	 * Method called to associate a Postulantes object to this object
+	 * through the Postulantes foreign key attribute.
+	 *
+	 * @param      Postulantes $l Postulantes
+	 * @return     Usuario The current object (for fluent API support)
+	 */
+	public function addPostulantes(Postulantes $l)
+	{
+		if ($this->collPostulantess === null) {
+			$this->initPostulantess();
+		}
+		if (!$this->collPostulantess->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddPostulantes($l);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param	Postulantes $postulantes The postulantes object to add.
+	 */
+	protected function doAddPostulantes($postulantes)
+	{
+		$this->collPostulantess[]= $postulantes;
+		$postulantes->setUsuario($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Usuario is new, it will return
+	 * an empty collection; or if this Usuario has previously
+	 * been saved, it will retrieve related Postulantess from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Usuario.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return     PropelCollection|array Postulantes[] List of Postulantes objects
+	 */
+	public function getPostulantessJoinLibro($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$query = PostulantesQuery::create(null, $criteria);
+		$query->joinWith('Libro', $join_behavior);
+
+		return $this->getPostulantess($query, $con);
+	}
+
+	/**
 	 * Clears the current object and sets all attributes to their default values
 	 */
 	public function clear()
@@ -2480,6 +2703,11 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 					$o->clearAllReferences($deep);
 				}
 			}
+			if ($this->collPostulantess) {
+				foreach ($this->collPostulantess as $o) {
+					$o->clearAllReferences($deep);
+				}
+			}
 		} // if ($deep)
 
 		if ($this->collLibro_colaboradors instanceof PropelCollection) {
@@ -2510,6 +2738,10 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 			$this->collSolicitudsRelatedById_usuario_solicitante->clearIterator();
 		}
 		$this->collSolicitudsRelatedById_usuario_solicitante = null;
+		if ($this->collPostulantess instanceof PropelCollection) {
+			$this->collPostulantess->clearIterator();
+		}
+		$this->collPostulantess = null;
 	}
 
 	/**
