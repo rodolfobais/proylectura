@@ -23,13 +23,13 @@ abstract class BaseAudiolibroPeer {
 	const TM_CLASS = 'AudiolibroTableMap';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 4;
+	const NUM_COLUMNS = 5;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
 	/** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-	const NUM_HYDRATE_COLUMNS = 4;
+	const NUM_HYDRATE_COLUMNS = 5;
 
 	/** the column name for the ID field */
 	const ID = 'audiolibro.ID';
@@ -42,6 +42,9 @@ abstract class BaseAudiolibroPeer {
 
 	/** the column name for the HASH field */
 	const HASH = 'audiolibro.HASH';
+
+	/** the column name for the IDLIBRO field */
+	const IDLIBRO = 'audiolibro.IDLIBRO';
 
 	/** The default string format for model objects of the related table **/
 	const DEFAULT_STRING_FORMAT = 'YAML';
@@ -62,12 +65,12 @@ abstract class BaseAudiolibroPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	protected static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Nombre', 'Fecha', 'Hash', ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'nombre', 'fecha', 'hash', ),
-		BasePeer::TYPE_COLNAME => array (self::ID, self::NOMBRE, self::FECHA, self::HASH, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'NOMBRE', 'FECHA', 'HASH', ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'nombre', 'fecha', 'hash', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Nombre', 'Fecha', 'Hash', 'Idlibro', ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'nombre', 'fecha', 'hash', 'idlibro', ),
+		BasePeer::TYPE_COLNAME => array (self::ID, self::NOMBRE, self::FECHA, self::HASH, self::IDLIBRO, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'NOMBRE', 'FECHA', 'HASH', 'IDLIBRO', ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'nombre', 'fecha', 'hash', 'idlibro', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
 	/**
@@ -77,12 +80,12 @@ abstract class BaseAudiolibroPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	protected static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Nombre' => 1, 'Fecha' => 2, 'Hash' => 3, ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'nombre' => 1, 'fecha' => 2, 'hash' => 3, ),
-		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::NOMBRE => 1, self::FECHA => 2, self::HASH => 3, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'NOMBRE' => 1, 'FECHA' => 2, 'HASH' => 3, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'nombre' => 1, 'fecha' => 2, 'hash' => 3, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Nombre' => 1, 'Fecha' => 2, 'Hash' => 3, 'Idlibro' => 4, ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'nombre' => 1, 'fecha' => 2, 'hash' => 3, 'idlibro' => 4, ),
+		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::NOMBRE => 1, self::FECHA => 2, self::HASH => 3, self::IDLIBRO => 4, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'NOMBRE' => 1, 'FECHA' => 2, 'HASH' => 3, 'IDLIBRO' => 4, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'nombre' => 1, 'fecha' => 2, 'hash' => 3, 'idlibro' => 4, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
 	/**
@@ -158,11 +161,13 @@ abstract class BaseAudiolibroPeer {
 			$criteria->addSelectColumn(AudiolibroPeer::NOMBRE);
 			$criteria->addSelectColumn(AudiolibroPeer::FECHA);
 			$criteria->addSelectColumn(AudiolibroPeer::HASH);
+			$criteria->addSelectColumn(AudiolibroPeer::IDLIBRO);
 		} else {
 			$criteria->addSelectColumn($alias . '.ID');
 			$criteria->addSelectColumn($alias . '.NOMBRE');
 			$criteria->addSelectColumn($alias . '.FECHA');
 			$criteria->addSelectColumn($alias . '.HASH');
+			$criteria->addSelectColumn($alias . '.IDLIBRO');
 		}
 	}
 
@@ -446,6 +451,240 @@ abstract class BaseAudiolibroPeer {
 			AudiolibroPeer::addInstanceToPool($obj, $key);
 		}
 		return array($obj, $col);
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related Libro table
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     int Number of matching rows.
+	 */
+	public static function doCountJoinLibro(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// We need to set the primary table name, since in the case that there are no WHERE columns
+		// it will be impossible for the BasePeer::createSelectSql() method to determine which
+		// tables go into the FROM clause.
+		$criteria->setPrimaryTableName(AudiolibroPeer::TABLE_NAME);
+
+		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->setDistinct();
+		}
+
+		if (!$criteria->hasSelectClause()) {
+			AudiolibroPeer::addSelectColumns($criteria);
+		}
+
+		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
+
+		// Set the correct dbName
+		$criteria->setDbName(self::DATABASE_NAME);
+
+		if ($con === null) {
+			$con = Propel::getConnection(AudiolibroPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+		}
+
+		$criteria->addJoin(AudiolibroPeer::IDLIBRO, LibroPeer::ID, $join_behavior);
+
+		$stmt = BasePeer::doCount($criteria, $con);
+
+		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$count = (int) $row[0];
+		} else {
+			$count = 0; // no rows returned; we infer that means 0 matches.
+		}
+		$stmt->closeCursor();
+		return $count;
+	}
+
+
+	/**
+	 * Selects a collection of Audiolibro objects pre-filled with their Libro objects.
+	 * @param      Criteria  $criteria
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     array Array of Audiolibro objects.
+	 * @throws     PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinLibro(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$criteria = clone $criteria;
+
+		// Set the correct dbName if it has not been overridden
+		if ($criteria->getDbName() == Propel::getDefaultDB()) {
+			$criteria->setDbName(self::DATABASE_NAME);
+		}
+
+		AudiolibroPeer::addSelectColumns($criteria);
+		$startcol = AudiolibroPeer::NUM_HYDRATE_COLUMNS;
+		LibroPeer::addSelectColumns($criteria);
+
+		$criteria->addJoin(AudiolibroPeer::IDLIBRO, LibroPeer::ID, $join_behavior);
+
+		$stmt = BasePeer::doSelect($criteria, $con);
+		$results = array();
+
+		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$key1 = AudiolibroPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj1 = AudiolibroPeer::getInstanceFromPool($key1))) {
+				// We no longer rehydrate the object, since this can cause data loss.
+				// See http://www.propelorm.org/ticket/509
+				// $obj1->hydrate($row, 0, true); // rehydrate
+			} else {
+
+				$cls = AudiolibroPeer::getOMClass();
+
+				$obj1 = new $cls();
+				$obj1->hydrate($row);
+				AudiolibroPeer::addInstanceToPool($obj1, $key1);
+			} // if $obj1 already loaded
+
+			$key2 = LibroPeer::getPrimaryKeyHashFromRow($row, $startcol);
+			if ($key2 !== null) {
+				$obj2 = LibroPeer::getInstanceFromPool($key2);
+				if (!$obj2) {
+
+					$cls = LibroPeer::getOMClass();
+
+					$obj2 = new $cls();
+					$obj2->hydrate($row, $startcol);
+					LibroPeer::addInstanceToPool($obj2, $key2);
+				} // if obj2 already loaded
+
+				// Add the $obj1 (Audiolibro) to $obj2 (Libro)
+				$obj2->addAudiolibro($obj1);
+
+			} // if joined row was not null
+
+			$results[] = $obj1;
+		}
+		$stmt->closeCursor();
+		return $results;
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining all related tables
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     int Number of matching rows.
+	 */
+	public static function doCountJoinAll(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// We need to set the primary table name, since in the case that there are no WHERE columns
+		// it will be impossible for the BasePeer::createSelectSql() method to determine which
+		// tables go into the FROM clause.
+		$criteria->setPrimaryTableName(AudiolibroPeer::TABLE_NAME);
+
+		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->setDistinct();
+		}
+
+		if (!$criteria->hasSelectClause()) {
+			AudiolibroPeer::addSelectColumns($criteria);
+		}
+
+		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
+
+		// Set the correct dbName
+		$criteria->setDbName(self::DATABASE_NAME);
+
+		if ($con === null) {
+			$con = Propel::getConnection(AudiolibroPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+		}
+
+		$criteria->addJoin(AudiolibroPeer::IDLIBRO, LibroPeer::ID, $join_behavior);
+
+		$stmt = BasePeer::doCount($criteria, $con);
+
+		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$count = (int) $row[0];
+		} else {
+			$count = 0; // no rows returned; we infer that means 0 matches.
+		}
+		$stmt->closeCursor();
+		return $count;
+	}
+
+	/**
+	 * Selects a collection of Audiolibro objects pre-filled with all related objects.
+	 *
+	 * @param      Criteria  $criteria
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     array Array of Audiolibro objects.
+	 * @throws     PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinAll(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$criteria = clone $criteria;
+
+		// Set the correct dbName if it has not been overridden
+		if ($criteria->getDbName() == Propel::getDefaultDB()) {
+			$criteria->setDbName(self::DATABASE_NAME);
+		}
+
+		AudiolibroPeer::addSelectColumns($criteria);
+		$startcol2 = AudiolibroPeer::NUM_HYDRATE_COLUMNS;
+
+		LibroPeer::addSelectColumns($criteria);
+		$startcol3 = $startcol2 + LibroPeer::NUM_HYDRATE_COLUMNS;
+
+		$criteria->addJoin(AudiolibroPeer::IDLIBRO, LibroPeer::ID, $join_behavior);
+
+		$stmt = BasePeer::doSelect($criteria, $con);
+		$results = array();
+
+		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$key1 = AudiolibroPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj1 = AudiolibroPeer::getInstanceFromPool($key1))) {
+				// We no longer rehydrate the object, since this can cause data loss.
+				// See http://www.propelorm.org/ticket/509
+				// $obj1->hydrate($row, 0, true); // rehydrate
+			} else {
+				$cls = AudiolibroPeer::getOMClass();
+
+				$obj1 = new $cls();
+				$obj1->hydrate($row);
+				AudiolibroPeer::addInstanceToPool($obj1, $key1);
+			} // if obj1 already loaded
+
+			// Add objects for joined Libro rows
+
+			$key2 = LibroPeer::getPrimaryKeyHashFromRow($row, $startcol2);
+			if ($key2 !== null) {
+				$obj2 = LibroPeer::getInstanceFromPool($key2);
+				if (!$obj2) {
+
+					$cls = LibroPeer::getOMClass();
+
+					$obj2 = new $cls();
+					$obj2->hydrate($row, $startcol2);
+					LibroPeer::addInstanceToPool($obj2, $key2);
+				} // if obj2 loaded
+
+				// Add the $obj1 (Audiolibro) to the collection in $obj2 (Libro)
+				$obj2->addAudiolibro($obj1);
+			} // if joined row not null
+
+			$results[] = $obj1;
+		}
+		$stmt->closeCursor();
+		return $results;
 	}
 
 	/**

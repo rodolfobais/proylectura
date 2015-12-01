@@ -67,6 +67,26 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	protected $admin;
 
 	/**
+	 * @var        array Amistad[] Collection to store aggregation of Amistad objects.
+	 */
+	protected $collAmistadsRelatedById_usuario;
+
+	/**
+	 * @var        array Amistad[] Collection to store aggregation of Amistad objects.
+	 */
+	protected $collAmistadsRelatedByid_usuarioamigo;
+
+	/**
+	 * @var        array Libro[] Collection to store aggregation of Libro objects.
+	 */
+	protected $collLibros;
+
+	/**
+	 * @var        array Lista[] Collection to store aggregation of Lista objects.
+	 */
+	protected $collListas;
+
+	/**
 	 * @var        array Libro_colaborador[] Collection to store aggregation of Libro_colaborador objects.
 	 */
 	protected $collLibro_colaboradors;
@@ -89,7 +109,12 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	/**
 	 * @var        array Notificacion[] Collection to store aggregation of Notificacion objects.
 	 */
-	protected $collNotificacions;
+	protected $collNotificacionsRelatedById_emisor;
+
+	/**
+	 * @var        array Notificacion[] Collection to store aggregation of Notificacion objects.
+	 */
+	protected $collNotificacionsRelatedById_receptor;
 
 	/**
 	 * @var        array Solicitud[] Collection to store aggregation of Solicitud objects.
@@ -124,6 +149,30 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	 * An array of objects scheduled for deletion.
 	 * @var		array
 	 */
+	protected $amistadsRelatedById_usuarioScheduledForDeletion = null;
+
+	/**
+	 * An array of objects scheduled for deletion.
+	 * @var		array
+	 */
+	protected $amistadsRelatedByid_usuarioamigoScheduledForDeletion = null;
+
+	/**
+	 * An array of objects scheduled for deletion.
+	 * @var		array
+	 */
+	protected $librosScheduledForDeletion = null;
+
+	/**
+	 * An array of objects scheduled for deletion.
+	 * @var		array
+	 */
+	protected $listasScheduledForDeletion = null;
+
+	/**
+	 * An array of objects scheduled for deletion.
+	 * @var		array
+	 */
 	protected $libro_colaboradorsScheduledForDeletion = null;
 
 	/**
@@ -148,7 +197,13 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	 * An array of objects scheduled for deletion.
 	 * @var		array
 	 */
-	protected $notificacionsScheduledForDeletion = null;
+	protected $notificacionsRelatedById_emisorScheduledForDeletion = null;
+
+	/**
+	 * An array of objects scheduled for deletion.
+	 * @var		array
+	 */
+	protected $notificacionsRelatedById_receptorScheduledForDeletion = null;
 
 	/**
 	 * An array of objects scheduled for deletion.
@@ -456,6 +511,14 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 
 		if ($deep) {  // also de-associate any related objects?
 
+			$this->collAmistadsRelatedById_usuario = null;
+
+			$this->collAmistadsRelatedByid_usuarioamigo = null;
+
+			$this->collLibros = null;
+
+			$this->collListas = null;
+
 			$this->collLibro_colaboradors = null;
 
 			$this->collLibro_versions = null;
@@ -464,7 +527,9 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 
 			$this->collMensajesRelatedById_usuario_remitente = null;
 
-			$this->collNotificacions = null;
+			$this->collNotificacionsRelatedById_emisor = null;
+
+			$this->collNotificacionsRelatedById_receptor = null;
 
 			$this->collSolicitudsRelatedById_usuario_solicitado = null;
 
@@ -593,6 +658,74 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 				$this->resetModified();
 			}
 
+			if ($this->amistadsRelatedById_usuarioScheduledForDeletion !== null) {
+				if (!$this->amistadsRelatedById_usuarioScheduledForDeletion->isEmpty()) {
+		AmistadQuery::create()
+						->filterByPrimaryKeys($this->amistadsRelatedById_usuarioScheduledForDeletion->getPrimaryKeys(false))
+						->delete($con);
+					$this->amistadsRelatedById_usuarioScheduledForDeletion = null;
+				}
+			}
+
+			if ($this->collAmistadsRelatedById_usuario !== null) {
+				foreach ($this->collAmistadsRelatedById_usuario as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->amistadsRelatedByid_usuarioamigoScheduledForDeletion !== null) {
+				if (!$this->amistadsRelatedByid_usuarioamigoScheduledForDeletion->isEmpty()) {
+		AmistadQuery::create()
+						->filterByPrimaryKeys($this->amistadsRelatedByid_usuarioamigoScheduledForDeletion->getPrimaryKeys(false))
+						->delete($con);
+					$this->amistadsRelatedByid_usuarioamigoScheduledForDeletion = null;
+				}
+			}
+
+			if ($this->collAmistadsRelatedByid_usuarioamigo !== null) {
+				foreach ($this->collAmistadsRelatedByid_usuarioamigo as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->librosScheduledForDeletion !== null) {
+				if (!$this->librosScheduledForDeletion->isEmpty()) {
+		LibroQuery::create()
+						->filterByPrimaryKeys($this->librosScheduledForDeletion->getPrimaryKeys(false))
+						->delete($con);
+					$this->librosScheduledForDeletion = null;
+				}
+			}
+
+			if ($this->collLibros !== null) {
+				foreach ($this->collLibros as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->listasScheduledForDeletion !== null) {
+				if (!$this->listasScheduledForDeletion->isEmpty()) {
+		ListaQuery::create()
+						->filterByPrimaryKeys($this->listasScheduledForDeletion->getPrimaryKeys(false))
+						->delete($con);
+					$this->listasScheduledForDeletion = null;
+				}
+			}
+
+			if ($this->collListas !== null) {
+				foreach ($this->collListas as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			if ($this->libro_colaboradorsScheduledForDeletion !== null) {
 				if (!$this->libro_colaboradorsScheduledForDeletion->isEmpty()) {
 		Libro_colaboradorQuery::create()
@@ -661,17 +794,34 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 				}
 			}
 
-			if ($this->notificacionsScheduledForDeletion !== null) {
-				if (!$this->notificacionsScheduledForDeletion->isEmpty()) {
+			if ($this->notificacionsRelatedById_emisorScheduledForDeletion !== null) {
+				if (!$this->notificacionsRelatedById_emisorScheduledForDeletion->isEmpty()) {
 		NotificacionQuery::create()
-						->filterByPrimaryKeys($this->notificacionsScheduledForDeletion->getPrimaryKeys(false))
+						->filterByPrimaryKeys($this->notificacionsRelatedById_emisorScheduledForDeletion->getPrimaryKeys(false))
 						->delete($con);
-					$this->notificacionsScheduledForDeletion = null;
+					$this->notificacionsRelatedById_emisorScheduledForDeletion = null;
 				}
 			}
 
-			if ($this->collNotificacions !== null) {
-				foreach ($this->collNotificacions as $referrerFK) {
+			if ($this->collNotificacionsRelatedById_emisor !== null) {
+				foreach ($this->collNotificacionsRelatedById_emisor as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->notificacionsRelatedById_receptorScheduledForDeletion !== null) {
+				if (!$this->notificacionsRelatedById_receptorScheduledForDeletion->isEmpty()) {
+		NotificacionQuery::create()
+						->filterByPrimaryKeys($this->notificacionsRelatedById_receptorScheduledForDeletion->getPrimaryKeys(false))
+						->delete($con);
+					$this->notificacionsRelatedById_receptorScheduledForDeletion = null;
+				}
+			}
+
+			if ($this->collNotificacionsRelatedById_receptor !== null) {
+				foreach ($this->collNotificacionsRelatedById_receptor as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -898,6 +1048,38 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 			}
 
 
+				if ($this->collAmistadsRelatedById_usuario !== null) {
+					foreach ($this->collAmistadsRelatedById_usuario as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collAmistadsRelatedByid_usuarioamigo !== null) {
+					foreach ($this->collAmistadsRelatedByid_usuarioamigo as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collLibros !== null) {
+					foreach ($this->collLibros as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collListas !== null) {
+					foreach ($this->collListas as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
 				if ($this->collLibro_colaboradors !== null) {
 					foreach ($this->collLibro_colaboradors as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
@@ -930,8 +1112,16 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 					}
 				}
 
-				if ($this->collNotificacions !== null) {
-					foreach ($this->collNotificacions as $referrerFK) {
+				if ($this->collNotificacionsRelatedById_emisor !== null) {
+					foreach ($this->collNotificacionsRelatedById_emisor as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collNotificacionsRelatedById_receptor !== null) {
+					foreach ($this->collNotificacionsRelatedById_receptor as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -1050,6 +1240,18 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 			$keys[5] => $this->getAdmin(),
 		);
 		if ($includeForeignObjects) {
+			if (null !== $this->collAmistadsRelatedById_usuario) {
+				$result['AmistadsRelatedById_usuario'] = $this->collAmistadsRelatedById_usuario->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			}
+			if (null !== $this->collAmistadsRelatedByid_usuarioamigo) {
+				$result['AmistadsRelatedByid_usuarioamigo'] = $this->collAmistadsRelatedByid_usuarioamigo->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			}
+			if (null !== $this->collLibros) {
+				$result['Libros'] = $this->collLibros->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			}
+			if (null !== $this->collListas) {
+				$result['Listas'] = $this->collListas->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			}
 			if (null !== $this->collLibro_colaboradors) {
 				$result['Libro_colaboradors'] = $this->collLibro_colaboradors->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
 			}
@@ -1062,8 +1264,11 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 			if (null !== $this->collMensajesRelatedById_usuario_remitente) {
 				$result['MensajesRelatedById_usuario_remitente'] = $this->collMensajesRelatedById_usuario_remitente->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
 			}
-			if (null !== $this->collNotificacions) {
-				$result['Notificacions'] = $this->collNotificacions->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			if (null !== $this->collNotificacionsRelatedById_emisor) {
+				$result['NotificacionsRelatedById_emisor'] = $this->collNotificacionsRelatedById_emisor->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			}
+			if (null !== $this->collNotificacionsRelatedById_receptor) {
+				$result['NotificacionsRelatedById_receptor'] = $this->collNotificacionsRelatedById_receptor->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
 			}
 			if (null !== $this->collSolicitudsRelatedById_usuario_solicitado) {
 				$result['SolicitudsRelatedById_usuario_solicitado'] = $this->collSolicitudsRelatedById_usuario_solicitado->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
@@ -1245,6 +1450,30 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 			// store object hash to prevent cycle
 			$this->startCopy = true;
 
+			foreach ($this->getAmistadsRelatedById_usuario() as $relObj) {
+				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addAmistadRelatedById_usuario($relObj->copy($deepCopy));
+				}
+			}
+
+			foreach ($this->getAmistadsRelatedByid_usuarioamigo() as $relObj) {
+				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addAmistadRelatedByid_usuarioamigo($relObj->copy($deepCopy));
+				}
+			}
+
+			foreach ($this->getLibros() as $relObj) {
+				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addLibro($relObj->copy($deepCopy));
+				}
+			}
+
+			foreach ($this->getListas() as $relObj) {
+				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addLista($relObj->copy($deepCopy));
+				}
+			}
+
 			foreach ($this->getLibro_colaboradors() as $relObj) {
 				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
 					$copyObj->addLibro_colaborador($relObj->copy($deepCopy));
@@ -1269,9 +1498,15 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 				}
 			}
 
-			foreach ($this->getNotificacions() as $relObj) {
+			foreach ($this->getNotificacionsRelatedById_emisor() as $relObj) {
 				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-					$copyObj->addNotificacion($relObj->copy($deepCopy));
+					$copyObj->addNotificacionRelatedById_emisor($relObj->copy($deepCopy));
+				}
+			}
+
+			foreach ($this->getNotificacionsRelatedById_receptor() as $relObj) {
+				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addNotificacionRelatedById_receptor($relObj->copy($deepCopy));
 				}
 			}
 
@@ -1352,6 +1587,18 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	 */
 	public function initRelation($relationName)
 	{
+		if ('AmistadRelatedById_usuario' == $relationName) {
+			return $this->initAmistadsRelatedById_usuario();
+		}
+		if ('AmistadRelatedByid_usuarioamigo' == $relationName) {
+			return $this->initAmistadsRelatedByid_usuarioamigo();
+		}
+		if ('Libro' == $relationName) {
+			return $this->initLibros();
+		}
+		if ('Lista' == $relationName) {
+			return $this->initListas();
+		}
 		if ('Libro_colaborador' == $relationName) {
 			return $this->initLibro_colaboradors();
 		}
@@ -1364,8 +1611,11 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 		if ('MensajeRelatedById_usuario_remitente' == $relationName) {
 			return $this->initMensajesRelatedById_usuario_remitente();
 		}
-		if ('Notificacion' == $relationName) {
-			return $this->initNotificacions();
+		if ('NotificacionRelatedById_emisor' == $relationName) {
+			return $this->initNotificacionsRelatedById_emisor();
+		}
+		if ('NotificacionRelatedById_receptor' == $relationName) {
+			return $this->initNotificacionsRelatedById_receptor();
 		}
 		if ('SolicitudRelatedById_usuario_solicitado' == $relationName) {
 			return $this->initSolicitudsRelatedById_usuario_solicitado();
@@ -1376,6 +1626,623 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 		if ('Postulantes' == $relationName) {
 			return $this->initPostulantess();
 		}
+	}
+
+	/**
+	 * Clears out the collAmistadsRelatedById_usuario collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addAmistadsRelatedById_usuario()
+	 */
+	public function clearAmistadsRelatedById_usuario()
+	{
+		$this->collAmistadsRelatedById_usuario = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collAmistadsRelatedById_usuario collection.
+	 *
+	 * By default this just sets the collAmistadsRelatedById_usuario collection to an empty array (like clearcollAmistadsRelatedById_usuario());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @param      boolean $overrideExisting If set to true, the method call initializes
+	 *                                        the collection even if it is not empty
+	 *
+	 * @return     void
+	 */
+	public function initAmistadsRelatedById_usuario($overrideExisting = true)
+	{
+		if (null !== $this->collAmistadsRelatedById_usuario && !$overrideExisting) {
+			return;
+		}
+		$this->collAmistadsRelatedById_usuario = new PropelObjectCollection();
+		$this->collAmistadsRelatedById_usuario->setModel('Amistad');
+	}
+
+	/**
+	 * Gets an array of Amistad objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this Usuario is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array Amistad[] List of Amistad objects
+	 * @throws     PropelException
+	 */
+	public function getAmistadsRelatedById_usuario($criteria = null, PropelPDO $con = null)
+	{
+		if(null === $this->collAmistadsRelatedById_usuario || null !== $criteria) {
+			if ($this->isNew() && null === $this->collAmistadsRelatedById_usuario) {
+				// return empty collection
+				$this->initAmistadsRelatedById_usuario();
+			} else {
+				$collAmistadsRelatedById_usuario = AmistadQuery::create(null, $criteria)
+					->filterByUsuarioRelatedById_usuario($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collAmistadsRelatedById_usuario;
+				}
+				$this->collAmistadsRelatedById_usuario = $collAmistadsRelatedById_usuario;
+			}
+		}
+		return $this->collAmistadsRelatedById_usuario;
+	}
+
+	/**
+	 * Sets a collection of AmistadRelatedById_usuario objects related by a one-to-many relationship
+	 * to the current object.
+	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+	 * and new objects from the given Propel collection.
+	 *
+	 * @param      PropelCollection $amistadsRelatedById_usuario A Propel collection.
+	 * @param      PropelPDO $con Optional connection object
+	 */
+	public function setAmistadsRelatedById_usuario(PropelCollection $amistadsRelatedById_usuario, PropelPDO $con = null)
+	{
+		$this->amistadsRelatedById_usuarioScheduledForDeletion = $this->getAmistadsRelatedById_usuario(new Criteria(), $con)->diff($amistadsRelatedById_usuario);
+
+		foreach ($amistadsRelatedById_usuario as $amistadRelatedById_usuario) {
+			// Fix issue with collection modified by reference
+			if ($amistadRelatedById_usuario->isNew()) {
+				$amistadRelatedById_usuario->setUsuarioRelatedById_usuario($this);
+			}
+			$this->addAmistadRelatedById_usuario($amistadRelatedById_usuario);
+		}
+
+		$this->collAmistadsRelatedById_usuario = $amistadsRelatedById_usuario;
+	}
+
+	/**
+	 * Returns the number of related Amistad objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related Amistad objects.
+	 * @throws     PropelException
+	 */
+	public function countAmistadsRelatedById_usuario(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collAmistadsRelatedById_usuario || null !== $criteria) {
+			if ($this->isNew() && null === $this->collAmistadsRelatedById_usuario) {
+				return 0;
+			} else {
+				$query = AmistadQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterByUsuarioRelatedById_usuario($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collAmistadsRelatedById_usuario);
+		}
+	}
+
+	/**
+	 * Method called to associate a Amistad object to this object
+	 * through the Amistad foreign key attribute.
+	 *
+	 * @param      Amistad $l Amistad
+	 * @return     Usuario The current object (for fluent API support)
+	 */
+	public function addAmistadRelatedById_usuario(Amistad $l)
+	{
+		if ($this->collAmistadsRelatedById_usuario === null) {
+			$this->initAmistadsRelatedById_usuario();
+		}
+		if (!$this->collAmistadsRelatedById_usuario->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddAmistadRelatedById_usuario($l);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param	AmistadRelatedById_usuario $amistadRelatedById_usuario The amistadRelatedById_usuario object to add.
+	 */
+	protected function doAddAmistadRelatedById_usuario($amistadRelatedById_usuario)
+	{
+		$this->collAmistadsRelatedById_usuario[]= $amistadRelatedById_usuario;
+		$amistadRelatedById_usuario->setUsuarioRelatedById_usuario($this);
+	}
+
+	/**
+	 * Clears out the collAmistadsRelatedByid_usuarioamigo collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addAmistadsRelatedByid_usuarioamigo()
+	 */
+	public function clearAmistadsRelatedByid_usuarioamigo()
+	{
+		$this->collAmistadsRelatedByid_usuarioamigo = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collAmistadsRelatedByid_usuarioamigo collection.
+	 *
+	 * By default this just sets the collAmistadsRelatedByid_usuarioamigo collection to an empty array (like clearcollAmistadsRelatedByid_usuarioamigo());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @param      boolean $overrideExisting If set to true, the method call initializes
+	 *                                        the collection even if it is not empty
+	 *
+	 * @return     void
+	 */
+	public function initAmistadsRelatedByid_usuarioamigo($overrideExisting = true)
+	{
+		if (null !== $this->collAmistadsRelatedByid_usuarioamigo && !$overrideExisting) {
+			return;
+		}
+		$this->collAmistadsRelatedByid_usuarioamigo = new PropelObjectCollection();
+		$this->collAmistadsRelatedByid_usuarioamigo->setModel('Amistad');
+	}
+
+	/**
+	 * Gets an array of Amistad objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this Usuario is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array Amistad[] List of Amistad objects
+	 * @throws     PropelException
+	 */
+	public function getAmistadsRelatedByid_usuarioamigo($criteria = null, PropelPDO $con = null)
+	{
+		if(null === $this->collAmistadsRelatedByid_usuarioamigo || null !== $criteria) {
+			if ($this->isNew() && null === $this->collAmistadsRelatedByid_usuarioamigo) {
+				// return empty collection
+				$this->initAmistadsRelatedByid_usuarioamigo();
+			} else {
+				$collAmistadsRelatedByid_usuarioamigo = AmistadQuery::create(null, $criteria)
+					->filterByUsuarioRelatedByid_usuarioamigo($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collAmistadsRelatedByid_usuarioamigo;
+				}
+				$this->collAmistadsRelatedByid_usuarioamigo = $collAmistadsRelatedByid_usuarioamigo;
+			}
+		}
+		return $this->collAmistadsRelatedByid_usuarioamigo;
+	}
+
+	/**
+	 * Sets a collection of AmistadRelatedByid_usuarioamigo objects related by a one-to-many relationship
+	 * to the current object.
+	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+	 * and new objects from the given Propel collection.
+	 *
+	 * @param      PropelCollection $amistadsRelatedByid_usuarioamigo A Propel collection.
+	 * @param      PropelPDO $con Optional connection object
+	 */
+	public function setAmistadsRelatedByid_usuarioamigo(PropelCollection $amistadsRelatedByid_usuarioamigo, PropelPDO $con = null)
+	{
+		$this->amistadsRelatedByid_usuarioamigoScheduledForDeletion = $this->getAmistadsRelatedByid_usuarioamigo(new Criteria(), $con)->diff($amistadsRelatedByid_usuarioamigo);
+
+		foreach ($amistadsRelatedByid_usuarioamigo as $amistadRelatedByid_usuarioamigo) {
+			// Fix issue with collection modified by reference
+			if ($amistadRelatedByid_usuarioamigo->isNew()) {
+				$amistadRelatedByid_usuarioamigo->setUsuarioRelatedByid_usuarioamigo($this);
+			}
+			$this->addAmistadRelatedByid_usuarioamigo($amistadRelatedByid_usuarioamigo);
+		}
+
+		$this->collAmistadsRelatedByid_usuarioamigo = $amistadsRelatedByid_usuarioamigo;
+	}
+
+	/**
+	 * Returns the number of related Amistad objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related Amistad objects.
+	 * @throws     PropelException
+	 */
+	public function countAmistadsRelatedByid_usuarioamigo(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collAmistadsRelatedByid_usuarioamigo || null !== $criteria) {
+			if ($this->isNew() && null === $this->collAmistadsRelatedByid_usuarioamigo) {
+				return 0;
+			} else {
+				$query = AmistadQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterByUsuarioRelatedByid_usuarioamigo($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collAmistadsRelatedByid_usuarioamigo);
+		}
+	}
+
+	/**
+	 * Method called to associate a Amistad object to this object
+	 * through the Amistad foreign key attribute.
+	 *
+	 * @param      Amistad $l Amistad
+	 * @return     Usuario The current object (for fluent API support)
+	 */
+	public function addAmistadRelatedByid_usuarioamigo(Amistad $l)
+	{
+		if ($this->collAmistadsRelatedByid_usuarioamigo === null) {
+			$this->initAmistadsRelatedByid_usuarioamigo();
+		}
+		if (!$this->collAmistadsRelatedByid_usuarioamigo->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddAmistadRelatedByid_usuarioamigo($l);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param	AmistadRelatedByid_usuarioamigo $amistadRelatedByid_usuarioamigo The amistadRelatedByid_usuarioamigo object to add.
+	 */
+	protected function doAddAmistadRelatedByid_usuarioamigo($amistadRelatedByid_usuarioamigo)
+	{
+		$this->collAmistadsRelatedByid_usuarioamigo[]= $amistadRelatedByid_usuarioamigo;
+		$amistadRelatedByid_usuarioamigo->setUsuarioRelatedByid_usuarioamigo($this);
+	}
+
+	/**
+	 * Clears out the collLibros collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addLibros()
+	 */
+	public function clearLibros()
+	{
+		$this->collLibros = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collLibros collection.
+	 *
+	 * By default this just sets the collLibros collection to an empty array (like clearcollLibros());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @param      boolean $overrideExisting If set to true, the method call initializes
+	 *                                        the collection even if it is not empty
+	 *
+	 * @return     void
+	 */
+	public function initLibros($overrideExisting = true)
+	{
+		if (null !== $this->collLibros && !$overrideExisting) {
+			return;
+		}
+		$this->collLibros = new PropelObjectCollection();
+		$this->collLibros->setModel('Libro');
+	}
+
+	/**
+	 * Gets an array of Libro objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this Usuario is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array Libro[] List of Libro objects
+	 * @throws     PropelException
+	 */
+	public function getLibros($criteria = null, PropelPDO $con = null)
+	{
+		if(null === $this->collLibros || null !== $criteria) {
+			if ($this->isNew() && null === $this->collLibros) {
+				// return empty collection
+				$this->initLibros();
+			} else {
+				$collLibros = LibroQuery::create(null, $criteria)
+					->filterByUsuario($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collLibros;
+				}
+				$this->collLibros = $collLibros;
+			}
+		}
+		return $this->collLibros;
+	}
+
+	/**
+	 * Sets a collection of Libro objects related by a one-to-many relationship
+	 * to the current object.
+	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+	 * and new objects from the given Propel collection.
+	 *
+	 * @param      PropelCollection $libros A Propel collection.
+	 * @param      PropelPDO $con Optional connection object
+	 */
+	public function setLibros(PropelCollection $libros, PropelPDO $con = null)
+	{
+		$this->librosScheduledForDeletion = $this->getLibros(new Criteria(), $con)->diff($libros);
+
+		foreach ($libros as $libro) {
+			// Fix issue with collection modified by reference
+			if ($libro->isNew()) {
+				$libro->setUsuario($this);
+			}
+			$this->addLibro($libro);
+		}
+
+		$this->collLibros = $libros;
+	}
+
+	/**
+	 * Returns the number of related Libro objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related Libro objects.
+	 * @throws     PropelException
+	 */
+	public function countLibros(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collLibros || null !== $criteria) {
+			if ($this->isNew() && null === $this->collLibros) {
+				return 0;
+			} else {
+				$query = LibroQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterByUsuario($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collLibros);
+		}
+	}
+
+	/**
+	 * Method called to associate a Libro object to this object
+	 * through the Libro foreign key attribute.
+	 *
+	 * @param      Libro $l Libro
+	 * @return     Usuario The current object (for fluent API support)
+	 */
+	public function addLibro(Libro $l)
+	{
+		if ($this->collLibros === null) {
+			$this->initLibros();
+		}
+		if (!$this->collLibros->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddLibro($l);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param	Libro $libro The libro object to add.
+	 */
+	protected function doAddLibro($libro)
+	{
+		$this->collLibros[]= $libro;
+		$libro->setUsuario($this);
+	}
+
+	/**
+	 * Clears out the collListas collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addListas()
+	 */
+	public function clearListas()
+	{
+		$this->collListas = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collListas collection.
+	 *
+	 * By default this just sets the collListas collection to an empty array (like clearcollListas());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @param      boolean $overrideExisting If set to true, the method call initializes
+	 *                                        the collection even if it is not empty
+	 *
+	 * @return     void
+	 */
+	public function initListas($overrideExisting = true)
+	{
+		if (null !== $this->collListas && !$overrideExisting) {
+			return;
+		}
+		$this->collListas = new PropelObjectCollection();
+		$this->collListas->setModel('Lista');
+	}
+
+	/**
+	 * Gets an array of Lista objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this Usuario is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array Lista[] List of Lista objects
+	 * @throws     PropelException
+	 */
+	public function getListas($criteria = null, PropelPDO $con = null)
+	{
+		if(null === $this->collListas || null !== $criteria) {
+			if ($this->isNew() && null === $this->collListas) {
+				// return empty collection
+				$this->initListas();
+			} else {
+				$collListas = ListaQuery::create(null, $criteria)
+					->filterByUsuario($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collListas;
+				}
+				$this->collListas = $collListas;
+			}
+		}
+		return $this->collListas;
+	}
+
+	/**
+	 * Sets a collection of Lista objects related by a one-to-many relationship
+	 * to the current object.
+	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+	 * and new objects from the given Propel collection.
+	 *
+	 * @param      PropelCollection $listas A Propel collection.
+	 * @param      PropelPDO $con Optional connection object
+	 */
+	public function setListas(PropelCollection $listas, PropelPDO $con = null)
+	{
+		$this->listasScheduledForDeletion = $this->getListas(new Criteria(), $con)->diff($listas);
+
+		foreach ($listas as $lista) {
+			// Fix issue with collection modified by reference
+			if ($lista->isNew()) {
+				$lista->setUsuario($this);
+			}
+			$this->addLista($lista);
+		}
+
+		$this->collListas = $listas;
+	}
+
+	/**
+	 * Returns the number of related Lista objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related Lista objects.
+	 * @throws     PropelException
+	 */
+	public function countListas(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collListas || null !== $criteria) {
+			if ($this->isNew() && null === $this->collListas) {
+				return 0;
+			} else {
+				$query = ListaQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterByUsuario($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collListas);
+		}
+	}
+
+	/**
+	 * Method called to associate a Lista object to this object
+	 * through the Lista foreign key attribute.
+	 *
+	 * @param      Lista $l Lista
+	 * @return     Usuario The current object (for fluent API support)
+	 */
+	public function addLista(Lista $l)
+	{
+		if ($this->collListas === null) {
+			$this->initListas();
+		}
+		if (!$this->collListas->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddLista($l);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param	Lista $lista The lista object to add.
+	 */
+	protected function doAddLista($lista)
+	{
+		$this->collListas[]= $lista;
+		$lista->setUsuario($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Usuario is new, it will return
+	 * an empty collection; or if this Usuario has previously
+	 * been saved, it will retrieve related Listas from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Usuario.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return     PropelCollection|array Lista[] List of Lista objects
+	 */
+	public function getListasJoinGenero($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$query = ListaQuery::create(null, $criteria);
+		$query->joinWith('Genero', $join_behavior);
+
+		return $this->getListas($query, $con);
 	}
 
 	/**
@@ -2021,23 +2888,23 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	}
 
 	/**
-	 * Clears out the collNotificacions collection
+	 * Clears out the collNotificacionsRelatedById_emisor collection
 	 *
 	 * This does not modify the database; however, it will remove any associated objects, causing
 	 * them to be refetched by subsequent calls to accessor method.
 	 *
 	 * @return     void
-	 * @see        addNotificacions()
+	 * @see        addNotificacionsRelatedById_emisor()
 	 */
-	public function clearNotificacions()
+	public function clearNotificacionsRelatedById_emisor()
 	{
-		$this->collNotificacions = null; // important to set this to NULL since that means it is uninitialized
+		$this->collNotificacionsRelatedById_emisor = null; // important to set this to NULL since that means it is uninitialized
 	}
 
 	/**
-	 * Initializes the collNotificacions collection.
+	 * Initializes the collNotificacionsRelatedById_emisor collection.
 	 *
-	 * By default this just sets the collNotificacions collection to an empty array (like clearcollNotificacions());
+	 * By default this just sets the collNotificacionsRelatedById_emisor collection to an empty array (like clearcollNotificacionsRelatedById_emisor());
 	 * however, you may wish to override this method in your stub class to provide setting appropriate
 	 * to your application -- for example, setting the initial array to the values stored in database.
 	 *
@@ -2046,13 +2913,13 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	 *
 	 * @return     void
 	 */
-	public function initNotificacions($overrideExisting = true)
+	public function initNotificacionsRelatedById_emisor($overrideExisting = true)
 	{
-		if (null !== $this->collNotificacions && !$overrideExisting) {
+		if (null !== $this->collNotificacionsRelatedById_emisor && !$overrideExisting) {
 			return;
 		}
-		$this->collNotificacions = new PropelObjectCollection();
-		$this->collNotificacions->setModel('Notificacion');
+		$this->collNotificacionsRelatedById_emisor = new PropelObjectCollection();
+		$this->collNotificacionsRelatedById_emisor->setModel('Notificacion');
 	}
 
 	/**
@@ -2069,47 +2936,47 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	 * @return     PropelCollection|array Notificacion[] List of Notificacion objects
 	 * @throws     PropelException
 	 */
-	public function getNotificacions($criteria = null, PropelPDO $con = null)
+	public function getNotificacionsRelatedById_emisor($criteria = null, PropelPDO $con = null)
 	{
-		if(null === $this->collNotificacions || null !== $criteria) {
-			if ($this->isNew() && null === $this->collNotificacions) {
+		if(null === $this->collNotificacionsRelatedById_emisor || null !== $criteria) {
+			if ($this->isNew() && null === $this->collNotificacionsRelatedById_emisor) {
 				// return empty collection
-				$this->initNotificacions();
+				$this->initNotificacionsRelatedById_emisor();
 			} else {
-				$collNotificacions = NotificacionQuery::create(null, $criteria)
-					->filterByUsuario($this)
+				$collNotificacionsRelatedById_emisor = NotificacionQuery::create(null, $criteria)
+					->filterByUsuarioRelatedById_emisor($this)
 					->find($con);
 				if (null !== $criteria) {
-					return $collNotificacions;
+					return $collNotificacionsRelatedById_emisor;
 				}
-				$this->collNotificacions = $collNotificacions;
+				$this->collNotificacionsRelatedById_emisor = $collNotificacionsRelatedById_emisor;
 			}
 		}
-		return $this->collNotificacions;
+		return $this->collNotificacionsRelatedById_emisor;
 	}
 
 	/**
-	 * Sets a collection of Notificacion objects related by a one-to-many relationship
+	 * Sets a collection of NotificacionRelatedById_emisor objects related by a one-to-many relationship
 	 * to the current object.
 	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
 	 * and new objects from the given Propel collection.
 	 *
-	 * @param      PropelCollection $notificacions A Propel collection.
+	 * @param      PropelCollection $notificacionsRelatedById_emisor A Propel collection.
 	 * @param      PropelPDO $con Optional connection object
 	 */
-	public function setNotificacions(PropelCollection $notificacions, PropelPDO $con = null)
+	public function setNotificacionsRelatedById_emisor(PropelCollection $notificacionsRelatedById_emisor, PropelPDO $con = null)
 	{
-		$this->notificacionsScheduledForDeletion = $this->getNotificacions(new Criteria(), $con)->diff($notificacions);
+		$this->notificacionsRelatedById_emisorScheduledForDeletion = $this->getNotificacionsRelatedById_emisor(new Criteria(), $con)->diff($notificacionsRelatedById_emisor);
 
-		foreach ($notificacions as $notificacion) {
+		foreach ($notificacionsRelatedById_emisor as $notificacionRelatedById_emisor) {
 			// Fix issue with collection modified by reference
-			if ($notificacion->isNew()) {
-				$notificacion->setUsuario($this);
+			if ($notificacionRelatedById_emisor->isNew()) {
+				$notificacionRelatedById_emisor->setUsuarioRelatedById_emisor($this);
 			}
-			$this->addNotificacion($notificacion);
+			$this->addNotificacionRelatedById_emisor($notificacionRelatedById_emisor);
 		}
 
-		$this->collNotificacions = $notificacions;
+		$this->collNotificacionsRelatedById_emisor = $notificacionsRelatedById_emisor;
 	}
 
 	/**
@@ -2121,10 +2988,10 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	 * @return     int Count of related Notificacion objects.
 	 * @throws     PropelException
 	 */
-	public function countNotificacions(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	public function countNotificacionsRelatedById_emisor(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
 	{
-		if(null === $this->collNotificacions || null !== $criteria) {
-			if ($this->isNew() && null === $this->collNotificacions) {
+		if(null === $this->collNotificacionsRelatedById_emisor || null !== $criteria) {
+			if ($this->isNew() && null === $this->collNotificacionsRelatedById_emisor) {
 				return 0;
 			} else {
 				$query = NotificacionQuery::create(null, $criteria);
@@ -2132,11 +2999,11 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 					$query->distinct();
 				}
 				return $query
-					->filterByUsuario($this)
+					->filterByUsuarioRelatedById_emisor($this)
 					->count($con);
 			}
 		} else {
-			return count($this->collNotificacions);
+			return count($this->collNotificacionsRelatedById_emisor);
 		}
 	}
 
@@ -2147,25 +3014,173 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	 * @param      Notificacion $l Notificacion
 	 * @return     Usuario The current object (for fluent API support)
 	 */
-	public function addNotificacion(Notificacion $l)
+	public function addNotificacionRelatedById_emisor(Notificacion $l)
 	{
-		if ($this->collNotificacions === null) {
-			$this->initNotificacions();
+		if ($this->collNotificacionsRelatedById_emisor === null) {
+			$this->initNotificacionsRelatedById_emisor();
 		}
-		if (!$this->collNotificacions->contains($l)) { // only add it if the **same** object is not already associated
-			$this->doAddNotificacion($l);
+		if (!$this->collNotificacionsRelatedById_emisor->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddNotificacionRelatedById_emisor($l);
 		}
 
 		return $this;
 	}
 
 	/**
-	 * @param	Notificacion $notificacion The notificacion object to add.
+	 * @param	NotificacionRelatedById_emisor $notificacionRelatedById_emisor The notificacionRelatedById_emisor object to add.
 	 */
-	protected function doAddNotificacion($notificacion)
+	protected function doAddNotificacionRelatedById_emisor($notificacionRelatedById_emisor)
 	{
-		$this->collNotificacions[]= $notificacion;
-		$notificacion->setUsuario($this);
+		$this->collNotificacionsRelatedById_emisor[]= $notificacionRelatedById_emisor;
+		$notificacionRelatedById_emisor->setUsuarioRelatedById_emisor($this);
+	}
+
+	/**
+	 * Clears out the collNotificacionsRelatedById_receptor collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addNotificacionsRelatedById_receptor()
+	 */
+	public function clearNotificacionsRelatedById_receptor()
+	{
+		$this->collNotificacionsRelatedById_receptor = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collNotificacionsRelatedById_receptor collection.
+	 *
+	 * By default this just sets the collNotificacionsRelatedById_receptor collection to an empty array (like clearcollNotificacionsRelatedById_receptor());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @param      boolean $overrideExisting If set to true, the method call initializes
+	 *                                        the collection even if it is not empty
+	 *
+	 * @return     void
+	 */
+	public function initNotificacionsRelatedById_receptor($overrideExisting = true)
+	{
+		if (null !== $this->collNotificacionsRelatedById_receptor && !$overrideExisting) {
+			return;
+		}
+		$this->collNotificacionsRelatedById_receptor = new PropelObjectCollection();
+		$this->collNotificacionsRelatedById_receptor->setModel('Notificacion');
+	}
+
+	/**
+	 * Gets an array of Notificacion objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this Usuario is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array Notificacion[] List of Notificacion objects
+	 * @throws     PropelException
+	 */
+	public function getNotificacionsRelatedById_receptor($criteria = null, PropelPDO $con = null)
+	{
+		if(null === $this->collNotificacionsRelatedById_receptor || null !== $criteria) {
+			if ($this->isNew() && null === $this->collNotificacionsRelatedById_receptor) {
+				// return empty collection
+				$this->initNotificacionsRelatedById_receptor();
+			} else {
+				$collNotificacionsRelatedById_receptor = NotificacionQuery::create(null, $criteria)
+					->filterByUsuarioRelatedById_receptor($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collNotificacionsRelatedById_receptor;
+				}
+				$this->collNotificacionsRelatedById_receptor = $collNotificacionsRelatedById_receptor;
+			}
+		}
+		return $this->collNotificacionsRelatedById_receptor;
+	}
+
+	/**
+	 * Sets a collection of NotificacionRelatedById_receptor objects related by a one-to-many relationship
+	 * to the current object.
+	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+	 * and new objects from the given Propel collection.
+	 *
+	 * @param      PropelCollection $notificacionsRelatedById_receptor A Propel collection.
+	 * @param      PropelPDO $con Optional connection object
+	 */
+	public function setNotificacionsRelatedById_receptor(PropelCollection $notificacionsRelatedById_receptor, PropelPDO $con = null)
+	{
+		$this->notificacionsRelatedById_receptorScheduledForDeletion = $this->getNotificacionsRelatedById_receptor(new Criteria(), $con)->diff($notificacionsRelatedById_receptor);
+
+		foreach ($notificacionsRelatedById_receptor as $notificacionRelatedById_receptor) {
+			// Fix issue with collection modified by reference
+			if ($notificacionRelatedById_receptor->isNew()) {
+				$notificacionRelatedById_receptor->setUsuarioRelatedById_receptor($this);
+			}
+			$this->addNotificacionRelatedById_receptor($notificacionRelatedById_receptor);
+		}
+
+		$this->collNotificacionsRelatedById_receptor = $notificacionsRelatedById_receptor;
+	}
+
+	/**
+	 * Returns the number of related Notificacion objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related Notificacion objects.
+	 * @throws     PropelException
+	 */
+	public function countNotificacionsRelatedById_receptor(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collNotificacionsRelatedById_receptor || null !== $criteria) {
+			if ($this->isNew() && null === $this->collNotificacionsRelatedById_receptor) {
+				return 0;
+			} else {
+				$query = NotificacionQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterByUsuarioRelatedById_receptor($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collNotificacionsRelatedById_receptor);
+		}
+	}
+
+	/**
+	 * Method called to associate a Notificacion object to this object
+	 * through the Notificacion foreign key attribute.
+	 *
+	 * @param      Notificacion $l Notificacion
+	 * @return     Usuario The current object (for fluent API support)
+	 */
+	public function addNotificacionRelatedById_receptor(Notificacion $l)
+	{
+		if ($this->collNotificacionsRelatedById_receptor === null) {
+			$this->initNotificacionsRelatedById_receptor();
+		}
+		if (!$this->collNotificacionsRelatedById_receptor->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddNotificacionRelatedById_receptor($l);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param	NotificacionRelatedById_receptor $notificacionRelatedById_receptor The notificacionRelatedById_receptor object to add.
+	 */
+	protected function doAddNotificacionRelatedById_receptor($notificacionRelatedById_receptor)
+	{
+		$this->collNotificacionsRelatedById_receptor[]= $notificacionRelatedById_receptor;
+		$notificacionRelatedById_receptor->setUsuarioRelatedById_receptor($this);
 	}
 
 	/**
@@ -2668,6 +3683,26 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	public function clearAllReferences($deep = false)
 	{
 		if ($deep) {
+			if ($this->collAmistadsRelatedById_usuario) {
+				foreach ($this->collAmistadsRelatedById_usuario as $o) {
+					$o->clearAllReferences($deep);
+				}
+			}
+			if ($this->collAmistadsRelatedByid_usuarioamigo) {
+				foreach ($this->collAmistadsRelatedByid_usuarioamigo as $o) {
+					$o->clearAllReferences($deep);
+				}
+			}
+			if ($this->collLibros) {
+				foreach ($this->collLibros as $o) {
+					$o->clearAllReferences($deep);
+				}
+			}
+			if ($this->collListas) {
+				foreach ($this->collListas as $o) {
+					$o->clearAllReferences($deep);
+				}
+			}
 			if ($this->collLibro_colaboradors) {
 				foreach ($this->collLibro_colaboradors as $o) {
 					$o->clearAllReferences($deep);
@@ -2688,8 +3723,13 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 					$o->clearAllReferences($deep);
 				}
 			}
-			if ($this->collNotificacions) {
-				foreach ($this->collNotificacions as $o) {
+			if ($this->collNotificacionsRelatedById_emisor) {
+				foreach ($this->collNotificacionsRelatedById_emisor as $o) {
+					$o->clearAllReferences($deep);
+				}
+			}
+			if ($this->collNotificacionsRelatedById_receptor) {
+				foreach ($this->collNotificacionsRelatedById_receptor as $o) {
 					$o->clearAllReferences($deep);
 				}
 			}
@@ -2710,6 +3750,22 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 			}
 		} // if ($deep)
 
+		if ($this->collAmistadsRelatedById_usuario instanceof PropelCollection) {
+			$this->collAmistadsRelatedById_usuario->clearIterator();
+		}
+		$this->collAmistadsRelatedById_usuario = null;
+		if ($this->collAmistadsRelatedByid_usuarioamigo instanceof PropelCollection) {
+			$this->collAmistadsRelatedByid_usuarioamigo->clearIterator();
+		}
+		$this->collAmistadsRelatedByid_usuarioamigo = null;
+		if ($this->collLibros instanceof PropelCollection) {
+			$this->collLibros->clearIterator();
+		}
+		$this->collLibros = null;
+		if ($this->collListas instanceof PropelCollection) {
+			$this->collListas->clearIterator();
+		}
+		$this->collListas = null;
 		if ($this->collLibro_colaboradors instanceof PropelCollection) {
 			$this->collLibro_colaboradors->clearIterator();
 		}
@@ -2726,10 +3782,14 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 			$this->collMensajesRelatedById_usuario_remitente->clearIterator();
 		}
 		$this->collMensajesRelatedById_usuario_remitente = null;
-		if ($this->collNotificacions instanceof PropelCollection) {
-			$this->collNotificacions->clearIterator();
+		if ($this->collNotificacionsRelatedById_emisor instanceof PropelCollection) {
+			$this->collNotificacionsRelatedById_emisor->clearIterator();
 		}
-		$this->collNotificacions = null;
+		$this->collNotificacionsRelatedById_emisor = null;
+		if ($this->collNotificacionsRelatedById_receptor instanceof PropelCollection) {
+			$this->collNotificacionsRelatedById_receptor->clearIterator();
+		}
+		$this->collNotificacionsRelatedById_receptor = null;
 		if ($this->collSolicitudsRelatedById_usuario_solicitado instanceof PropelCollection) {
 			$this->collSolicitudsRelatedById_usuario_solicitado->clearIterator();
 		}

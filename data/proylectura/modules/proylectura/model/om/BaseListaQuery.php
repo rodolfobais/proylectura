@@ -24,6 +24,18 @@
  * @method     ListaQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ListaQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     ListaQuery leftJoinUsuario($relationAlias = null) Adds a LEFT JOIN clause to the query using the Usuario relation
+ * @method     ListaQuery rightJoinUsuario($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Usuario relation
+ * @method     ListaQuery innerJoinUsuario($relationAlias = null) Adds a INNER JOIN clause to the query using the Usuario relation
+ *
+ * @method     ListaQuery leftJoinGenero($relationAlias = null) Adds a LEFT JOIN clause to the query using the Genero relation
+ * @method     ListaQuery rightJoinGenero($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Genero relation
+ * @method     ListaQuery innerJoinGenero($relationAlias = null) Adds a INNER JOIN clause to the query using the Genero relation
+ *
+ * @method     ListaQuery leftJoinLista_audiolibro($relationAlias = null) Adds a LEFT JOIN clause to the query using the Lista_audiolibro relation
+ * @method     ListaQuery rightJoinLista_audiolibro($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Lista_audiolibro relation
+ * @method     ListaQuery innerJoinLista_audiolibro($relationAlias = null) Adds a INNER JOIN clause to the query using the Lista_audiolibro relation
+ *
  * @method     Lista findOne(PropelPDO $con = null) Return the first Lista matching the query
  * @method     Lista findOneOrCreate(PropelPDO $con = null) Return the first Lista matching the query, or a new Lista object populated from the query conditions when no match is found
  *
@@ -359,6 +371,8 @@ abstract class BaseListaQuery extends ModelCriteria
 	 * $query->filterById_usuario(array('min' => 12)); // WHERE id_usuario > 12
 	 * </code>
 	 *
+	 * @see       filterByUsuario()
+	 *
 	 * @param     mixed $id_usuario The value to use as filter.
 	 *              Use scalar values for equality.
 	 *              Use array values for in_array() equivalent.
@@ -399,6 +413,8 @@ abstract class BaseListaQuery extends ModelCriteria
 	 * $query->filterById_genero(array('min' => 12)); // WHERE id_genero > 12
 	 * </code>
 	 *
+	 * @see       filterByGenero()
+	 *
 	 * @param     mixed $id_genero The value to use as filter.
 	 *              Use scalar values for equality.
 	 *              Use array values for in_array() equivalent.
@@ -427,6 +443,227 @@ abstract class BaseListaQuery extends ModelCriteria
 			}
 		}
 		return $this->addUsingAlias(ListaPeer::ID_GENERO, $id_genero, $comparison);
+	}
+
+	/**
+	 * Filter the query by a related Usuario object
+	 *
+	 * @param     Usuario|PropelCollection $usuario The related object(s) to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    ListaQuery The current query, for fluid interface
+	 */
+	public function filterByUsuario($usuario, $comparison = null)
+	{
+		if ($usuario instanceof Usuario) {
+			return $this
+				->addUsingAlias(ListaPeer::ID_USUARIO, $usuario->getId(), $comparison);
+		} elseif ($usuario instanceof PropelCollection) {
+			if (null === $comparison) {
+				$comparison = Criteria::IN;
+			}
+			return $this
+				->addUsingAlias(ListaPeer::ID_USUARIO, $usuario->toKeyValue('PrimaryKey', 'Id'), $comparison);
+		} else {
+			throw new PropelException('filterByUsuario() only accepts arguments of type Usuario or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the Usuario relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    ListaQuery The current query, for fluid interface
+	 */
+	public function joinUsuario($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('Usuario');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'Usuario');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the Usuario relation Usuario object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    UsuarioQuery A secondary query class using the current class as primary query
+	 */
+	public function useUsuarioQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinUsuario($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Usuario', 'UsuarioQuery');
+	}
+
+	/**
+	 * Filter the query by a related Genero object
+	 *
+	 * @param     Genero|PropelCollection $genero The related object(s) to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    ListaQuery The current query, for fluid interface
+	 */
+	public function filterByGenero($genero, $comparison = null)
+	{
+		if ($genero instanceof Genero) {
+			return $this
+				->addUsingAlias(ListaPeer::ID_GENERO, $genero->getId(), $comparison);
+		} elseif ($genero instanceof PropelCollection) {
+			if (null === $comparison) {
+				$comparison = Criteria::IN;
+			}
+			return $this
+				->addUsingAlias(ListaPeer::ID_GENERO, $genero->toKeyValue('PrimaryKey', 'Id'), $comparison);
+		} else {
+			throw new PropelException('filterByGenero() only accepts arguments of type Genero or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the Genero relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    ListaQuery The current query, for fluid interface
+	 */
+	public function joinGenero($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('Genero');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'Genero');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the Genero relation Genero object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    GeneroQuery A secondary query class using the current class as primary query
+	 */
+	public function useGeneroQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinGenero($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Genero', 'GeneroQuery');
+	}
+
+	/**
+	 * Filter the query by a related Lista_audiolibro object
+	 *
+	 * @param     Lista_audiolibro $lista_audiolibro  the related object to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    ListaQuery The current query, for fluid interface
+	 */
+	public function filterByLista_audiolibro($lista_audiolibro, $comparison = null)
+	{
+		if ($lista_audiolibro instanceof Lista_audiolibro) {
+			return $this
+				->addUsingAlias(ListaPeer::ID, $lista_audiolibro->getId_lista(), $comparison);
+		} elseif ($lista_audiolibro instanceof PropelCollection) {
+			return $this
+				->useLista_audiolibroQuery()
+				->filterByPrimaryKeys($lista_audiolibro->getPrimaryKeys())
+				->endUse();
+		} else {
+			throw new PropelException('filterByLista_audiolibro() only accepts arguments of type Lista_audiolibro or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the Lista_audiolibro relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    ListaQuery The current query, for fluid interface
+	 */
+	public function joinLista_audiolibro($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('Lista_audiolibro');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'Lista_audiolibro');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the Lista_audiolibro relation Lista_audiolibro object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    Lista_audiolibroQuery A secondary query class using the current class as primary query
+	 */
+	public function useLista_audiolibroQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinLista_audiolibro($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Lista_audiolibro', 'Lista_audiolibroQuery');
 	}
 
 	/**

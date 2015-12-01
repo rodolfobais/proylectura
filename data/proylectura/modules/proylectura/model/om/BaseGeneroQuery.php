@@ -16,6 +16,10 @@
  * @method     GeneroQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     GeneroQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     GeneroQuery leftJoinLista($relationAlias = null) Adds a LEFT JOIN clause to the query using the Lista relation
+ * @method     GeneroQuery rightJoinLista($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Lista relation
+ * @method     GeneroQuery innerJoinLista($relationAlias = null) Adds a INNER JOIN clause to the query using the Lista relation
+ *
  * @method     Genero findOne(PropelPDO $con = null) Return the first Genero matching the query
  * @method     Genero findOneOrCreate(PropelPDO $con = null) Return the first Genero matching the query, or a new Genero object populated from the query conditions when no match is found
  *
@@ -249,6 +253,79 @@ abstract class BaseGeneroQuery extends ModelCriteria
 			}
 		}
 		return $this->addUsingAlias(GeneroPeer::NOMBRE, $nombre, $comparison);
+	}
+
+	/**
+	 * Filter the query by a related Lista object
+	 *
+	 * @param     Lista $lista  the related object to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    GeneroQuery The current query, for fluid interface
+	 */
+	public function filterByLista($lista, $comparison = null)
+	{
+		if ($lista instanceof Lista) {
+			return $this
+				->addUsingAlias(GeneroPeer::ID, $lista->getId_genero(), $comparison);
+		} elseif ($lista instanceof PropelCollection) {
+			return $this
+				->useListaQuery()
+				->filterByPrimaryKeys($lista->getPrimaryKeys())
+				->endUse();
+		} else {
+			throw new PropelException('filterByLista() only accepts arguments of type Lista or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the Lista relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    GeneroQuery The current query, for fluid interface
+	 */
+	public function joinLista($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('Lista');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'Lista');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the Lista relation Lista object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    ListaQuery A secondary query class using the current class as primary query
+	 */
+	public function useListaQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinLista($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Lista', 'ListaQuery');
 	}
 
 	/**

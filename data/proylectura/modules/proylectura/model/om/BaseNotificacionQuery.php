@@ -7,35 +7,43 @@
  * 
  *
  * @method     NotificacionQuery orderById($order = Criteria::ASC) Order by the id column
- * @method     NotificacionQuery orderById_notificacion($order = Criteria::ASC) Order by the id_notificacion column
- * @method     NotificacionQuery orderById_usuario($order = Criteria::ASC) Order by the id_usuario column
+ * @method     NotificacionQuery orderById_emisor($order = Criteria::ASC) Order by the id_emisor column
+ * @method     NotificacionQuery orderById_receptor($order = Criteria::ASC) Order by the id_receptor column
  * @method     NotificacionQuery orderByDescripcion($order = Criteria::ASC) Order by the descripcion column
+ * @method     NotificacionQuery orderById_tipo_notificacion($order = Criteria::ASC) Order by the id_tipo_notificacion column
  *
  * @method     NotificacionQuery groupById() Group by the id column
- * @method     NotificacionQuery groupById_notificacion() Group by the id_notificacion column
- * @method     NotificacionQuery groupById_usuario() Group by the id_usuario column
+ * @method     NotificacionQuery groupById_emisor() Group by the id_emisor column
+ * @method     NotificacionQuery groupById_receptor() Group by the id_receptor column
  * @method     NotificacionQuery groupByDescripcion() Group by the descripcion column
+ * @method     NotificacionQuery groupById_tipo_notificacion() Group by the id_tipo_notificacion column
  *
  * @method     NotificacionQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     NotificacionQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     NotificacionQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     NotificacionQuery leftJoinUsuario($relationAlias = null) Adds a LEFT JOIN clause to the query using the Usuario relation
- * @method     NotificacionQuery rightJoinUsuario($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Usuario relation
- * @method     NotificacionQuery innerJoinUsuario($relationAlias = null) Adds a INNER JOIN clause to the query using the Usuario relation
+ * @method     NotificacionQuery leftJoinUsuarioRelatedById_emisor($relationAlias = null) Adds a LEFT JOIN clause to the query using the UsuarioRelatedById_emisor relation
+ * @method     NotificacionQuery rightJoinUsuarioRelatedById_emisor($relationAlias = null) Adds a RIGHT JOIN clause to the query using the UsuarioRelatedById_emisor relation
+ * @method     NotificacionQuery innerJoinUsuarioRelatedById_emisor($relationAlias = null) Adds a INNER JOIN clause to the query using the UsuarioRelatedById_emisor relation
+ *
+ * @method     NotificacionQuery leftJoinUsuarioRelatedById_receptor($relationAlias = null) Adds a LEFT JOIN clause to the query using the UsuarioRelatedById_receptor relation
+ * @method     NotificacionQuery rightJoinUsuarioRelatedById_receptor($relationAlias = null) Adds a RIGHT JOIN clause to the query using the UsuarioRelatedById_receptor relation
+ * @method     NotificacionQuery innerJoinUsuarioRelatedById_receptor($relationAlias = null) Adds a INNER JOIN clause to the query using the UsuarioRelatedById_receptor relation
  *
  * @method     Notificacion findOne(PropelPDO $con = null) Return the first Notificacion matching the query
  * @method     Notificacion findOneOrCreate(PropelPDO $con = null) Return the first Notificacion matching the query, or a new Notificacion object populated from the query conditions when no match is found
  *
  * @method     Notificacion findOneById(int $id) Return the first Notificacion filtered by the id column
- * @method     Notificacion findOneById_notificacion(int $id_notificacion) Return the first Notificacion filtered by the id_notificacion column
- * @method     Notificacion findOneById_usuario(int $id_usuario) Return the first Notificacion filtered by the id_usuario column
+ * @method     Notificacion findOneById_emisor(int $id_emisor) Return the first Notificacion filtered by the id_emisor column
+ * @method     Notificacion findOneById_receptor(int $id_receptor) Return the first Notificacion filtered by the id_receptor column
  * @method     Notificacion findOneByDescripcion(string $descripcion) Return the first Notificacion filtered by the descripcion column
+ * @method     Notificacion findOneById_tipo_notificacion(int $id_tipo_notificacion) Return the first Notificacion filtered by the id_tipo_notificacion column
  *
  * @method     array findById(int $id) Return Notificacion objects filtered by the id column
- * @method     array findById_notificacion(int $id_notificacion) Return Notificacion objects filtered by the id_notificacion column
- * @method     array findById_usuario(int $id_usuario) Return Notificacion objects filtered by the id_usuario column
+ * @method     array findById_emisor(int $id_emisor) Return Notificacion objects filtered by the id_emisor column
+ * @method     array findById_receptor(int $id_receptor) Return Notificacion objects filtered by the id_receptor column
  * @method     array findByDescripcion(string $descripcion) Return Notificacion objects filtered by the descripcion column
+ * @method     array findById_tipo_notificacion(int $id_tipo_notificacion) Return Notificacion objects filtered by the id_tipo_notificacion column
  *
  * @package    propel.generator.proylectura.model.om
  */
@@ -124,7 +132,7 @@ abstract class BaseNotificacionQuery extends ModelCriteria
 	 */
 	protected function findPkSimple($key, $con)
 	{
-		$sql = 'SELECT `ID`, `ID_NOTIFICACION`, `ID_USUARIO`, `DESCRIPCION` FROM `notificacion` WHERE `ID` = :p0';
+		$sql = 'SELECT `ID`, `ID_EMISOR`, `ID_RECEPTOR`, `DESCRIPCION`, `ID_TIPO_NOTIFICACION` FROM `notificacion` WHERE `ID` = :p0';
 		try {
 			$stmt = $con->prepare($sql);
 			$stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -236,16 +244,18 @@ abstract class BaseNotificacionQuery extends ModelCriteria
 	}
 
 	/**
-	 * Filter the query on the id_notificacion column
+	 * Filter the query on the id_emisor column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterById_notificacion(1234); // WHERE id_notificacion = 1234
-	 * $query->filterById_notificacion(array(12, 34)); // WHERE id_notificacion IN (12, 34)
-	 * $query->filterById_notificacion(array('min' => 12)); // WHERE id_notificacion > 12
+	 * $query->filterById_emisor(1234); // WHERE id_emisor = 1234
+	 * $query->filterById_emisor(array(12, 34)); // WHERE id_emisor IN (12, 34)
+	 * $query->filterById_emisor(array('min' => 12)); // WHERE id_emisor > 12
 	 * </code>
 	 *
-	 * @param     mixed $id_notificacion The value to use as filter.
+	 * @see       filterByUsuarioRelatedById_emisor()
+	 *
+	 * @param     mixed $id_emisor The value to use as filter.
 	 *              Use scalar values for equality.
 	 *              Use array values for in_array() equivalent.
 	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -253,16 +263,16 @@ abstract class BaseNotificacionQuery extends ModelCriteria
 	 *
 	 * @return    NotificacionQuery The current query, for fluid interface
 	 */
-	public function filterById_notificacion($id_notificacion = null, $comparison = null)
+	public function filterById_emisor($id_emisor = null, $comparison = null)
 	{
-		if (is_array($id_notificacion)) {
+		if (is_array($id_emisor)) {
 			$useMinMax = false;
-			if (isset($id_notificacion['min'])) {
-				$this->addUsingAlias(NotificacionPeer::ID_NOTIFICACION, $id_notificacion['min'], Criteria::GREATER_EQUAL);
+			if (isset($id_emisor['min'])) {
+				$this->addUsingAlias(NotificacionPeer::ID_EMISOR, $id_emisor['min'], Criteria::GREATER_EQUAL);
 				$useMinMax = true;
 			}
-			if (isset($id_notificacion['max'])) {
-				$this->addUsingAlias(NotificacionPeer::ID_NOTIFICACION, $id_notificacion['max'], Criteria::LESS_EQUAL);
+			if (isset($id_emisor['max'])) {
+				$this->addUsingAlias(NotificacionPeer::ID_EMISOR, $id_emisor['max'], Criteria::LESS_EQUAL);
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -272,22 +282,22 @@ abstract class BaseNotificacionQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(NotificacionPeer::ID_NOTIFICACION, $id_notificacion, $comparison);
+		return $this->addUsingAlias(NotificacionPeer::ID_EMISOR, $id_emisor, $comparison);
 	}
 
 	/**
-	 * Filter the query on the id_usuario column
+	 * Filter the query on the id_receptor column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterById_usuario(1234); // WHERE id_usuario = 1234
-	 * $query->filterById_usuario(array(12, 34)); // WHERE id_usuario IN (12, 34)
-	 * $query->filterById_usuario(array('min' => 12)); // WHERE id_usuario > 12
+	 * $query->filterById_receptor(1234); // WHERE id_receptor = 1234
+	 * $query->filterById_receptor(array(12, 34)); // WHERE id_receptor IN (12, 34)
+	 * $query->filterById_receptor(array('min' => 12)); // WHERE id_receptor > 12
 	 * </code>
 	 *
-	 * @see       filterByUsuario()
+	 * @see       filterByUsuarioRelatedById_receptor()
 	 *
-	 * @param     mixed $id_usuario The value to use as filter.
+	 * @param     mixed $id_receptor The value to use as filter.
 	 *              Use scalar values for equality.
 	 *              Use array values for in_array() equivalent.
 	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -295,16 +305,16 @@ abstract class BaseNotificacionQuery extends ModelCriteria
 	 *
 	 * @return    NotificacionQuery The current query, for fluid interface
 	 */
-	public function filterById_usuario($id_usuario = null, $comparison = null)
+	public function filterById_receptor($id_receptor = null, $comparison = null)
 	{
-		if (is_array($id_usuario)) {
+		if (is_array($id_receptor)) {
 			$useMinMax = false;
-			if (isset($id_usuario['min'])) {
-				$this->addUsingAlias(NotificacionPeer::ID_USUARIO, $id_usuario['min'], Criteria::GREATER_EQUAL);
+			if (isset($id_receptor['min'])) {
+				$this->addUsingAlias(NotificacionPeer::ID_RECEPTOR, $id_receptor['min'], Criteria::GREATER_EQUAL);
 				$useMinMax = true;
 			}
-			if (isset($id_usuario['max'])) {
-				$this->addUsingAlias(NotificacionPeer::ID_USUARIO, $id_usuario['max'], Criteria::LESS_EQUAL);
+			if (isset($id_receptor['max'])) {
+				$this->addUsingAlias(NotificacionPeer::ID_RECEPTOR, $id_receptor['max'], Criteria::LESS_EQUAL);
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -314,7 +324,7 @@ abstract class BaseNotificacionQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(NotificacionPeer::ID_USUARIO, $id_usuario, $comparison);
+		return $this->addUsingAlias(NotificacionPeer::ID_RECEPTOR, $id_receptor, $comparison);
 	}
 
 	/**
@@ -346,6 +356,46 @@ abstract class BaseNotificacionQuery extends ModelCriteria
 	}
 
 	/**
+	 * Filter the query on the id_tipo_notificacion column
+	 *
+	 * Example usage:
+	 * <code>
+	 * $query->filterById_tipo_notificacion(1234); // WHERE id_tipo_notificacion = 1234
+	 * $query->filterById_tipo_notificacion(array(12, 34)); // WHERE id_tipo_notificacion IN (12, 34)
+	 * $query->filterById_tipo_notificacion(array('min' => 12)); // WHERE id_tipo_notificacion > 12
+	 * </code>
+	 *
+	 * @param     mixed $id_tipo_notificacion The value to use as filter.
+	 *              Use scalar values for equality.
+	 *              Use array values for in_array() equivalent.
+	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    NotificacionQuery The current query, for fluid interface
+	 */
+	public function filterById_tipo_notificacion($id_tipo_notificacion = null, $comparison = null)
+	{
+		if (is_array($id_tipo_notificacion)) {
+			$useMinMax = false;
+			if (isset($id_tipo_notificacion['min'])) {
+				$this->addUsingAlias(NotificacionPeer::ID_TIPO_NOTIFICACION, $id_tipo_notificacion['min'], Criteria::GREATER_EQUAL);
+				$useMinMax = true;
+			}
+			if (isset($id_tipo_notificacion['max'])) {
+				$this->addUsingAlias(NotificacionPeer::ID_TIPO_NOTIFICACION, $id_tipo_notificacion['max'], Criteria::LESS_EQUAL);
+				$useMinMax = true;
+			}
+			if ($useMinMax) {
+				return $this;
+			}
+			if (null === $comparison) {
+				$comparison = Criteria::IN;
+			}
+		}
+		return $this->addUsingAlias(NotificacionPeer::ID_TIPO_NOTIFICACION, $id_tipo_notificacion, $comparison);
+	}
+
+	/**
 	 * Filter the query by a related Usuario object
 	 *
 	 * @param     Usuario|PropelCollection $usuario The related object(s) to use as filter
@@ -353,34 +403,34 @@ abstract class BaseNotificacionQuery extends ModelCriteria
 	 *
 	 * @return    NotificacionQuery The current query, for fluid interface
 	 */
-	public function filterByUsuario($usuario, $comparison = null)
+	public function filterByUsuarioRelatedById_emisor($usuario, $comparison = null)
 	{
 		if ($usuario instanceof Usuario) {
 			return $this
-				->addUsingAlias(NotificacionPeer::ID_USUARIO, $usuario->getId(), $comparison);
+				->addUsingAlias(NotificacionPeer::ID_EMISOR, $usuario->getId(), $comparison);
 		} elseif ($usuario instanceof PropelCollection) {
 			if (null === $comparison) {
 				$comparison = Criteria::IN;
 			}
 			return $this
-				->addUsingAlias(NotificacionPeer::ID_USUARIO, $usuario->toKeyValue('PrimaryKey', 'Id'), $comparison);
+				->addUsingAlias(NotificacionPeer::ID_EMISOR, $usuario->toKeyValue('PrimaryKey', 'Id'), $comparison);
 		} else {
-			throw new PropelException('filterByUsuario() only accepts arguments of type Usuario or PropelCollection');
+			throw new PropelException('filterByUsuarioRelatedById_emisor() only accepts arguments of type Usuario or PropelCollection');
 		}
 	}
 
 	/**
-	 * Adds a JOIN clause to the query using the Usuario relation
+	 * Adds a JOIN clause to the query using the UsuarioRelatedById_emisor relation
 	 *
 	 * @param     string $relationAlias optional alias for the relation
 	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
 	 *
 	 * @return    NotificacionQuery The current query, for fluid interface
 	 */
-	public function joinUsuario($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	public function joinUsuarioRelatedById_emisor($relationAlias = null, $joinType = Criteria::INNER_JOIN)
 	{
 		$tableMap = $this->getTableMap();
-		$relationMap = $tableMap->getRelation('Usuario');
+		$relationMap = $tableMap->getRelation('UsuarioRelatedById_emisor');
 
 		// create a ModelJoin object for this join
 		$join = new ModelJoin();
@@ -395,14 +445,14 @@ abstract class BaseNotificacionQuery extends ModelCriteria
 			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
 			$this->addJoinObject($join, $relationAlias);
 		} else {
-			$this->addJoinObject($join, 'Usuario');
+			$this->addJoinObject($join, 'UsuarioRelatedById_emisor');
 		}
 
 		return $this;
 	}
 
 	/**
-	 * Use the Usuario relation Usuario object
+	 * Use the UsuarioRelatedById_emisor relation Usuario object
 	 *
 	 * @see       useQuery()
 	 *
@@ -412,11 +462,85 @@ abstract class BaseNotificacionQuery extends ModelCriteria
 	 *
 	 * @return    UsuarioQuery A secondary query class using the current class as primary query
 	 */
-	public function useUsuarioQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	public function useUsuarioRelatedById_emisorQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
 	{
 		return $this
-			->joinUsuario($relationAlias, $joinType)
-			->useQuery($relationAlias ? $relationAlias : 'Usuario', 'UsuarioQuery');
+			->joinUsuarioRelatedById_emisor($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'UsuarioRelatedById_emisor', 'UsuarioQuery');
+	}
+
+	/**
+	 * Filter the query by a related Usuario object
+	 *
+	 * @param     Usuario|PropelCollection $usuario The related object(s) to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    NotificacionQuery The current query, for fluid interface
+	 */
+	public function filterByUsuarioRelatedById_receptor($usuario, $comparison = null)
+	{
+		if ($usuario instanceof Usuario) {
+			return $this
+				->addUsingAlias(NotificacionPeer::ID_RECEPTOR, $usuario->getId(), $comparison);
+		} elseif ($usuario instanceof PropelCollection) {
+			if (null === $comparison) {
+				$comparison = Criteria::IN;
+			}
+			return $this
+				->addUsingAlias(NotificacionPeer::ID_RECEPTOR, $usuario->toKeyValue('PrimaryKey', 'Id'), $comparison);
+		} else {
+			throw new PropelException('filterByUsuarioRelatedById_receptor() only accepts arguments of type Usuario or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the UsuarioRelatedById_receptor relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    NotificacionQuery The current query, for fluid interface
+	 */
+	public function joinUsuarioRelatedById_receptor($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('UsuarioRelatedById_receptor');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'UsuarioRelatedById_receptor');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the UsuarioRelatedById_receptor relation Usuario object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    UsuarioQuery A secondary query class using the current class as primary query
+	 */
+	public function useUsuarioRelatedById_receptorQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinUsuarioRelatedById_receptor($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'UsuarioRelatedById_receptor', 'UsuarioQuery');
 	}
 
 	/**

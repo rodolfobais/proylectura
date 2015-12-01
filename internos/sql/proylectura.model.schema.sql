@@ -15,7 +15,15 @@ CREATE TABLE `amistad`
 	`id_usuario` INT(10) NOT NULL,
 	`id_usuarioamigo` INT(10) NOT NULL,
 	`estado` INT(10) NOT NULL,
-	PRIMARY KEY (`id`)
+	PRIMARY KEY (`id`),
+	INDEX `FI_stad_usuario` (`id_usuario`),
+	INDEX `FI_stad_id_usuarioamigo` (`id_usuarioamigo`),
+	CONSTRAINT `amistad_usuario`
+		FOREIGN KEY (`id_usuario`)
+		REFERENCES `usuario` (`id`),
+	CONSTRAINT `amistad_id_usuarioamigo`
+		FOREIGN KEY (`id_usuarioamigo`)
+		REFERENCES `usuario` (`id`)
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
@@ -30,7 +38,12 @@ CREATE TABLE `audiolibro`
 	`nombre` CHAR(50) NOT NULL,
 	`fecha` DATE NOT NULL,
 	`hash` CHAR(250) NOT NULL,
-	PRIMARY KEY (`id`)
+	`idlibro` INT(10) NOT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `FI_iolibro_libro` (`idlibro`),
+	CONSTRAINT `audiolibro_libro`
+		FOREIGN KEY (`idlibro`)
+		REFERENCES `libro` (`id`)
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
@@ -92,7 +105,11 @@ CREATE TABLE `libro`
 	`image` CHAR(255),
 	`sinopsis` CHAR(255),
 	`texto` LONGBLOB,
-	PRIMARY KEY (`id`)
+	PRIMARY KEY (`id`),
+	INDEX `FI_ro_id_autor` (`id_autor`),
+	CONSTRAINT `libro_id_autor`
+		FOREIGN KEY (`id_autor`)
+		REFERENCES `usuario` (`id`)
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
@@ -126,7 +143,15 @@ CREATE TABLE `lista`
 	`id_visibilidad` INT(10) NOT NULL,
 	`id_usuario` INT(10) NOT NULL,
 	`id_genero` INT(10) NOT NULL,
-	PRIMARY KEY (`id`)
+	PRIMARY KEY (`id`),
+	INDEX `FI_taid_usuario` (`id_usuario`),
+	INDEX `FI_ta_genero` (`id_genero`),
+	CONSTRAINT `listaid_usuario`
+		FOREIGN KEY (`id_usuario`)
+		REFERENCES `usuario` (`id`),
+	CONSTRAINT `lista_genero`
+		FOREIGN KEY (`id_genero`)
+		REFERENCES `genero` (`id`)
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
@@ -140,7 +165,15 @@ CREATE TABLE `lista_audiolibro`
 	`id` INT(10) NOT NULL AUTO_INCREMENT,
 	`id_audiolibro` INT(10) NOT NULL,
 	`id_lista` INT(10) NOT NULL,
-	PRIMARY KEY (`id`)
+	PRIMARY KEY (`id`),
+	INDEX `FI_ta_audiolibro_audiolibro` (`id_audiolibro`),
+	INDEX `FI_ta_audiolibro_lista` (`id_lista`),
+	CONSTRAINT `lista_audiolibro_audiolibro`
+		FOREIGN KEY (`id_audiolibro`)
+		REFERENCES `audiolibro` (`id`),
+	CONSTRAINT `lista_audiolibro_lista`
+		FOREIGN KEY (`id_lista`)
+		REFERENCES `lista` (`id`)
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
@@ -221,13 +254,18 @@ DROP TABLE IF EXISTS `notificacion`;
 CREATE TABLE `notificacion`
 (
 	`id` INT(10) NOT NULL AUTO_INCREMENT,
-	`id_notificacion` INT(10) NOT NULL,
-	`id_usuario` INT(10) NOT NULL,
+	`id_emisor` INT(10) NOT NULL,
+	`id_receptor` INT(10) NOT NULL,
 	`descripcion` CHAR(100) NOT NULL,
+	`id_tipo_notificacion` INT(10) NOT NULL,
 	PRIMARY KEY (`id`),
-	INDEX `FI_ificacion_usuario` (`id_usuario`),
-	CONSTRAINT `notificacion_usuario`
-		FOREIGN KEY (`id_usuario`)
+	INDEX `FI_ificacion_emisor` (`id_emisor`),
+	INDEX `FI_ificacion_receptor` (`id_receptor`),
+	CONSTRAINT `notificacion_emisor`
+		FOREIGN KEY (`id_emisor`)
+		REFERENCES `usuario` (`id`),
+	CONSTRAINT `notificacion_receptor`
+		FOREIGN KEY (`id_receptor`)
 		REFERENCES `usuario` (`id`)
 ) ENGINE=InnoDB;
 

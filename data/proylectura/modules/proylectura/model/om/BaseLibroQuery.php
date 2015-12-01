@@ -30,6 +30,14 @@
  * @method     LibroQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     LibroQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     LibroQuery leftJoinUsuario($relationAlias = null) Adds a LEFT JOIN clause to the query using the Usuario relation
+ * @method     LibroQuery rightJoinUsuario($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Usuario relation
+ * @method     LibroQuery innerJoinUsuario($relationAlias = null) Adds a INNER JOIN clause to the query using the Usuario relation
+ *
+ * @method     LibroQuery leftJoinAudiolibro($relationAlias = null) Adds a LEFT JOIN clause to the query using the Audiolibro relation
+ * @method     LibroQuery rightJoinAudiolibro($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Audiolibro relation
+ * @method     LibroQuery innerJoinAudiolibro($relationAlias = null) Adds a INNER JOIN clause to the query using the Audiolibro relation
+ *
  * @method     LibroQuery leftJoinLibro_colaborador($relationAlias = null) Adds a LEFT JOIN clause to the query using the Libro_colaborador relation
  * @method     LibroQuery rightJoinLibro_colaborador($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Libro_colaborador relation
  * @method     LibroQuery innerJoinLibro_colaborador($relationAlias = null) Adds a INNER JOIN clause to the query using the Libro_colaborador relation
@@ -419,6 +427,8 @@ abstract class BaseLibroQuery extends ModelCriteria
 	 * $query->filterById_autor(array('min' => 12)); // WHERE id_autor > 12
 	 * </code>
 	 *
+	 * @see       filterByUsuario()
+	 *
 	 * @param     mixed $id_autor The value to use as filter.
 	 *              Use scalar values for equality.
 	 *              Use array values for in_array() equivalent.
@@ -516,6 +526,153 @@ abstract class BaseLibroQuery extends ModelCriteria
 	public function filterByTexto($texto = null, $comparison = null)
 	{
 		return $this->addUsingAlias(LibroPeer::TEXTO, $texto, $comparison);
+	}
+
+	/**
+	 * Filter the query by a related Usuario object
+	 *
+	 * @param     Usuario|PropelCollection $usuario The related object(s) to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    LibroQuery The current query, for fluid interface
+	 */
+	public function filterByUsuario($usuario, $comparison = null)
+	{
+		if ($usuario instanceof Usuario) {
+			return $this
+				->addUsingAlias(LibroPeer::ID_AUTOR, $usuario->getId(), $comparison);
+		} elseif ($usuario instanceof PropelCollection) {
+			if (null === $comparison) {
+				$comparison = Criteria::IN;
+			}
+			return $this
+				->addUsingAlias(LibroPeer::ID_AUTOR, $usuario->toKeyValue('PrimaryKey', 'Id'), $comparison);
+		} else {
+			throw new PropelException('filterByUsuario() only accepts arguments of type Usuario or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the Usuario relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    LibroQuery The current query, for fluid interface
+	 */
+	public function joinUsuario($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('Usuario');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'Usuario');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the Usuario relation Usuario object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    UsuarioQuery A secondary query class using the current class as primary query
+	 */
+	public function useUsuarioQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+	{
+		return $this
+			->joinUsuario($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Usuario', 'UsuarioQuery');
+	}
+
+	/**
+	 * Filter the query by a related Audiolibro object
+	 *
+	 * @param     Audiolibro $audiolibro  the related object to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    LibroQuery The current query, for fluid interface
+	 */
+	public function filterByAudiolibro($audiolibro, $comparison = null)
+	{
+		if ($audiolibro instanceof Audiolibro) {
+			return $this
+				->addUsingAlias(LibroPeer::ID, $audiolibro->getIdlibro(), $comparison);
+		} elseif ($audiolibro instanceof PropelCollection) {
+			return $this
+				->useAudiolibroQuery()
+				->filterByPrimaryKeys($audiolibro->getPrimaryKeys())
+				->endUse();
+		} else {
+			throw new PropelException('filterByAudiolibro() only accepts arguments of type Audiolibro or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the Audiolibro relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    LibroQuery The current query, for fluid interface
+	 */
+	public function joinAudiolibro($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('Audiolibro');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'Audiolibro');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the Audiolibro relation Audiolibro object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    AudiolibroQuery A secondary query class using the current class as primary query
+	 */
+	public function useAudiolibroQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinAudiolibro($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Audiolibro', 'AudiolibroQuery');
 	}
 
 	/**

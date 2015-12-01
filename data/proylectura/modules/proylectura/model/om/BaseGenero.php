@@ -43,6 +43,11 @@ abstract class BaseGenero extends BaseObject  implements Persistent
 	protected $nombre;
 
 	/**
+	 * @var        array Lista[] Collection to store aggregation of Lista objects.
+	 */
+	protected $collListas;
+
+	/**
 	 * Flag to prevent endless save loop, if this object is referenced
 	 * by another object which falls in this transaction.
 	 * @var        boolean
@@ -55,6 +60,12 @@ abstract class BaseGenero extends BaseObject  implements Persistent
 	 * @var        boolean
 	 */
 	protected $alreadyInValidation = false;
+
+	/**
+	 * An array of objects scheduled for deletion.
+	 * @var		array
+	 */
+	protected $listasScheduledForDeletion = null;
 
 	/**
 	 * Get the [id] column value.
@@ -220,6 +231,8 @@ abstract class BaseGenero extends BaseObject  implements Persistent
 
 		if ($deep) {  // also de-associate any related objects?
 
+			$this->collListas = null;
+
 		} // if (deep)
 	}
 
@@ -339,6 +352,23 @@ abstract class BaseGenero extends BaseObject  implements Persistent
 				}
 				$affectedRows += 1;
 				$this->resetModified();
+			}
+
+			if ($this->listasScheduledForDeletion !== null) {
+				if (!$this->listasScheduledForDeletion->isEmpty()) {
+		ListaQuery::create()
+						->filterByPrimaryKeys($this->listasScheduledForDeletion->getPrimaryKeys(false))
+						->delete($con);
+					$this->listasScheduledForDeletion = null;
+				}
+			}
+
+			if ($this->collListas !== null) {
+				foreach ($this->collListas as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
 			}
 
 			$this->alreadyInSave = false;
@@ -486,6 +516,14 @@ abstract class BaseGenero extends BaseObject  implements Persistent
 			}
 
 
+				if ($this->collListas !== null) {
+					foreach ($this->collListas as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
 
 			$this->alreadyInValidation = false;
 		}
@@ -542,10 +580,11 @@ abstract class BaseGenero extends BaseObject  implements Persistent
 	 *                    Defaults to BasePeer::TYPE_PHPNAME.
 	 * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
 	 * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
+	 * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
 	 *
 	 * @return    array an associative array containing the field names (as keys) and field values
 	 */
-	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
+	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
 	{
 		if (isset($alreadyDumpedObjects['Genero'][$this->getPrimaryKey()])) {
 			return '*RECURSION*';
@@ -556,6 +595,11 @@ abstract class BaseGenero extends BaseObject  implements Persistent
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getNombre(),
 		);
+		if ($includeForeignObjects) {
+			if (null !== $this->collListas) {
+				$result['Listas'] = $this->collListas->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			}
+		}
 		return $result;
 	}
 
@@ -694,6 +738,24 @@ abstract class BaseGenero extends BaseObject  implements Persistent
 	public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
 	{
 		$copyObj->setNombre($this->getNombre());
+
+		if ($deepCopy && !$this->startCopy) {
+			// important: temporarily setNew(false) because this affects the behavior of
+			// the getter/setter methods for fkey referrer objects.
+			$copyObj->setNew(false);
+			// store object hash to prevent cycle
+			$this->startCopy = true;
+
+			foreach ($this->getListas() as $relObj) {
+				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addLista($relObj->copy($deepCopy));
+				}
+			}
+
+			//unflag object copy
+			$this->startCopy = false;
+		} // if ($deepCopy)
+
 		if ($makeNew) {
 			$copyObj->setNew(true);
 			$copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -738,6 +800,195 @@ abstract class BaseGenero extends BaseObject  implements Persistent
 		return self::$peer;
 	}
 
+
+	/**
+	 * Initializes a collection based on the name of a relation.
+	 * Avoids crafting an 'init[$relationName]s' method name
+	 * that wouldn't work when StandardEnglishPluralizer is used.
+	 *
+	 * @param      string $relationName The name of the relation to initialize
+	 * @return     void
+	 */
+	public function initRelation($relationName)
+	{
+		if ('Lista' == $relationName) {
+			return $this->initListas();
+		}
+	}
+
+	/**
+	 * Clears out the collListas collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addListas()
+	 */
+	public function clearListas()
+	{
+		$this->collListas = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collListas collection.
+	 *
+	 * By default this just sets the collListas collection to an empty array (like clearcollListas());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @param      boolean $overrideExisting If set to true, the method call initializes
+	 *                                        the collection even if it is not empty
+	 *
+	 * @return     void
+	 */
+	public function initListas($overrideExisting = true)
+	{
+		if (null !== $this->collListas && !$overrideExisting) {
+			return;
+		}
+		$this->collListas = new PropelObjectCollection();
+		$this->collListas->setModel('Lista');
+	}
+
+	/**
+	 * Gets an array of Lista objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this Genero is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array Lista[] List of Lista objects
+	 * @throws     PropelException
+	 */
+	public function getListas($criteria = null, PropelPDO $con = null)
+	{
+		if(null === $this->collListas || null !== $criteria) {
+			if ($this->isNew() && null === $this->collListas) {
+				// return empty collection
+				$this->initListas();
+			} else {
+				$collListas = ListaQuery::create(null, $criteria)
+					->filterByGenero($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collListas;
+				}
+				$this->collListas = $collListas;
+			}
+		}
+		return $this->collListas;
+	}
+
+	/**
+	 * Sets a collection of Lista objects related by a one-to-many relationship
+	 * to the current object.
+	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+	 * and new objects from the given Propel collection.
+	 *
+	 * @param      PropelCollection $listas A Propel collection.
+	 * @param      PropelPDO $con Optional connection object
+	 */
+	public function setListas(PropelCollection $listas, PropelPDO $con = null)
+	{
+		$this->listasScheduledForDeletion = $this->getListas(new Criteria(), $con)->diff($listas);
+
+		foreach ($listas as $lista) {
+			// Fix issue with collection modified by reference
+			if ($lista->isNew()) {
+				$lista->setGenero($this);
+			}
+			$this->addLista($lista);
+		}
+
+		$this->collListas = $listas;
+	}
+
+	/**
+	 * Returns the number of related Lista objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related Lista objects.
+	 * @throws     PropelException
+	 */
+	public function countListas(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collListas || null !== $criteria) {
+			if ($this->isNew() && null === $this->collListas) {
+				return 0;
+			} else {
+				$query = ListaQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterByGenero($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collListas);
+		}
+	}
+
+	/**
+	 * Method called to associate a Lista object to this object
+	 * through the Lista foreign key attribute.
+	 *
+	 * @param      Lista $l Lista
+	 * @return     Genero The current object (for fluent API support)
+	 */
+	public function addLista(Lista $l)
+	{
+		if ($this->collListas === null) {
+			$this->initListas();
+		}
+		if (!$this->collListas->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddLista($l);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param	Lista $lista The lista object to add.
+	 */
+	protected function doAddLista($lista)
+	{
+		$this->collListas[]= $lista;
+		$lista->setGenero($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Genero is new, it will return
+	 * an empty collection; or if this Genero has previously
+	 * been saved, it will retrieve related Listas from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Genero.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return     PropelCollection|array Lista[] List of Lista objects
+	 */
+	public function getListasJoinUsuario($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$query = ListaQuery::create(null, $criteria);
+		$query->joinWith('Usuario', $join_behavior);
+
+		return $this->getListas($query, $con);
+	}
+
 	/**
 	 * Clears the current object and sets all attributes to their default values
 	 */
@@ -765,8 +1016,17 @@ abstract class BaseGenero extends BaseObject  implements Persistent
 	public function clearAllReferences($deep = false)
 	{
 		if ($deep) {
+			if ($this->collListas) {
+				foreach ($this->collListas as $o) {
+					$o->clearAllReferences($deep);
+				}
+			}
 		} // if ($deep)
 
+		if ($this->collListas instanceof PropelCollection) {
+			$this->collListas->clearIterator();
+		}
+		$this->collListas = null;
 	}
 
 	/**

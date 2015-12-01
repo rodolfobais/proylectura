@@ -42,6 +42,7 @@ class AudiolibroTableMap extends TableMap
 		$this->addColumn('NOMBRE', 'Nombre', 'CHAR', true, 50, null);
 		$this->addColumn('FECHA', 'Fecha', 'DATE', true, null, null);
 		$this->addColumn('HASH', 'Hash', 'CHAR', true, 250, null);
+		$this->addForeignKey('IDLIBRO', 'Idlibro', 'INTEGER', 'libro', 'ID', true, null, null);
 		// validators
 	} // initialize()
 
@@ -50,6 +51,8 @@ class AudiolibroTableMap extends TableMap
 	 */
 	public function buildRelations()
 	{
+		$this->addRelation('Libro', 'Libro', RelationMap::MANY_TO_ONE, array('idlibro' => 'id', ), null, null);
+		$this->addRelation('Lista_audiolibro', 'Lista_audiolibro', RelationMap::ONE_TO_MANY, array('id' => 'id_audiolibro', ), null, null, 'Lista_audiolibros');
 	} // buildRelations()
 
 } // AudiolibroTableMap

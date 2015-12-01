@@ -18,6 +18,14 @@
  * @method     Lista_audiolibroQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     Lista_audiolibroQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     Lista_audiolibroQuery leftJoinAudiolibro($relationAlias = null) Adds a LEFT JOIN clause to the query using the Audiolibro relation
+ * @method     Lista_audiolibroQuery rightJoinAudiolibro($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Audiolibro relation
+ * @method     Lista_audiolibroQuery innerJoinAudiolibro($relationAlias = null) Adds a INNER JOIN clause to the query using the Audiolibro relation
+ *
+ * @method     Lista_audiolibroQuery leftJoinLista($relationAlias = null) Adds a LEFT JOIN clause to the query using the Lista relation
+ * @method     Lista_audiolibroQuery rightJoinLista($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Lista relation
+ * @method     Lista_audiolibroQuery innerJoinLista($relationAlias = null) Adds a INNER JOIN clause to the query using the Lista relation
+ *
  * @method     Lista_audiolibro findOne(PropelPDO $con = null) Return the first Lista_audiolibro matching the query
  * @method     Lista_audiolibro findOneOrCreate(PropelPDO $con = null) Return the first Lista_audiolibro matching the query, or a new Lista_audiolibro object populated from the query conditions when no match is found
  *
@@ -237,6 +245,8 @@ abstract class BaseLista_audiolibroQuery extends ModelCriteria
 	 * $query->filterById_audiolibro(array('min' => 12)); // WHERE id_audiolibro > 12
 	 * </code>
 	 *
+	 * @see       filterByAudiolibro()
+	 *
 	 * @param     mixed $id_audiolibro The value to use as filter.
 	 *              Use scalar values for equality.
 	 *              Use array values for in_array() equivalent.
@@ -277,6 +287,8 @@ abstract class BaseLista_audiolibroQuery extends ModelCriteria
 	 * $query->filterById_lista(array('min' => 12)); // WHERE id_lista > 12
 	 * </code>
 	 *
+	 * @see       filterByLista()
+	 *
 	 * @param     mixed $id_lista The value to use as filter.
 	 *              Use scalar values for equality.
 	 *              Use array values for in_array() equivalent.
@@ -305,6 +317,154 @@ abstract class BaseLista_audiolibroQuery extends ModelCriteria
 			}
 		}
 		return $this->addUsingAlias(Lista_audiolibroPeer::ID_LISTA, $id_lista, $comparison);
+	}
+
+	/**
+	 * Filter the query by a related Audiolibro object
+	 *
+	 * @param     Audiolibro|PropelCollection $audiolibro The related object(s) to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    Lista_audiolibroQuery The current query, for fluid interface
+	 */
+	public function filterByAudiolibro($audiolibro, $comparison = null)
+	{
+		if ($audiolibro instanceof Audiolibro) {
+			return $this
+				->addUsingAlias(Lista_audiolibroPeer::ID_AUDIOLIBRO, $audiolibro->getId(), $comparison);
+		} elseif ($audiolibro instanceof PropelCollection) {
+			if (null === $comparison) {
+				$comparison = Criteria::IN;
+			}
+			return $this
+				->addUsingAlias(Lista_audiolibroPeer::ID_AUDIOLIBRO, $audiolibro->toKeyValue('PrimaryKey', 'Id'), $comparison);
+		} else {
+			throw new PropelException('filterByAudiolibro() only accepts arguments of type Audiolibro or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the Audiolibro relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    Lista_audiolibroQuery The current query, for fluid interface
+	 */
+	public function joinAudiolibro($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('Audiolibro');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'Audiolibro');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the Audiolibro relation Audiolibro object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    AudiolibroQuery A secondary query class using the current class as primary query
+	 */
+	public function useAudiolibroQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinAudiolibro($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Audiolibro', 'AudiolibroQuery');
+	}
+
+	/**
+	 * Filter the query by a related Lista object
+	 *
+	 * @param     Lista|PropelCollection $lista The related object(s) to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    Lista_audiolibroQuery The current query, for fluid interface
+	 */
+	public function filterByLista($lista, $comparison = null)
+	{
+		if ($lista instanceof Lista) {
+			return $this
+				->addUsingAlias(Lista_audiolibroPeer::ID_LISTA, $lista->getId(), $comparison);
+		} elseif ($lista instanceof PropelCollection) {
+			if (null === $comparison) {
+				$comparison = Criteria::IN;
+			}
+			return $this
+				->addUsingAlias(Lista_audiolibroPeer::ID_LISTA, $lista->toKeyValue('PrimaryKey', 'Id'), $comparison);
+		} else {
+			throw new PropelException('filterByLista() only accepts arguments of type Lista or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the Lista relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    Lista_audiolibroQuery The current query, for fluid interface
+	 */
+	public function joinLista($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('Lista');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'Lista');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the Lista relation Lista object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    ListaQuery A secondary query class using the current class as primary query
+	 */
+	public function useListaQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinLista($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Lista', 'ListaQuery');
 	}
 
 	/**

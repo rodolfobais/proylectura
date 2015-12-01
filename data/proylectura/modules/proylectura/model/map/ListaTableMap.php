@@ -42,8 +42,8 @@ class ListaTableMap extends TableMap
 		$this->addColumn('NOMBRE', 'Nombre', 'CHAR', true, 50, null);
 		$this->addColumn('FECHA', 'Fecha', 'DATE', true, null, null);
 		$this->addColumn('ID_VISIBILIDAD', 'Id_visibilidad', 'INTEGER', true, null, null);
-		$this->addColumn('ID_USUARIO', 'Id_usuario', 'INTEGER', true, null, null);
-		$this->addColumn('ID_GENERO', 'Id_genero', 'INTEGER', true, null, null);
+		$this->addForeignKey('ID_USUARIO', 'Id_usuario', 'INTEGER', 'usuario', 'ID', true, null, null);
+		$this->addForeignKey('ID_GENERO', 'Id_genero', 'INTEGER', 'genero', 'ID', true, null, null);
 		// validators
 	} // initialize()
 
@@ -52,6 +52,9 @@ class ListaTableMap extends TableMap
 	 */
 	public function buildRelations()
 	{
+		$this->addRelation('Usuario', 'Usuario', RelationMap::MANY_TO_ONE, array('id_usuario' => 'id', ), null, null);
+		$this->addRelation('Genero', 'Genero', RelationMap::MANY_TO_ONE, array('id_genero' => 'id', ), null, null);
+		$this->addRelation('Lista_audiolibro', 'Lista_audiolibro', RelationMap::ONE_TO_MANY, array('id' => 'id_lista', ), null, null, 'Lista_audiolibros');
 	} // buildRelations()
 
 } // ListaTableMap

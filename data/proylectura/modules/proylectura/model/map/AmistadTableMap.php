@@ -39,8 +39,8 @@ class AmistadTableMap extends TableMap
 		$this->setUseIdGenerator(true);
 		// columns
 		$this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
-		$this->addColumn('ID_USUARIO', 'Id_usuario', 'INTEGER', true, null, null);
-		$this->addColumn('ID_USUARIOAMIGO', 'id_usuarioamigo', 'INTEGER', true, null, null);
+		$this->addForeignKey('ID_USUARIO', 'Id_usuario', 'INTEGER', 'usuario', 'ID', true, null, null);
+		$this->addForeignKey('ID_USUARIOAMIGO', 'id_usuarioamigo', 'INTEGER', 'usuario', 'ID', true, null, null);
 		$this->addColumn('ESTADO', 'estado', 'INTEGER', true, null, null);
 		// validators
 	} // initialize()
@@ -50,6 +50,8 @@ class AmistadTableMap extends TableMap
 	 */
 	public function buildRelations()
 	{
+		$this->addRelation('UsuarioRelatedById_usuario', 'Usuario', RelationMap::MANY_TO_ONE, array('id_usuario' => 'id', ), null, null);
+		$this->addRelation('UsuarioRelatedByid_usuarioamigo', 'Usuario', RelationMap::MANY_TO_ONE, array('id_usuarioamigo' => 'id', ), null, null);
 	} // buildRelations()
 
 } // AmistadTableMap
