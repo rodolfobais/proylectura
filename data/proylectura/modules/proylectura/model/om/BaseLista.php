@@ -67,6 +67,21 @@ abstract class BaseLista extends BaseObject  implements Persistent
 	protected $id_genero;
 
 	/**
+	 * @var        Usuario
+	 */
+	protected $aUsuario;
+
+	/**
+	 * @var        Genero
+	 */
+	protected $aGenero;
+
+	/**
+	 * @var        array Lista_audiolibro[] Collection to store aggregation of Lista_audiolibro objects.
+	 */
+	protected $collLista_audiolibros;
+
+	/**
 	 * Flag to prevent endless save loop, if this object is referenced
 	 * by another object which falls in this transaction.
 	 * @var        boolean
@@ -79,6 +94,12 @@ abstract class BaseLista extends BaseObject  implements Persistent
 	 * @var        boolean
 	 */
 	protected $alreadyInValidation = false;
+
+	/**
+	 * An array of objects scheduled for deletion.
+	 * @var		array
+	 */
+	protected $lista_audiolibrosScheduledForDeletion = null;
 
 	/**
 	 * Get the [id] column value.
@@ -267,6 +288,10 @@ abstract class BaseLista extends BaseObject  implements Persistent
 			$this->modifiedColumns[] = ListaPeer::ID_USUARIO;
 		}
 
+		if ($this->aUsuario !== null && $this->aUsuario->getId() !== $v) {
+			$this->aUsuario = null;
+		}
+
 		return $this;
 	} // setId_usuario()
 
@@ -285,6 +310,10 @@ abstract class BaseLista extends BaseObject  implements Persistent
 		if ($this->id_genero !== $v) {
 			$this->id_genero = $v;
 			$this->modifiedColumns[] = ListaPeer::ID_GENERO;
+		}
+
+		if ($this->aGenero !== null && $this->aGenero->getId() !== $v) {
+			$this->aGenero = null;
 		}
 
 		return $this;
@@ -359,6 +388,12 @@ abstract class BaseLista extends BaseObject  implements Persistent
 	public function ensureConsistency()
 	{
 
+		if ($this->aUsuario !== null && $this->id_usuario !== $this->aUsuario->getId()) {
+			$this->aUsuario = null;
+		}
+		if ($this->aGenero !== null && $this->id_genero !== $this->aGenero->getId()) {
+			$this->aGenero = null;
+		}
 	} // ensureConsistency
 
 	/**
@@ -397,6 +432,10 @@ abstract class BaseLista extends BaseObject  implements Persistent
 		$this->hydrate($row, 0, true); // rehydrate
 
 		if ($deep) {  // also de-associate any related objects?
+
+			$this->aUsuario = null;
+			$this->aGenero = null;
+			$this->collLista_audiolibros = null;
 
 		} // if (deep)
 	}
@@ -508,6 +547,25 @@ abstract class BaseLista extends BaseObject  implements Persistent
 		if (!$this->alreadyInSave) {
 			$this->alreadyInSave = true;
 
+			// We call the save method on the following object(s) if they
+			// were passed to this object by their coresponding set
+			// method.  This object relates to these object(s) by a
+			// foreign key reference.
+
+			if ($this->aUsuario !== null) {
+				if ($this->aUsuario->isModified() || $this->aUsuario->isNew()) {
+					$affectedRows += $this->aUsuario->save($con);
+				}
+				$this->setUsuario($this->aUsuario);
+			}
+
+			if ($this->aGenero !== null) {
+				if ($this->aGenero->isModified() || $this->aGenero->isNew()) {
+					$affectedRows += $this->aGenero->save($con);
+				}
+				$this->setGenero($this->aGenero);
+			}
+
 			if ($this->isNew() || $this->isModified()) {
 				// persist changes
 				if ($this->isNew()) {
@@ -517,6 +575,23 @@ abstract class BaseLista extends BaseObject  implements Persistent
 				}
 				$affectedRows += 1;
 				$this->resetModified();
+			}
+
+			if ($this->lista_audiolibrosScheduledForDeletion !== null) {
+				if (!$this->lista_audiolibrosScheduledForDeletion->isEmpty()) {
+		Lista_audiolibroQuery::create()
+						->filterByPrimaryKeys($this->lista_audiolibrosScheduledForDeletion->getPrimaryKeys(false))
+						->delete($con);
+					$this->lista_audiolibrosScheduledForDeletion = null;
+				}
+			}
+
+			if ($this->collLista_audiolibros !== null) {
+				foreach ($this->collLista_audiolibros as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
 			}
 
 			$this->alreadyInSave = false;
@@ -683,10 +758,36 @@ abstract class BaseLista extends BaseObject  implements Persistent
 			$failureMap = array();
 
 
+			// We call the validate method on the following object(s) if they
+			// were passed to this object by their coresponding set
+			// method.  This object relates to these object(s) by a
+			// foreign key reference.
+
+			if ($this->aUsuario !== null) {
+				if (!$this->aUsuario->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsuario->getValidationFailures());
+				}
+			}
+
+			if ($this->aGenero !== null) {
+				if (!$this->aGenero->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aGenero->getValidationFailures());
+				}
+			}
+
+
 			if (($retval = ListaPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
+
+				if ($this->collLista_audiolibros !== null) {
+					foreach ($this->collLista_audiolibros as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
 
 
 			$this->alreadyInValidation = false;
@@ -756,10 +857,11 @@ abstract class BaseLista extends BaseObject  implements Persistent
 	 *                    Defaults to BasePeer::TYPE_PHPNAME.
 	 * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
 	 * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
+	 * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
 	 *
 	 * @return    array an associative array containing the field names (as keys) and field values
 	 */
-	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
+	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
 	{
 		if (isset($alreadyDumpedObjects['Lista'][$this->getPrimaryKey()])) {
 			return '*RECURSION*';
@@ -774,6 +876,17 @@ abstract class BaseLista extends BaseObject  implements Persistent
 			$keys[4] => $this->getId_usuario(),
 			$keys[5] => $this->getId_genero(),
 		);
+		if ($includeForeignObjects) {
+			if (null !== $this->aUsuario) {
+				$result['Usuario'] = $this->aUsuario->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+			}
+			if (null !== $this->aGenero) {
+				$result['Genero'] = $this->aGenero->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+			}
+			if (null !== $this->collLista_audiolibros) {
+				$result['Lista_audiolibros'] = $this->collLista_audiolibros->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			}
+		}
 		return $result;
 	}
 
@@ -936,6 +1049,24 @@ abstract class BaseLista extends BaseObject  implements Persistent
 		$copyObj->setId_visibilidad($this->getId_visibilidad());
 		$copyObj->setId_usuario($this->getId_usuario());
 		$copyObj->setId_genero($this->getId_genero());
+
+		if ($deepCopy && !$this->startCopy) {
+			// important: temporarily setNew(false) because this affects the behavior of
+			// the getter/setter methods for fkey referrer objects.
+			$copyObj->setNew(false);
+			// store object hash to prevent cycle
+			$this->startCopy = true;
+
+			foreach ($this->getLista_audiolibros() as $relObj) {
+				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addLista_audiolibro($relObj->copy($deepCopy));
+				}
+			}
+
+			//unflag object copy
+			$this->startCopy = false;
+		} // if ($deepCopy)
+
 		if ($makeNew) {
 			$copyObj->setNew(true);
 			$copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -981,6 +1112,293 @@ abstract class BaseLista extends BaseObject  implements Persistent
 	}
 
 	/**
+	 * Declares an association between this object and a Usuario object.
+	 *
+	 * @param      Usuario $v
+	 * @return     Lista The current object (for fluent API support)
+	 * @throws     PropelException
+	 */
+	public function setUsuario(Usuario $v = null)
+	{
+		if ($v === null) {
+			$this->setId_usuario(NULL);
+		} else {
+			$this->setId_usuario($v->getId());
+		}
+
+		$this->aUsuario = $v;
+
+		// Add binding for other direction of this n:n relationship.
+		// If this object has already been added to the Usuario object, it will not be re-added.
+		if ($v !== null) {
+			$v->addLista($this);
+		}
+
+		return $this;
+	}
+
+
+	/**
+	 * Get the associated Usuario object
+	 *
+	 * @param      PropelPDO Optional Connection object.
+	 * @return     Usuario The associated Usuario object.
+	 * @throws     PropelException
+	 */
+	public function getUsuario(PropelPDO $con = null)
+	{
+		if ($this->aUsuario === null && ($this->id_usuario !== null)) {
+			$this->aUsuario = UsuarioQuery::create()->findPk($this->id_usuario, $con);
+			/* The following can be used additionally to
+				guarantee the related object contains a reference
+				to this object.  This level of coupling may, however, be
+				undesirable since it could result in an only partially populated collection
+				in the referenced object.
+				$this->aUsuario->addListas($this);
+			 */
+		}
+		return $this->aUsuario;
+	}
+
+	/**
+	 * Declares an association between this object and a Genero object.
+	 *
+	 * @param      Genero $v
+	 * @return     Lista The current object (for fluent API support)
+	 * @throws     PropelException
+	 */
+	public function setGenero(Genero $v = null)
+	{
+		if ($v === null) {
+			$this->setId_genero(NULL);
+		} else {
+			$this->setId_genero($v->getId());
+		}
+
+		$this->aGenero = $v;
+
+		// Add binding for other direction of this n:n relationship.
+		// If this object has already been added to the Genero object, it will not be re-added.
+		if ($v !== null) {
+			$v->addLista($this);
+		}
+
+		return $this;
+	}
+
+
+	/**
+	 * Get the associated Genero object
+	 *
+	 * @param      PropelPDO Optional Connection object.
+	 * @return     Genero The associated Genero object.
+	 * @throws     PropelException
+	 */
+	public function getGenero(PropelPDO $con = null)
+	{
+		if ($this->aGenero === null && ($this->id_genero !== null)) {
+			$this->aGenero = GeneroQuery::create()->findPk($this->id_genero, $con);
+			/* The following can be used additionally to
+				guarantee the related object contains a reference
+				to this object.  This level of coupling may, however, be
+				undesirable since it could result in an only partially populated collection
+				in the referenced object.
+				$this->aGenero->addListas($this);
+			 */
+		}
+		return $this->aGenero;
+	}
+
+
+	/**
+	 * Initializes a collection based on the name of a relation.
+	 * Avoids crafting an 'init[$relationName]s' method name
+	 * that wouldn't work when StandardEnglishPluralizer is used.
+	 *
+	 * @param      string $relationName The name of the relation to initialize
+	 * @return     void
+	 */
+	public function initRelation($relationName)
+	{
+		if ('Lista_audiolibro' == $relationName) {
+			return $this->initLista_audiolibros();
+		}
+	}
+
+	/**
+	 * Clears out the collLista_audiolibros collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addLista_audiolibros()
+	 */
+	public function clearLista_audiolibros()
+	{
+		$this->collLista_audiolibros = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collLista_audiolibros collection.
+	 *
+	 * By default this just sets the collLista_audiolibros collection to an empty array (like clearcollLista_audiolibros());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @param      boolean $overrideExisting If set to true, the method call initializes
+	 *                                        the collection even if it is not empty
+	 *
+	 * @return     void
+	 */
+	public function initLista_audiolibros($overrideExisting = true)
+	{
+		if (null !== $this->collLista_audiolibros && !$overrideExisting) {
+			return;
+		}
+		$this->collLista_audiolibros = new PropelObjectCollection();
+		$this->collLista_audiolibros->setModel('Lista_audiolibro');
+	}
+
+	/**
+	 * Gets an array of Lista_audiolibro objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this Lista is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array Lista_audiolibro[] List of Lista_audiolibro objects
+	 * @throws     PropelException
+	 */
+	public function getLista_audiolibros($criteria = null, PropelPDO $con = null)
+	{
+		if(null === $this->collLista_audiolibros || null !== $criteria) {
+			if ($this->isNew() && null === $this->collLista_audiolibros) {
+				// return empty collection
+				$this->initLista_audiolibros();
+			} else {
+				$collLista_audiolibros = Lista_audiolibroQuery::create(null, $criteria)
+					->filterByLista($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collLista_audiolibros;
+				}
+				$this->collLista_audiolibros = $collLista_audiolibros;
+			}
+		}
+		return $this->collLista_audiolibros;
+	}
+
+	/**
+	 * Sets a collection of Lista_audiolibro objects related by a one-to-many relationship
+	 * to the current object.
+	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+	 * and new objects from the given Propel collection.
+	 *
+	 * @param      PropelCollection $lista_audiolibros A Propel collection.
+	 * @param      PropelPDO $con Optional connection object
+	 */
+	public function setLista_audiolibros(PropelCollection $lista_audiolibros, PropelPDO $con = null)
+	{
+		$this->lista_audiolibrosScheduledForDeletion = $this->getLista_audiolibros(new Criteria(), $con)->diff($lista_audiolibros);
+
+		foreach ($lista_audiolibros as $lista_audiolibro) {
+			// Fix issue with collection modified by reference
+			if ($lista_audiolibro->isNew()) {
+				$lista_audiolibro->setLista($this);
+			}
+			$this->addLista_audiolibro($lista_audiolibro);
+		}
+
+		$this->collLista_audiolibros = $lista_audiolibros;
+	}
+
+	/**
+	 * Returns the number of related Lista_audiolibro objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related Lista_audiolibro objects.
+	 * @throws     PropelException
+	 */
+	public function countLista_audiolibros(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collLista_audiolibros || null !== $criteria) {
+			if ($this->isNew() && null === $this->collLista_audiolibros) {
+				return 0;
+			} else {
+				$query = Lista_audiolibroQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterByLista($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collLista_audiolibros);
+		}
+	}
+
+	/**
+	 * Method called to associate a Lista_audiolibro object to this object
+	 * through the Lista_audiolibro foreign key attribute.
+	 *
+	 * @param      Lista_audiolibro $l Lista_audiolibro
+	 * @return     Lista The current object (for fluent API support)
+	 */
+	public function addLista_audiolibro(Lista_audiolibro $l)
+	{
+		if ($this->collLista_audiolibros === null) {
+			$this->initLista_audiolibros();
+		}
+		if (!$this->collLista_audiolibros->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddLista_audiolibro($l);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param	Lista_audiolibro $lista_audiolibro The lista_audiolibro object to add.
+	 */
+	protected function doAddLista_audiolibro($lista_audiolibro)
+	{
+		$this->collLista_audiolibros[]= $lista_audiolibro;
+		$lista_audiolibro->setLista($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Lista is new, it will return
+	 * an empty collection; or if this Lista has previously
+	 * been saved, it will retrieve related Lista_audiolibros from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Lista.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return     PropelCollection|array Lista_audiolibro[] List of Lista_audiolibro objects
+	 */
+	public function getLista_audiolibrosJoinAudiolibro($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$query = Lista_audiolibroQuery::create(null, $criteria);
+		$query->joinWith('Audiolibro', $join_behavior);
+
+		return $this->getLista_audiolibros($query, $con);
+	}
+
+	/**
 	 * Clears the current object and sets all attributes to their default values
 	 */
 	public function clear()
@@ -1011,8 +1429,19 @@ abstract class BaseLista extends BaseObject  implements Persistent
 	public function clearAllReferences($deep = false)
 	{
 		if ($deep) {
+			if ($this->collLista_audiolibros) {
+				foreach ($this->collLista_audiolibros as $o) {
+					$o->clearAllReferences($deep);
+				}
+			}
 		} // if ($deep)
 
+		if ($this->collLista_audiolibros instanceof PropelCollection) {
+			$this->collLista_audiolibros->clearIterator();
+		}
+		$this->collLista_audiolibros = null;
+		$this->aUsuario = null;
+		$this->aGenero = null;
 	}
 
 	/**

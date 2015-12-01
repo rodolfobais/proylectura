@@ -20,6 +20,14 @@
  * @method     AmistadQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     AmistadQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method     AmistadQuery leftJoinUsuarioRelatedById_usuario($relationAlias = null) Adds a LEFT JOIN clause to the query using the UsuarioRelatedById_usuario relation
+ * @method     AmistadQuery rightJoinUsuarioRelatedById_usuario($relationAlias = null) Adds a RIGHT JOIN clause to the query using the UsuarioRelatedById_usuario relation
+ * @method     AmistadQuery innerJoinUsuarioRelatedById_usuario($relationAlias = null) Adds a INNER JOIN clause to the query using the UsuarioRelatedById_usuario relation
+ *
+ * @method     AmistadQuery leftJoinUsuarioRelatedByid_usuarioamigo($relationAlias = null) Adds a LEFT JOIN clause to the query using the UsuarioRelatedByid_usuarioamigo relation
+ * @method     AmistadQuery rightJoinUsuarioRelatedByid_usuarioamigo($relationAlias = null) Adds a RIGHT JOIN clause to the query using the UsuarioRelatedByid_usuarioamigo relation
+ * @method     AmistadQuery innerJoinUsuarioRelatedByid_usuarioamigo($relationAlias = null) Adds a INNER JOIN clause to the query using the UsuarioRelatedByid_usuarioamigo relation
+ *
  * @method     Amistad findOne(PropelPDO $con = null) Return the first Amistad matching the query
  * @method     Amistad findOneOrCreate(PropelPDO $con = null) Return the first Amistad matching the query, or a new Amistad object populated from the query conditions when no match is found
  *
@@ -241,6 +249,8 @@ abstract class BaseAmistadQuery extends ModelCriteria
 	 * $query->filterById_usuario(array('min' => 12)); // WHERE id_usuario > 12
 	 * </code>
 	 *
+	 * @see       filterByUsuarioRelatedById_usuario()
+	 *
 	 * @param     mixed $id_usuario The value to use as filter.
 	 *              Use scalar values for equality.
 	 *              Use array values for in_array() equivalent.
@@ -280,6 +290,8 @@ abstract class BaseAmistadQuery extends ModelCriteria
 	 * $query->filterByid_usuarioamigo(array(12, 34)); // WHERE id_usuarioamigo IN (12, 34)
 	 * $query->filterByid_usuarioamigo(array('min' => 12)); // WHERE id_usuarioamigo > 12
 	 * </code>
+	 *
+	 * @see       filterByUsuarioRelatedByid_usuarioamigo()
 	 *
 	 * @param     mixed $id_usuarioamigo The value to use as filter.
 	 *              Use scalar values for equality.
@@ -349,6 +361,154 @@ abstract class BaseAmistadQuery extends ModelCriteria
 			}
 		}
 		return $this->addUsingAlias(AmistadPeer::ESTADO, $estado, $comparison);
+	}
+
+	/**
+	 * Filter the query by a related Usuario object
+	 *
+	 * @param     Usuario|PropelCollection $usuario The related object(s) to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    AmistadQuery The current query, for fluid interface
+	 */
+	public function filterByUsuarioRelatedById_usuario($usuario, $comparison = null)
+	{
+		if ($usuario instanceof Usuario) {
+			return $this
+				->addUsingAlias(AmistadPeer::ID_USUARIO, $usuario->getId(), $comparison);
+		} elseif ($usuario instanceof PropelCollection) {
+			if (null === $comparison) {
+				$comparison = Criteria::IN;
+			}
+			return $this
+				->addUsingAlias(AmistadPeer::ID_USUARIO, $usuario->toKeyValue('PrimaryKey', 'Id'), $comparison);
+		} else {
+			throw new PropelException('filterByUsuarioRelatedById_usuario() only accepts arguments of type Usuario or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the UsuarioRelatedById_usuario relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    AmistadQuery The current query, for fluid interface
+	 */
+	public function joinUsuarioRelatedById_usuario($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('UsuarioRelatedById_usuario');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'UsuarioRelatedById_usuario');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the UsuarioRelatedById_usuario relation Usuario object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    UsuarioQuery A secondary query class using the current class as primary query
+	 */
+	public function useUsuarioRelatedById_usuarioQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinUsuarioRelatedById_usuario($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'UsuarioRelatedById_usuario', 'UsuarioQuery');
+	}
+
+	/**
+	 * Filter the query by a related Usuario object
+	 *
+	 * @param     Usuario|PropelCollection $usuario The related object(s) to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    AmistadQuery The current query, for fluid interface
+	 */
+	public function filterByUsuarioRelatedByid_usuarioamigo($usuario, $comparison = null)
+	{
+		if ($usuario instanceof Usuario) {
+			return $this
+				->addUsingAlias(AmistadPeer::ID_USUARIOAMIGO, $usuario->getId(), $comparison);
+		} elseif ($usuario instanceof PropelCollection) {
+			if (null === $comparison) {
+				$comparison = Criteria::IN;
+			}
+			return $this
+				->addUsingAlias(AmistadPeer::ID_USUARIOAMIGO, $usuario->toKeyValue('PrimaryKey', 'Id'), $comparison);
+		} else {
+			throw new PropelException('filterByUsuarioRelatedByid_usuarioamigo() only accepts arguments of type Usuario or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the UsuarioRelatedByid_usuarioamigo relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    AmistadQuery The current query, for fluid interface
+	 */
+	public function joinUsuarioRelatedByid_usuarioamigo($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('UsuarioRelatedByid_usuarioamigo');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'UsuarioRelatedByid_usuarioamigo');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the UsuarioRelatedByid_usuarioamigo relation Usuario object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    UsuarioQuery A secondary query class using the current class as primary query
+	 */
+	public function useUsuarioRelatedByid_usuarioamigoQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinUsuarioRelatedByid_usuarioamigo($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'UsuarioRelatedByid_usuarioamigo', 'UsuarioQuery');
 	}
 
 	/**

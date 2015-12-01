@@ -49,6 +49,16 @@ abstract class BaseLista_audiolibro extends BaseObject  implements Persistent
 	protected $id_lista;
 
 	/**
+	 * @var        Audiolibro
+	 */
+	protected $aAudiolibro;
+
+	/**
+	 * @var        Lista
+	 */
+	protected $aLista;
+
+	/**
 	 * Flag to prevent endless save loop, if this object is referenced
 	 * by another object which falls in this transaction.
 	 * @var        boolean
@@ -129,6 +139,10 @@ abstract class BaseLista_audiolibro extends BaseObject  implements Persistent
 			$this->modifiedColumns[] = Lista_audiolibroPeer::ID_AUDIOLIBRO;
 		}
 
+		if ($this->aAudiolibro !== null && $this->aAudiolibro->getId() !== $v) {
+			$this->aAudiolibro = null;
+		}
+
 		return $this;
 	} // setId_audiolibro()
 
@@ -147,6 +161,10 @@ abstract class BaseLista_audiolibro extends BaseObject  implements Persistent
 		if ($this->id_lista !== $v) {
 			$this->id_lista = $v;
 			$this->modifiedColumns[] = Lista_audiolibroPeer::ID_LISTA;
+		}
+
+		if ($this->aLista !== null && $this->aLista->getId() !== $v) {
+			$this->aLista = null;
 		}
 
 		return $this;
@@ -218,6 +236,12 @@ abstract class BaseLista_audiolibro extends BaseObject  implements Persistent
 	public function ensureConsistency()
 	{
 
+		if ($this->aAudiolibro !== null && $this->id_audiolibro !== $this->aAudiolibro->getId()) {
+			$this->aAudiolibro = null;
+		}
+		if ($this->aLista !== null && $this->id_lista !== $this->aLista->getId()) {
+			$this->aLista = null;
+		}
 	} // ensureConsistency
 
 	/**
@@ -257,6 +281,8 @@ abstract class BaseLista_audiolibro extends BaseObject  implements Persistent
 
 		if ($deep) {  // also de-associate any related objects?
 
+			$this->aAudiolibro = null;
+			$this->aLista = null;
 		} // if (deep)
 	}
 
@@ -366,6 +392,25 @@ abstract class BaseLista_audiolibro extends BaseObject  implements Persistent
 		$affectedRows = 0; // initialize var to track total num of affected rows
 		if (!$this->alreadyInSave) {
 			$this->alreadyInSave = true;
+
+			// We call the save method on the following object(s) if they
+			// were passed to this object by their coresponding set
+			// method.  This object relates to these object(s) by a
+			// foreign key reference.
+
+			if ($this->aAudiolibro !== null) {
+				if ($this->aAudiolibro->isModified() || $this->aAudiolibro->isNew()) {
+					$affectedRows += $this->aAudiolibro->save($con);
+				}
+				$this->setAudiolibro($this->aAudiolibro);
+			}
+
+			if ($this->aLista !== null) {
+				if ($this->aLista->isModified() || $this->aLista->isNew()) {
+					$affectedRows += $this->aLista->save($con);
+				}
+				$this->setLista($this->aLista);
+			}
 
 			if ($this->isNew() || $this->isModified()) {
 				// persist changes
@@ -524,6 +569,24 @@ abstract class BaseLista_audiolibro extends BaseObject  implements Persistent
 			$failureMap = array();
 
 
+			// We call the validate method on the following object(s) if they
+			// were passed to this object by their coresponding set
+			// method.  This object relates to these object(s) by a
+			// foreign key reference.
+
+			if ($this->aAudiolibro !== null) {
+				if (!$this->aAudiolibro->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aAudiolibro->getValidationFailures());
+				}
+			}
+
+			if ($this->aLista !== null) {
+				if (!$this->aLista->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aLista->getValidationFailures());
+				}
+			}
+
+
 			if (($retval = Lista_audiolibroPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
@@ -588,10 +651,11 @@ abstract class BaseLista_audiolibro extends BaseObject  implements Persistent
 	 *                    Defaults to BasePeer::TYPE_PHPNAME.
 	 * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
 	 * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
+	 * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
 	 *
 	 * @return    array an associative array containing the field names (as keys) and field values
 	 */
-	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
+	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
 	{
 		if (isset($alreadyDumpedObjects['Lista_audiolibro'][$this->getPrimaryKey()])) {
 			return '*RECURSION*';
@@ -603,6 +667,14 @@ abstract class BaseLista_audiolibro extends BaseObject  implements Persistent
 			$keys[1] => $this->getId_audiolibro(),
 			$keys[2] => $this->getId_lista(),
 		);
+		if ($includeForeignObjects) {
+			if (null !== $this->aAudiolibro) {
+				$result['Audiolibro'] = $this->aAudiolibro->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+			}
+			if (null !== $this->aLista) {
+				$result['Lista'] = $this->aLista->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+			}
+		}
 		return $result;
 	}
 
@@ -747,6 +819,18 @@ abstract class BaseLista_audiolibro extends BaseObject  implements Persistent
 	{
 		$copyObj->setId_audiolibro($this->getId_audiolibro());
 		$copyObj->setId_lista($this->getId_lista());
+
+		if ($deepCopy && !$this->startCopy) {
+			// important: temporarily setNew(false) because this affects the behavior of
+			// the getter/setter methods for fkey referrer objects.
+			$copyObj->setNew(false);
+			// store object hash to prevent cycle
+			$this->startCopy = true;
+
+			//unflag object copy
+			$this->startCopy = false;
+		} // if ($deepCopy)
+
 		if ($makeNew) {
 			$copyObj->setNew(true);
 			$copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -792,6 +876,104 @@ abstract class BaseLista_audiolibro extends BaseObject  implements Persistent
 	}
 
 	/**
+	 * Declares an association between this object and a Audiolibro object.
+	 *
+	 * @param      Audiolibro $v
+	 * @return     Lista_audiolibro The current object (for fluent API support)
+	 * @throws     PropelException
+	 */
+	public function setAudiolibro(Audiolibro $v = null)
+	{
+		if ($v === null) {
+			$this->setId_audiolibro(NULL);
+		} else {
+			$this->setId_audiolibro($v->getId());
+		}
+
+		$this->aAudiolibro = $v;
+
+		// Add binding for other direction of this n:n relationship.
+		// If this object has already been added to the Audiolibro object, it will not be re-added.
+		if ($v !== null) {
+			$v->addLista_audiolibro($this);
+		}
+
+		return $this;
+	}
+
+
+	/**
+	 * Get the associated Audiolibro object
+	 *
+	 * @param      PropelPDO Optional Connection object.
+	 * @return     Audiolibro The associated Audiolibro object.
+	 * @throws     PropelException
+	 */
+	public function getAudiolibro(PropelPDO $con = null)
+	{
+		if ($this->aAudiolibro === null && ($this->id_audiolibro !== null)) {
+			$this->aAudiolibro = AudiolibroQuery::create()->findPk($this->id_audiolibro, $con);
+			/* The following can be used additionally to
+				guarantee the related object contains a reference
+				to this object.  This level of coupling may, however, be
+				undesirable since it could result in an only partially populated collection
+				in the referenced object.
+				$this->aAudiolibro->addLista_audiolibros($this);
+			 */
+		}
+		return $this->aAudiolibro;
+	}
+
+	/**
+	 * Declares an association between this object and a Lista object.
+	 *
+	 * @param      Lista $v
+	 * @return     Lista_audiolibro The current object (for fluent API support)
+	 * @throws     PropelException
+	 */
+	public function setLista(Lista $v = null)
+	{
+		if ($v === null) {
+			$this->setId_lista(NULL);
+		} else {
+			$this->setId_lista($v->getId());
+		}
+
+		$this->aLista = $v;
+
+		// Add binding for other direction of this n:n relationship.
+		// If this object has already been added to the Lista object, it will not be re-added.
+		if ($v !== null) {
+			$v->addLista_audiolibro($this);
+		}
+
+		return $this;
+	}
+
+
+	/**
+	 * Get the associated Lista object
+	 *
+	 * @param      PropelPDO Optional Connection object.
+	 * @return     Lista The associated Lista object.
+	 * @throws     PropelException
+	 */
+	public function getLista(PropelPDO $con = null)
+	{
+		if ($this->aLista === null && ($this->id_lista !== null)) {
+			$this->aLista = ListaQuery::create()->findPk($this->id_lista, $con);
+			/* The following can be used additionally to
+				guarantee the related object contains a reference
+				to this object.  This level of coupling may, however, be
+				undesirable since it could result in an only partially populated collection
+				in the referenced object.
+				$this->aLista->addLista_audiolibros($this);
+			 */
+		}
+		return $this->aLista;
+	}
+
+	/**
 	 * Clears the current object and sets all attributes to their default values
 	 */
 	public function clear()
@@ -821,6 +1003,8 @@ abstract class BaseLista_audiolibro extends BaseObject  implements Persistent
 		if ($deep) {
 		} // if ($deep)
 
+		$this->aAudiolibro = null;
+		$this->aLista = null;
 	}
 
 	/**

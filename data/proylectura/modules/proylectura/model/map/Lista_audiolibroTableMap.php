@@ -39,8 +39,8 @@ class Lista_audiolibroTableMap extends TableMap
 		$this->setUseIdGenerator(true);
 		// columns
 		$this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
-		$this->addColumn('ID_AUDIOLIBRO', 'Id_audiolibro', 'INTEGER', true, null, null);
-		$this->addColumn('ID_LISTA', 'Id_lista', 'INTEGER', true, null, null);
+		$this->addForeignKey('ID_AUDIOLIBRO', 'Id_audiolibro', 'INTEGER', 'audiolibro', 'ID', true, null, null);
+		$this->addForeignKey('ID_LISTA', 'Id_lista', 'INTEGER', 'lista', 'ID', true, null, null);
 		// validators
 	} // initialize()
 
@@ -49,6 +49,8 @@ class Lista_audiolibroTableMap extends TableMap
 	 */
 	public function buildRelations()
 	{
+		$this->addRelation('Audiolibro', 'Audiolibro', RelationMap::MANY_TO_ONE, array('id_audiolibro' => 'id', ), null, null);
+		$this->addRelation('Lista', 'Lista', RelationMap::MANY_TO_ONE, array('id_lista' => 'id', ), null, null);
 	} // buildRelations()
 
 } // Lista_audiolibroTableMap

@@ -85,6 +85,16 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	protected $texto;
 
 	/**
+	 * @var        Usuario
+	 */
+	protected $aUsuario;
+
+	/**
+	 * @var        array Audiolibro[] Collection to store aggregation of Audiolibro objects.
+	 */
+	protected $collAudiolibros;
+
+	/**
 	 * @var        array Libro_colaborador[] Collection to store aggregation of Libro_colaborador objects.
 	 */
 	protected $collLibro_colaboradors;
@@ -122,6 +132,12 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	 * @var        boolean
 	 */
 	protected $alreadyInValidation = false;
+
+	/**
+	 * An array of objects scheduled for deletion.
+	 * @var		array
+	 */
+	protected $audiolibrosScheduledForDeletion = null;
 
 	/**
 	 * An array of objects scheduled for deletion.
@@ -390,6 +406,10 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			$this->modifiedColumns[] = LibroPeer::ID_AUTOR;
 		}
 
+		if ($this->aUsuario !== null && $this->aUsuario->getId() !== $v) {
+			$this->aUsuario = null;
+		}
+
 		return $this;
 	} // setId_autor()
 
@@ -534,6 +554,9 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	public function ensureConsistency()
 	{
 
+		if ($this->aUsuario !== null && $this->id_autor !== $this->aUsuario->getId()) {
+			$this->aUsuario = null;
+		}
 	} // ensureConsistency
 
 	/**
@@ -572,6 +595,9 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 		$this->hydrate($row, 0, true); // rehydrate
 
 		if ($deep) {  // also de-associate any related objects?
+
+			$this->aUsuario = null;
+			$this->collAudiolibros = null;
 
 			$this->collLibro_colaboradors = null;
 
@@ -693,6 +719,18 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 		if (!$this->alreadyInSave) {
 			$this->alreadyInSave = true;
 
+			// We call the save method on the following object(s) if they
+			// were passed to this object by their coresponding set
+			// method.  This object relates to these object(s) by a
+			// foreign key reference.
+
+			if ($this->aUsuario !== null) {
+				if ($this->aUsuario->isModified() || $this->aUsuario->isNew()) {
+					$affectedRows += $this->aUsuario->save($con);
+				}
+				$this->setUsuario($this->aUsuario);
+			}
+
 			if ($this->isNew() || $this->isModified()) {
 				// persist changes
 				if ($this->isNew()) {
@@ -707,6 +745,23 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 				}
 
 				$this->resetModified();
+			}
+
+			if ($this->audiolibrosScheduledForDeletion !== null) {
+				if (!$this->audiolibrosScheduledForDeletion->isEmpty()) {
+		AudiolibroQuery::create()
+						->filterByPrimaryKeys($this->audiolibrosScheduledForDeletion->getPrimaryKeys(false))
+						->delete($con);
+					$this->audiolibrosScheduledForDeletion = null;
+				}
+			}
+
+			if ($this->collAudiolibros !== null) {
+				foreach ($this->collAudiolibros as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
 			}
 
 			if ($this->libro_colaboradorsScheduledForDeletion !== null) {
@@ -979,10 +1034,30 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			$failureMap = array();
 
 
+			// We call the validate method on the following object(s) if they
+			// were passed to this object by their coresponding set
+			// method.  This object relates to these object(s) by a
+			// foreign key reference.
+
+			if ($this->aUsuario !== null) {
+				if (!$this->aUsuario->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsuario->getValidationFailures());
+				}
+			}
+
+
 			if (($retval = LibroPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
+
+				if ($this->collAudiolibros !== null) {
+					foreach ($this->collAudiolibros as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
 
 				if ($this->collLibro_colaboradors !== null) {
 					foreach ($this->collLibro_colaboradors as $referrerFK) {
@@ -1124,6 +1199,12 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			$keys[8] => $this->getTexto(),
 		);
 		if ($includeForeignObjects) {
+			if (null !== $this->aUsuario) {
+				$result['Usuario'] = $this->aUsuario->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+			}
+			if (null !== $this->collAudiolibros) {
+				$result['Audiolibros'] = $this->collAudiolibros->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			}
 			if (null !== $this->collLibro_colaboradors) {
 				$result['Libro_colaboradors'] = $this->collLibro_colaboradors->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
 			}
@@ -1328,6 +1409,12 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			// store object hash to prevent cycle
 			$this->startCopy = true;
 
+			foreach ($this->getAudiolibros() as $relObj) {
+				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addAudiolibro($relObj->copy($deepCopy));
+				}
+			}
+
 			foreach ($this->getLibro_colaboradors() as $relObj) {
 				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
 					$copyObj->addLibro_colaborador($relObj->copy($deepCopy));
@@ -1406,6 +1493,55 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 		return self::$peer;
 	}
 
+	/**
+	 * Declares an association between this object and a Usuario object.
+	 *
+	 * @param      Usuario $v
+	 * @return     Libro The current object (for fluent API support)
+	 * @throws     PropelException
+	 */
+	public function setUsuario(Usuario $v = null)
+	{
+		if ($v === null) {
+			$this->setId_autor(NULL);
+		} else {
+			$this->setId_autor($v->getId());
+		}
+
+		$this->aUsuario = $v;
+
+		// Add binding for other direction of this n:n relationship.
+		// If this object has already been added to the Usuario object, it will not be re-added.
+		if ($v !== null) {
+			$v->addLibro($this);
+		}
+
+		return $this;
+	}
+
+
+	/**
+	 * Get the associated Usuario object
+	 *
+	 * @param      PropelPDO Optional Connection object.
+	 * @return     Usuario The associated Usuario object.
+	 * @throws     PropelException
+	 */
+	public function getUsuario(PropelPDO $con = null)
+	{
+		if ($this->aUsuario === null && ($this->id_autor !== null)) {
+			$this->aUsuario = UsuarioQuery::create()->findPk($this->id_autor, $con);
+			/* The following can be used additionally to
+				guarantee the related object contains a reference
+				to this object.  This level of coupling may, however, be
+				undesirable since it could result in an only partially populated collection
+				in the referenced object.
+				$this->aUsuario->addLibros($this);
+			 */
+		}
+		return $this->aUsuario;
+	}
+
 
 	/**
 	 * Initializes a collection based on the name of a relation.
@@ -1417,6 +1553,9 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	 */
 	public function initRelation($relationName)
 	{
+		if ('Audiolibro' == $relationName) {
+			return $this->initAudiolibros();
+		}
 		if ('Libro_colaborador' == $relationName) {
 			return $this->initLibro_colaboradors();
 		}
@@ -1432,6 +1571,154 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 		if ('Clasificados' == $relationName) {
 			return $this->initClasificadoss();
 		}
+	}
+
+	/**
+	 * Clears out the collAudiolibros collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addAudiolibros()
+	 */
+	public function clearAudiolibros()
+	{
+		$this->collAudiolibros = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collAudiolibros collection.
+	 *
+	 * By default this just sets the collAudiolibros collection to an empty array (like clearcollAudiolibros());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @param      boolean $overrideExisting If set to true, the method call initializes
+	 *                                        the collection even if it is not empty
+	 *
+	 * @return     void
+	 */
+	public function initAudiolibros($overrideExisting = true)
+	{
+		if (null !== $this->collAudiolibros && !$overrideExisting) {
+			return;
+		}
+		$this->collAudiolibros = new PropelObjectCollection();
+		$this->collAudiolibros->setModel('Audiolibro');
+	}
+
+	/**
+	 * Gets an array of Audiolibro objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this Libro is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array Audiolibro[] List of Audiolibro objects
+	 * @throws     PropelException
+	 */
+	public function getAudiolibros($criteria = null, PropelPDO $con = null)
+	{
+		if(null === $this->collAudiolibros || null !== $criteria) {
+			if ($this->isNew() && null === $this->collAudiolibros) {
+				// return empty collection
+				$this->initAudiolibros();
+			} else {
+				$collAudiolibros = AudiolibroQuery::create(null, $criteria)
+					->filterByLibro($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collAudiolibros;
+				}
+				$this->collAudiolibros = $collAudiolibros;
+			}
+		}
+		return $this->collAudiolibros;
+	}
+
+	/**
+	 * Sets a collection of Audiolibro objects related by a one-to-many relationship
+	 * to the current object.
+	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+	 * and new objects from the given Propel collection.
+	 *
+	 * @param      PropelCollection $audiolibros A Propel collection.
+	 * @param      PropelPDO $con Optional connection object
+	 */
+	public function setAudiolibros(PropelCollection $audiolibros, PropelPDO $con = null)
+	{
+		$this->audiolibrosScheduledForDeletion = $this->getAudiolibros(new Criteria(), $con)->diff($audiolibros);
+
+		foreach ($audiolibros as $audiolibro) {
+			// Fix issue with collection modified by reference
+			if ($audiolibro->isNew()) {
+				$audiolibro->setLibro($this);
+			}
+			$this->addAudiolibro($audiolibro);
+		}
+
+		$this->collAudiolibros = $audiolibros;
+	}
+
+	/**
+	 * Returns the number of related Audiolibro objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related Audiolibro objects.
+	 * @throws     PropelException
+	 */
+	public function countAudiolibros(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collAudiolibros || null !== $criteria) {
+			if ($this->isNew() && null === $this->collAudiolibros) {
+				return 0;
+			} else {
+				$query = AudiolibroQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterByLibro($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collAudiolibros);
+		}
+	}
+
+	/**
+	 * Method called to associate a Audiolibro object to this object
+	 * through the Audiolibro foreign key attribute.
+	 *
+	 * @param      Audiolibro $l Audiolibro
+	 * @return     Libro The current object (for fluent API support)
+	 */
+	public function addAudiolibro(Audiolibro $l)
+	{
+		if ($this->collAudiolibros === null) {
+			$this->initAudiolibros();
+		}
+		if (!$this->collAudiolibros->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddAudiolibro($l);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param	Audiolibro $audiolibro The audiolibro object to add.
+	 */
+	protected function doAddAudiolibro($audiolibro)
+	{
+		$this->collAudiolibros[]= $audiolibro;
+		$audiolibro->setLibro($this);
 	}
 
 	/**
@@ -2308,6 +2595,11 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	public function clearAllReferences($deep = false)
 	{
 		if ($deep) {
+			if ($this->collAudiolibros) {
+				foreach ($this->collAudiolibros as $o) {
+					$o->clearAllReferences($deep);
+				}
+			}
 			if ($this->collLibro_colaboradors) {
 				foreach ($this->collLibro_colaboradors as $o) {
 					$o->clearAllReferences($deep);
@@ -2335,6 +2627,10 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			}
 		} // if ($deep)
 
+		if ($this->collAudiolibros instanceof PropelCollection) {
+			$this->collAudiolibros->clearIterator();
+		}
+		$this->collAudiolibros = null;
 		if ($this->collLibro_colaboradors instanceof PropelCollection) {
 			$this->collLibro_colaboradors->clearIterator();
 		}
@@ -2355,6 +2651,7 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			$this->collClasificadoss->clearIterator();
 		}
 		$this->collClasificadoss = null;
+		$this->aUsuario = null;
 	}
 
 	/**

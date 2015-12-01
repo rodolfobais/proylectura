@@ -48,6 +48,7 @@ class GeneroTableMap extends TableMap
 	 */
 	public function buildRelations()
 	{
+		$this->addRelation('Lista', 'Lista', RelationMap::ONE_TO_MANY, array('id' => 'id_genero', ), null, null, 'Listas');
 	} // buildRelations()
 
 } // GeneroTableMap

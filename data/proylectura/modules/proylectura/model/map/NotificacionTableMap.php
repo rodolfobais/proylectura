@@ -39,9 +39,10 @@ class NotificacionTableMap extends TableMap
 		$this->setUseIdGenerator(true);
 		// columns
 		$this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
-		$this->addColumn('ID_NOTIFICACION', 'Id_notificacion', 'INTEGER', true, null, null);
-		$this->addForeignKey('ID_USUARIO', 'Id_usuario', 'INTEGER', 'usuario', 'ID', true, null, null);
+		$this->addForeignKey('ID_EMISOR', 'Id_emisor', 'INTEGER', 'usuario', 'ID', true, null, null);
+		$this->addForeignKey('ID_RECEPTOR', 'Id_receptor', 'INTEGER', 'usuario', 'ID', true, null, null);
 		$this->addColumn('DESCRIPCION', 'Descripcion', 'CHAR', true, 100, null);
+		$this->addColumn('ID_TIPO_NOTIFICACION', 'Id_tipo_notificacion', 'INTEGER', true, null, null);
 		// validators
 	} // initialize()
 
@@ -50,7 +51,8 @@ class NotificacionTableMap extends TableMap
 	 */
 	public function buildRelations()
 	{
-		$this->addRelation('Usuario', 'Usuario', RelationMap::MANY_TO_ONE, array('id_usuario' => 'id', ), null, null);
+		$this->addRelation('UsuarioRelatedById_emisor', 'Usuario', RelationMap::MANY_TO_ONE, array('id_emisor' => 'id', ), null, null);
+		$this->addRelation('UsuarioRelatedById_receptor', 'Usuario', RelationMap::MANY_TO_ONE, array('id_receptor' => 'id', ), null, null);
 	} // buildRelations()
 
 } // NotificacionTableMap

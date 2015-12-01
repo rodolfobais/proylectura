@@ -6,6 +6,12 @@
         <column name="id_usuario"      phpName="Id_usuario"      type="INTEGER" required="true" sqlType="INT(10)" />
         <column name="id_usuarioamigo" phpName="id_usuarioamigo" type="INTEGER" required="true" sqlType="INT(10)" />
         <column name="estado"          phpName="estado"          type="INTEGER" required="true" sqlType="INT(10)" />
+        <foreign-key foreignTable="usuario" name="amistad_usuario">
+            <reference local="id_usuario" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="usuario" name="amistad_id_usuarioamigo">
+            <reference local="id_usuarioamigo" foreign="id"/>
+        </foreign-key>
     </table>
 
     <table name="audiolibro"  phpName="Audiolibro" idMethod="native" package="proylectura.model">
@@ -13,6 +19,10 @@
         <column name="nombre" phpName="Nombre" type="CHAR" size="50" required="true"/>
         <column name="fecha"  phpName="Fecha" type="DATE" required="true"/>
         <column name="hash"   phpName="Hash"   type="CHAR" size="250" required="true" />
+        <column name="idlibro"   phpName="Idlibro"    type="INTEGER" required="true" sqlType="INT(10)" />
+        <foreign-key foreignTable="libro" name="audiolibro_libro">
+            <reference local="idlibro" foreign="id"/>
+        </foreign-key>
     </table>
 
     <table name="autor"  phpName="Autor" idMethod="native" package="proylectura.model">
@@ -32,19 +42,7 @@
         <column name="id"           phpName="Id"            type="INTEGER" required="true" sqlType="INT(10)" primaryKey="true" autoIncrement="true" />
         <column name="nombre"   phpName="Nombre"    size="50"     required="true" type="CHAR" />
     </table>
-    /*CREATE TABLE IF NOT EXISTS `libro` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `fecha` datetime NOT NULL,
-  `hash` varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `id_genero` int(11) NOT NULL,
-  `id_autor` int(11) NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `sinopsis` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_autor` (`id_autor`),
-  KEY `id_genero` (`id_genero`)
-)*/
+    
     <table name="libro"  phpName="Libro" idMethod="native" package="proylectura.model">
         <column name="id"           phpName="Id"            type="INTEGER" required="true" sqlType="INT(10)" primaryKey="true" autoIncrement="true" />
         <column name="nombre"   phpName="Nombre"    size="50"     required="true" type="CHAR" />
@@ -55,17 +53,11 @@
         <column name="image"   phpName="Image"   type="CHAR" size="255" required="false" />
         <column name="sinopsis"   phpName="Sinopsis"   type="CHAR" size="255" required="false" />
         <column name="texto"   phpName="Texto"   type="BLOB" required="false" />
+        <foreign-key foreignTable="usuario" name="libro_id_autor">
+            <reference local="id_autor" foreign="id"/>
+        </foreign-key>
     </table>
-/*
-CREATE TABLE IF NOT EXISTS `usuario` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nick` varchar(50) NOT NULL,
-  `nombre` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `mail` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `password` varchar(15) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `admin` int(1) NOT NULL,
-  PRIMARY KEY (`id`)
-) */    
+    
     <table name="usuario"  phpName="Usuario" idMethod="native" package="proylectura.model">
         <column name="id"           phpName="Id"            type="INTEGER" required="true" sqlType="INT(10)" primaryKey="true" autoIncrement="true" />
         <column name="nick"   phpName="Nick"    size="50"     required="true" type="CHAR" />
@@ -74,16 +66,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
         <column name="password"   phpName="Password"   type="CHAR" size="255" required="true" />
         <column name="admin"   phpName="Admin"   type="INTEGER" required="true" />
     </table>
-    /*
-    
-Tabla lista
-  `id` int(11)
-  `nombre` varchar(50)
-  `fecha` datetime 
-  `id_visibilidad` int(11)
-  `id_usuario` int(11) 
-  `id_genero` int(11) 
-*/
+  
     <table name="lista"  phpName="Lista" idMethod="native" package="proylectura.model">
         <column name="id"           phpName="Id"            type="INTEGER" required="true" sqlType="INT(10)" primaryKey="true" autoIncrement="true" />
         <column name="nombre"   phpName="Nombre"    size="50"     required="true" type="CHAR" />
@@ -91,25 +74,26 @@ Tabla lista
         <column name="id_visibilidad"   phpName="Id_visibilidad"    type="INTEGER" required="true" sqlType="INT(10)" />
         <column name="id_usuario"   phpName="Id_usuario"    type="INTEGER" required="true" sqlType="INT(10)" />
         <column name="id_genero"   phpName="Id_genero"    type="INTEGER" required="true" sqlType="INT(10)" />
+        <foreign-key foreignTable="usuario" name="listaid_usuario">
+            <reference local="id_usuario" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="genero" name="lista_genero">
+            <reference local="id_genero" foreign="id"/>
+        </foreign-key>
     </table>
-    /*
-Tabla lista_audiolibro
-  `id` int(11)
-  `id_audiolibro` int(11) 
-  `id_lista` int(11) 
-*/
+    
     <table name="lista_audiolibro"  phpName="Lista_audiolibro" idMethod="native" package="proylectura.model">
         <column name="id"           phpName="Id"            type="INTEGER" required="true" sqlType="INT(10)" primaryKey="true" autoIncrement="true" />
         <column name="id_audiolibro"   phpName="Id_audiolibro"    type="INTEGER" required="true" sqlType="INT(10)" />
         <column name="id_lista"   phpName="Id_lista"    type="INTEGER" required="true" sqlType="INT(10)" />
+        <foreign-key foreignTable="audiolibro" name="lista_audiolibro_audiolibro">
+            <reference local="id_audiolibro" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="lista" name="lista_audiolibro_lista">
+            <reference local="id_lista" foreign="id"/>
+        </foreign-key>
     </table>
-    /*
-Tabla reproducido
-  `id` int(11) 
-  `fecha` datetime
-  `id_lista` int(11) 
-  `id_usuario` int(11) 
-    */
+   
     <table name="libro_colaborador" phpName="Libro_colaborador" idMethod="native" package="proylectura.model">
         <column name="id" phpName="Id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"  sqlType="INT(10)" />
         <column name="idlibro" phpName="Idlibro" type="INTEGER" required="true" sqlType="INT(10)" />
@@ -154,11 +138,15 @@ Tabla reproducido
    
     <table name="notificacion" phpName="Notificacion" idMethod="native" package="proylectura.model">
         <column name="id"    phpName="Id"   type="INTEGER" required="true" sqlType="INT(10)" primaryKey= "true" autoIncrement="true" />
-        <column name="id_notificacion"    phpName="Id_notificacion"   type="INTEGER" required="true" sqlType="INT(10)" />
-        <column name="id_usuario"   phpName="Id_usuario"  type="INTEGER" required="true" sqlType="INT(10)" />
+        <column name="id_emisor"   phpName="Id_emisor"  type="INTEGER" required="true" sqlType="INT(10)" />
+        <column name="id_receptor"   phpName="Id_receptor"  type="INTEGER" required="true" sqlType="INT(10)" />
         <column name="descripcion"   phpName="Descripcion"    size="100"     required="true" type="CHAR" />
-        <foreign-key foreignTable="usuario" name="notificacion_usuario">
-            <reference local="id_usuario" foreign="id"/>
+        <column name="id_tipo_notificacion"   phpName="Id_tipo_notificacion"  type="INTEGER" required="true" sqlType="INT(10)" />
+        <foreign-key foreignTable="usuario" name="notificacion_emisor">
+            <reference local="id_emisor" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="usuario" name="notificacion_receptor">
+            <reference local="id_receptor" foreign="id"/>
         </foreign-key>
     </table>     
 

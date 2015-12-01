@@ -55,6 +55,16 @@ abstract class BaseAmistad extends BaseObject  implements Persistent
 	protected $estado;
 
 	/**
+	 * @var        Usuario
+	 */
+	protected $aUsuarioRelatedById_usuario;
+
+	/**
+	 * @var        Usuario
+	 */
+	protected $aUsuarioRelatedByid_usuarioamigo;
+
+	/**
 	 * Flag to prevent endless save loop, if this object is referenced
 	 * by another object which falls in this transaction.
 	 * @var        boolean
@@ -145,6 +155,10 @@ abstract class BaseAmistad extends BaseObject  implements Persistent
 			$this->modifiedColumns[] = AmistadPeer::ID_USUARIO;
 		}
 
+		if ($this->aUsuarioRelatedById_usuario !== null && $this->aUsuarioRelatedById_usuario->getId() !== $v) {
+			$this->aUsuarioRelatedById_usuario = null;
+		}
+
 		return $this;
 	} // setId_usuario()
 
@@ -163,6 +177,10 @@ abstract class BaseAmistad extends BaseObject  implements Persistent
 		if ($this->id_usuarioamigo !== $v) {
 			$this->id_usuarioamigo = $v;
 			$this->modifiedColumns[] = AmistadPeer::ID_USUARIOAMIGO;
+		}
+
+		if ($this->aUsuarioRelatedByid_usuarioamigo !== null && $this->aUsuarioRelatedByid_usuarioamigo->getId() !== $v) {
+			$this->aUsuarioRelatedByid_usuarioamigo = null;
 		}
 
 		return $this;
@@ -255,6 +273,12 @@ abstract class BaseAmistad extends BaseObject  implements Persistent
 	public function ensureConsistency()
 	{
 
+		if ($this->aUsuarioRelatedById_usuario !== null && $this->id_usuario !== $this->aUsuarioRelatedById_usuario->getId()) {
+			$this->aUsuarioRelatedById_usuario = null;
+		}
+		if ($this->aUsuarioRelatedByid_usuarioamigo !== null && $this->id_usuarioamigo !== $this->aUsuarioRelatedByid_usuarioamigo->getId()) {
+			$this->aUsuarioRelatedByid_usuarioamigo = null;
+		}
 	} // ensureConsistency
 
 	/**
@@ -294,6 +318,8 @@ abstract class BaseAmistad extends BaseObject  implements Persistent
 
 		if ($deep) {  // also de-associate any related objects?
 
+			$this->aUsuarioRelatedById_usuario = null;
+			$this->aUsuarioRelatedByid_usuarioamigo = null;
 		} // if (deep)
 	}
 
@@ -403,6 +429,25 @@ abstract class BaseAmistad extends BaseObject  implements Persistent
 		$affectedRows = 0; // initialize var to track total num of affected rows
 		if (!$this->alreadyInSave) {
 			$this->alreadyInSave = true;
+
+			// We call the save method on the following object(s) if they
+			// were passed to this object by their coresponding set
+			// method.  This object relates to these object(s) by a
+			// foreign key reference.
+
+			if ($this->aUsuarioRelatedById_usuario !== null) {
+				if ($this->aUsuarioRelatedById_usuario->isModified() || $this->aUsuarioRelatedById_usuario->isNew()) {
+					$affectedRows += $this->aUsuarioRelatedById_usuario->save($con);
+				}
+				$this->setUsuarioRelatedById_usuario($this->aUsuarioRelatedById_usuario);
+			}
+
+			if ($this->aUsuarioRelatedByid_usuarioamigo !== null) {
+				if ($this->aUsuarioRelatedByid_usuarioamigo->isModified() || $this->aUsuarioRelatedByid_usuarioamigo->isNew()) {
+					$affectedRows += $this->aUsuarioRelatedByid_usuarioamigo->save($con);
+				}
+				$this->setUsuarioRelatedByid_usuarioamigo($this->aUsuarioRelatedByid_usuarioamigo);
+			}
 
 			if ($this->isNew() || $this->isModified()) {
 				// persist changes
@@ -567,6 +612,24 @@ abstract class BaseAmistad extends BaseObject  implements Persistent
 			$failureMap = array();
 
 
+			// We call the validate method on the following object(s) if they
+			// were passed to this object by their coresponding set
+			// method.  This object relates to these object(s) by a
+			// foreign key reference.
+
+			if ($this->aUsuarioRelatedById_usuario !== null) {
+				if (!$this->aUsuarioRelatedById_usuario->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsuarioRelatedById_usuario->getValidationFailures());
+				}
+			}
+
+			if ($this->aUsuarioRelatedByid_usuarioamigo !== null) {
+				if (!$this->aUsuarioRelatedByid_usuarioamigo->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsuarioRelatedByid_usuarioamigo->getValidationFailures());
+				}
+			}
+
+
 			if (($retval = AmistadPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
@@ -634,10 +697,11 @@ abstract class BaseAmistad extends BaseObject  implements Persistent
 	 *                    Defaults to BasePeer::TYPE_PHPNAME.
 	 * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
 	 * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
+	 * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
 	 *
 	 * @return    array an associative array containing the field names (as keys) and field values
 	 */
-	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
+	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
 	{
 		if (isset($alreadyDumpedObjects['Amistad'][$this->getPrimaryKey()])) {
 			return '*RECURSION*';
@@ -650,6 +714,14 @@ abstract class BaseAmistad extends BaseObject  implements Persistent
 			$keys[2] => $this->getid_usuarioamigo(),
 			$keys[3] => $this->getestado(),
 		);
+		if ($includeForeignObjects) {
+			if (null !== $this->aUsuarioRelatedById_usuario) {
+				$result['UsuarioRelatedById_usuario'] = $this->aUsuarioRelatedById_usuario->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+			}
+			if (null !== $this->aUsuarioRelatedByid_usuarioamigo) {
+				$result['UsuarioRelatedByid_usuarioamigo'] = $this->aUsuarioRelatedByid_usuarioamigo->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+			}
+		}
 		return $result;
 	}
 
@@ -800,6 +872,18 @@ abstract class BaseAmistad extends BaseObject  implements Persistent
 		$copyObj->setId_usuario($this->getId_usuario());
 		$copyObj->setid_usuarioamigo($this->getid_usuarioamigo());
 		$copyObj->setestado($this->getestado());
+
+		if ($deepCopy && !$this->startCopy) {
+			// important: temporarily setNew(false) because this affects the behavior of
+			// the getter/setter methods for fkey referrer objects.
+			$copyObj->setNew(false);
+			// store object hash to prevent cycle
+			$this->startCopy = true;
+
+			//unflag object copy
+			$this->startCopy = false;
+		} // if ($deepCopy)
+
 		if ($makeNew) {
 			$copyObj->setNew(true);
 			$copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -845,6 +929,104 @@ abstract class BaseAmistad extends BaseObject  implements Persistent
 	}
 
 	/**
+	 * Declares an association between this object and a Usuario object.
+	 *
+	 * @param      Usuario $v
+	 * @return     Amistad The current object (for fluent API support)
+	 * @throws     PropelException
+	 */
+	public function setUsuarioRelatedById_usuario(Usuario $v = null)
+	{
+		if ($v === null) {
+			$this->setId_usuario(NULL);
+		} else {
+			$this->setId_usuario($v->getId());
+		}
+
+		$this->aUsuarioRelatedById_usuario = $v;
+
+		// Add binding for other direction of this n:n relationship.
+		// If this object has already been added to the Usuario object, it will not be re-added.
+		if ($v !== null) {
+			$v->addAmistadRelatedById_usuario($this);
+		}
+
+		return $this;
+	}
+
+
+	/**
+	 * Get the associated Usuario object
+	 *
+	 * @param      PropelPDO Optional Connection object.
+	 * @return     Usuario The associated Usuario object.
+	 * @throws     PropelException
+	 */
+	public function getUsuarioRelatedById_usuario(PropelPDO $con = null)
+	{
+		if ($this->aUsuarioRelatedById_usuario === null && ($this->id_usuario !== null)) {
+			$this->aUsuarioRelatedById_usuario = UsuarioQuery::create()->findPk($this->id_usuario, $con);
+			/* The following can be used additionally to
+				guarantee the related object contains a reference
+				to this object.  This level of coupling may, however, be
+				undesirable since it could result in an only partially populated collection
+				in the referenced object.
+				$this->aUsuarioRelatedById_usuario->addAmistadsRelatedById_usuario($this);
+			 */
+		}
+		return $this->aUsuarioRelatedById_usuario;
+	}
+
+	/**
+	 * Declares an association between this object and a Usuario object.
+	 *
+	 * @param      Usuario $v
+	 * @return     Amistad The current object (for fluent API support)
+	 * @throws     PropelException
+	 */
+	public function setUsuarioRelatedByid_usuarioamigo(Usuario $v = null)
+	{
+		if ($v === null) {
+			$this->setid_usuarioamigo(NULL);
+		} else {
+			$this->setid_usuarioamigo($v->getId());
+		}
+
+		$this->aUsuarioRelatedByid_usuarioamigo = $v;
+
+		// Add binding for other direction of this n:n relationship.
+		// If this object has already been added to the Usuario object, it will not be re-added.
+		if ($v !== null) {
+			$v->addAmistadRelatedByid_usuarioamigo($this);
+		}
+
+		return $this;
+	}
+
+
+	/**
+	 * Get the associated Usuario object
+	 *
+	 * @param      PropelPDO Optional Connection object.
+	 * @return     Usuario The associated Usuario object.
+	 * @throws     PropelException
+	 */
+	public function getUsuarioRelatedByid_usuarioamigo(PropelPDO $con = null)
+	{
+		if ($this->aUsuarioRelatedByid_usuarioamigo === null && ($this->id_usuarioamigo !== null)) {
+			$this->aUsuarioRelatedByid_usuarioamigo = UsuarioQuery::create()->findPk($this->id_usuarioamigo, $con);
+			/* The following can be used additionally to
+				guarantee the related object contains a reference
+				to this object.  This level of coupling may, however, be
+				undesirable since it could result in an only partially populated collection
+				in the referenced object.
+				$this->aUsuarioRelatedByid_usuarioamigo->addAmistadsRelatedByid_usuarioamigo($this);
+			 */
+		}
+		return $this->aUsuarioRelatedByid_usuarioamigo;
+	}
+
+	/**
 	 * Clears the current object and sets all attributes to their default values
 	 */
 	public function clear()
@@ -875,6 +1057,8 @@ abstract class BaseAmistad extends BaseObject  implements Persistent
 		if ($deep) {
 		} // if ($deep)
 
+		$this->aUsuarioRelatedById_usuario = null;
+		$this->aUsuarioRelatedByid_usuarioamigo = null;
 	}
 
 	/**
