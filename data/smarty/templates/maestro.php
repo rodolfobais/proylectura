@@ -72,7 +72,7 @@
         <!-- AdminLTE dashboard demo (This is only for demo purposes)
         <script src="dist/js/pages/dashboard2.js"></script> -->
         <!-- AdminLTE for demo purposes -->
-        <script src="{$PROJECT_REL_DIR}/dist/jsSubo la ultima version de la base/demo.js"></script>
+        <script src="{$PROJECT_REL_DIR}/dist/js/demo.js"></script>
         <script src="{$PROJECT_REL_DIR}/js/usuarios.js"></script>
         <script src="{$PROJECT_REL_DIR}/js/libros.js"></script>
         <script src="{$PROJECT_REL_DIR}/js/generos.js"></script>
