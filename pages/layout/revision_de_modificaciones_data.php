@@ -24,7 +24,7 @@ switch ($datos->acc) {
     break;
     case "comparar":
         //$resultado = shell_exec("cd /var/www/proylectura/libros_version;diff -y  -T --suppress-common-lines -a --strip-trailing-cr libro_23_3.txt libro_23_5.txt;");
-        $resultado = shell_exec("cd /var/www/proylectura/libros_version;diff -y -t --suppress-common-lines libro_".$datos->versiones[0].".txt libro_".$datos->versiones[1].".txt;");
+        $resultado = shell_exec("cd ".SITE_PATH."/libros_version;diff -y -t --suppress-common-lines libro_".$datos->versiones[0].".txt libro_".$datos->versiones[1].".txt;");
         //echo $resultado;        
         $resultado = htmlentities($resultado);
         /*$pos = 0;
@@ -36,26 +36,36 @@ switch ($datos->acc) {
         //$resultado = preg_replace($exp_regular, $cadena_nueva, $resultado);
         if($resultado != ""){
             $arrTmp = explode("_", $datos->versiones[0]);
-            $v1 = $arrTmp[1];
+            $v1 = $arrTmp[1]; $l1 = $arrTmp[0]; 
             $arrTmp = explode("_", $datos->versiones[1]);
-            $v2 = $arrTmp[1];
-            $resultado = "<b>Version ".$v1."</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Version ".$v2."</b><br/>".$resultado;
+            $v2 = $arrTmp[1]; $l2 = $arrTmp[0];
+            $resultadoTit = "<span style='float: left;'  ><b>&nbsp;&nbsp;Version ".$v1."</b> <button class='btn btn-block btn-success btn-xs' style='width: 100px; float: left;' onclick = \"aprobarversion('".$l1."','".$v1."');\">Aprobar version</button></span>"
+                          . "<span  style='float: right;'><b>Version ".$v2."&nbsp;&nbsp;</b> <button class='btn btn-block btn-success btn-xs'  style='width: 100px;float: right;'  onclick = \"aprobarversion('".$l2."','".$v2."');\">Aprobar version</button></span><br/><br/>";
+            $resultado = $resultadoTit."<div><pre>".$resultado."</pre></div>";
+        }else{
+            $resultado = "Las versiones son iguales";
         }
-        $resultado = "<pre>".$resultado."</pre>";
+        
         echo json_encode(array( 'error' => 0, 'resultado' => $resultado));
-        //echo "<pre>";print_r(json_decode($_POST['json']));  echo "</pre>";die;
-        /*<blockquote></blockquote>
-         * <pre>stdClass Object
-(
-    [versiones] => Array
-        (
-            [0] => 23_3
-            [1] => 23_4
-        )
-
-    [acc] => comparar
-)
-</pre>*/
+    break;
+    case "aprobarversion":
+        //$resultado = shell_exec("cd ".SITE_PATH."/libros_version;diff -y -t --suppress-common-lines libro_".$datos->versiones[0].".txt libro_".$datos->versiones[1].".txt;");        
+        $versionNueva = SITE_PATH."/libros_version/libro_".$datos->libro."_".$datos->version.".txt";
+        $libroOriginal = SITE_PATH."/libros/libro_".$datos->libro.".txt";
+        if(file_exists($versionNueva)){
+            $textoVersion = file_get_contents($versionNueva);
+            $textoVersion = base64_encode($textoVersion);
+            if(file_exists($libroOriginal)){
+                if(file_put_contents($libroOriginal, $textoVersion)){
+                    $msg = "Version aprobada correctamente.";
+                }else{
+                    $msg = "Ocurrio un error al actualizar el teto original.";
+                }                
+            }
+        }else{
+            
+        }
+        echo json_encode(array( 'error' => 0, 'msg' => $msg));
     break;
 }
 ?>

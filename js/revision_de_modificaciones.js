@@ -36,3 +36,19 @@ function comparar(){
        });
     }
 }
+
+function aprobarversion(libro, version){
+    var json = {libro: libro, version: version, acc: "aprobarversion"};
+    //alert($("#formeditor #editor1").val());
+    $.ajax({
+        data: {json: $.toJSON(json) },
+        type: 'POST',
+        dataType: 'json',
+        url: 'pages/layout/revision_de_modificaciones_data.php',
+        success: function(data){
+            alert(data.msg);
+            refreshDivs('cuerpocentro','pages/layout/revision_de_modificaciones.php');    
+            //$("#listado").html(data.html);
+        }
+   });
+}
