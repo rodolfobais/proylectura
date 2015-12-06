@@ -6,7 +6,8 @@ include_once("../../data/config.php");
 
 $notificacion = NotificacionQuery::create()->find();
                 
-
+//$notificacion = NotificacionQuery::create()->findOneById(1);
+     
 $salida = //'<li class="header">Tenes 10 notificaciones</li>'
         '<li>'
         . '<ul class="menu">';
@@ -16,7 +17,7 @@ foreach ($notificacion as $reg) {
     $cont++;
     $salida .= ' <li>
                         <a href="#">
-                          <i class="fa fa-users text-aqua"></i> 5 miembros se unieron hoy
+                          <i class="fa fa-users text-aqua"></i> '.$reg->getDescripcion().'
                         </a>
                       </li>';
     /*echo "<tr>"

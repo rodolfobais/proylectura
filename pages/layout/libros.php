@@ -57,11 +57,7 @@ $libros = LibroQuery::create()->find();
                                 <input type="text" class="form-control" placeholder="Nick" id="nombre">
                             </div>
                             
-                              <div class="form-group">
-                                <label>Fecha</label>
-                                <input type="text" class="form-control" placeholder="Fecha" id="fecha">
-                            </div>
-                            
+                              
                               <div class="form-group">
                                 <label>Sinopsis</label>
                                 <input type="text" class="form-control" placeholder="Sinopsis" id="sinopsis">
@@ -85,7 +81,7 @@ $libros = LibroQuery::create()->find();
                                 <tr>
                                     <th>Id</th>
                                     <th>Nombre</th>
-                                    <th>Fecha</th>
+                                    
                                     <th>Sinopsis</th>
                                 </tr>
                             </thead>
@@ -97,7 +93,7 @@ $libros = LibroQuery::create()->find();
                                         . "<td>".$reg->getId()."</td>"
                                        
                                         . "<td id = \"nombre_".$reg->getId()."\">".$reg->getNombre()."</td>"
-                                        . "<td id = \"nombre_".$reg->getId()."\">".$reg->getFecha()."</td>"
+                                        
                                         . "<td id = \"nombre_".$reg->getId()."\">".$reg->getSinopsis()."</td>"
                                         . "<td><a href = \"#\" onclick=\"editaregistro_libro('".$reg->getId()."')\"><span class=\"glyphicon glyphicon-pencil\"></span></a>&nbsp;&nbsp;&nbsp;"
                                                 . "<a href = \"#\" onclick=\"borrar_libro('".$reg->getId()."')\"><span class=\"glyphicon glyphicon-remove\"></span></a></td>"

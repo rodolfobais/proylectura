@@ -1,3 +1,23 @@
+<?php 
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+include_once("../../data/config.php");
+
+$usuario = UsuarioQuery::create()->find();
+//$usuario = UsuarioQuery :: create() ->findOneById(1);
+
+//$mensaje->getUsuarioRelatedById_usuario_remitente()->getNick();
+//'<li class="header">You have 5 messages</li>'
+
+foreach ($usuario as $reg) {
+  
+//$listaLibros .= "<li>".$reg->getNombre()."</li>";
+
+    $lista_usuarios .= '<option>'.$reg->getNombre()
+    .'</option>';               
+                                
+}
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -65,8 +85,8 @@
                 <div class="box-body no-padding">
                   <ul class="nav nav-pills nav-stacked">
                     <li><a href="mailbox.php"><i class="fa fa-inbox"></i> Buzon de entrada <span class="label label-primary pull-right">12</span></a></li>
-                    <li><a href="#"><i class="fa fa-envelope-o"></i> Enviados</a></li>
-                    <li><a href="#"><i class="fa fa-trash-o"></i> Papelera</a></li>
+                    <li><a href="enviados.php"><i class="fa fa-envelope-o"></i> Enviados</a></li>
+                    <li><a href="papelera.php"><i class="fa fa-trash-o"></i> Papelera</a></li>
                   </ul>
                 </div><!-- /.box-body -->
               </div><!-- /. box -->
@@ -79,24 +99,20 @@
                 </div><!-- /.box-header -->
                 <div class="box-body">
                   <div class="form-group">
-                    <input class="form-control" placeholder="To:">
+                    Para: <select id="lista_usuarios">    
+                    <?php
+                    echo $lista_usuarios;
+                    ?>
+                    
+                    </select>
+                   
+
+                     <!--<input class="form-control" placeholder="To:">--->
                   </div>
-                  <div class="form-group">
-                    <input class="form-control" placeholder="Subject:">
-                  </div>
+
                   <div class="form-group">
                     <textarea id="compose-textarea" class="form-control" style="height: 300px">
-                      <h1><u>Heading Of Message</u></h1>
-                      <h4>Subheading</h4>
-                      <p>But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure? On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee</p>
-                      <ul>
-                        <li>List item one</li>
-                        <li>List item two</li>
-                        <li>List item three</li>
-                        <li>List item four</li>
-                      </ul>
-                      <p>Thank you,</p>
-                      <p>John Doe</p>
+
                     </textarea>
                   </div>
 
@@ -304,6 +320,8 @@
         //Add text editor
         $("#compose-textarea").wysihtml5();
       });
+      
+
     </script>
   </body>
 </html>

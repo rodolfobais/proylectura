@@ -84,7 +84,7 @@ $generos = GeneroQuery::create()->find();
                                         . "<td>".$reg->getId()."</td>"
                                        
                                         . "<td id = \"nombre_".$reg->getId()."\">".$reg->getNombre()."</td>"
-                                        . "<td><a href = \"#\" onclick=\"editaregistro('".$reg->getId()."')\"><span class=\"glyphicon glyphicon-pencil\"></span></a>&nbsp;&nbsp;&nbsp;"
+                                        . "<td><a href = \"#\" onclick=\"editaregistro_genero('".$reg->getId()."')\"><span class=\"glyphicon glyphicon-pencil\"></span></a>&nbsp;&nbsp;&nbsp;"
                                                 . "<a href = \"#\" onclick=\"borrar_genero('".$reg->getId()."')\"><span class=\"glyphicon glyphicon-remove\"></span></a></td>"
                                         . "</tr>";
                                     }
