@@ -32,10 +32,6 @@
  * @method     UsuarioQuery rightJoinAmistadRelatedByid_usuarioamigo($relationAlias = null) Adds a RIGHT JOIN clause to the query using the AmistadRelatedByid_usuarioamigo relation
  * @method     UsuarioQuery innerJoinAmistadRelatedByid_usuarioamigo($relationAlias = null) Adds a INNER JOIN clause to the query using the AmistadRelatedByid_usuarioamigo relation
  *
- * @method     UsuarioQuery leftJoinLibro($relationAlias = null) Adds a LEFT JOIN clause to the query using the Libro relation
- * @method     UsuarioQuery rightJoinLibro($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Libro relation
- * @method     UsuarioQuery innerJoinLibro($relationAlias = null) Adds a INNER JOIN clause to the query using the Libro relation
- *
  * @method     UsuarioQuery leftJoinLista($relationAlias = null) Adds a LEFT JOIN clause to the query using the Lista relation
  * @method     UsuarioQuery rightJoinLista($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Lista relation
  * @method     UsuarioQuery innerJoinLista($relationAlias = null) Adds a INNER JOIN clause to the query using the Lista relation
@@ -587,79 +583,6 @@ abstract class BaseUsuarioQuery extends ModelCriteria
 		return $this
 			->joinAmistadRelatedByid_usuarioamigo($relationAlias, $joinType)
 			->useQuery($relationAlias ? $relationAlias : 'AmistadRelatedByid_usuarioamigo', 'AmistadQuery');
-	}
-
-	/**
-	 * Filter the query by a related Libro object
-	 *
-	 * @param     Libro $libro  the related object to use as filter
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    UsuarioQuery The current query, for fluid interface
-	 */
-	public function filterByLibro($libro, $comparison = null)
-	{
-		if ($libro instanceof Libro) {
-			return $this
-				->addUsingAlias(UsuarioPeer::ID, $libro->getId_autor(), $comparison);
-		} elseif ($libro instanceof PropelCollection) {
-			return $this
-				->useLibroQuery()
-				->filterByPrimaryKeys($libro->getPrimaryKeys())
-				->endUse();
-		} else {
-			throw new PropelException('filterByLibro() only accepts arguments of type Libro or PropelCollection');
-		}
-	}
-
-	/**
-	 * Adds a JOIN clause to the query using the Libro relation
-	 *
-	 * @param     string $relationAlias optional alias for the relation
-	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-	 *
-	 * @return    UsuarioQuery The current query, for fluid interface
-	 */
-	public function joinLibro($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
-	{
-		$tableMap = $this->getTableMap();
-		$relationMap = $tableMap->getRelation('Libro');
-
-		// create a ModelJoin object for this join
-		$join = new ModelJoin();
-		$join->setJoinType($joinType);
-		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-		if ($previousJoin = $this->getPreviousJoin()) {
-			$join->setPreviousJoin($previousJoin);
-		}
-
-		// add the ModelJoin to the current object
-		if($relationAlias) {
-			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-			$this->addJoinObject($join, $relationAlias);
-		} else {
-			$this->addJoinObject($join, 'Libro');
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Use the Libro relation Libro object
-	 *
-	 * @see       useQuery()
-	 *
-	 * @param     string $relationAlias optional alias for the relation,
-	 *                                   to be used as main alias in the secondary query
-	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-	 *
-	 * @return    LibroQuery A secondary query class using the current class as primary query
-	 */
-	public function useLibroQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
-	{
-		return $this
-			->joinLibro($relationAlias, $joinType)
-			->useQuery($relationAlias ? $relationAlias : 'Libro', 'LibroQuery');
 	}
 
 	/**

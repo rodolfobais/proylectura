@@ -41,7 +41,7 @@ class NotificacionTableMap extends TableMap
 		$this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
 		$this->addForeignKey('ID_EMISOR', 'Id_emisor', 'INTEGER', 'usuario', 'ID', true, null, null);
 		$this->addForeignKey('ID_RECEPTOR', 'Id_receptor', 'INTEGER', 'usuario', 'ID', true, null, null);
-		$this->addColumn('DESCRIPCION', 'Descripcion', 'CHAR', true, 100, null);
+		$this->addColumn('DESCRIPCION', 'Descripcion', 'CHAR', true, 255, null);
 		$this->addColumn('ID_TIPO_NOTIFICACION', 'Id_tipo_notificacion', 'INTEGER', true, null, null);
 		// validators
 	} // initialize()

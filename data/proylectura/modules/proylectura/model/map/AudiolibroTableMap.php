@@ -40,8 +40,6 @@ class AudiolibroTableMap extends TableMap
 		// columns
 		$this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
 		$this->addColumn('NOMBRE', 'Nombre', 'CHAR', true, 50, null);
-		$this->addColumn('FECHA', 'Fecha', 'DATE', true, null, null);
-		$this->addColumn('HASH', 'Hash', 'CHAR', true, 250, null);
 		$this->addForeignKey('IDLIBRO', 'Idlibro', 'INTEGER', 'libro', 'ID', true, null, null);
 		// validators
 	} // initialize()

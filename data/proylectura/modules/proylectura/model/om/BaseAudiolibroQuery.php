@@ -8,14 +8,10 @@
  *
  * @method     AudiolibroQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     AudiolibroQuery orderByNombre($order = Criteria::ASC) Order by the nombre column
- * @method     AudiolibroQuery orderByFecha($order = Criteria::ASC) Order by the fecha column
- * @method     AudiolibroQuery orderByHash($order = Criteria::ASC) Order by the hash column
  * @method     AudiolibroQuery orderByIdlibro($order = Criteria::ASC) Order by the idlibro column
  *
  * @method     AudiolibroQuery groupById() Group by the id column
  * @method     AudiolibroQuery groupByNombre() Group by the nombre column
- * @method     AudiolibroQuery groupByFecha() Group by the fecha column
- * @method     AudiolibroQuery groupByHash() Group by the hash column
  * @method     AudiolibroQuery groupByIdlibro() Group by the idlibro column
  *
  * @method     AudiolibroQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
@@ -35,14 +31,10 @@
  *
  * @method     Audiolibro findOneById(int $id) Return the first Audiolibro filtered by the id column
  * @method     Audiolibro findOneByNombre(string $nombre) Return the first Audiolibro filtered by the nombre column
- * @method     Audiolibro findOneByFecha(string $fecha) Return the first Audiolibro filtered by the fecha column
- * @method     Audiolibro findOneByHash(string $hash) Return the first Audiolibro filtered by the hash column
  * @method     Audiolibro findOneByIdlibro(int $idlibro) Return the first Audiolibro filtered by the idlibro column
  *
  * @method     array findById(int $id) Return Audiolibro objects filtered by the id column
  * @method     array findByNombre(string $nombre) Return Audiolibro objects filtered by the nombre column
- * @method     array findByFecha(string $fecha) Return Audiolibro objects filtered by the fecha column
- * @method     array findByHash(string $hash) Return Audiolibro objects filtered by the hash column
  * @method     array findByIdlibro(int $idlibro) Return Audiolibro objects filtered by the idlibro column
  *
  * @package    propel.generator.proylectura.model.om
@@ -132,7 +124,7 @@ abstract class BaseAudiolibroQuery extends ModelCriteria
 	 */
 	protected function findPkSimple($key, $con)
 	{
-		$sql = 'SELECT `ID`, `NOMBRE`, `FECHA`, `HASH`, `IDLIBRO` FROM `audiolibro` WHERE `ID` = :p0';
+		$sql = 'SELECT `ID`, `NOMBRE`, `IDLIBRO` FROM `audiolibro` WHERE `ID` = :p0';
 		try {
 			$stmt = $con->prepare($sql);
 			$stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -269,76 +261,6 @@ abstract class BaseAudiolibroQuery extends ModelCriteria
 			}
 		}
 		return $this->addUsingAlias(AudiolibroPeer::NOMBRE, $nombre, $comparison);
-	}
-
-	/**
-	 * Filter the query on the fecha column
-	 *
-	 * Example usage:
-	 * <code>
-	 * $query->filterByFecha('2011-03-14'); // WHERE fecha = '2011-03-14'
-	 * $query->filterByFecha('now'); // WHERE fecha = '2011-03-14'
-	 * $query->filterByFecha(array('max' => 'yesterday')); // WHERE fecha > '2011-03-13'
-	 * </code>
-	 *
-	 * @param     mixed $fecha The value to use as filter.
-	 *              Values can be integers (unix timestamps), DateTime objects, or strings.
-	 *              Empty strings are treated as NULL.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    AudiolibroQuery The current query, for fluid interface
-	 */
-	public function filterByFecha($fecha = null, $comparison = null)
-	{
-		if (is_array($fecha)) {
-			$useMinMax = false;
-			if (isset($fecha['min'])) {
-				$this->addUsingAlias(AudiolibroPeer::FECHA, $fecha['min'], Criteria::GREATER_EQUAL);
-				$useMinMax = true;
-			}
-			if (isset($fecha['max'])) {
-				$this->addUsingAlias(AudiolibroPeer::FECHA, $fecha['max'], Criteria::LESS_EQUAL);
-				$useMinMax = true;
-			}
-			if ($useMinMax) {
-				return $this;
-			}
-			if (null === $comparison) {
-				$comparison = Criteria::IN;
-			}
-		}
-		return $this->addUsingAlias(AudiolibroPeer::FECHA, $fecha, $comparison);
-	}
-
-	/**
-	 * Filter the query on the hash column
-	 *
-	 * Example usage:
-	 * <code>
-	 * $query->filterByHash('fooValue');   // WHERE hash = 'fooValue'
-	 * $query->filterByHash('%fooValue%'); // WHERE hash LIKE '%fooValue%'
-	 * </code>
-	 *
-	 * @param     string $hash The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    AudiolibroQuery The current query, for fluid interface
-	 */
-	public function filterByHash($hash = null, $comparison = null)
-	{
-		if (null === $comparison) {
-			if (is_array($hash)) {
-				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $hash)) {
-				$hash = str_replace('*', '%', $hash);
-				$comparison = Criteria::LIKE;
-			}
-		}
-		return $this->addUsingAlias(AudiolibroPeer::HASH, $hash, $comparison);
 	}
 
 	/**

@@ -2,52 +2,55 @@
 
 
 /**
- * Base static class for performing query and update operations on the 'audiolibro' table.
+ * Base static class for performing query and update operations on the 'comentario' table.
  *
  * 
  *
  * @package    propel.generator.proylectura.model.om
  */
-abstract class BaseAudiolibroPeer {
+abstract class BaseComentarioPeer {
 
 	/** the default database name for this class */
 	const DATABASE_NAME = 'proylectura';
 
 	/** the table name for this class */
-	const TABLE_NAME = 'audiolibro';
+	const TABLE_NAME = 'comentario';
 
 	/** the related Propel class for this table */
-	const OM_CLASS = 'Audiolibro';
+	const OM_CLASS = 'Comentario';
 
 	/** the related TableMap class for this table */
-	const TM_CLASS = 'AudiolibroTableMap';
+	const TM_CLASS = 'ComentarioTableMap';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 3;
+	const NUM_COLUMNS = 4;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
 	/** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-	const NUM_HYDRATE_COLUMNS = 3;
+	const NUM_HYDRATE_COLUMNS = 4;
 
 	/** the column name for the ID field */
-	const ID = 'audiolibro.ID';
+	const ID = 'comentario.ID';
 
-	/** the column name for the NOMBRE field */
-	const NOMBRE = 'audiolibro.NOMBRE';
+	/** the column name for the COMENTARIO field */
+	const COMENTARIO = 'comentario.COMENTARIO';
 
-	/** the column name for the IDLIBRO field */
-	const IDLIBRO = 'audiolibro.IDLIBRO';
+	/** the column name for the ID_USUARIO field */
+	const ID_USUARIO = 'comentario.ID_USUARIO';
+
+	/** the column name for the ID_LIBRO field */
+	const ID_LIBRO = 'comentario.ID_LIBRO';
 
 	/** The default string format for model objects of the related table **/
 	const DEFAULT_STRING_FORMAT = 'YAML';
 
 	/**
-	 * An identiy map to hold any loaded instances of Audiolibro objects.
+	 * An identiy map to hold any loaded instances of Comentario objects.
 	 * This must be public so that other peer classes can access this when hydrating from JOIN
 	 * queries.
-	 * @var        array Audiolibro[]
+	 * @var        array Comentario[]
 	 */
 	public static $instances = array();
 
@@ -59,12 +62,12 @@ abstract class BaseAudiolibroPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	protected static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Nombre', 'Idlibro', ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'nombre', 'idlibro', ),
-		BasePeer::TYPE_COLNAME => array (self::ID, self::NOMBRE, self::IDLIBRO, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'NOMBRE', 'IDLIBRO', ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'nombre', 'idlibro', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Comentario', 'Id_usuario', 'Id_libro', ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'comentario', 'id_usuario', 'id_libro', ),
+		BasePeer::TYPE_COLNAME => array (self::ID, self::COMENTARIO, self::ID_USUARIO, self::ID_LIBRO, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'COMENTARIO', 'ID_USUARIO', 'ID_LIBRO', ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'comentario', 'id_usuario', 'id_libro', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
 	);
 
 	/**
@@ -74,12 +77,12 @@ abstract class BaseAudiolibroPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	protected static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Nombre' => 1, 'Idlibro' => 2, ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'nombre' => 1, 'idlibro' => 2, ),
-		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::NOMBRE => 1, self::IDLIBRO => 2, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'NOMBRE' => 1, 'IDLIBRO' => 2, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'nombre' => 1, 'idlibro' => 2, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Comentario' => 1, 'Id_usuario' => 2, 'Id_libro' => 3, ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'comentario' => 1, 'id_usuario' => 2, 'id_libro' => 3, ),
+		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::COMENTARIO => 1, self::ID_USUARIO => 2, self::ID_LIBRO => 3, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'COMENTARIO' => 1, 'ID_USUARIO' => 2, 'ID_LIBRO' => 3, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'comentario' => 1, 'id_usuario' => 2, 'id_libro' => 3, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
 	);
 
 	/**
@@ -128,12 +131,12 @@ abstract class BaseAudiolibroPeer {
 	 *		$c->addJoin(TablePeer::alias("alias1", TablePeer::PRIMARY_KEY_COLUMN), TablePeer::PRIMARY_KEY_COLUMN);
 	 * </code>
 	 * @param      string $alias The alias for the current table.
-	 * @param      string $column The column name for current table. (i.e. AudiolibroPeer::COLUMN_NAME).
+	 * @param      string $column The column name for current table. (i.e. ComentarioPeer::COLUMN_NAME).
 	 * @return     string
 	 */
 	public static function alias($alias, $column)
 	{
-		return str_replace(AudiolibroPeer::TABLE_NAME.'.', $alias.'.', $column);
+		return str_replace(ComentarioPeer::TABLE_NAME.'.', $alias.'.', $column);
 	}
 
 	/**
@@ -151,13 +154,15 @@ abstract class BaseAudiolibroPeer {
 	public static function addSelectColumns(Criteria $criteria, $alias = null)
 	{
 		if (null === $alias) {
-			$criteria->addSelectColumn(AudiolibroPeer::ID);
-			$criteria->addSelectColumn(AudiolibroPeer::NOMBRE);
-			$criteria->addSelectColumn(AudiolibroPeer::IDLIBRO);
+			$criteria->addSelectColumn(ComentarioPeer::ID);
+			$criteria->addSelectColumn(ComentarioPeer::COMENTARIO);
+			$criteria->addSelectColumn(ComentarioPeer::ID_USUARIO);
+			$criteria->addSelectColumn(ComentarioPeer::ID_LIBRO);
 		} else {
 			$criteria->addSelectColumn($alias . '.ID');
-			$criteria->addSelectColumn($alias . '.NOMBRE');
-			$criteria->addSelectColumn($alias . '.IDLIBRO');
+			$criteria->addSelectColumn($alias . '.COMENTARIO');
+			$criteria->addSelectColumn($alias . '.ID_USUARIO');
+			$criteria->addSelectColumn($alias . '.ID_LIBRO');
 		}
 	}
 
@@ -177,21 +182,21 @@ abstract class BaseAudiolibroPeer {
 		// We need to set the primary table name, since in the case that there are no WHERE columns
 		// it will be impossible for the BasePeer::createSelectSql() method to determine which
 		// tables go into the FROM clause.
-		$criteria->setPrimaryTableName(AudiolibroPeer::TABLE_NAME);
+		$criteria->setPrimaryTableName(ComentarioPeer::TABLE_NAME);
 
 		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
 			$criteria->setDistinct();
 		}
 
 		if (!$criteria->hasSelectClause()) {
-			AudiolibroPeer::addSelectColumns($criteria);
+			ComentarioPeer::addSelectColumns($criteria);
 		}
 
 		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
 		$criteria->setDbName(self::DATABASE_NAME); // Set the correct dbName
 
 		if ($con === null) {
-			$con = Propel::getConnection(AudiolibroPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(ComentarioPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 		// BasePeer returns a PDOStatement
 		$stmt = BasePeer::doCount($criteria, $con);
@@ -209,7 +214,7 @@ abstract class BaseAudiolibroPeer {
 	 *
 	 * @param      Criteria $criteria object used to create the SELECT statement.
 	 * @param      PropelPDO $con
-	 * @return     Audiolibro
+	 * @return     Comentario
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
@@ -217,7 +222,7 @@ abstract class BaseAudiolibroPeer {
 	{
 		$critcopy = clone $criteria;
 		$critcopy->setLimit(1);
-		$objects = AudiolibroPeer::doSelect($critcopy, $con);
+		$objects = ComentarioPeer::doSelect($critcopy, $con);
 		if ($objects) {
 			return $objects[0];
 		}
@@ -234,7 +239,7 @@ abstract class BaseAudiolibroPeer {
 	 */
 	public static function doSelect(Criteria $criteria, PropelPDO $con = null)
 	{
-		return AudiolibroPeer::populateObjects(AudiolibroPeer::doSelectStmt($criteria, $con));
+		return ComentarioPeer::populateObjects(ComentarioPeer::doSelectStmt($criteria, $con));
 	}
 	/**
 	 * Prepares the Criteria object and uses the parent doSelect() method to execute a PDOStatement.
@@ -252,12 +257,12 @@ abstract class BaseAudiolibroPeer {
 	public static function doSelectStmt(Criteria $criteria, PropelPDO $con = null)
 	{
 		if ($con === null) {
-			$con = Propel::getConnection(AudiolibroPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(ComentarioPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 
 		if (!$criteria->hasSelectClause()) {
 			$criteria = clone $criteria;
-			AudiolibroPeer::addSelectColumns($criteria);
+			ComentarioPeer::addSelectColumns($criteria);
 		}
 
 		// Set the correct dbName
@@ -275,7 +280,7 @@ abstract class BaseAudiolibroPeer {
 	 * to the cache in order to ensure that the same objects are always returned by doSelect*()
 	 * and retrieveByPK*() calls.
 	 *
-	 * @param      Audiolibro $value A Audiolibro object.
+	 * @param      Comentario $value A Comentario object.
 	 * @param      string $key (optional) key to use for instance map (for performance boost if key was already calculated externally).
 	 */
 	public static function addInstanceToPool($obj, $key = null)
@@ -296,18 +301,18 @@ abstract class BaseAudiolibroPeer {
 	 * methods in your stub classes -- you may need to explicitly remove objects
 	 * from the cache in order to prevent returning objects that no longer exist.
 	 *
-	 * @param      mixed $value A Audiolibro object or a primary key value.
+	 * @param      mixed $value A Comentario object or a primary key value.
 	 */
 	public static function removeInstanceFromPool($value)
 	{
 		if (Propel::isInstancePoolingEnabled() && $value !== null) {
-			if (is_object($value) && $value instanceof Audiolibro) {
+			if (is_object($value) && $value instanceof Comentario) {
 				$key = (string) $value->getId();
 			} elseif (is_scalar($value)) {
 				// assume we've been passed a primary key
 				$key = (string) $value;
 			} else {
-				$e = new PropelException("Invalid value passed to removeInstanceFromPool().  Expected primary key or Audiolibro object; got " . (is_object($value) ? get_class($value) . ' object.' : var_export($value,true)));
+				$e = new PropelException("Invalid value passed to removeInstanceFromPool().  Expected primary key or Comentario object; got " . (is_object($value) ? get_class($value) . ' object.' : var_export($value,true)));
 				throw $e;
 			}
 
@@ -322,7 +327,7 @@ abstract class BaseAudiolibroPeer {
 	 * a multi-column primary key, a serialize()d version of the primary key will be returned.
 	 *
 	 * @param      string $key The key (@see getPrimaryKeyHash()) for this instance.
-	 * @return     Audiolibro Found object or NULL if 1) no instance exists for specified key or 2) instance pooling has been disabled.
+	 * @return     Comentario Found object or NULL if 1) no instance exists for specified key or 2) instance pooling has been disabled.
 	 * @see        getPrimaryKeyHash()
 	 */
 	public static function getInstanceFromPool($key)
@@ -346,7 +351,7 @@ abstract class BaseAudiolibroPeer {
 	}
 	
 	/**
-	 * Method to invalidate the instance pool of all tables related to audiolibro
+	 * Method to invalidate the instance pool of all tables related to comentario
 	 * by a foreign key with ON DELETE CASCADE
 	 */
 	public static function clearRelatedInstancePool()
@@ -398,11 +403,11 @@ abstract class BaseAudiolibroPeer {
 		$results = array();
 	
 		// set the class once to avoid overhead in the loop
-		$cls = AudiolibroPeer::getOMClass();
+		$cls = ComentarioPeer::getOMClass();
 		// populate the object(s)
 		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$key = AudiolibroPeer::getPrimaryKeyHashFromRow($row, 0);
-			if (null !== ($obj = AudiolibroPeer::getInstanceFromPool($key))) {
+			$key = ComentarioPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj = ComentarioPeer::getInstanceFromPool($key))) {
 				// We no longer rehydrate the object, since this can cause data loss.
 				// See http://www.propelorm.org/ticket/509
 				// $obj->hydrate($row, 0, true); // rehydrate
@@ -411,7 +416,7 @@ abstract class BaseAudiolibroPeer {
 				$obj = new $cls();
 				$obj->hydrate($row);
 				$results[] = $obj;
-				AudiolibroPeer::addInstanceToPool($obj, $key);
+				ComentarioPeer::addInstanceToPool($obj, $key);
 			} // if key exists
 		}
 		$stmt->closeCursor();
@@ -424,257 +429,23 @@ abstract class BaseAudiolibroPeer {
 	 * @param      int $startcol The 0-based offset for reading from the resultset row.
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
-	 * @return     array (Audiolibro object, last column rank)
+	 * @return     array (Comentario object, last column rank)
 	 */
 	public static function populateObject($row, $startcol = 0)
 	{
-		$key = AudiolibroPeer::getPrimaryKeyHashFromRow($row, $startcol);
-		if (null !== ($obj = AudiolibroPeer::getInstanceFromPool($key))) {
+		$key = ComentarioPeer::getPrimaryKeyHashFromRow($row, $startcol);
+		if (null !== ($obj = ComentarioPeer::getInstanceFromPool($key))) {
 			// We no longer rehydrate the object, since this can cause data loss.
 			// See http://www.propelorm.org/ticket/509
 			// $obj->hydrate($row, $startcol, true); // rehydrate
-			$col = $startcol + AudiolibroPeer::NUM_HYDRATE_COLUMNS;
+			$col = $startcol + ComentarioPeer::NUM_HYDRATE_COLUMNS;
 		} else {
-			$cls = AudiolibroPeer::OM_CLASS;
+			$cls = ComentarioPeer::OM_CLASS;
 			$obj = new $cls();
 			$col = $obj->hydrate($row, $startcol);
-			AudiolibroPeer::addInstanceToPool($obj, $key);
+			ComentarioPeer::addInstanceToPool($obj, $key);
 		}
 		return array($obj, $col);
-	}
-
-
-	/**
-	 * Returns the number of rows matching criteria, joining the related Libro table
-	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
-	 * @param      PropelPDO $con
-	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     int Number of matching rows.
-	 */
-	public static function doCountJoinLibro(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		// we're going to modify criteria, so copy it first
-		$criteria = clone $criteria;
-
-		// We need to set the primary table name, since in the case that there are no WHERE columns
-		// it will be impossible for the BasePeer::createSelectSql() method to determine which
-		// tables go into the FROM clause.
-		$criteria->setPrimaryTableName(AudiolibroPeer::TABLE_NAME);
-
-		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->setDistinct();
-		}
-
-		if (!$criteria->hasSelectClause()) {
-			AudiolibroPeer::addSelectColumns($criteria);
-		}
-
-		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
-
-		// Set the correct dbName
-		$criteria->setDbName(self::DATABASE_NAME);
-
-		if ($con === null) {
-			$con = Propel::getConnection(AudiolibroPeer::DATABASE_NAME, Propel::CONNECTION_READ);
-		}
-
-		$criteria->addJoin(AudiolibroPeer::IDLIBRO, LibroPeer::ID, $join_behavior);
-
-		$stmt = BasePeer::doCount($criteria, $con);
-
-		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$count = (int) $row[0];
-		} else {
-			$count = 0; // no rows returned; we infer that means 0 matches.
-		}
-		$stmt->closeCursor();
-		return $count;
-	}
-
-
-	/**
-	 * Selects a collection of Audiolibro objects pre-filled with their Libro objects.
-	 * @param      Criteria  $criteria
-	 * @param      PropelPDO $con
-	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     array Array of Audiolibro objects.
-	 * @throws     PropelException Any exceptions caught during processing will be
-	 *		 rethrown wrapped into a PropelException.
-	 */
-	public static function doSelectJoinLibro(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		$criteria = clone $criteria;
-
-		// Set the correct dbName if it has not been overridden
-		if ($criteria->getDbName() == Propel::getDefaultDB()) {
-			$criteria->setDbName(self::DATABASE_NAME);
-		}
-
-		AudiolibroPeer::addSelectColumns($criteria);
-		$startcol = AudiolibroPeer::NUM_HYDRATE_COLUMNS;
-		LibroPeer::addSelectColumns($criteria);
-
-		$criteria->addJoin(AudiolibroPeer::IDLIBRO, LibroPeer::ID, $join_behavior);
-
-		$stmt = BasePeer::doSelect($criteria, $con);
-		$results = array();
-
-		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$key1 = AudiolibroPeer::getPrimaryKeyHashFromRow($row, 0);
-			if (null !== ($obj1 = AudiolibroPeer::getInstanceFromPool($key1))) {
-				// We no longer rehydrate the object, since this can cause data loss.
-				// See http://www.propelorm.org/ticket/509
-				// $obj1->hydrate($row, 0, true); // rehydrate
-			} else {
-
-				$cls = AudiolibroPeer::getOMClass();
-
-				$obj1 = new $cls();
-				$obj1->hydrate($row);
-				AudiolibroPeer::addInstanceToPool($obj1, $key1);
-			} // if $obj1 already loaded
-
-			$key2 = LibroPeer::getPrimaryKeyHashFromRow($row, $startcol);
-			if ($key2 !== null) {
-				$obj2 = LibroPeer::getInstanceFromPool($key2);
-				if (!$obj2) {
-
-					$cls = LibroPeer::getOMClass();
-
-					$obj2 = new $cls();
-					$obj2->hydrate($row, $startcol);
-					LibroPeer::addInstanceToPool($obj2, $key2);
-				} // if obj2 already loaded
-
-				// Add the $obj1 (Audiolibro) to $obj2 (Libro)
-				$obj2->addAudiolibro($obj1);
-
-			} // if joined row was not null
-
-			$results[] = $obj1;
-		}
-		$stmt->closeCursor();
-		return $results;
-	}
-
-
-	/**
-	 * Returns the number of rows matching criteria, joining all related tables
-	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
-	 * @param      PropelPDO $con
-	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     int Number of matching rows.
-	 */
-	public static function doCountJoinAll(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		// we're going to modify criteria, so copy it first
-		$criteria = clone $criteria;
-
-		// We need to set the primary table name, since in the case that there are no WHERE columns
-		// it will be impossible for the BasePeer::createSelectSql() method to determine which
-		// tables go into the FROM clause.
-		$criteria->setPrimaryTableName(AudiolibroPeer::TABLE_NAME);
-
-		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->setDistinct();
-		}
-
-		if (!$criteria->hasSelectClause()) {
-			AudiolibroPeer::addSelectColumns($criteria);
-		}
-
-		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
-
-		// Set the correct dbName
-		$criteria->setDbName(self::DATABASE_NAME);
-
-		if ($con === null) {
-			$con = Propel::getConnection(AudiolibroPeer::DATABASE_NAME, Propel::CONNECTION_READ);
-		}
-
-		$criteria->addJoin(AudiolibroPeer::IDLIBRO, LibroPeer::ID, $join_behavior);
-
-		$stmt = BasePeer::doCount($criteria, $con);
-
-		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$count = (int) $row[0];
-		} else {
-			$count = 0; // no rows returned; we infer that means 0 matches.
-		}
-		$stmt->closeCursor();
-		return $count;
-	}
-
-	/**
-	 * Selects a collection of Audiolibro objects pre-filled with all related objects.
-	 *
-	 * @param      Criteria  $criteria
-	 * @param      PropelPDO $con
-	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     array Array of Audiolibro objects.
-	 * @throws     PropelException Any exceptions caught during processing will be
-	 *		 rethrown wrapped into a PropelException.
-	 */
-	public static function doSelectJoinAll(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		$criteria = clone $criteria;
-
-		// Set the correct dbName if it has not been overridden
-		if ($criteria->getDbName() == Propel::getDefaultDB()) {
-			$criteria->setDbName(self::DATABASE_NAME);
-		}
-
-		AudiolibroPeer::addSelectColumns($criteria);
-		$startcol2 = AudiolibroPeer::NUM_HYDRATE_COLUMNS;
-
-		LibroPeer::addSelectColumns($criteria);
-		$startcol3 = $startcol2 + LibroPeer::NUM_HYDRATE_COLUMNS;
-
-		$criteria->addJoin(AudiolibroPeer::IDLIBRO, LibroPeer::ID, $join_behavior);
-
-		$stmt = BasePeer::doSelect($criteria, $con);
-		$results = array();
-
-		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$key1 = AudiolibroPeer::getPrimaryKeyHashFromRow($row, 0);
-			if (null !== ($obj1 = AudiolibroPeer::getInstanceFromPool($key1))) {
-				// We no longer rehydrate the object, since this can cause data loss.
-				// See http://www.propelorm.org/ticket/509
-				// $obj1->hydrate($row, 0, true); // rehydrate
-			} else {
-				$cls = AudiolibroPeer::getOMClass();
-
-				$obj1 = new $cls();
-				$obj1->hydrate($row);
-				AudiolibroPeer::addInstanceToPool($obj1, $key1);
-			} // if obj1 already loaded
-
-			// Add objects for joined Libro rows
-
-			$key2 = LibroPeer::getPrimaryKeyHashFromRow($row, $startcol2);
-			if ($key2 !== null) {
-				$obj2 = LibroPeer::getInstanceFromPool($key2);
-				if (!$obj2) {
-
-					$cls = LibroPeer::getOMClass();
-
-					$obj2 = new $cls();
-					$obj2->hydrate($row, $startcol2);
-					LibroPeer::addInstanceToPool($obj2, $key2);
-				} // if obj2 loaded
-
-				// Add the $obj1 (Audiolibro) to the collection in $obj2 (Libro)
-				$obj2->addAudiolibro($obj1);
-			} // if joined row not null
-
-			$results[] = $obj1;
-		}
-		$stmt->closeCursor();
-		return $results;
 	}
 
 	/**
@@ -694,10 +465,10 @@ abstract class BaseAudiolibroPeer {
 	 */
 	public static function buildTableMap()
 	{
-	  $dbMap = Propel::getDatabaseMap(BaseAudiolibroPeer::DATABASE_NAME);
-	  if (!$dbMap->hasTable(BaseAudiolibroPeer::TABLE_NAME))
+	  $dbMap = Propel::getDatabaseMap(BaseComentarioPeer::DATABASE_NAME);
+	  if (!$dbMap->hasTable(BaseComentarioPeer::TABLE_NAME))
 	  {
-	    $dbMap->addTableObject(new AudiolibroTableMap());
+	    $dbMap->addTableObject(new ComentarioTableMap());
 	  }
 	}
 
@@ -709,13 +480,13 @@ abstract class BaseAudiolibroPeer {
 	 */
 	public static function getOMClass()
 	{
-		return AudiolibroPeer::OM_CLASS;
+		return ComentarioPeer::OM_CLASS;
 	}
 
 	/**
-	 * Performs an INSERT on the database, given a Audiolibro or Criteria object.
+	 * Performs an INSERT on the database, given a Comentario or Criteria object.
 	 *
-	 * @param      mixed $values Criteria or Audiolibro object containing data that is used to create the INSERT statement.
+	 * @param      mixed $values Criteria or Comentario object containing data that is used to create the INSERT statement.
 	 * @param      PropelPDO $con the PropelPDO connection to use
 	 * @return     mixed The new primary key.
 	 * @throws     PropelException Any exceptions caught during processing will be
@@ -724,17 +495,17 @@ abstract class BaseAudiolibroPeer {
 	public static function doInsert($values, PropelPDO $con = null)
 	{
 		if ($con === null) {
-			$con = Propel::getConnection(AudiolibroPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(ComentarioPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; // rename for clarity
 		} else {
-			$criteria = $values->buildCriteria(); // build Criteria from Audiolibro object
+			$criteria = $values->buildCriteria(); // build Criteria from Comentario object
 		}
 
-		if ($criteria->containsKey(AudiolibroPeer::ID) && $criteria->keyContainsValue(AudiolibroPeer::ID) ) {
-			throw new PropelException('Cannot insert a value for auto-increment primary key ('.AudiolibroPeer::ID.')');
+		if ($criteria->containsKey(ComentarioPeer::ID) && $criteria->keyContainsValue(ComentarioPeer::ID) ) {
+			throw new PropelException('Cannot insert a value for auto-increment primary key ('.ComentarioPeer::ID.')');
 		}
 
 
@@ -756,9 +527,9 @@ abstract class BaseAudiolibroPeer {
 	}
 
 	/**
-	 * Performs an UPDATE on the database, given a Audiolibro or Criteria object.
+	 * Performs an UPDATE on the database, given a Comentario or Criteria object.
 	 *
-	 * @param      mixed $values Criteria or Audiolibro object containing data that is used to create the UPDATE statement.
+	 * @param      mixed $values Criteria or Comentario object containing data that is used to create the UPDATE statement.
 	 * @param      PropelPDO $con The connection to use (specify PropelPDO connection object to exert more control over transactions).
 	 * @return     int The number of affected rows (if supported by underlying database driver).
 	 * @throws     PropelException Any exceptions caught during processing will be
@@ -767,7 +538,7 @@ abstract class BaseAudiolibroPeer {
 	public static function doUpdate($values, PropelPDO $con = null)
 	{
 		if ($con === null) {
-			$con = Propel::getConnection(AudiolibroPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(ComentarioPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 
 		$selectCriteria = new Criteria(self::DATABASE_NAME);
@@ -775,15 +546,15 @@ abstract class BaseAudiolibroPeer {
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; // rename for clarity
 
-			$comparison = $criteria->getComparison(AudiolibroPeer::ID);
-			$value = $criteria->remove(AudiolibroPeer::ID);
+			$comparison = $criteria->getComparison(ComentarioPeer::ID);
+			$value = $criteria->remove(ComentarioPeer::ID);
 			if ($value) {
-				$selectCriteria->add(AudiolibroPeer::ID, $value, $comparison);
+				$selectCriteria->add(ComentarioPeer::ID, $value, $comparison);
 			} else {
-				$selectCriteria->setPrimaryTableName(AudiolibroPeer::TABLE_NAME);
+				$selectCriteria->setPrimaryTableName(ComentarioPeer::TABLE_NAME);
 			}
 
-		} else { // $values is Audiolibro object
+		} else { // $values is Comentario object
 			$criteria = $values->buildCriteria(); // gets full criteria
 			$selectCriteria = $values->buildPkeyCriteria(); // gets criteria w/ primary key(s)
 		}
@@ -795,7 +566,7 @@ abstract class BaseAudiolibroPeer {
 	}
 
 	/**
-	 * Deletes all rows from the audiolibro table.
+	 * Deletes all rows from the comentario table.
 	 *
 	 * @param      PropelPDO $con the connection to use
 	 * @return     int The number of affected rows (if supported by underlying database driver).
@@ -803,19 +574,19 @@ abstract class BaseAudiolibroPeer {
 	public static function doDeleteAll(PropelPDO $con = null)
 	{
 		if ($con === null) {
-			$con = Propel::getConnection(AudiolibroPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(ComentarioPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 		$affectedRows = 0; // initialize var to track total num of affected rows
 		try {
 			// use transaction because $criteria could contain info
 			// for more than one table or we could emulating ON DELETE CASCADE, etc.
 			$con->beginTransaction();
-			$affectedRows += BasePeer::doDeleteAll(AudiolibroPeer::TABLE_NAME, $con, AudiolibroPeer::DATABASE_NAME);
+			$affectedRows += BasePeer::doDeleteAll(ComentarioPeer::TABLE_NAME, $con, ComentarioPeer::DATABASE_NAME);
 			// Because this db requires some delete cascade/set null emulation, we have to
 			// clear the cached instance *after* the emulation has happened (since
 			// instances get re-added by the select statement contained therein).
-			AudiolibroPeer::clearInstancePool();
-			AudiolibroPeer::clearRelatedInstancePool();
+			ComentarioPeer::clearInstancePool();
+			ComentarioPeer::clearRelatedInstancePool();
 			$con->commit();
 			return $affectedRows;
 		} catch (PropelException $e) {
@@ -825,9 +596,9 @@ abstract class BaseAudiolibroPeer {
 	}
 
 	/**
-	 * Performs a DELETE on the database, given a Audiolibro or Criteria object OR a primary key value.
+	 * Performs a DELETE on the database, given a Comentario or Criteria object OR a primary key value.
 	 *
-	 * @param      mixed $values Criteria or Audiolibro object or primary key or array of primary keys
+	 * @param      mixed $values Criteria or Comentario object or primary key or array of primary keys
 	 *              which is used to create the DELETE statement
 	 * @param      PropelPDO $con the connection to use
 	 * @return     int 	The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -838,27 +609,27 @@ abstract class BaseAudiolibroPeer {
 	 public static function doDelete($values, PropelPDO $con = null)
 	 {
 		if ($con === null) {
-			$con = Propel::getConnection(AudiolibroPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(ComentarioPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 
 		if ($values instanceof Criteria) {
 			// invalidate the cache for all objects of this type, since we have no
 			// way of knowing (without running a query) what objects should be invalidated
 			// from the cache based on this Criteria.
-			AudiolibroPeer::clearInstancePool();
+			ComentarioPeer::clearInstancePool();
 			// rename for clarity
 			$criteria = clone $values;
-		} elseif ($values instanceof Audiolibro) { // it's a model object
+		} elseif ($values instanceof Comentario) { // it's a model object
 			// invalidate the cache for this single object
-			AudiolibroPeer::removeInstanceFromPool($values);
+			ComentarioPeer::removeInstanceFromPool($values);
 			// create criteria based on pk values
 			$criteria = $values->buildPkeyCriteria();
 		} else { // it's a primary key, or an array of pks
 			$criteria = new Criteria(self::DATABASE_NAME);
-			$criteria->add(AudiolibroPeer::ID, (array) $values, Criteria::IN);
+			$criteria->add(ComentarioPeer::ID, (array) $values, Criteria::IN);
 			// invalidate the cache for this object(s)
 			foreach ((array) $values as $singleval) {
-				AudiolibroPeer::removeInstanceFromPool($singleval);
+				ComentarioPeer::removeInstanceFromPool($singleval);
 			}
 		}
 
@@ -873,7 +644,7 @@ abstract class BaseAudiolibroPeer {
 			$con->beginTransaction();
 			
 			$affectedRows += BasePeer::doDelete($criteria, $con);
-			AudiolibroPeer::clearRelatedInstancePool();
+			ComentarioPeer::clearRelatedInstancePool();
 			$con->commit();
 			return $affectedRows;
 		} catch (PropelException $e) {
@@ -883,13 +654,13 @@ abstract class BaseAudiolibroPeer {
 	}
 
 	/**
-	 * Validates all modified columns of given Audiolibro object.
+	 * Validates all modified columns of given Comentario object.
 	 * If parameter $columns is either a single column name or an array of column names
 	 * than only those columns are validated.
 	 *
 	 * NOTICE: This does not apply to primary or foreign keys for now.
 	 *
-	 * @param      Audiolibro $obj The object to validate.
+	 * @param      Comentario $obj The object to validate.
 	 * @param      mixed $cols Column name or array of column names.
 	 *
 	 * @return     mixed TRUE if all columns are valid or the error message of the first invalid column.
@@ -899,8 +670,8 @@ abstract class BaseAudiolibroPeer {
 		$columns = array();
 
 		if ($cols) {
-			$dbMap = Propel::getDatabaseMap(AudiolibroPeer::DATABASE_NAME);
-			$tableMap = $dbMap->getTable(AudiolibroPeer::TABLE_NAME);
+			$dbMap = Propel::getDatabaseMap(ComentarioPeer::DATABASE_NAME);
+			$tableMap = $dbMap->getTable(ComentarioPeer::TABLE_NAME);
 
 			if (! is_array($cols)) {
 				$cols = array($cols);
@@ -916,7 +687,7 @@ abstract class BaseAudiolibroPeer {
 
 		}
 
-		return BasePeer::doValidate(AudiolibroPeer::DATABASE_NAME, AudiolibroPeer::TABLE_NAME, $columns);
+		return BasePeer::doValidate(ComentarioPeer::DATABASE_NAME, ComentarioPeer::TABLE_NAME, $columns);
 	}
 
 	/**
@@ -924,23 +695,23 @@ abstract class BaseAudiolibroPeer {
 	 *
 	 * @param      int $pk the primary key.
 	 * @param      PropelPDO $con the connection to use
-	 * @return     Audiolibro
+	 * @return     Comentario
 	 */
 	public static function retrieveByPK($pk, PropelPDO $con = null)
 	{
 
-		if (null !== ($obj = AudiolibroPeer::getInstanceFromPool((string) $pk))) {
+		if (null !== ($obj = ComentarioPeer::getInstanceFromPool((string) $pk))) {
 			return $obj;
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(AudiolibroPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(ComentarioPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 
-		$criteria = new Criteria(AudiolibroPeer::DATABASE_NAME);
-		$criteria->add(AudiolibroPeer::ID, $pk);
+		$criteria = new Criteria(ComentarioPeer::DATABASE_NAME);
+		$criteria->add(ComentarioPeer::ID, $pk);
 
-		$v = AudiolibroPeer::doSelect($criteria, $con);
+		$v = ComentarioPeer::doSelect($criteria, $con);
 
 		return !empty($v) > 0 ? $v[0] : null;
 	}
@@ -956,23 +727,23 @@ abstract class BaseAudiolibroPeer {
 	public static function retrieveByPKs($pks, PropelPDO $con = null)
 	{
 		if ($con === null) {
-			$con = Propel::getConnection(AudiolibroPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(ComentarioPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 
 		$objs = null;
 		if (empty($pks)) {
 			$objs = array();
 		} else {
-			$criteria = new Criteria(AudiolibroPeer::DATABASE_NAME);
-			$criteria->add(AudiolibroPeer::ID, $pks, Criteria::IN);
-			$objs = AudiolibroPeer::doSelect($criteria, $con);
+			$criteria = new Criteria(ComentarioPeer::DATABASE_NAME);
+			$criteria->add(ComentarioPeer::ID, $pks, Criteria::IN);
+			$objs = ComentarioPeer::doSelect($criteria, $con);
 		}
 		return $objs;
 	}
 
-} // BaseAudiolibroPeer
+} // BaseComentarioPeer
 
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-BaseAudiolibroPeer::buildTableMap();
+BaseComentarioPeer::buildTableMap();
 

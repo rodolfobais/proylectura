@@ -2,25 +2,25 @@
 
 
 /**
- * Base class that represents a row from the 'calificacion' table.
+ * Base class that represents a row from the 'comentario' table.
  *
  * 
  *
  * @package    propel.generator.proylectura.model.om
  */
-abstract class BaseCalificacion extends BaseObject  implements Persistent
+abstract class BaseComentario extends BaseObject  implements Persistent
 {
 
 	/**
 	 * Peer class name
 	 */
-	const PEER = 'CalificacionPeer';
+	const PEER = 'ComentarioPeer';
 
 	/**
 	 * The Peer class.
 	 * Instance provides a convenient way of calling static methods on a class
 	 * that calling code may not be able to identify.
-	 * @var        CalificacionPeer
+	 * @var        ComentarioPeer
 	 */
 	protected static $peer;
 
@@ -37,10 +37,10 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 	protected $id;
 
 	/**
-	 * The value for the puntuacion field.
-	 * @var        int
+	 * The value for the comentario field.
+	 * @var        string
 	 */
-	protected $puntuacion;
+	protected $comentario;
 
 	/**
 	 * The value for the id_usuario field.
@@ -79,13 +79,13 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 	}
 
 	/**
-	 * Get the [puntuacion] column value.
+	 * Get the [comentario] column value.
 	 * 
-	 * @return     int
+	 * @return     string
 	 */
-	public function getPuntuacion()
+	public function getComentario()
 	{
-		return $this->puntuacion;
+		return $this->comentario;
 	}
 
 	/**
@@ -112,7 +112,7 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 	 * Set the value of [id] column.
 	 * 
 	 * @param      int $v new value
-	 * @return     Calificacion The current object (for fluent API support)
+	 * @return     Comentario The current object (for fluent API support)
 	 */
 	public function setId($v)
 	{
@@ -122,37 +122,37 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 
 		if ($this->id !== $v) {
 			$this->id = $v;
-			$this->modifiedColumns[] = CalificacionPeer::ID;
+			$this->modifiedColumns[] = ComentarioPeer::ID;
 		}
 
 		return $this;
 	} // setId()
 
 	/**
-	 * Set the value of [puntuacion] column.
+	 * Set the value of [comentario] column.
 	 * 
-	 * @param      int $v new value
-	 * @return     Calificacion The current object (for fluent API support)
+	 * @param      string $v new value
+	 * @return     Comentario The current object (for fluent API support)
 	 */
-	public function setPuntuacion($v)
+	public function setComentario($v)
 	{
 		if ($v !== null) {
-			$v = (int) $v;
+			$v = (string) $v;
 		}
 
-		if ($this->puntuacion !== $v) {
-			$this->puntuacion = $v;
-			$this->modifiedColumns[] = CalificacionPeer::PUNTUACION;
+		if ($this->comentario !== $v) {
+			$this->comentario = $v;
+			$this->modifiedColumns[] = ComentarioPeer::COMENTARIO;
 		}
 
 		return $this;
-	} // setPuntuacion()
+	} // setComentario()
 
 	/**
 	 * Set the value of [id_usuario] column.
 	 * 
 	 * @param      int $v new value
-	 * @return     Calificacion The current object (for fluent API support)
+	 * @return     Comentario The current object (for fluent API support)
 	 */
 	public function setId_usuario($v)
 	{
@@ -162,7 +162,7 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 
 		if ($this->id_usuario !== $v) {
 			$this->id_usuario = $v;
-			$this->modifiedColumns[] = CalificacionPeer::ID_USUARIO;
+			$this->modifiedColumns[] = ComentarioPeer::ID_USUARIO;
 		}
 
 		return $this;
@@ -172,7 +172,7 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 	 * Set the value of [id_libro] column.
 	 * 
 	 * @param      int $v new value
-	 * @return     Calificacion The current object (for fluent API support)
+	 * @return     Comentario The current object (for fluent API support)
 	 */
 	public function setId_libro($v)
 	{
@@ -182,7 +182,7 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 
 		if ($this->id_libro !== $v) {
 			$this->id_libro = $v;
-			$this->modifiedColumns[] = CalificacionPeer::ID_LIBRO;
+			$this->modifiedColumns[] = ComentarioPeer::ID_LIBRO;
 		}
 
 		return $this;
@@ -221,7 +221,7 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 		try {
 
 			$this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
-			$this->puntuacion = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
+			$this->comentario = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
 			$this->id_usuario = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
 			$this->id_libro = ($row[$startcol + 3] !== null) ? (int) $row[$startcol + 3] : null;
 			$this->resetModified();
@@ -232,10 +232,10 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 				$this->ensureConsistency();
 			}
 
-			return $startcol + 4; // 4 = CalificacionPeer::NUM_HYDRATE_COLUMNS.
+			return $startcol + 4; // 4 = ComentarioPeer::NUM_HYDRATE_COLUMNS.
 
 		} catch (Exception $e) {
-			throw new PropelException("Error populating Calificacion object", $e);
+			throw new PropelException("Error populating Comentario object", $e);
 		}
 	}
 
@@ -278,13 +278,13 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(CalificacionPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(ComentarioPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 
 		// We don't need to alter the object instance pool; we're just modifying this instance
 		// already in the pool.
 
-		$stmt = CalificacionPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
+		$stmt = ComentarioPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
 		$row = $stmt->fetch(PDO::FETCH_NUM);
 		$stmt->closeCursor();
 		if (!$row) {
@@ -313,12 +313,12 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(CalificacionPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(ComentarioPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 
 		$con->beginTransaction();
 		try {
-			$deleteQuery = CalificacionQuery::create()
+			$deleteQuery = ComentarioQuery::create()
 				->filterByPrimaryKey($this->getPrimaryKey());
 			$ret = $this->preDelete($con);
 			if ($ret) {
@@ -355,7 +355,7 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(CalificacionPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(ComentarioPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 
 		$con->beginTransaction();
@@ -375,7 +375,7 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 					$this->postUpdate($con);
 				}
 				$this->postSave($con);
-				CalificacionPeer::addInstanceToPool($this);
+				ComentarioPeer::addInstanceToPool($this);
 			} else {
 				$affectedRows = 0;
 			}
@@ -434,27 +434,27 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 		$modifiedColumns = array();
 		$index = 0;
 
-		$this->modifiedColumns[] = CalificacionPeer::ID;
+		$this->modifiedColumns[] = ComentarioPeer::ID;
 		if (null !== $this->id) {
-			throw new PropelException('Cannot insert a value for auto-increment primary key (' . CalificacionPeer::ID . ')');
+			throw new PropelException('Cannot insert a value for auto-increment primary key (' . ComentarioPeer::ID . ')');
 		}
 
 		 // check the columns in natural order for more readable SQL queries
-		if ($this->isColumnModified(CalificacionPeer::ID)) {
+		if ($this->isColumnModified(ComentarioPeer::ID)) {
 			$modifiedColumns[':p' . $index++]  = '`ID`';
 		}
-		if ($this->isColumnModified(CalificacionPeer::PUNTUACION)) {
-			$modifiedColumns[':p' . $index++]  = '`PUNTUACION`';
+		if ($this->isColumnModified(ComentarioPeer::COMENTARIO)) {
+			$modifiedColumns[':p' . $index++]  = '`COMENTARIO`';
 		}
-		if ($this->isColumnModified(CalificacionPeer::ID_USUARIO)) {
+		if ($this->isColumnModified(ComentarioPeer::ID_USUARIO)) {
 			$modifiedColumns[':p' . $index++]  = '`ID_USUARIO`';
 		}
-		if ($this->isColumnModified(CalificacionPeer::ID_LIBRO)) {
+		if ($this->isColumnModified(ComentarioPeer::ID_LIBRO)) {
 			$modifiedColumns[':p' . $index++]  = '`ID_LIBRO`';
 		}
 
 		$sql = sprintf(
-			'INSERT INTO `calificacion` (%s) VALUES (%s)',
+			'INSERT INTO `comentario` (%s) VALUES (%s)',
 			implode(', ', $modifiedColumns),
 			implode(', ', array_keys($modifiedColumns))
 		);
@@ -466,8 +466,8 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 					case '`ID`':
 						$stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
 						break;
-					case '`PUNTUACION`':
-						$stmt->bindValue($identifier, $this->puntuacion, PDO::PARAM_INT);
+					case '`COMENTARIO`':
+						$stmt->bindValue($identifier, $this->comentario, PDO::PARAM_STR);
 						break;
 					case '`ID_USUARIO`':
 						$stmt->bindValue($identifier, $this->id_usuario, PDO::PARAM_INT);
@@ -567,7 +567,7 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 			$failureMap = array();
 
 
-			if (($retval = CalificacionPeer::doValidate($this, $columns)) !== true) {
+			if (($retval = ComentarioPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
@@ -590,7 +590,7 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 	 */
 	public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = CalificacionPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = ComentarioPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		$field = $this->getByPosition($pos);
 		return $field;
 	}
@@ -609,7 +609,7 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 				return $this->getId();
 				break;
 			case 1:
-				return $this->getPuntuacion();
+				return $this->getComentario();
 				break;
 			case 2:
 				return $this->getId_usuario();
@@ -639,14 +639,14 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 	 */
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
 	{
-		if (isset($alreadyDumpedObjects['Calificacion'][$this->getPrimaryKey()])) {
+		if (isset($alreadyDumpedObjects['Comentario'][$this->getPrimaryKey()])) {
 			return '*RECURSION*';
 		}
-		$alreadyDumpedObjects['Calificacion'][$this->getPrimaryKey()] = true;
-		$keys = CalificacionPeer::getFieldNames($keyType);
+		$alreadyDumpedObjects['Comentario'][$this->getPrimaryKey()] = true;
+		$keys = ComentarioPeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getId(),
-			$keys[1] => $this->getPuntuacion(),
+			$keys[1] => $this->getComentario(),
 			$keys[2] => $this->getId_usuario(),
 			$keys[3] => $this->getId_libro(),
 		);
@@ -665,7 +665,7 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 	 */
 	public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = CalificacionPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = ComentarioPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->setByPosition($pos, $value);
 	}
 
@@ -684,7 +684,7 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 				$this->setId($value);
 				break;
 			case 1:
-				$this->setPuntuacion($value);
+				$this->setComentario($value);
 				break;
 			case 2:
 				$this->setId_usuario($value);
@@ -714,10 +714,10 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 	 */
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = CalificacionPeer::getFieldNames($keyType);
+		$keys = ComentarioPeer::getFieldNames($keyType);
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setPuntuacion($arr[$keys[1]]);
+		if (array_key_exists($keys[1], $arr)) $this->setComentario($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setId_usuario($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setId_libro($arr[$keys[3]]);
 	}
@@ -729,12 +729,12 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 	 */
 	public function buildCriteria()
 	{
-		$criteria = new Criteria(CalificacionPeer::DATABASE_NAME);
+		$criteria = new Criteria(ComentarioPeer::DATABASE_NAME);
 
-		if ($this->isColumnModified(CalificacionPeer::ID)) $criteria->add(CalificacionPeer::ID, $this->id);
-		if ($this->isColumnModified(CalificacionPeer::PUNTUACION)) $criteria->add(CalificacionPeer::PUNTUACION, $this->puntuacion);
-		if ($this->isColumnModified(CalificacionPeer::ID_USUARIO)) $criteria->add(CalificacionPeer::ID_USUARIO, $this->id_usuario);
-		if ($this->isColumnModified(CalificacionPeer::ID_LIBRO)) $criteria->add(CalificacionPeer::ID_LIBRO, $this->id_libro);
+		if ($this->isColumnModified(ComentarioPeer::ID)) $criteria->add(ComentarioPeer::ID, $this->id);
+		if ($this->isColumnModified(ComentarioPeer::COMENTARIO)) $criteria->add(ComentarioPeer::COMENTARIO, $this->comentario);
+		if ($this->isColumnModified(ComentarioPeer::ID_USUARIO)) $criteria->add(ComentarioPeer::ID_USUARIO, $this->id_usuario);
+		if ($this->isColumnModified(ComentarioPeer::ID_LIBRO)) $criteria->add(ComentarioPeer::ID_LIBRO, $this->id_libro);
 
 		return $criteria;
 	}
@@ -749,8 +749,8 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 	 */
 	public function buildPkeyCriteria()
 	{
-		$criteria = new Criteria(CalificacionPeer::DATABASE_NAME);
-		$criteria->add(CalificacionPeer::ID, $this->id);
+		$criteria = new Criteria(ComentarioPeer::DATABASE_NAME);
+		$criteria->add(ComentarioPeer::ID, $this->id);
 
 		return $criteria;
 	}
@@ -790,14 +790,14 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param      object $copyObj An object of Calificacion (or compatible) type.
+	 * @param      object $copyObj An object of Comentario (or compatible) type.
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
 	 * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
 	 * @throws     PropelException
 	 */
 	public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
 	{
-		$copyObj->setPuntuacion($this->getPuntuacion());
+		$copyObj->setComentario($this->getComentario());
 		$copyObj->setId_usuario($this->getId_usuario());
 		$copyObj->setId_libro($this->getId_libro());
 		if ($makeNew) {
@@ -815,7 +815,7 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 	 * objects.
 	 *
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @return     Calificacion Clone of current object.
+	 * @return     Comentario Clone of current object.
 	 * @throws     PropelException
 	 */
 	public function copy($deepCopy = false)
@@ -834,12 +834,12 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 	 * same instance for all member of this class. The method could therefore
 	 * be static, but this would prevent one from overriding the behavior.
 	 *
-	 * @return     CalificacionPeer
+	 * @return     ComentarioPeer
 	 */
 	public function getPeer()
 	{
 		if (self::$peer === null) {
-			self::$peer = new CalificacionPeer();
+			self::$peer = new ComentarioPeer();
 		}
 		return self::$peer;
 	}
@@ -850,7 +850,7 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 	public function clear()
 	{
 		$this->id = null;
-		$this->puntuacion = null;
+		$this->comentario = null;
 		$this->id_usuario = null;
 		$this->id_libro = null;
 		$this->alreadyInSave = false;
@@ -884,7 +884,7 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 	 */
 	public function __toString()
 	{
-		return (string) $this->exportTo(CalificacionPeer::DEFAULT_STRING_FORMAT);
+		return (string) $this->exportTo(ComentarioPeer::DEFAULT_STRING_FORMAT);
 	}
 
-} // BaseCalificacion
+} // BaseComentario

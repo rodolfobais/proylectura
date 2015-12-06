@@ -23,13 +23,13 @@ abstract class BaseCalificacionPeer {
 	const TM_CLASS = 'CalificacionTableMap';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 5;
+	const NUM_COLUMNS = 4;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
 	/** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-	const NUM_HYDRATE_COLUMNS = 5;
+	const NUM_HYDRATE_COLUMNS = 4;
 
 	/** the column name for the ID field */
 	const ID = 'calificacion.ID';
@@ -37,14 +37,11 @@ abstract class BaseCalificacionPeer {
 	/** the column name for the PUNTUACION field */
 	const PUNTUACION = 'calificacion.PUNTUACION';
 
-	/** the column name for the COMENTARIO field */
-	const COMENTARIO = 'calificacion.COMENTARIO';
-
 	/** the column name for the ID_USUARIO field */
 	const ID_USUARIO = 'calificacion.ID_USUARIO';
 
-	/** the column name for the ID_LISTA field */
-	const ID_LISTA = 'calificacion.ID_LISTA';
+	/** the column name for the ID_LIBRO field */
+	const ID_LIBRO = 'calificacion.ID_LIBRO';
 
 	/** The default string format for model objects of the related table **/
 	const DEFAULT_STRING_FORMAT = 'YAML';
@@ -65,12 +62,12 @@ abstract class BaseCalificacionPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	protected static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Puntuacion', 'Comentario', 'Id_usuario', 'Id_lista', ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'puntuacion', 'comentario', 'id_usuario', 'id_lista', ),
-		BasePeer::TYPE_COLNAME => array (self::ID, self::PUNTUACION, self::COMENTARIO, self::ID_USUARIO, self::ID_LISTA, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'PUNTUACION', 'COMENTARIO', 'ID_USUARIO', 'ID_LISTA', ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'puntuacion', 'comentario', 'id_usuario', 'id_lista', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Puntuacion', 'Id_usuario', 'Id_libro', ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'puntuacion', 'id_usuario', 'id_libro', ),
+		BasePeer::TYPE_COLNAME => array (self::ID, self::PUNTUACION, self::ID_USUARIO, self::ID_LIBRO, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'PUNTUACION', 'ID_USUARIO', 'ID_LIBRO', ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'puntuacion', 'id_usuario', 'id_libro', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
 	);
 
 	/**
@@ -80,12 +77,12 @@ abstract class BaseCalificacionPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	protected static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Puntuacion' => 1, 'Comentario' => 2, 'Id_usuario' => 3, 'Id_lista' => 4, ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'puntuacion' => 1, 'comentario' => 2, 'id_usuario' => 3, 'id_lista' => 4, ),
-		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::PUNTUACION => 1, self::COMENTARIO => 2, self::ID_USUARIO => 3, self::ID_LISTA => 4, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'PUNTUACION' => 1, 'COMENTARIO' => 2, 'ID_USUARIO' => 3, 'ID_LISTA' => 4, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'puntuacion' => 1, 'comentario' => 2, 'id_usuario' => 3, 'id_lista' => 4, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Puntuacion' => 1, 'Id_usuario' => 2, 'Id_libro' => 3, ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'puntuacion' => 1, 'id_usuario' => 2, 'id_libro' => 3, ),
+		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::PUNTUACION => 1, self::ID_USUARIO => 2, self::ID_LIBRO => 3, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'PUNTUACION' => 1, 'ID_USUARIO' => 2, 'ID_LIBRO' => 3, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'puntuacion' => 1, 'id_usuario' => 2, 'id_libro' => 3, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
 	);
 
 	/**
@@ -159,15 +156,13 @@ abstract class BaseCalificacionPeer {
 		if (null === $alias) {
 			$criteria->addSelectColumn(CalificacionPeer::ID);
 			$criteria->addSelectColumn(CalificacionPeer::PUNTUACION);
-			$criteria->addSelectColumn(CalificacionPeer::COMENTARIO);
 			$criteria->addSelectColumn(CalificacionPeer::ID_USUARIO);
-			$criteria->addSelectColumn(CalificacionPeer::ID_LISTA);
+			$criteria->addSelectColumn(CalificacionPeer::ID_LIBRO);
 		} else {
 			$criteria->addSelectColumn($alias . '.ID');
 			$criteria->addSelectColumn($alias . '.PUNTUACION');
-			$criteria->addSelectColumn($alias . '.COMENTARIO');
 			$criteria->addSelectColumn($alias . '.ID_USUARIO');
-			$criteria->addSelectColumn($alias . '.ID_LISTA');
+			$criteria->addSelectColumn($alias . '.ID_LIBRO');
 		}
 	}
 

@@ -40,9 +40,8 @@ class CalificacionTableMap extends TableMap
 		// columns
 		$this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
 		$this->addColumn('PUNTUACION', 'Puntuacion', 'INTEGER', true, null, null);
-		$this->addColumn('COMENTARIO', 'Comentario', 'CHAR', true, 200, null);
 		$this->addColumn('ID_USUARIO', 'Id_usuario', 'INTEGER', true, null, null);
-		$this->addColumn('ID_LISTA', 'Id_lista', 'INTEGER', true, null, null);
+		$this->addColumn('ID_LIBRO', 'Id_libro', 'INTEGER', true, null, null);
 		// validators
 	} // initialize()
 

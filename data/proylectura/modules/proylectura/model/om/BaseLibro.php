@@ -49,22 +49,16 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	protected $fecha;
 
 	/**
-	 * The value for the hash field.
-	 * @var        string
-	 */
-	protected $hash;
-
-	/**
 	 * The value for the id_genero field.
 	 * @var        int
 	 */
 	protected $id_genero;
 
 	/**
-	 * The value for the id_autor field.
-	 * @var        int
+	 * The value for the autor field.
+	 * @var        string
 	 */
-	protected $id_autor;
+	protected $autor;
 
 	/**
 	 * The value for the image field.
@@ -77,17 +71,6 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	 * @var        string
 	 */
 	protected $sinopsis;
-
-	/**
-	 * The value for the texto field.
-	 * @var        resource
-	 */
-	protected $texto;
-
-	/**
-	 * @var        Usuario
-	 */
-	protected $aUsuario;
 
 	/**
 	 * @var        array Audiolibro[] Collection to store aggregation of Audiolibro objects.
@@ -228,16 +211,6 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	}
 
 	/**
-	 * Get the [hash] column value.
-	 * 
-	 * @return     string
-	 */
-	public function getHash()
-	{
-		return $this->hash;
-	}
-
-	/**
 	 * Get the [id_genero] column value.
 	 * 
 	 * @return     int
@@ -248,13 +221,13 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	}
 
 	/**
-	 * Get the [id_autor] column value.
+	 * Get the [autor] column value.
 	 * 
-	 * @return     int
+	 * @return     string
 	 */
-	public function getId_autor()
+	public function getAutor()
 	{
-		return $this->id_autor;
+		return $this->autor;
 	}
 
 	/**
@@ -275,16 +248,6 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	public function getSinopsis()
 	{
 		return $this->sinopsis;
-	}
-
-	/**
-	 * Get the [texto] column value.
-	 * 
-	 * @return     resource
-	 */
-	public function getTexto()
-	{
-		return $this->texto;
 	}
 
 	/**
@@ -350,26 +313,6 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	} // setFecha()
 
 	/**
-	 * Set the value of [hash] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     Libro The current object (for fluent API support)
-	 */
-	public function setHash($v)
-	{
-		if ($v !== null) {
-			$v = (string) $v;
-		}
-
-		if ($this->hash !== $v) {
-			$this->hash = $v;
-			$this->modifiedColumns[] = LibroPeer::HASH;
-		}
-
-		return $this;
-	} // setHash()
-
-	/**
 	 * Set the value of [id_genero] column.
 	 * 
 	 * @param      int $v new value
@@ -390,28 +333,24 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	} // setId_genero()
 
 	/**
-	 * Set the value of [id_autor] column.
+	 * Set the value of [autor] column.
 	 * 
-	 * @param      int $v new value
+	 * @param      string $v new value
 	 * @return     Libro The current object (for fluent API support)
 	 */
-	public function setId_autor($v)
+	public function setAutor($v)
 	{
 		if ($v !== null) {
-			$v = (int) $v;
+			$v = (string) $v;
 		}
 
-		if ($this->id_autor !== $v) {
-			$this->id_autor = $v;
-			$this->modifiedColumns[] = LibroPeer::ID_AUTOR;
-		}
-
-		if ($this->aUsuario !== null && $this->aUsuario->getId() !== $v) {
-			$this->aUsuario = null;
+		if ($this->autor !== $v) {
+			$this->autor = $v;
+			$this->modifiedColumns[] = LibroPeer::AUTOR;
 		}
 
 		return $this;
-	} // setId_autor()
+	} // setAutor()
 
 	/**
 	 * Set the value of [image] column.
@@ -454,29 +393,6 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	} // setSinopsis()
 
 	/**
-	 * Set the value of [texto] column.
-	 * 
-	 * @param      resource $v new value
-	 * @return     Libro The current object (for fluent API support)
-	 */
-	public function setTexto($v)
-	{
-		// Because BLOB columns are streams in PDO we have to assume that they are
-		// always modified when a new value is passed in.  For example, the contents
-		// of the stream itself may have changed externally.
-		if (!is_resource($v) && $v !== null) {
-			$this->texto = fopen('php://memory', 'r+');
-			fwrite($this->texto, $v);
-			rewind($this->texto);
-		} else { // it's already a stream
-			$this->texto = $v;
-		}
-		$this->modifiedColumns[] = LibroPeer::TEXTO;
-
-		return $this;
-	} // setTexto()
-
-	/**
 	 * Indicates whether the columns in this object are only set to default values.
 	 *
 	 * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -511,18 +427,10 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			$this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
 			$this->nombre = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
 			$this->fecha = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
-			$this->hash = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
-			$this->id_genero = ($row[$startcol + 4] !== null) ? (int) $row[$startcol + 4] : null;
-			$this->id_autor = ($row[$startcol + 5] !== null) ? (int) $row[$startcol + 5] : null;
-			$this->image = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
-			$this->sinopsis = ($row[$startcol + 7] !== null) ? (string) $row[$startcol + 7] : null;
-			if ($row[$startcol + 8] !== null) {
-				$this->texto = fopen('php://memory', 'r+');
-				fwrite($this->texto, $row[$startcol + 8]);
-				rewind($this->texto);
-			} else {
-				$this->texto = null;
-			}
+			$this->id_genero = ($row[$startcol + 3] !== null) ? (int) $row[$startcol + 3] : null;
+			$this->autor = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
+			$this->image = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
+			$this->sinopsis = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
 			$this->resetModified();
 
 			$this->setNew(false);
@@ -531,7 +439,7 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 				$this->ensureConsistency();
 			}
 
-			return $startcol + 9; // 9 = LibroPeer::NUM_HYDRATE_COLUMNS.
+			return $startcol + 7; // 7 = LibroPeer::NUM_HYDRATE_COLUMNS.
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Libro object", $e);
@@ -554,9 +462,6 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	public function ensureConsistency()
 	{
 
-		if ($this->aUsuario !== null && $this->id_autor !== $this->aUsuario->getId()) {
-			$this->aUsuario = null;
-		}
 	} // ensureConsistency
 
 	/**
@@ -596,7 +501,6 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 
 		if ($deep) {  // also de-associate any related objects?
 
-			$this->aUsuario = null;
 			$this->collAudiolibros = null;
 
 			$this->collLibro_colaboradors = null;
@@ -719,18 +623,6 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 		if (!$this->alreadyInSave) {
 			$this->alreadyInSave = true;
 
-			// We call the save method on the following object(s) if they
-			// were passed to this object by their coresponding set
-			// method.  This object relates to these object(s) by a
-			// foreign key reference.
-
-			if ($this->aUsuario !== null) {
-				if ($this->aUsuario->isModified() || $this->aUsuario->isNew()) {
-					$affectedRows += $this->aUsuario->save($con);
-				}
-				$this->setUsuario($this->aUsuario);
-			}
-
 			if ($this->isNew() || $this->isModified()) {
 				// persist changes
 				if ($this->isNew()) {
@@ -739,11 +631,6 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 					$this->doUpdate($con);
 				}
 				$affectedRows += 1;
-				// Rewind the texto LOB column, since PDO does not rewind after inserting value.
-				if ($this->texto !== null && is_resource($this->texto)) {
-					rewind($this->texto);
-				}
-
 				$this->resetModified();
 			}
 
@@ -883,23 +770,17 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 		if ($this->isColumnModified(LibroPeer::FECHA)) {
 			$modifiedColumns[':p' . $index++]  = '`FECHA`';
 		}
-		if ($this->isColumnModified(LibroPeer::HASH)) {
-			$modifiedColumns[':p' . $index++]  = '`HASH`';
-		}
 		if ($this->isColumnModified(LibroPeer::ID_GENERO)) {
 			$modifiedColumns[':p' . $index++]  = '`ID_GENERO`';
 		}
-		if ($this->isColumnModified(LibroPeer::ID_AUTOR)) {
-			$modifiedColumns[':p' . $index++]  = '`ID_AUTOR`';
+		if ($this->isColumnModified(LibroPeer::AUTOR)) {
+			$modifiedColumns[':p' . $index++]  = '`AUTOR`';
 		}
 		if ($this->isColumnModified(LibroPeer::IMAGE)) {
 			$modifiedColumns[':p' . $index++]  = '`IMAGE`';
 		}
 		if ($this->isColumnModified(LibroPeer::SINOPSIS)) {
 			$modifiedColumns[':p' . $index++]  = '`SINOPSIS`';
-		}
-		if ($this->isColumnModified(LibroPeer::TEXTO)) {
-			$modifiedColumns[':p' . $index++]  = '`TEXTO`';
 		}
 
 		$sql = sprintf(
@@ -921,26 +802,17 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 					case '`FECHA`':
 						$stmt->bindValue($identifier, $this->fecha, PDO::PARAM_STR);
 						break;
-					case '`HASH`':
-						$stmt->bindValue($identifier, $this->hash, PDO::PARAM_STR);
-						break;
 					case '`ID_GENERO`':
 						$stmt->bindValue($identifier, $this->id_genero, PDO::PARAM_INT);
 						break;
-					case '`ID_AUTOR`':
-						$stmt->bindValue($identifier, $this->id_autor, PDO::PARAM_INT);
+					case '`AUTOR`':
+						$stmt->bindValue($identifier, $this->autor, PDO::PARAM_STR);
 						break;
 					case '`IMAGE`':
 						$stmt->bindValue($identifier, $this->image, PDO::PARAM_STR);
 						break;
 					case '`SINOPSIS`':
 						$stmt->bindValue($identifier, $this->sinopsis, PDO::PARAM_STR);
-						break;
-					case '`TEXTO`':
-						if (is_resource($this->texto)) {
-							rewind($this->texto);
-						}
-						$stmt->bindValue($identifier, $this->texto, PDO::PARAM_LOB);
 						break;
 				}
 			}
@@ -1032,18 +904,6 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			$retval = null;
 
 			$failureMap = array();
-
-
-			// We call the validate method on the following object(s) if they
-			// were passed to this object by their coresponding set
-			// method.  This object relates to these object(s) by a
-			// foreign key reference.
-
-			if ($this->aUsuario !== null) {
-				if (!$this->aUsuario->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUsuario->getValidationFailures());
-				}
-			}
 
 
 			if (($retval = LibroPeer::doValidate($this, $columns)) !== true) {
@@ -1142,22 +1002,16 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 				return $this->getFecha();
 				break;
 			case 3:
-				return $this->getHash();
-				break;
-			case 4:
 				return $this->getId_genero();
 				break;
-			case 5:
-				return $this->getId_autor();
+			case 4:
+				return $this->getAutor();
 				break;
-			case 6:
+			case 5:
 				return $this->getImage();
 				break;
-			case 7:
+			case 6:
 				return $this->getSinopsis();
-				break;
-			case 8:
-				return $this->getTexto();
 				break;
 			default:
 				return null;
@@ -1191,17 +1045,12 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getNombre(),
 			$keys[2] => $this->getFecha(),
-			$keys[3] => $this->getHash(),
-			$keys[4] => $this->getId_genero(),
-			$keys[5] => $this->getId_autor(),
-			$keys[6] => $this->getImage(),
-			$keys[7] => $this->getSinopsis(),
-			$keys[8] => $this->getTexto(),
+			$keys[3] => $this->getId_genero(),
+			$keys[4] => $this->getAutor(),
+			$keys[5] => $this->getImage(),
+			$keys[6] => $this->getSinopsis(),
 		);
 		if ($includeForeignObjects) {
-			if (null !== $this->aUsuario) {
-				$result['Usuario'] = $this->aUsuario->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
-			}
 			if (null !== $this->collAudiolibros) {
 				$result['Audiolibros'] = $this->collAudiolibros->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
 			}
@@ -1261,22 +1110,16 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 				$this->setFecha($value);
 				break;
 			case 3:
-				$this->setHash($value);
-				break;
-			case 4:
 				$this->setId_genero($value);
 				break;
-			case 5:
-				$this->setId_autor($value);
+			case 4:
+				$this->setAutor($value);
 				break;
-			case 6:
+			case 5:
 				$this->setImage($value);
 				break;
-			case 7:
+			case 6:
 				$this->setSinopsis($value);
-				break;
-			case 8:
-				$this->setTexto($value);
 				break;
 		} // switch()
 	}
@@ -1305,12 +1148,10 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setNombre($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setFecha($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setHash($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setId_genero($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setId_autor($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setImage($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setSinopsis($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setTexto($arr[$keys[8]]);
+		if (array_key_exists($keys[3], $arr)) $this->setId_genero($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setAutor($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setImage($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setSinopsis($arr[$keys[6]]);
 	}
 
 	/**
@@ -1325,12 +1166,10 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 		if ($this->isColumnModified(LibroPeer::ID)) $criteria->add(LibroPeer::ID, $this->id);
 		if ($this->isColumnModified(LibroPeer::NOMBRE)) $criteria->add(LibroPeer::NOMBRE, $this->nombre);
 		if ($this->isColumnModified(LibroPeer::FECHA)) $criteria->add(LibroPeer::FECHA, $this->fecha);
-		if ($this->isColumnModified(LibroPeer::HASH)) $criteria->add(LibroPeer::HASH, $this->hash);
 		if ($this->isColumnModified(LibroPeer::ID_GENERO)) $criteria->add(LibroPeer::ID_GENERO, $this->id_genero);
-		if ($this->isColumnModified(LibroPeer::ID_AUTOR)) $criteria->add(LibroPeer::ID_AUTOR, $this->id_autor);
+		if ($this->isColumnModified(LibroPeer::AUTOR)) $criteria->add(LibroPeer::AUTOR, $this->autor);
 		if ($this->isColumnModified(LibroPeer::IMAGE)) $criteria->add(LibroPeer::IMAGE, $this->image);
 		if ($this->isColumnModified(LibroPeer::SINOPSIS)) $criteria->add(LibroPeer::SINOPSIS, $this->sinopsis);
-		if ($this->isColumnModified(LibroPeer::TEXTO)) $criteria->add(LibroPeer::TEXTO, $this->texto);
 
 		return $criteria;
 	}
@@ -1395,12 +1234,10 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	{
 		$copyObj->setNombre($this->getNombre());
 		$copyObj->setFecha($this->getFecha());
-		$copyObj->setHash($this->getHash());
 		$copyObj->setId_genero($this->getId_genero());
-		$copyObj->setId_autor($this->getId_autor());
+		$copyObj->setAutor($this->getAutor());
 		$copyObj->setImage($this->getImage());
 		$copyObj->setSinopsis($this->getSinopsis());
-		$copyObj->setTexto($this->getTexto());
 
 		if ($deepCopy && !$this->startCopy) {
 			// important: temporarily setNew(false) because this affects the behavior of
@@ -1491,55 +1328,6 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			self::$peer = new LibroPeer();
 		}
 		return self::$peer;
-	}
-
-	/**
-	 * Declares an association between this object and a Usuario object.
-	 *
-	 * @param      Usuario $v
-	 * @return     Libro The current object (for fluent API support)
-	 * @throws     PropelException
-	 */
-	public function setUsuario(Usuario $v = null)
-	{
-		if ($v === null) {
-			$this->setId_autor(NULL);
-		} else {
-			$this->setId_autor($v->getId());
-		}
-
-		$this->aUsuario = $v;
-
-		// Add binding for other direction of this n:n relationship.
-		// If this object has already been added to the Usuario object, it will not be re-added.
-		if ($v !== null) {
-			$v->addLibro($this);
-		}
-
-		return $this;
-	}
-
-
-	/**
-	 * Get the associated Usuario object
-	 *
-	 * @param      PropelPDO Optional Connection object.
-	 * @return     Usuario The associated Usuario object.
-	 * @throws     PropelException
-	 */
-	public function getUsuario(PropelPDO $con = null)
-	{
-		if ($this->aUsuario === null && ($this->id_autor !== null)) {
-			$this->aUsuario = UsuarioQuery::create()->findPk($this->id_autor, $con);
-			/* The following can be used additionally to
-				guarantee the related object contains a reference
-				to this object.  This level of coupling may, however, be
-				undesirable since it could result in an only partially populated collection
-				in the referenced object.
-				$this->aUsuario->addLibros($this);
-			 */
-		}
-		return $this->aUsuario;
 	}
 
 
@@ -2569,12 +2357,10 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 		$this->id = null;
 		$this->nombre = null;
 		$this->fecha = null;
-		$this->hash = null;
 		$this->id_genero = null;
-		$this->id_autor = null;
+		$this->autor = null;
 		$this->image = null;
 		$this->sinopsis = null;
-		$this->texto = null;
 		$this->alreadyInSave = false;
 		$this->alreadyInValidation = false;
 		$this->clearAllReferences();
@@ -2651,7 +2437,6 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			$this->collClasificadoss->clearIterator();
 		}
 		$this->collClasificadoss = null;
-		$this->aUsuario = null;
 	}
 
 	/**

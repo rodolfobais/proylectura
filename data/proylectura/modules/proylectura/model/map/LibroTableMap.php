@@ -41,12 +41,10 @@ class LibroTableMap extends TableMap
 		$this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
 		$this->addColumn('NOMBRE', 'Nombre', 'CHAR', true, 50, null);
 		$this->addColumn('FECHA', 'Fecha', 'DATE', false, null, null);
-		$this->addColumn('HASH', 'Hash', 'CHAR', false, 250, null);
 		$this->addColumn('ID_GENERO', 'Id_genero', 'INTEGER', false, null, null);
-		$this->addForeignKey('ID_AUTOR', 'Id_autor', 'INTEGER', 'usuario', 'ID', false, null, null);
+		$this->addColumn('AUTOR', 'Autor', 'CHAR', false, 255, null);
 		$this->addColumn('IMAGE', 'Image', 'CHAR', false, 255, null);
 		$this->addColumn('SINOPSIS', 'Sinopsis', 'CHAR', false, 255, null);
-		$this->addColumn('TEXTO', 'Texto', 'BLOB', false, null, null);
 		// validators
 	} // initialize()
 
@@ -55,7 +53,6 @@ class LibroTableMap extends TableMap
 	 */
 	public function buildRelations()
 	{
-		$this->addRelation('Usuario', 'Usuario', RelationMap::MANY_TO_ONE, array('id_autor' => 'id', ), null, null);
 		$this->addRelation('Audiolibro', 'Audiolibro', RelationMap::ONE_TO_MANY, array('id' => 'idlibro', ), null, null, 'Audiolibros');
 		$this->addRelation('Libro_colaborador', 'Libro_colaborador', RelationMap::ONE_TO_MANY, array('id' => 'idlibro', ), null, null, 'Libro_colaboradors');
 		$this->addRelation('Libro_version', 'Libro_version', RelationMap::ONE_TO_MANY, array('id' => 'idlibro', ), null, null, 'Libro_versions');

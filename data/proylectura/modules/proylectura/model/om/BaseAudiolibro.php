@@ -43,18 +43,6 @@ abstract class BaseAudiolibro extends BaseObject  implements Persistent
 	protected $nombre;
 
 	/**
-	 * The value for the fecha field.
-	 * @var        string
-	 */
-	protected $fecha;
-
-	/**
-	 * The value for the hash field.
-	 * @var        string
-	 */
-	protected $hash;
-
-	/**
 	 * The value for the idlibro field.
 	 * @var        int
 	 */
@@ -111,54 +99,6 @@ abstract class BaseAudiolibro extends BaseObject  implements Persistent
 	}
 
 	/**
-	 * Get the [optionally formatted] temporal [fecha] column value.
-	 * 
-	 *
-	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
-	 *							If format is NULL, then the raw DateTime object will be returned.
-	 * @return     mixed Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00
-	 * @throws     PropelException - if unable to parse/validate the date/time value.
-	 */
-	public function getFecha($format = '%x')
-	{
-		if ($this->fecha === null) {
-			return null;
-		}
-
-
-		if ($this->fecha === '0000-00-00') {
-			// while technically this is not a default value of NULL,
-			// this seems to be closest in meaning.
-			return null;
-		} else {
-			try {
-				$dt = new DateTime($this->fecha);
-			} catch (Exception $x) {
-				throw new PropelException("Internally stored date/time/timestamp value could not be converted to DateTime: " . var_export($this->fecha, true), $x);
-			}
-		}
-
-		if ($format === null) {
-			// Because propel.useDateTimeClass is TRUE, we return a DateTime object.
-			return $dt;
-		} elseif (strpos($format, '%') !== false) {
-			return strftime($format, $dt->format('U'));
-		} else {
-			return $dt->format($format);
-		}
-	}
-
-	/**
-	 * Get the [hash] column value.
-	 * 
-	 * @return     string
-	 */
-	public function getHash()
-	{
-		return $this->hash;
-	}
-
-	/**
 	 * Get the [idlibro] column value.
 	 * 
 	 * @return     int
@@ -207,48 +147,6 @@ abstract class BaseAudiolibro extends BaseObject  implements Persistent
 
 		return $this;
 	} // setNombre()
-
-	/**
-	 * Sets the value of [fecha] column to a normalized version of the date/time value specified.
-	 * 
-	 * @param      mixed $v string, integer (timestamp), or DateTime value.
-	 *               Empty strings are treated as NULL.
-	 * @return     Audiolibro The current object (for fluent API support)
-	 */
-	public function setFecha($v)
-	{
-		$dt = PropelDateTime::newInstance($v, null, 'DateTime');
-		if ($this->fecha !== null || $dt !== null) {
-			$currentDateAsString = ($this->fecha !== null && $tmpDt = new DateTime($this->fecha)) ? $tmpDt->format('Y-m-d') : null;
-			$newDateAsString = $dt ? $dt->format('Y-m-d') : null;
-			if ($currentDateAsString !== $newDateAsString) {
-				$this->fecha = $newDateAsString;
-				$this->modifiedColumns[] = AudiolibroPeer::FECHA;
-			}
-		} // if either are not null
-
-		return $this;
-	} // setFecha()
-
-	/**
-	 * Set the value of [hash] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     Audiolibro The current object (for fluent API support)
-	 */
-	public function setHash($v)
-	{
-		if ($v !== null) {
-			$v = (string) $v;
-		}
-
-		if ($this->hash !== $v) {
-			$this->hash = $v;
-			$this->modifiedColumns[] = AudiolibroPeer::HASH;
-		}
-
-		return $this;
-	} // setHash()
 
 	/**
 	 * Set the value of [idlibro] column.
@@ -308,9 +206,7 @@ abstract class BaseAudiolibro extends BaseObject  implements Persistent
 
 			$this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
 			$this->nombre = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
-			$this->fecha = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
-			$this->hash = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
-			$this->idlibro = ($row[$startcol + 4] !== null) ? (int) $row[$startcol + 4] : null;
+			$this->idlibro = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
 			$this->resetModified();
 
 			$this->setNew(false);
@@ -319,7 +215,7 @@ abstract class BaseAudiolibro extends BaseObject  implements Persistent
 				$this->ensureConsistency();
 			}
 
-			return $startcol + 5; // 5 = AudiolibroPeer::NUM_HYDRATE_COLUMNS.
+			return $startcol + 3; // 3 = AudiolibroPeer::NUM_HYDRATE_COLUMNS.
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Audiolibro object", $e);
@@ -568,12 +464,6 @@ abstract class BaseAudiolibro extends BaseObject  implements Persistent
 		if ($this->isColumnModified(AudiolibroPeer::NOMBRE)) {
 			$modifiedColumns[':p' . $index++]  = '`NOMBRE`';
 		}
-		if ($this->isColumnModified(AudiolibroPeer::FECHA)) {
-			$modifiedColumns[':p' . $index++]  = '`FECHA`';
-		}
-		if ($this->isColumnModified(AudiolibroPeer::HASH)) {
-			$modifiedColumns[':p' . $index++]  = '`HASH`';
-		}
 		if ($this->isColumnModified(AudiolibroPeer::IDLIBRO)) {
 			$modifiedColumns[':p' . $index++]  = '`IDLIBRO`';
 		}
@@ -593,12 +483,6 @@ abstract class BaseAudiolibro extends BaseObject  implements Persistent
 						break;
 					case '`NOMBRE`':
 						$stmt->bindValue($identifier, $this->nombre, PDO::PARAM_STR);
-						break;
-					case '`FECHA`':
-						$stmt->bindValue($identifier, $this->fecha, PDO::PARAM_STR);
-						break;
-					case '`HASH`':
-						$stmt->bindValue($identifier, $this->hash, PDO::PARAM_STR);
 						break;
 					case '`IDLIBRO`':
 						$stmt->bindValue($identifier, $this->idlibro, PDO::PARAM_INT);
@@ -760,12 +644,6 @@ abstract class BaseAudiolibro extends BaseObject  implements Persistent
 				return $this->getNombre();
 				break;
 			case 2:
-				return $this->getFecha();
-				break;
-			case 3:
-				return $this->getHash();
-				break;
-			case 4:
 				return $this->getIdlibro();
 				break;
 			default:
@@ -799,9 +677,7 @@ abstract class BaseAudiolibro extends BaseObject  implements Persistent
 		$result = array(
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getNombre(),
-			$keys[2] => $this->getFecha(),
-			$keys[3] => $this->getHash(),
-			$keys[4] => $this->getIdlibro(),
+			$keys[2] => $this->getIdlibro(),
 		);
 		if ($includeForeignObjects) {
 			if (null !== $this->aLibro) {
@@ -848,12 +724,6 @@ abstract class BaseAudiolibro extends BaseObject  implements Persistent
 				$this->setNombre($value);
 				break;
 			case 2:
-				$this->setFecha($value);
-				break;
-			case 3:
-				$this->setHash($value);
-				break;
-			case 4:
 				$this->setIdlibro($value);
 				break;
 		} // switch()
@@ -882,9 +752,7 @@ abstract class BaseAudiolibro extends BaseObject  implements Persistent
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setNombre($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setFecha($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setHash($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setIdlibro($arr[$keys[4]]);
+		if (array_key_exists($keys[2], $arr)) $this->setIdlibro($arr[$keys[2]]);
 	}
 
 	/**
@@ -898,8 +766,6 @@ abstract class BaseAudiolibro extends BaseObject  implements Persistent
 
 		if ($this->isColumnModified(AudiolibroPeer::ID)) $criteria->add(AudiolibroPeer::ID, $this->id);
 		if ($this->isColumnModified(AudiolibroPeer::NOMBRE)) $criteria->add(AudiolibroPeer::NOMBRE, $this->nombre);
-		if ($this->isColumnModified(AudiolibroPeer::FECHA)) $criteria->add(AudiolibroPeer::FECHA, $this->fecha);
-		if ($this->isColumnModified(AudiolibroPeer::HASH)) $criteria->add(AudiolibroPeer::HASH, $this->hash);
 		if ($this->isColumnModified(AudiolibroPeer::IDLIBRO)) $criteria->add(AudiolibroPeer::IDLIBRO, $this->idlibro);
 
 		return $criteria;
@@ -964,8 +830,6 @@ abstract class BaseAudiolibro extends BaseObject  implements Persistent
 	public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
 	{
 		$copyObj->setNombre($this->getNombre());
-		$copyObj->setFecha($this->getFecha());
-		$copyObj->setHash($this->getHash());
 		$copyObj->setIdlibro($this->getIdlibro());
 
 		if ($deepCopy && !$this->startCopy) {
@@ -1274,8 +1138,6 @@ abstract class BaseAudiolibro extends BaseObject  implements Persistent
 	{
 		$this->id = null;
 		$this->nombre = null;
-		$this->fecha = null;
-		$this->hash = null;
 		$this->idlibro = null;
 		$this->alreadyInSave = false;
 		$this->alreadyInValidation = false;

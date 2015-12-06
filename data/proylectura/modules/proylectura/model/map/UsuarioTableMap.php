@@ -54,7 +54,6 @@ class UsuarioTableMap extends TableMap
 	{
 		$this->addRelation('AmistadRelatedById_usuario', 'Amistad', RelationMap::ONE_TO_MANY, array('id' => 'id_usuario', ), null, null, 'AmistadsRelatedById_usuario');
 		$this->addRelation('AmistadRelatedByid_usuarioamigo', 'Amistad', RelationMap::ONE_TO_MANY, array('id' => 'id_usuarioamigo', ), null, null, 'AmistadsRelatedByid_usuarioamigo');
-		$this->addRelation('Libro', 'Libro', RelationMap::ONE_TO_MANY, array('id' => 'id_autor', ), null, null, 'Libros');
 		$this->addRelation('Lista', 'Lista', RelationMap::ONE_TO_MANY, array('id' => 'id_usuario', ), null, null, 'Listas');
 		$this->addRelation('Libro_colaborador', 'Libro_colaborador', RelationMap::ONE_TO_MANY, array('id' => 'idusuario', ), null, null, 'Libro_colaboradors');
 		$this->addRelation('Libro_version', 'Libro_version', RelationMap::ONE_TO_MANY, array('id' => 'idusuario', ), null, null, 'Libro_versions');

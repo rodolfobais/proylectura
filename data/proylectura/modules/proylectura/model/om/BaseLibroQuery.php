@@ -9,30 +9,22 @@
  * @method     LibroQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     LibroQuery orderByNombre($order = Criteria::ASC) Order by the nombre column
  * @method     LibroQuery orderByFecha($order = Criteria::ASC) Order by the fecha column
- * @method     LibroQuery orderByHash($order = Criteria::ASC) Order by the hash column
  * @method     LibroQuery orderById_genero($order = Criteria::ASC) Order by the id_genero column
- * @method     LibroQuery orderById_autor($order = Criteria::ASC) Order by the id_autor column
+ * @method     LibroQuery orderByAutor($order = Criteria::ASC) Order by the autor column
  * @method     LibroQuery orderByImage($order = Criteria::ASC) Order by the image column
  * @method     LibroQuery orderBySinopsis($order = Criteria::ASC) Order by the sinopsis column
- * @method     LibroQuery orderByTexto($order = Criteria::ASC) Order by the texto column
  *
  * @method     LibroQuery groupById() Group by the id column
  * @method     LibroQuery groupByNombre() Group by the nombre column
  * @method     LibroQuery groupByFecha() Group by the fecha column
- * @method     LibroQuery groupByHash() Group by the hash column
  * @method     LibroQuery groupById_genero() Group by the id_genero column
- * @method     LibroQuery groupById_autor() Group by the id_autor column
+ * @method     LibroQuery groupByAutor() Group by the autor column
  * @method     LibroQuery groupByImage() Group by the image column
  * @method     LibroQuery groupBySinopsis() Group by the sinopsis column
- * @method     LibroQuery groupByTexto() Group by the texto column
  *
  * @method     LibroQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     LibroQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     LibroQuery innerJoin($relation) Adds a INNER JOIN clause to the query
- *
- * @method     LibroQuery leftJoinUsuario($relationAlias = null) Adds a LEFT JOIN clause to the query using the Usuario relation
- * @method     LibroQuery rightJoinUsuario($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Usuario relation
- * @method     LibroQuery innerJoinUsuario($relationAlias = null) Adds a INNER JOIN clause to the query using the Usuario relation
  *
  * @method     LibroQuery leftJoinAudiolibro($relationAlias = null) Adds a LEFT JOIN clause to the query using the Audiolibro relation
  * @method     LibroQuery rightJoinAudiolibro($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Audiolibro relation
@@ -64,22 +56,18 @@
  * @method     Libro findOneById(int $id) Return the first Libro filtered by the id column
  * @method     Libro findOneByNombre(string $nombre) Return the first Libro filtered by the nombre column
  * @method     Libro findOneByFecha(string $fecha) Return the first Libro filtered by the fecha column
- * @method     Libro findOneByHash(string $hash) Return the first Libro filtered by the hash column
  * @method     Libro findOneById_genero(int $id_genero) Return the first Libro filtered by the id_genero column
- * @method     Libro findOneById_autor(int $id_autor) Return the first Libro filtered by the id_autor column
+ * @method     Libro findOneByAutor(string $autor) Return the first Libro filtered by the autor column
  * @method     Libro findOneByImage(string $image) Return the first Libro filtered by the image column
  * @method     Libro findOneBySinopsis(string $sinopsis) Return the first Libro filtered by the sinopsis column
- * @method     Libro findOneByTexto(resource $texto) Return the first Libro filtered by the texto column
  *
  * @method     array findById(int $id) Return Libro objects filtered by the id column
  * @method     array findByNombre(string $nombre) Return Libro objects filtered by the nombre column
  * @method     array findByFecha(string $fecha) Return Libro objects filtered by the fecha column
- * @method     array findByHash(string $hash) Return Libro objects filtered by the hash column
  * @method     array findById_genero(int $id_genero) Return Libro objects filtered by the id_genero column
- * @method     array findById_autor(int $id_autor) Return Libro objects filtered by the id_autor column
+ * @method     array findByAutor(string $autor) Return Libro objects filtered by the autor column
  * @method     array findByImage(string $image) Return Libro objects filtered by the image column
  * @method     array findBySinopsis(string $sinopsis) Return Libro objects filtered by the sinopsis column
- * @method     array findByTexto(resource $texto) Return Libro objects filtered by the texto column
  *
  * @package    propel.generator.proylectura.model.om
  */
@@ -168,7 +156,7 @@ abstract class BaseLibroQuery extends ModelCriteria
 	 */
 	protected function findPkSimple($key, $con)
 	{
-		$sql = 'SELECT `ID`, `NOMBRE`, `FECHA`, `HASH`, `ID_GENERO`, `ID_AUTOR`, `IMAGE`, `SINOPSIS`, `TEXTO` FROM `libro` WHERE `ID` = :p0';
+		$sql = 'SELECT `ID`, `NOMBRE`, `FECHA`, `ID_GENERO`, `AUTOR`, `IMAGE`, `SINOPSIS` FROM `libro` WHERE `ID` = :p0';
 		try {
 			$stmt = $con->prepare($sql);
 			$stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -350,34 +338,6 @@ abstract class BaseLibroQuery extends ModelCriteria
 	}
 
 	/**
-	 * Filter the query on the hash column
-	 *
-	 * Example usage:
-	 * <code>
-	 * $query->filterByHash('fooValue');   // WHERE hash = 'fooValue'
-	 * $query->filterByHash('%fooValue%'); // WHERE hash LIKE '%fooValue%'
-	 * </code>
-	 *
-	 * @param     string $hash The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    LibroQuery The current query, for fluid interface
-	 */
-	public function filterByHash($hash = null, $comparison = null)
-	{
-		if (null === $comparison) {
-			if (is_array($hash)) {
-				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $hash)) {
-				$hash = str_replace('*', '%', $hash);
-				$comparison = Criteria::LIKE;
-			}
-		}
-		return $this->addUsingAlias(LibroPeer::HASH, $hash, $comparison);
-	}
-
-	/**
 	 * Filter the query on the id_genero column
 	 *
 	 * Example usage:
@@ -418,45 +378,31 @@ abstract class BaseLibroQuery extends ModelCriteria
 	}
 
 	/**
-	 * Filter the query on the id_autor column
+	 * Filter the query on the autor column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterById_autor(1234); // WHERE id_autor = 1234
-	 * $query->filterById_autor(array(12, 34)); // WHERE id_autor IN (12, 34)
-	 * $query->filterById_autor(array('min' => 12)); // WHERE id_autor > 12
+	 * $query->filterByAutor('fooValue');   // WHERE autor = 'fooValue'
+	 * $query->filterByAutor('%fooValue%'); // WHERE autor LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @see       filterByUsuario()
-	 *
-	 * @param     mixed $id_autor The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param     string $autor The value to use as filter.
+	 *              Accepts wildcards (* and % trigger a LIKE)
 	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
 	 *
 	 * @return    LibroQuery The current query, for fluid interface
 	 */
-	public function filterById_autor($id_autor = null, $comparison = null)
+	public function filterByAutor($autor = null, $comparison = null)
 	{
-		if (is_array($id_autor)) {
-			$useMinMax = false;
-			if (isset($id_autor['min'])) {
-				$this->addUsingAlias(LibroPeer::ID_AUTOR, $id_autor['min'], Criteria::GREATER_EQUAL);
-				$useMinMax = true;
-			}
-			if (isset($id_autor['max'])) {
-				$this->addUsingAlias(LibroPeer::ID_AUTOR, $id_autor['max'], Criteria::LESS_EQUAL);
-				$useMinMax = true;
-			}
-			if ($useMinMax) {
-				return $this;
-			}
-			if (null === $comparison) {
+		if (null === $comparison) {
+			if (is_array($autor)) {
 				$comparison = Criteria::IN;
+			} elseif (preg_match('/[\%\*]/', $autor)) {
+				$autor = str_replace('*', '%', $autor);
+				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(LibroPeer::ID_AUTOR, $id_autor, $comparison);
+		return $this->addUsingAlias(LibroPeer::AUTOR, $autor, $comparison);
 	}
 
 	/**
@@ -513,93 +459,6 @@ abstract class BaseLibroQuery extends ModelCriteria
 			}
 		}
 		return $this->addUsingAlias(LibroPeer::SINOPSIS, $sinopsis, $comparison);
-	}
-
-	/**
-	 * Filter the query on the texto column
-	 *
-	 * @param     mixed $texto The value to use as filter
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    LibroQuery The current query, for fluid interface
-	 */
-	public function filterByTexto($texto = null, $comparison = null)
-	{
-		return $this->addUsingAlias(LibroPeer::TEXTO, $texto, $comparison);
-	}
-
-	/**
-	 * Filter the query by a related Usuario object
-	 *
-	 * @param     Usuario|PropelCollection $usuario The related object(s) to use as filter
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    LibroQuery The current query, for fluid interface
-	 */
-	public function filterByUsuario($usuario, $comparison = null)
-	{
-		if ($usuario instanceof Usuario) {
-			return $this
-				->addUsingAlias(LibroPeer::ID_AUTOR, $usuario->getId(), $comparison);
-		} elseif ($usuario instanceof PropelCollection) {
-			if (null === $comparison) {
-				$comparison = Criteria::IN;
-			}
-			return $this
-				->addUsingAlias(LibroPeer::ID_AUTOR, $usuario->toKeyValue('PrimaryKey', 'Id'), $comparison);
-		} else {
-			throw new PropelException('filterByUsuario() only accepts arguments of type Usuario or PropelCollection');
-		}
-	}
-
-	/**
-	 * Adds a JOIN clause to the query using the Usuario relation
-	 *
-	 * @param     string $relationAlias optional alias for the relation
-	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-	 *
-	 * @return    LibroQuery The current query, for fluid interface
-	 */
-	public function joinUsuario($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
-	{
-		$tableMap = $this->getTableMap();
-		$relationMap = $tableMap->getRelation('Usuario');
-
-		// create a ModelJoin object for this join
-		$join = new ModelJoin();
-		$join->setJoinType($joinType);
-		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-		if ($previousJoin = $this->getPreviousJoin()) {
-			$join->setPreviousJoin($previousJoin);
-		}
-
-		// add the ModelJoin to the current object
-		if($relationAlias) {
-			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-			$this->addJoinObject($join, $relationAlias);
-		} else {
-			$this->addJoinObject($join, 'Usuario');
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Use the Usuario relation Usuario object
-	 *
-	 * @see       useQuery()
-	 *
-	 * @param     string $relationAlias optional alias for the relation,
-	 *                                   to be used as main alias in the secondary query
-	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-	 *
-	 * @return    UsuarioQuery A secondary query class using the current class as primary query
-	 */
-	public function useUsuarioQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
-	{
-		return $this
-			->joinUsuario($relationAlias, $joinType)
-			->useQuery($relationAlias ? $relationAlias : 'Usuario', 'UsuarioQuery');
 	}
 
 	/**

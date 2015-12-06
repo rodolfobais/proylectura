@@ -36,27 +36,12 @@ CREATE TABLE `audiolibro`
 (
 	`id` INT(10) NOT NULL AUTO_INCREMENT,
 	`nombre` CHAR(50) NOT NULL,
-	`fecha` DATE NOT NULL,
-	`hash` CHAR(250) NOT NULL,
 	`idlibro` INT(10) NOT NULL,
 	PRIMARY KEY (`id`),
 	INDEX `FI_iolibro_libro` (`idlibro`),
 	CONSTRAINT `audiolibro_libro`
 		FOREIGN KEY (`idlibro`)
 		REFERENCES `libro` (`id`)
-) ENGINE=InnoDB;
-
--- ---------------------------------------------------------------------
--- autor
--- ---------------------------------------------------------------------
-
-DROP TABLE IF EXISTS `autor`;
-
-CREATE TABLE `autor`
-(
-	`id` INT(10) NOT NULL AUTO_INCREMENT,
-	`nombre` CHAR(100) NOT NULL,
-	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
@@ -69,9 +54,23 @@ CREATE TABLE `calificacion`
 (
 	`id` INT(10) NOT NULL AUTO_INCREMENT,
 	`puntuacion` INT(10) NOT NULL,
-	`comentario` CHAR(200) NOT NULL,
 	`id_usuario` INT(10) NOT NULL,
-	`id_lista` INT(10) NOT NULL,
+	`id_libro` INT(10) NOT NULL,
+	PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- comentario
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `comentario`;
+
+CREATE TABLE `comentario`
+(
+	`id` INT(10) NOT NULL AUTO_INCREMENT,
+	`comentario` CHAR(255) NOT NULL,
+	`id_usuario` INT(10) NOT NULL,
+	`id_libro` INT(10) NOT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
@@ -99,17 +98,11 @@ CREATE TABLE `libro`
 	`id` INT(10) NOT NULL AUTO_INCREMENT,
 	`nombre` CHAR(50) NOT NULL,
 	`fecha` DATE,
-	`hash` CHAR(250),
 	`id_genero` INT(10),
-	`id_autor` INT(10),
+	`autor` CHAR(255),
 	`image` CHAR(255),
 	`sinopsis` CHAR(255),
-	`texto` LONGBLOB,
-	PRIMARY KEY (`id`),
-	INDEX `FI_ro_id_autor` (`id_autor`),
-	CONSTRAINT `libro_id_autor`
-		FOREIGN KEY (`id_autor`)
-		REFERENCES `usuario` (`id`)
+	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
@@ -233,7 +226,7 @@ CREATE TABLE `mensaje`
 	`id` INT(10) NOT NULL AUTO_INCREMENT,
 	`id_usuario_destinatario` INT(10) NOT NULL,
 	`id_usuario_remitente` INT(10) NOT NULL,
-	`mensaje` CHAR(800) NOT NULL,
+	`mensaje` CHAR(255) NOT NULL,
 	PRIMARY KEY (`id`),
 	INDEX `FI_saje_usuario_detinatario` (`id_usuario_destinatario`),
 	INDEX `FI_saje_usuario_remitente` (`id_usuario_remitente`),
@@ -256,7 +249,7 @@ CREATE TABLE `notificacion`
 	`id` INT(10) NOT NULL AUTO_INCREMENT,
 	`id_emisor` INT(10) NOT NULL,
 	`id_receptor` INT(10) NOT NULL,
-	`descripcion` CHAR(100) NOT NULL,
+	`descripcion` CHAR(255) NOT NULL,
 	`id_tipo_notificacion` INT(10) NOT NULL,
 	PRIMARY KEY (`id`),
 	INDEX `FI_ificacion_emisor` (`id_emisor`),

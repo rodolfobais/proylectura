@@ -23,13 +23,13 @@ abstract class BaseLibroPeer {
 	const TM_CLASS = 'LibroTableMap';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 9;
+	const NUM_COLUMNS = 7;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
 	/** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-	const NUM_HYDRATE_COLUMNS = 9;
+	const NUM_HYDRATE_COLUMNS = 7;
 
 	/** the column name for the ID field */
 	const ID = 'libro.ID';
@@ -40,23 +40,17 @@ abstract class BaseLibroPeer {
 	/** the column name for the FECHA field */
 	const FECHA = 'libro.FECHA';
 
-	/** the column name for the HASH field */
-	const HASH = 'libro.HASH';
-
 	/** the column name for the ID_GENERO field */
 	const ID_GENERO = 'libro.ID_GENERO';
 
-	/** the column name for the ID_AUTOR field */
-	const ID_AUTOR = 'libro.ID_AUTOR';
+	/** the column name for the AUTOR field */
+	const AUTOR = 'libro.AUTOR';
 
 	/** the column name for the IMAGE field */
 	const IMAGE = 'libro.IMAGE';
 
 	/** the column name for the SINOPSIS field */
 	const SINOPSIS = 'libro.SINOPSIS';
-
-	/** the column name for the TEXTO field */
-	const TEXTO = 'libro.TEXTO';
 
 	/** The default string format for model objects of the related table **/
 	const DEFAULT_STRING_FORMAT = 'YAML';
@@ -77,12 +71,12 @@ abstract class BaseLibroPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	protected static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Nombre', 'Fecha', 'Hash', 'Id_genero', 'Id_autor', 'Image', 'Sinopsis', 'Texto', ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'nombre', 'fecha', 'hash', 'id_genero', 'id_autor', 'image', 'sinopsis', 'texto', ),
-		BasePeer::TYPE_COLNAME => array (self::ID, self::NOMBRE, self::FECHA, self::HASH, self::ID_GENERO, self::ID_AUTOR, self::IMAGE, self::SINOPSIS, self::TEXTO, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'NOMBRE', 'FECHA', 'HASH', 'ID_GENERO', 'ID_AUTOR', 'IMAGE', 'SINOPSIS', 'TEXTO', ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'nombre', 'fecha', 'hash', 'id_genero', 'id_autor', 'image', 'sinopsis', 'texto', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Nombre', 'Fecha', 'Id_genero', 'Autor', 'Image', 'Sinopsis', ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'nombre', 'fecha', 'id_genero', 'autor', 'image', 'sinopsis', ),
+		BasePeer::TYPE_COLNAME => array (self::ID, self::NOMBRE, self::FECHA, self::ID_GENERO, self::AUTOR, self::IMAGE, self::SINOPSIS, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'NOMBRE', 'FECHA', 'ID_GENERO', 'AUTOR', 'IMAGE', 'SINOPSIS', ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'nombre', 'fecha', 'id_genero', 'autor', 'image', 'sinopsis', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
 	);
 
 	/**
@@ -92,12 +86,12 @@ abstract class BaseLibroPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	protected static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Nombre' => 1, 'Fecha' => 2, 'Hash' => 3, 'Id_genero' => 4, 'Id_autor' => 5, 'Image' => 6, 'Sinopsis' => 7, 'Texto' => 8, ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'nombre' => 1, 'fecha' => 2, 'hash' => 3, 'id_genero' => 4, 'id_autor' => 5, 'image' => 6, 'sinopsis' => 7, 'texto' => 8, ),
-		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::NOMBRE => 1, self::FECHA => 2, self::HASH => 3, self::ID_GENERO => 4, self::ID_AUTOR => 5, self::IMAGE => 6, self::SINOPSIS => 7, self::TEXTO => 8, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'NOMBRE' => 1, 'FECHA' => 2, 'HASH' => 3, 'ID_GENERO' => 4, 'ID_AUTOR' => 5, 'IMAGE' => 6, 'SINOPSIS' => 7, 'TEXTO' => 8, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'nombre' => 1, 'fecha' => 2, 'hash' => 3, 'id_genero' => 4, 'id_autor' => 5, 'image' => 6, 'sinopsis' => 7, 'texto' => 8, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Nombre' => 1, 'Fecha' => 2, 'Id_genero' => 3, 'Autor' => 4, 'Image' => 5, 'Sinopsis' => 6, ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'nombre' => 1, 'fecha' => 2, 'id_genero' => 3, 'autor' => 4, 'image' => 5, 'sinopsis' => 6, ),
+		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::NOMBRE => 1, self::FECHA => 2, self::ID_GENERO => 3, self::AUTOR => 4, self::IMAGE => 5, self::SINOPSIS => 6, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'NOMBRE' => 1, 'FECHA' => 2, 'ID_GENERO' => 3, 'AUTOR' => 4, 'IMAGE' => 5, 'SINOPSIS' => 6, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'nombre' => 1, 'fecha' => 2, 'id_genero' => 3, 'autor' => 4, 'image' => 5, 'sinopsis' => 6, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
 	);
 
 	/**
@@ -172,22 +166,18 @@ abstract class BaseLibroPeer {
 			$criteria->addSelectColumn(LibroPeer::ID);
 			$criteria->addSelectColumn(LibroPeer::NOMBRE);
 			$criteria->addSelectColumn(LibroPeer::FECHA);
-			$criteria->addSelectColumn(LibroPeer::HASH);
 			$criteria->addSelectColumn(LibroPeer::ID_GENERO);
-			$criteria->addSelectColumn(LibroPeer::ID_AUTOR);
+			$criteria->addSelectColumn(LibroPeer::AUTOR);
 			$criteria->addSelectColumn(LibroPeer::IMAGE);
 			$criteria->addSelectColumn(LibroPeer::SINOPSIS);
-			$criteria->addSelectColumn(LibroPeer::TEXTO);
 		} else {
 			$criteria->addSelectColumn($alias . '.ID');
 			$criteria->addSelectColumn($alias . '.NOMBRE');
 			$criteria->addSelectColumn($alias . '.FECHA');
-			$criteria->addSelectColumn($alias . '.HASH');
 			$criteria->addSelectColumn($alias . '.ID_GENERO');
-			$criteria->addSelectColumn($alias . '.ID_AUTOR');
+			$criteria->addSelectColumn($alias . '.AUTOR');
 			$criteria->addSelectColumn($alias . '.IMAGE');
 			$criteria->addSelectColumn($alias . '.SINOPSIS');
-			$criteria->addSelectColumn($alias . '.TEXTO');
 		}
 	}
 
@@ -471,240 +461,6 @@ abstract class BaseLibroPeer {
 			LibroPeer::addInstanceToPool($obj, $key);
 		}
 		return array($obj, $col);
-	}
-
-
-	/**
-	 * Returns the number of rows matching criteria, joining the related Usuario table
-	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
-	 * @param      PropelPDO $con
-	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     int Number of matching rows.
-	 */
-	public static function doCountJoinUsuario(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		// we're going to modify criteria, so copy it first
-		$criteria = clone $criteria;
-
-		// We need to set the primary table name, since in the case that there are no WHERE columns
-		// it will be impossible for the BasePeer::createSelectSql() method to determine which
-		// tables go into the FROM clause.
-		$criteria->setPrimaryTableName(LibroPeer::TABLE_NAME);
-
-		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->setDistinct();
-		}
-
-		if (!$criteria->hasSelectClause()) {
-			LibroPeer::addSelectColumns($criteria);
-		}
-
-		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
-
-		// Set the correct dbName
-		$criteria->setDbName(self::DATABASE_NAME);
-
-		if ($con === null) {
-			$con = Propel::getConnection(LibroPeer::DATABASE_NAME, Propel::CONNECTION_READ);
-		}
-
-		$criteria->addJoin(LibroPeer::ID_AUTOR, UsuarioPeer::ID, $join_behavior);
-
-		$stmt = BasePeer::doCount($criteria, $con);
-
-		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$count = (int) $row[0];
-		} else {
-			$count = 0; // no rows returned; we infer that means 0 matches.
-		}
-		$stmt->closeCursor();
-		return $count;
-	}
-
-
-	/**
-	 * Selects a collection of Libro objects pre-filled with their Usuario objects.
-	 * @param      Criteria  $criteria
-	 * @param      PropelPDO $con
-	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     array Array of Libro objects.
-	 * @throws     PropelException Any exceptions caught during processing will be
-	 *		 rethrown wrapped into a PropelException.
-	 */
-	public static function doSelectJoinUsuario(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		$criteria = clone $criteria;
-
-		// Set the correct dbName if it has not been overridden
-		if ($criteria->getDbName() == Propel::getDefaultDB()) {
-			$criteria->setDbName(self::DATABASE_NAME);
-		}
-
-		LibroPeer::addSelectColumns($criteria);
-		$startcol = LibroPeer::NUM_HYDRATE_COLUMNS;
-		UsuarioPeer::addSelectColumns($criteria);
-
-		$criteria->addJoin(LibroPeer::ID_AUTOR, UsuarioPeer::ID, $join_behavior);
-
-		$stmt = BasePeer::doSelect($criteria, $con);
-		$results = array();
-
-		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$key1 = LibroPeer::getPrimaryKeyHashFromRow($row, 0);
-			if (null !== ($obj1 = LibroPeer::getInstanceFromPool($key1))) {
-				// We no longer rehydrate the object, since this can cause data loss.
-				// See http://www.propelorm.org/ticket/509
-				// $obj1->hydrate($row, 0, true); // rehydrate
-			} else {
-
-				$cls = LibroPeer::getOMClass();
-
-				$obj1 = new $cls();
-				$obj1->hydrate($row);
-				LibroPeer::addInstanceToPool($obj1, $key1);
-			} // if $obj1 already loaded
-
-			$key2 = UsuarioPeer::getPrimaryKeyHashFromRow($row, $startcol);
-			if ($key2 !== null) {
-				$obj2 = UsuarioPeer::getInstanceFromPool($key2);
-				if (!$obj2) {
-
-					$cls = UsuarioPeer::getOMClass();
-
-					$obj2 = new $cls();
-					$obj2->hydrate($row, $startcol);
-					UsuarioPeer::addInstanceToPool($obj2, $key2);
-				} // if obj2 already loaded
-
-				// Add the $obj1 (Libro) to $obj2 (Usuario)
-				$obj2->addLibro($obj1);
-
-			} // if joined row was not null
-
-			$results[] = $obj1;
-		}
-		$stmt->closeCursor();
-		return $results;
-	}
-
-
-	/**
-	 * Returns the number of rows matching criteria, joining all related tables
-	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
-	 * @param      PropelPDO $con
-	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     int Number of matching rows.
-	 */
-	public static function doCountJoinAll(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		// we're going to modify criteria, so copy it first
-		$criteria = clone $criteria;
-
-		// We need to set the primary table name, since in the case that there are no WHERE columns
-		// it will be impossible for the BasePeer::createSelectSql() method to determine which
-		// tables go into the FROM clause.
-		$criteria->setPrimaryTableName(LibroPeer::TABLE_NAME);
-
-		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->setDistinct();
-		}
-
-		if (!$criteria->hasSelectClause()) {
-			LibroPeer::addSelectColumns($criteria);
-		}
-
-		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
-
-		// Set the correct dbName
-		$criteria->setDbName(self::DATABASE_NAME);
-
-		if ($con === null) {
-			$con = Propel::getConnection(LibroPeer::DATABASE_NAME, Propel::CONNECTION_READ);
-		}
-
-		$criteria->addJoin(LibroPeer::ID_AUTOR, UsuarioPeer::ID, $join_behavior);
-
-		$stmt = BasePeer::doCount($criteria, $con);
-
-		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$count = (int) $row[0];
-		} else {
-			$count = 0; // no rows returned; we infer that means 0 matches.
-		}
-		$stmt->closeCursor();
-		return $count;
-	}
-
-	/**
-	 * Selects a collection of Libro objects pre-filled with all related objects.
-	 *
-	 * @param      Criteria  $criteria
-	 * @param      PropelPDO $con
-	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     array Array of Libro objects.
-	 * @throws     PropelException Any exceptions caught during processing will be
-	 *		 rethrown wrapped into a PropelException.
-	 */
-	public static function doSelectJoinAll(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		$criteria = clone $criteria;
-
-		// Set the correct dbName if it has not been overridden
-		if ($criteria->getDbName() == Propel::getDefaultDB()) {
-			$criteria->setDbName(self::DATABASE_NAME);
-		}
-
-		LibroPeer::addSelectColumns($criteria);
-		$startcol2 = LibroPeer::NUM_HYDRATE_COLUMNS;
-
-		UsuarioPeer::addSelectColumns($criteria);
-		$startcol3 = $startcol2 + UsuarioPeer::NUM_HYDRATE_COLUMNS;
-
-		$criteria->addJoin(LibroPeer::ID_AUTOR, UsuarioPeer::ID, $join_behavior);
-
-		$stmt = BasePeer::doSelect($criteria, $con);
-		$results = array();
-
-		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$key1 = LibroPeer::getPrimaryKeyHashFromRow($row, 0);
-			if (null !== ($obj1 = LibroPeer::getInstanceFromPool($key1))) {
-				// We no longer rehydrate the object, since this can cause data loss.
-				// See http://www.propelorm.org/ticket/509
-				// $obj1->hydrate($row, 0, true); // rehydrate
-			} else {
-				$cls = LibroPeer::getOMClass();
-
-				$obj1 = new $cls();
-				$obj1->hydrate($row);
-				LibroPeer::addInstanceToPool($obj1, $key1);
-			} // if obj1 already loaded
-
-			// Add objects for joined Usuario rows
-
-			$key2 = UsuarioPeer::getPrimaryKeyHashFromRow($row, $startcol2);
-			if ($key2 !== null) {
-				$obj2 = UsuarioPeer::getInstanceFromPool($key2);
-				if (!$obj2) {
-
-					$cls = UsuarioPeer::getOMClass();
-
-					$obj2 = new $cls();
-					$obj2->hydrate($row, $startcol2);
-					UsuarioPeer::addInstanceToPool($obj2, $key2);
-				} // if obj2 loaded
-
-				// Add the $obj1 (Libro) to the collection in $obj2 (Usuario)
-				$obj2->addLibro($obj1);
-			} // if joined row not null
-
-			$results[] = $obj1;
-		}
-		$stmt->closeCursor();
-		return $results;
 	}
 
 	/**
