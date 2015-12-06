@@ -34,7 +34,7 @@
 
 
       <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper">
+      <div class="content-wrapper" style="margin-left: 0px;">
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
@@ -147,12 +147,7 @@
           </div><!-- /.row -->
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
-      <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-          <b>Version</b> 2.3.0
-        </div>
-        <strong>Copyright &copy; 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights reserved.
-      </footer>
+
 
       <!-- Control Sidebar -->
       <aside class="control-sidebar control-sidebar-dark">
