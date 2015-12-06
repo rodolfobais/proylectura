@@ -3,7 +3,7 @@ function editaregistro_libro(id){
     $("#formulario_libros #id").val(id);
    
     $("#formulario_libros #nombre").val($("#nombre_"+id).html());
-    $("#formulario_libros #fecha").val($("#fecha_"+id).html());
+    
     $("#formulario_libros #sinopsis").val($("#sinopsis_"+id).html());
     //$("#formulario_usuarios #nombre").val($("#nombre_"+id).html());
     $("#formulario_libros #titulo_formulario").html("Editar libro.");
@@ -15,10 +15,11 @@ function enviar_form_libro(){
     var json = {
         id: $("#formulario_libros #id").val() ,          
         nombre: $("#formulario_libros #nombre").val() , 
-        fecha:    $("#formulario_libros #fecha").val(),
-        sinopsis: $("#formulario_libros #sinopsis").val()
-        
+       
+        sinopsis: $("#formulario_libros #sinopsis").val(),
+        accion: "n" 
     };
+   
     $.ajax({
         data: {json: $.toJSON(json) },
         type: 'POST',
@@ -49,7 +50,7 @@ function borrar_libro(id){
         dataType: 'json',
         url: 'pages/layout/libros_data.php',
         success: function(data){
-            alert(data);
+            
             /*
                 if (data.error == 0){
                         //alert('success!');

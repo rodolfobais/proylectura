@@ -1,4 +1,4 @@
-function editaregistro(id){
+function editaregistro_genero(id){
     $("#formulario_generos #id").val(id);
    
     $("#formulario_generos #nombre").val($("#nombre_"+id).html());
@@ -12,7 +12,8 @@ function enviar_form_generos(){
     
     var json = {
         id: $("#formulario_generos #id").val() ,          
-        nombre: $("#formulario_generos #nombre").val()  
+        nombre: $("#formulario_generos #nombre").val(),
+        accion: "e"
     };
     $.ajax({
         data: {json: $.toJSON(json) },

@@ -1,4 +1,4 @@
-function mostrar_notificacion(id){
+function mostrar_notificacion(){
     var json = {
         id: $("#lista_notificaciones #id").val(),
         mensaje: $("#lista_notificaciones #descripcion").val(),
