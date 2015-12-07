@@ -10,7 +10,7 @@ function editaregistro_libro(id){
     $("#formulario_libros .box-body").show("slow");
     $("#formulario_libros #accion").val("e");
 }
-function enviar_form_libro(){
+/*function enviar_form_libro(){
     
     var json = {
         id: $("#formulario_libros #id").val() ,          
@@ -32,12 +32,30 @@ function enviar_form_libro(){
                 }else{
                        // alert(data.msg);
                 }*/
-                alert(data.msg);
+                //alert(data.msg);
+               // refreshDivs('cuerpocentro','pages/layout/libros.php');
+              //  proces = 0;
+        //}
+  // });
+//}*/
+function enviar_form_libro(){
+            //console.log("submit event");
+            var fd = new FormData(document.getElementById("formpdf"));
+            //fd.append("label", "WEBUPLOAD");
+            $.ajax({
+              url: "pages/layout/libros_data.php",
+              type: "POST",
+              data: fd,
+              enctype: 'multipart/form-data',
+              processData: false,  // tell jQuery not to process the data
+              contentType: false   // tell jQuery not to set contentType
+            }).done(function( data ) {
+                alert(data);
                 refreshDivs('cuerpocentro','pages/layout/libros.php');
-                proces = 0;
+            });
+            return false;
         }
-   });
-}
+
 function borrar_libro(id){
     //alert(id);
     var json = {

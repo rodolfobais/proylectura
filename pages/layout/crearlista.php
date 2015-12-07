@@ -3,15 +3,13 @@ error_reporting(E_ALL);
 ini_set("display_errors", 1);
 include_once '../../data/config.php';
 ?>
-<link href="css/cuerpo.css" type="text/css"  rel="stylesheet"/>
-<link href="css/crearlista.css" type="text/css"  rel="stylesheet"/>
        <div id="columna_izq">
             <h4>Buscar</h4> 
             <div class="cont">
                 <label style="margin-left:10px;">Ingrese una búsqueda en el campo.</label>
-                <input type="text" id="audiolibro" />
+                <input type="text" id="audiolibro" name="audiolibro"/>
             </div>
-            <a onClick="buscar();" id="btn" style="margin-left:10px;">Buscar</a>     
+            <a class="btn btn-primary btn-sm btn-flat" onClick="buscar();" id="btn"  name="btn" style="margin-left:10px;">Buscar</a>     
             <h4>Resultados encontrados:</h4>
             <div id="audiolibrosencontrados">	
                 
@@ -101,8 +99,8 @@ include_once '../../data/config.php';
                     </select>
                     <span onclick="verdatosmultipleselect();">tomar datos multiple select</span>
                     </div>
-                           
-               	<span onClick="grabarLista();" id="btn" style="margin-left:10px;">
+                    </br>
+               	<span class="btn btn-primary btn-sm btn-flat" onClick="grabarLista();" id="btn" style="margin-left:10px;">
                     Grabar Lista
                 </span>
                 <div id="validacion" style="float:left;clear:both;width:350px;">

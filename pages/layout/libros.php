@@ -1,4 +1,3 @@
-
 <?php
 //die;
 error_reporting(E_ALL);
@@ -7,9 +6,29 @@ include_once("../../data/config.php");
 
 //$libros = LibroQuery::create()->find();
 $libros = LibroQuery::create()->find();
-
-//$listaLibros = "";
-
+//$usuarios = UsuarioQuery::create()->find();
+$generos = GeneroQuery::create()->find();
+        
+$options = "<option value = ''>Seleccione un libro</option> ";
+//$listaLibros = ""; 
+foreach ($generos as $reg) { 
+     //$listaGeneros .= "<li>".$reg->getNombre()."</li>";
+     //$options .= "<option value = '".$reg->getId()."'>".$reg->getNombre()."</option> ";
+     //$options .= "<option value = '".$reg->getId()."'>".$reg->getNombre()."</option> ";
+     $options .= "<option value = '".$reg->getId()."'>".$reg->getNombre()."</option> ";
+     
+ }
+ 
+ $privacidad = PrivacidadQuery::create()->orderById("DESC")->find();
+ foreach ($privacidad as $reg) { 
+     //$listaGeneros .= "<li>".$reg->getNombre()."</li>";
+     //$options .= "<option value = '".$reg->getId()."'>".$reg->getNombre()."</option> ";
+     //$options .= "<option value = '".$reg->getId()."'>".$reg->getNombre()."</option> ";
+     $privacidadopcion .= "<option value = '".$reg->getId()."'>".$reg->getNombre()."</option> ";
+     
+ }
+ 
+ //echo $listaGeneros;
 ?>
 
 <!DOCTYPE HTML>
@@ -47,24 +66,39 @@ $libros = LibroQuery::create()->find();
                             </div><!-- /.box-tools -->
                         </div><!-- /.box-header -->
                         <div class="box-body" >
-                            <input type="hidden" id="accion" value="n"/>
+                            <form id="formpdf">
+                                <input type="hidden" id="accion" value="n" name="accion"/>
+                                <input type="file" id="image" value="" name="image"  /> 
+                                <div class="form-group" hidden="Id">
+                                    <label>Id</label>
+                                    <input type="text" class="form-control" placeholder="ID" disabled id="id">
+                                </div>
+                                <br />
+                                <div class="form-group">
+                                    <label>Nombre</label>
+                                    <input type="text" class="form-control" placeholder="Nombre" id="nombrelibro" name="nombrelibro">
+                                </div>
+                                <div class="form-group">
+                                    <label>Asignar Genero</label>
+                                    <select class="form-control" id="vinculogenero" name="vinculogenero"><?= $options; ?></select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Autor</label>
+                                    <input type="text" class="form-control" placeholder="Autor o Autores" id="autor" name="autor">
+                                </div>  
+                                <div class="form-group">
+                                    <label>Sinopsis</label>
+                                    <input type="text" class="form-control" placeholder="Sinopsis" id="sinopsis" name="sinopsis">
+                                </div>
+                                <div class="form-group">
+                                    <label>Seleccione la Privacidad </label>
+                                    <select class="form-control" id="privacidad" name="privacidad"><?= $privacidadopcion; ?></select>
+                                </div>
+                                <br />
+                                <input type="file" id="pdf" value="" name="pdf"  /> 
+                            </form>
                             <div class="form-group">
-                                <label>Id</label>
-                                <input type="text" class="form-control" placeholder="ID" disabled id="id">
-                            </div>
-                            <div class="form-group">
-                                <label>Nombre</label>
-                                <input type="text" class="form-control" placeholder="Nick" id="nombre">
-                            </div>
-                            
-                              
-                              <div class="form-group">
-                                <label>Sinopsis</label>
-                                <input type="text" class="form-control" placeholder="Sinopsis" id="sinopsis">
-                            </div>
-                            
-                            <div class="form-group">
-                                <button class="btn btn-block btn-default" onclick="enviar_form_libro()">Enviar</button>
+                                <button class="btn btn-block btn-default" onclick="enviar_form_libro()">Subir</button>
                             </div>
                         </div>
                     </div>
@@ -81,7 +115,7 @@ $libros = LibroQuery::create()->find();
                                 <tr>
                                     <th>Id</th>
                                     <th>Nombre</th>
-                                    
+                                    <th>Autor</th>
                                     <th>Sinopsis</th>
                                 </tr>
                             </thead>
@@ -93,7 +127,7 @@ $libros = LibroQuery::create()->find();
                                         . "<td>".$reg->getId()."</td>"
                                        
                                         . "<td id = \"nombre_".$reg->getId()."\">".$reg->getNombre()."</td>"
-                                        
+                                        . "<td id = \"nombre_".$reg->getId()."\">".$reg->getAutor()."</td>"
                                         . "<td id = \"nombre_".$reg->getId()."\">".$reg->getSinopsis()."</td>"
                                         . "<td><a href = \"#\" onclick=\"editaregistro_libro('".$reg->getId()."')\"><span class=\"glyphicon glyphicon-pencil\"></span></a>&nbsp;&nbsp;&nbsp;"
                                                 . "<a href = \"#\" onclick=\"borrar_libro('".$reg->getId()."')\"><span class=\"glyphicon glyphicon-remove\"></span></a></td>"

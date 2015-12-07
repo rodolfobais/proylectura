@@ -151,6 +151,11 @@ CREATE TABLE `privacidad`
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
+INSERT INTO `privacidad` (`id`, `nombre`) VALUES
+(0, 'Privado (Solo yo)'),
+(1, 'Privado (Con Amigos)'),
+(2, 'Publico');
+
 -- ---------------------------------------------------------------------
 -- usuario
 -- ---------------------------------------------------------------------
@@ -167,6 +172,14 @@ CREATE TABLE `usuario`
 	`admin` INTEGER NOT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
+
+INSERT INTO `usuario` (`id`, `nick`, `nombre`, `mail`, `password`, `admin`) VALUES
+(16, '', 'Tecla', 'tecla@tecla.com', 'drodriguez', 0),
+(17, 'esrdgfhgjhk', 'Fer', 'fer@fer.com', '123456', 0),
+(18, '', 'admin', 'admin@admin.com', 'admin', 1),
+(20, '', 'Jorge Miranda', 'jorge@jorge.com', '12345', 0),
+(21, 'roooooo', 'Rodo', 'rodo@rodo.com', '123456', 0),
+(22, '', 'Chris', 'chris@chris.com', '123456', 0);
 
 -- ---------------------------------------------------------------------
 -- lista
