@@ -3,7 +3,7 @@
 
 
 /**
- * This class defines the structure of the 'comentario' table.
+ * This class defines the structure of the 'privacidad' table.
  *
  *
  *
@@ -14,13 +14,13 @@
  *
  * @package    propel.generator.proylectura.model.map
  */
-class ComentarioTableMap extends TableMap
+class PrivacidadTableMap extends TableMap
 {
 
 	/**
 	 * The (dot-path) name of this class
 	 */
-	const CLASS_NAME = 'proylectura.model.map.ComentarioTableMap';
+	const CLASS_NAME = 'proylectura.model.map.PrivacidadTableMap';
 
 	/**
 	 * Initialize the table attributes, columns and validators
@@ -32,16 +32,14 @@ class ComentarioTableMap extends TableMap
 	public function initialize()
 	{
 		// attributes
-		$this->setName('comentario');
-		$this->setPhpName('Comentario');
-		$this->setClassname('Comentario');
+		$this->setName('privacidad');
+		$this->setPhpName('Privacidad');
+		$this->setClassname('Privacidad');
 		$this->setPackage('proylectura.model');
 		$this->setUseIdGenerator(true);
 		// columns
 		$this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
-		$this->addColumn('COMENTARIO', 'Comentario', 'CHAR', true, 255, null);
-		$this->addForeignKey('ID_USUARIO', 'Id_usuario', 'INTEGER', 'usuario', 'ID', true, null, null);
-		$this->addForeignKey('ID_LIBRO', 'Id_libro', 'INTEGER', 'libro', 'ID', true, null, null);
+		$this->addColumn('NOMBRE', 'Nombre', 'CHAR', true, 50, null);
 		// validators
 	} // initialize()
 
@@ -50,8 +48,7 @@ class ComentarioTableMap extends TableMap
 	 */
 	public function buildRelations()
 	{
-		$this->addRelation('Usuario', 'Usuario', RelationMap::MANY_TO_ONE, array('id_usuario' => 'id', ), null, null);
-		$this->addRelation('Libro', 'Libro', RelationMap::MANY_TO_ONE, array('id_libro' => 'id', ), null, null);
+		$this->addRelation('Libro', 'Libro', RelationMap::ONE_TO_MANY, array('id' => 'id_privacidad', ), null, null, 'Libros');
 	} // buildRelations()
 
-} // ComentarioTableMap
+} // PrivacidadTableMap

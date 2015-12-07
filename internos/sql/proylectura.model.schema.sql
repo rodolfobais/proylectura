@@ -56,7 +56,15 @@ CREATE TABLE `calificacion`
 	`puntuacion` INT(10) NOT NULL,
 	`id_usuario` INT(10) NOT NULL,
 	`id_libro` INT(10) NOT NULL,
-	PRIMARY KEY (`id`)
+	PRIMARY KEY (`id`),
+	INDEX `FI_ificacion_usuario` (`id_usuario`),
+	INDEX `FI_ificacion_libro` (`id_libro`),
+	CONSTRAINT `calificacion_usuario`
+		FOREIGN KEY (`id_usuario`)
+		REFERENCES `usuario` (`id`),
+	CONSTRAINT `calificacion_libro`
+		FOREIGN KEY (`id_libro`)
+		REFERENCES `libro` (`id`)
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
@@ -71,7 +79,15 @@ CREATE TABLE `comentario`
 	`comentario` CHAR(255) NOT NULL,
 	`id_usuario` INT(10) NOT NULL,
 	`id_libro` INT(10) NOT NULL,
-	PRIMARY KEY (`id`)
+	PRIMARY KEY (`id`),
+	INDEX `FI_entario_usuario` (`id_usuario`),
+	INDEX `FI_entario_libro` (`id_libro`),
+	CONSTRAINT `comentario_usuario`
+		FOREIGN KEY (`id_usuario`)
+		REFERENCES `usuario` (`id`),
+	CONSTRAINT `comentario_libro`
+		FOREIGN KEY (`id_libro`)
+		REFERENCES `libro` (`id`)
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
@@ -102,6 +118,36 @@ CREATE TABLE `libro`
 	`autor` CHAR(255),
 	`image` CHAR(255),
 	`sinopsis` CHAR(255),
+	`fecha_ult_acc` DATE,
+	`hora_ult_acc` CHAR(8),
+	`usuario_ult_acc` INT(10),
+	`id_privacidad` INT(10),
+	`es_editable` CHAR(1),
+	PRIMARY KEY (`id`),
+	INDEX `FI_ro_usuario_ult_acc` (`usuario_ult_acc`),
+	INDEX `FI_ro_privacidad` (`id_privacidad`),
+	INDEX `FI_ro_genero` (`id_genero`),
+	CONSTRAINT `libro_usuario_ult_acc`
+		FOREIGN KEY (`usuario_ult_acc`)
+		REFERENCES `usuario` (`id`),
+	CONSTRAINT `libro_privacidad`
+		FOREIGN KEY (`id_privacidad`)
+		REFERENCES `privacidad` (`id`),
+	CONSTRAINT `libro_genero`
+		FOREIGN KEY (`id_genero`)
+		REFERENCES `genero` (`id`)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- privacidad
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `privacidad`;
+
+CREATE TABLE `privacidad`
+(
+	`id` INT(10) NOT NULL AUTO_INCREMENT,
+	`nombre` CHAR(50) NOT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
@@ -133,7 +179,6 @@ CREATE TABLE `lista`
 	`id` INT(10) NOT NULL AUTO_INCREMENT,
 	`nombre` CHAR(50) NOT NULL,
 	`fecha` DATE NOT NULL,
-	`id_visibilidad` INT(10) NOT NULL,
 	`id_usuario` INT(10) NOT NULL,
 	`id_genero` INT(10) NOT NULL,
 	PRIMARY KEY (`id`),
@@ -254,12 +299,30 @@ CREATE TABLE `notificacion`
 	PRIMARY KEY (`id`),
 	INDEX `FI_ificacion_emisor` (`id_emisor`),
 	INDEX `FI_ificacion_receptor` (`id_receptor`),
+	INDEX `FI_ificacion_tiponotificacion` (`id_tipo_notificacion`),
 	CONSTRAINT `notificacion_emisor`
 		FOREIGN KEY (`id_emisor`)
 		REFERENCES `usuario` (`id`),
 	CONSTRAINT `notificacion_receptor`
 		FOREIGN KEY (`id_receptor`)
-		REFERENCES `usuario` (`id`)
+		REFERENCES `usuario` (`id`),
+	CONSTRAINT `notificacion_tiponotificacion`
+		FOREIGN KEY (`id_tipo_notificacion`)
+		REFERENCES `tipo_notificacion` (`id`)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- tipo_notificacion
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `tipo_notificacion`;
+
+CREATE TABLE `tipo_notificacion`
+(
+	`id` INT(10) NOT NULL AUTO_INCREMENT,
+	`nombre` CHAR(50) NOT NULL,
+	`imagen` CHAR(150) NOT NULL,
+	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------

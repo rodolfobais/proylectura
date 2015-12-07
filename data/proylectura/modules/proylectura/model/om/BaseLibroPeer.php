@@ -23,13 +23,13 @@ abstract class BaseLibroPeer {
 	const TM_CLASS = 'LibroTableMap';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 7;
+	const NUM_COLUMNS = 12;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
 	/** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-	const NUM_HYDRATE_COLUMNS = 7;
+	const NUM_HYDRATE_COLUMNS = 12;
 
 	/** the column name for the ID field */
 	const ID = 'libro.ID';
@@ -52,6 +52,21 @@ abstract class BaseLibroPeer {
 	/** the column name for the SINOPSIS field */
 	const SINOPSIS = 'libro.SINOPSIS';
 
+	/** the column name for the FECHA_ULT_ACC field */
+	const FECHA_ULT_ACC = 'libro.FECHA_ULT_ACC';
+
+	/** the column name for the HORA_ULT_ACC field */
+	const HORA_ULT_ACC = 'libro.HORA_ULT_ACC';
+
+	/** the column name for the USUARIO_ULT_ACC field */
+	const USUARIO_ULT_ACC = 'libro.USUARIO_ULT_ACC';
+
+	/** the column name for the ID_PRIVACIDAD field */
+	const ID_PRIVACIDAD = 'libro.ID_PRIVACIDAD';
+
+	/** the column name for the ES_EDITABLE field */
+	const ES_EDITABLE = 'libro.ES_EDITABLE';
+
 	/** The default string format for model objects of the related table **/
 	const DEFAULT_STRING_FORMAT = 'YAML';
 
@@ -71,12 +86,12 @@ abstract class BaseLibroPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	protected static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Nombre', 'Fecha', 'Id_genero', 'Autor', 'Image', 'Sinopsis', ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'nombre', 'fecha', 'id_genero', 'autor', 'image', 'sinopsis', ),
-		BasePeer::TYPE_COLNAME => array (self::ID, self::NOMBRE, self::FECHA, self::ID_GENERO, self::AUTOR, self::IMAGE, self::SINOPSIS, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'NOMBRE', 'FECHA', 'ID_GENERO', 'AUTOR', 'IMAGE', 'SINOPSIS', ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'nombre', 'fecha', 'id_genero', 'autor', 'image', 'sinopsis', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Nombre', 'Fecha', 'Id_genero', 'Autor', 'Image', 'Sinopsis', 'Fecha_ult_acc', 'Hora_ult_acc', 'Usuario_ult_acc', 'Id_privacidad', 'Es_editable', ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'nombre', 'fecha', 'id_genero', 'autor', 'image', 'sinopsis', 'fecha_ult_acc', 'hora_ult_acc', 'usuario_ult_acc', 'id_privacidad', 'es_editable', ),
+		BasePeer::TYPE_COLNAME => array (self::ID, self::NOMBRE, self::FECHA, self::ID_GENERO, self::AUTOR, self::IMAGE, self::SINOPSIS, self::FECHA_ULT_ACC, self::HORA_ULT_ACC, self::USUARIO_ULT_ACC, self::ID_PRIVACIDAD, self::ES_EDITABLE, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'NOMBRE', 'FECHA', 'ID_GENERO', 'AUTOR', 'IMAGE', 'SINOPSIS', 'FECHA_ULT_ACC', 'HORA_ULT_ACC', 'USUARIO_ULT_ACC', 'ID_PRIVACIDAD', 'ES_EDITABLE', ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'nombre', 'fecha', 'id_genero', 'autor', 'image', 'sinopsis', 'fecha_ult_acc', 'hora_ult_acc', 'usuario_ult_acc', 'id_privacidad', 'es_editable', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
 	);
 
 	/**
@@ -86,12 +101,12 @@ abstract class BaseLibroPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	protected static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Nombre' => 1, 'Fecha' => 2, 'Id_genero' => 3, 'Autor' => 4, 'Image' => 5, 'Sinopsis' => 6, ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'nombre' => 1, 'fecha' => 2, 'id_genero' => 3, 'autor' => 4, 'image' => 5, 'sinopsis' => 6, ),
-		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::NOMBRE => 1, self::FECHA => 2, self::ID_GENERO => 3, self::AUTOR => 4, self::IMAGE => 5, self::SINOPSIS => 6, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'NOMBRE' => 1, 'FECHA' => 2, 'ID_GENERO' => 3, 'AUTOR' => 4, 'IMAGE' => 5, 'SINOPSIS' => 6, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'nombre' => 1, 'fecha' => 2, 'id_genero' => 3, 'autor' => 4, 'image' => 5, 'sinopsis' => 6, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Nombre' => 1, 'Fecha' => 2, 'Id_genero' => 3, 'Autor' => 4, 'Image' => 5, 'Sinopsis' => 6, 'Fecha_ult_acc' => 7, 'Hora_ult_acc' => 8, 'Usuario_ult_acc' => 9, 'Id_privacidad' => 10, 'Es_editable' => 11, ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'nombre' => 1, 'fecha' => 2, 'id_genero' => 3, 'autor' => 4, 'image' => 5, 'sinopsis' => 6, 'fecha_ult_acc' => 7, 'hora_ult_acc' => 8, 'usuario_ult_acc' => 9, 'id_privacidad' => 10, 'es_editable' => 11, ),
+		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::NOMBRE => 1, self::FECHA => 2, self::ID_GENERO => 3, self::AUTOR => 4, self::IMAGE => 5, self::SINOPSIS => 6, self::FECHA_ULT_ACC => 7, self::HORA_ULT_ACC => 8, self::USUARIO_ULT_ACC => 9, self::ID_PRIVACIDAD => 10, self::ES_EDITABLE => 11, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'NOMBRE' => 1, 'FECHA' => 2, 'ID_GENERO' => 3, 'AUTOR' => 4, 'IMAGE' => 5, 'SINOPSIS' => 6, 'FECHA_ULT_ACC' => 7, 'HORA_ULT_ACC' => 8, 'USUARIO_ULT_ACC' => 9, 'ID_PRIVACIDAD' => 10, 'ES_EDITABLE' => 11, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'nombre' => 1, 'fecha' => 2, 'id_genero' => 3, 'autor' => 4, 'image' => 5, 'sinopsis' => 6, 'fecha_ult_acc' => 7, 'hora_ult_acc' => 8, 'usuario_ult_acc' => 9, 'id_privacidad' => 10, 'es_editable' => 11, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
 	);
 
 	/**
@@ -170,6 +185,11 @@ abstract class BaseLibroPeer {
 			$criteria->addSelectColumn(LibroPeer::AUTOR);
 			$criteria->addSelectColumn(LibroPeer::IMAGE);
 			$criteria->addSelectColumn(LibroPeer::SINOPSIS);
+			$criteria->addSelectColumn(LibroPeer::FECHA_ULT_ACC);
+			$criteria->addSelectColumn(LibroPeer::HORA_ULT_ACC);
+			$criteria->addSelectColumn(LibroPeer::USUARIO_ULT_ACC);
+			$criteria->addSelectColumn(LibroPeer::ID_PRIVACIDAD);
+			$criteria->addSelectColumn(LibroPeer::ES_EDITABLE);
 		} else {
 			$criteria->addSelectColumn($alias . '.ID');
 			$criteria->addSelectColumn($alias . '.NOMBRE');
@@ -178,6 +198,11 @@ abstract class BaseLibroPeer {
 			$criteria->addSelectColumn($alias . '.AUTOR');
 			$criteria->addSelectColumn($alias . '.IMAGE');
 			$criteria->addSelectColumn($alias . '.SINOPSIS');
+			$criteria->addSelectColumn($alias . '.FECHA_ULT_ACC');
+			$criteria->addSelectColumn($alias . '.HORA_ULT_ACC');
+			$criteria->addSelectColumn($alias . '.USUARIO_ULT_ACC');
+			$criteria->addSelectColumn($alias . '.ID_PRIVACIDAD');
+			$criteria->addSelectColumn($alias . '.ES_EDITABLE');
 		}
 	}
 
@@ -461,6 +486,969 @@ abstract class BaseLibroPeer {
 			LibroPeer::addInstanceToPool($obj, $key);
 		}
 		return array($obj, $col);
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related Usuario table
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     int Number of matching rows.
+	 */
+	public static function doCountJoinUsuario(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// We need to set the primary table name, since in the case that there are no WHERE columns
+		// it will be impossible for the BasePeer::createSelectSql() method to determine which
+		// tables go into the FROM clause.
+		$criteria->setPrimaryTableName(LibroPeer::TABLE_NAME);
+
+		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->setDistinct();
+		}
+
+		if (!$criteria->hasSelectClause()) {
+			LibroPeer::addSelectColumns($criteria);
+		}
+
+		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
+
+		// Set the correct dbName
+		$criteria->setDbName(self::DATABASE_NAME);
+
+		if ($con === null) {
+			$con = Propel::getConnection(LibroPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+		}
+
+		$criteria->addJoin(LibroPeer::USUARIO_ULT_ACC, UsuarioPeer::ID, $join_behavior);
+
+		$stmt = BasePeer::doCount($criteria, $con);
+
+		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$count = (int) $row[0];
+		} else {
+			$count = 0; // no rows returned; we infer that means 0 matches.
+		}
+		$stmt->closeCursor();
+		return $count;
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related Privacidad table
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     int Number of matching rows.
+	 */
+	public static function doCountJoinPrivacidad(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// We need to set the primary table name, since in the case that there are no WHERE columns
+		// it will be impossible for the BasePeer::createSelectSql() method to determine which
+		// tables go into the FROM clause.
+		$criteria->setPrimaryTableName(LibroPeer::TABLE_NAME);
+
+		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->setDistinct();
+		}
+
+		if (!$criteria->hasSelectClause()) {
+			LibroPeer::addSelectColumns($criteria);
+		}
+
+		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
+
+		// Set the correct dbName
+		$criteria->setDbName(self::DATABASE_NAME);
+
+		if ($con === null) {
+			$con = Propel::getConnection(LibroPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+		}
+
+		$criteria->addJoin(LibroPeer::ID_PRIVACIDAD, PrivacidadPeer::ID, $join_behavior);
+
+		$stmt = BasePeer::doCount($criteria, $con);
+
+		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$count = (int) $row[0];
+		} else {
+			$count = 0; // no rows returned; we infer that means 0 matches.
+		}
+		$stmt->closeCursor();
+		return $count;
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related Genero table
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     int Number of matching rows.
+	 */
+	public static function doCountJoinGenero(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// We need to set the primary table name, since in the case that there are no WHERE columns
+		// it will be impossible for the BasePeer::createSelectSql() method to determine which
+		// tables go into the FROM clause.
+		$criteria->setPrimaryTableName(LibroPeer::TABLE_NAME);
+
+		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->setDistinct();
+		}
+
+		if (!$criteria->hasSelectClause()) {
+			LibroPeer::addSelectColumns($criteria);
+		}
+
+		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
+
+		// Set the correct dbName
+		$criteria->setDbName(self::DATABASE_NAME);
+
+		if ($con === null) {
+			$con = Propel::getConnection(LibroPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+		}
+
+		$criteria->addJoin(LibroPeer::ID_GENERO, GeneroPeer::ID, $join_behavior);
+
+		$stmt = BasePeer::doCount($criteria, $con);
+
+		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$count = (int) $row[0];
+		} else {
+			$count = 0; // no rows returned; we infer that means 0 matches.
+		}
+		$stmt->closeCursor();
+		return $count;
+	}
+
+
+	/**
+	 * Selects a collection of Libro objects pre-filled with their Usuario objects.
+	 * @param      Criteria  $criteria
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     array Array of Libro objects.
+	 * @throws     PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinUsuario(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$criteria = clone $criteria;
+
+		// Set the correct dbName if it has not been overridden
+		if ($criteria->getDbName() == Propel::getDefaultDB()) {
+			$criteria->setDbName(self::DATABASE_NAME);
+		}
+
+		LibroPeer::addSelectColumns($criteria);
+		$startcol = LibroPeer::NUM_HYDRATE_COLUMNS;
+		UsuarioPeer::addSelectColumns($criteria);
+
+		$criteria->addJoin(LibroPeer::USUARIO_ULT_ACC, UsuarioPeer::ID, $join_behavior);
+
+		$stmt = BasePeer::doSelect($criteria, $con);
+		$results = array();
+
+		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$key1 = LibroPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj1 = LibroPeer::getInstanceFromPool($key1))) {
+				// We no longer rehydrate the object, since this can cause data loss.
+				// See http://www.propelorm.org/ticket/509
+				// $obj1->hydrate($row, 0, true); // rehydrate
+			} else {
+
+				$cls = LibroPeer::getOMClass();
+
+				$obj1 = new $cls();
+				$obj1->hydrate($row);
+				LibroPeer::addInstanceToPool($obj1, $key1);
+			} // if $obj1 already loaded
+
+			$key2 = UsuarioPeer::getPrimaryKeyHashFromRow($row, $startcol);
+			if ($key2 !== null) {
+				$obj2 = UsuarioPeer::getInstanceFromPool($key2);
+				if (!$obj2) {
+
+					$cls = UsuarioPeer::getOMClass();
+
+					$obj2 = new $cls();
+					$obj2->hydrate($row, $startcol);
+					UsuarioPeer::addInstanceToPool($obj2, $key2);
+				} // if obj2 already loaded
+
+				// Add the $obj1 (Libro) to $obj2 (Usuario)
+				$obj2->addLibro($obj1);
+
+			} // if joined row was not null
+
+			$results[] = $obj1;
+		}
+		$stmt->closeCursor();
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of Libro objects pre-filled with their Privacidad objects.
+	 * @param      Criteria  $criteria
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     array Array of Libro objects.
+	 * @throws     PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinPrivacidad(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$criteria = clone $criteria;
+
+		// Set the correct dbName if it has not been overridden
+		if ($criteria->getDbName() == Propel::getDefaultDB()) {
+			$criteria->setDbName(self::DATABASE_NAME);
+		}
+
+		LibroPeer::addSelectColumns($criteria);
+		$startcol = LibroPeer::NUM_HYDRATE_COLUMNS;
+		PrivacidadPeer::addSelectColumns($criteria);
+
+		$criteria->addJoin(LibroPeer::ID_PRIVACIDAD, PrivacidadPeer::ID, $join_behavior);
+
+		$stmt = BasePeer::doSelect($criteria, $con);
+		$results = array();
+
+		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$key1 = LibroPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj1 = LibroPeer::getInstanceFromPool($key1))) {
+				// We no longer rehydrate the object, since this can cause data loss.
+				// See http://www.propelorm.org/ticket/509
+				// $obj1->hydrate($row, 0, true); // rehydrate
+			} else {
+
+				$cls = LibroPeer::getOMClass();
+
+				$obj1 = new $cls();
+				$obj1->hydrate($row);
+				LibroPeer::addInstanceToPool($obj1, $key1);
+			} // if $obj1 already loaded
+
+			$key2 = PrivacidadPeer::getPrimaryKeyHashFromRow($row, $startcol);
+			if ($key2 !== null) {
+				$obj2 = PrivacidadPeer::getInstanceFromPool($key2);
+				if (!$obj2) {
+
+					$cls = PrivacidadPeer::getOMClass();
+
+					$obj2 = new $cls();
+					$obj2->hydrate($row, $startcol);
+					PrivacidadPeer::addInstanceToPool($obj2, $key2);
+				} // if obj2 already loaded
+
+				// Add the $obj1 (Libro) to $obj2 (Privacidad)
+				$obj2->addLibro($obj1);
+
+			} // if joined row was not null
+
+			$results[] = $obj1;
+		}
+		$stmt->closeCursor();
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of Libro objects pre-filled with their Genero objects.
+	 * @param      Criteria  $criteria
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     array Array of Libro objects.
+	 * @throws     PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinGenero(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$criteria = clone $criteria;
+
+		// Set the correct dbName if it has not been overridden
+		if ($criteria->getDbName() == Propel::getDefaultDB()) {
+			$criteria->setDbName(self::DATABASE_NAME);
+		}
+
+		LibroPeer::addSelectColumns($criteria);
+		$startcol = LibroPeer::NUM_HYDRATE_COLUMNS;
+		GeneroPeer::addSelectColumns($criteria);
+
+		$criteria->addJoin(LibroPeer::ID_GENERO, GeneroPeer::ID, $join_behavior);
+
+		$stmt = BasePeer::doSelect($criteria, $con);
+		$results = array();
+
+		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$key1 = LibroPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj1 = LibroPeer::getInstanceFromPool($key1))) {
+				// We no longer rehydrate the object, since this can cause data loss.
+				// See http://www.propelorm.org/ticket/509
+				// $obj1->hydrate($row, 0, true); // rehydrate
+			} else {
+
+				$cls = LibroPeer::getOMClass();
+
+				$obj1 = new $cls();
+				$obj1->hydrate($row);
+				LibroPeer::addInstanceToPool($obj1, $key1);
+			} // if $obj1 already loaded
+
+			$key2 = GeneroPeer::getPrimaryKeyHashFromRow($row, $startcol);
+			if ($key2 !== null) {
+				$obj2 = GeneroPeer::getInstanceFromPool($key2);
+				if (!$obj2) {
+
+					$cls = GeneroPeer::getOMClass();
+
+					$obj2 = new $cls();
+					$obj2->hydrate($row, $startcol);
+					GeneroPeer::addInstanceToPool($obj2, $key2);
+				} // if obj2 already loaded
+
+				// Add the $obj1 (Libro) to $obj2 (Genero)
+				$obj2->addLibro($obj1);
+
+			} // if joined row was not null
+
+			$results[] = $obj1;
+		}
+		$stmt->closeCursor();
+		return $results;
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining all related tables
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     int Number of matching rows.
+	 */
+	public static function doCountJoinAll(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// We need to set the primary table name, since in the case that there are no WHERE columns
+		// it will be impossible for the BasePeer::createSelectSql() method to determine which
+		// tables go into the FROM clause.
+		$criteria->setPrimaryTableName(LibroPeer::TABLE_NAME);
+
+		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->setDistinct();
+		}
+
+		if (!$criteria->hasSelectClause()) {
+			LibroPeer::addSelectColumns($criteria);
+		}
+
+		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
+
+		// Set the correct dbName
+		$criteria->setDbName(self::DATABASE_NAME);
+
+		if ($con === null) {
+			$con = Propel::getConnection(LibroPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+		}
+
+		$criteria->addJoin(LibroPeer::USUARIO_ULT_ACC, UsuarioPeer::ID, $join_behavior);
+
+		$criteria->addJoin(LibroPeer::ID_PRIVACIDAD, PrivacidadPeer::ID, $join_behavior);
+
+		$criteria->addJoin(LibroPeer::ID_GENERO, GeneroPeer::ID, $join_behavior);
+
+		$stmt = BasePeer::doCount($criteria, $con);
+
+		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$count = (int) $row[0];
+		} else {
+			$count = 0; // no rows returned; we infer that means 0 matches.
+		}
+		$stmt->closeCursor();
+		return $count;
+	}
+
+	/**
+	 * Selects a collection of Libro objects pre-filled with all related objects.
+	 *
+	 * @param      Criteria  $criteria
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     array Array of Libro objects.
+	 * @throws     PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinAll(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$criteria = clone $criteria;
+
+		// Set the correct dbName if it has not been overridden
+		if ($criteria->getDbName() == Propel::getDefaultDB()) {
+			$criteria->setDbName(self::DATABASE_NAME);
+		}
+
+		LibroPeer::addSelectColumns($criteria);
+		$startcol2 = LibroPeer::NUM_HYDRATE_COLUMNS;
+
+		UsuarioPeer::addSelectColumns($criteria);
+		$startcol3 = $startcol2 + UsuarioPeer::NUM_HYDRATE_COLUMNS;
+
+		PrivacidadPeer::addSelectColumns($criteria);
+		$startcol4 = $startcol3 + PrivacidadPeer::NUM_HYDRATE_COLUMNS;
+
+		GeneroPeer::addSelectColumns($criteria);
+		$startcol5 = $startcol4 + GeneroPeer::NUM_HYDRATE_COLUMNS;
+
+		$criteria->addJoin(LibroPeer::USUARIO_ULT_ACC, UsuarioPeer::ID, $join_behavior);
+
+		$criteria->addJoin(LibroPeer::ID_PRIVACIDAD, PrivacidadPeer::ID, $join_behavior);
+
+		$criteria->addJoin(LibroPeer::ID_GENERO, GeneroPeer::ID, $join_behavior);
+
+		$stmt = BasePeer::doSelect($criteria, $con);
+		$results = array();
+
+		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$key1 = LibroPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj1 = LibroPeer::getInstanceFromPool($key1))) {
+				// We no longer rehydrate the object, since this can cause data loss.
+				// See http://www.propelorm.org/ticket/509
+				// $obj1->hydrate($row, 0, true); // rehydrate
+			} else {
+				$cls = LibroPeer::getOMClass();
+
+				$obj1 = new $cls();
+				$obj1->hydrate($row);
+				LibroPeer::addInstanceToPool($obj1, $key1);
+			} // if obj1 already loaded
+
+			// Add objects for joined Usuario rows
+
+			$key2 = UsuarioPeer::getPrimaryKeyHashFromRow($row, $startcol2);
+			if ($key2 !== null) {
+				$obj2 = UsuarioPeer::getInstanceFromPool($key2);
+				if (!$obj2) {
+
+					$cls = UsuarioPeer::getOMClass();
+
+					$obj2 = new $cls();
+					$obj2->hydrate($row, $startcol2);
+					UsuarioPeer::addInstanceToPool($obj2, $key2);
+				} // if obj2 loaded
+
+				// Add the $obj1 (Libro) to the collection in $obj2 (Usuario)
+				$obj2->addLibro($obj1);
+			} // if joined row not null
+
+			// Add objects for joined Privacidad rows
+
+			$key3 = PrivacidadPeer::getPrimaryKeyHashFromRow($row, $startcol3);
+			if ($key3 !== null) {
+				$obj3 = PrivacidadPeer::getInstanceFromPool($key3);
+				if (!$obj3) {
+
+					$cls = PrivacidadPeer::getOMClass();
+
+					$obj3 = new $cls();
+					$obj3->hydrate($row, $startcol3);
+					PrivacidadPeer::addInstanceToPool($obj3, $key3);
+				} // if obj3 loaded
+
+				// Add the $obj1 (Libro) to the collection in $obj3 (Privacidad)
+				$obj3->addLibro($obj1);
+			} // if joined row not null
+
+			// Add objects for joined Genero rows
+
+			$key4 = GeneroPeer::getPrimaryKeyHashFromRow($row, $startcol4);
+			if ($key4 !== null) {
+				$obj4 = GeneroPeer::getInstanceFromPool($key4);
+				if (!$obj4) {
+
+					$cls = GeneroPeer::getOMClass();
+
+					$obj4 = new $cls();
+					$obj4->hydrate($row, $startcol4);
+					GeneroPeer::addInstanceToPool($obj4, $key4);
+				} // if obj4 loaded
+
+				// Add the $obj1 (Libro) to the collection in $obj4 (Genero)
+				$obj4->addLibro($obj1);
+			} // if joined row not null
+
+			$results[] = $obj1;
+		}
+		$stmt->closeCursor();
+		return $results;
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related Usuario table
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     int Number of matching rows.
+	 */
+	public static function doCountJoinAllExceptUsuario(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// We need to set the primary table name, since in the case that there are no WHERE columns
+		// it will be impossible for the BasePeer::createSelectSql() method to determine which
+		// tables go into the FROM clause.
+		$criteria->setPrimaryTableName(LibroPeer::TABLE_NAME);
+
+		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->setDistinct();
+		}
+
+		if (!$criteria->hasSelectClause()) {
+			LibroPeer::addSelectColumns($criteria);
+		}
+
+		$criteria->clearOrderByColumns(); // ORDER BY should not affect count
+
+		// Set the correct dbName
+		$criteria->setDbName(self::DATABASE_NAME);
+
+		if ($con === null) {
+			$con = Propel::getConnection(LibroPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+		}
+	
+		$criteria->addJoin(LibroPeer::ID_PRIVACIDAD, PrivacidadPeer::ID, $join_behavior);
+
+		$criteria->addJoin(LibroPeer::ID_GENERO, GeneroPeer::ID, $join_behavior);
+
+		$stmt = BasePeer::doCount($criteria, $con);
+
+		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$count = (int) $row[0];
+		} else {
+			$count = 0; // no rows returned; we infer that means 0 matches.
+		}
+		$stmt->closeCursor();
+		return $count;
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related Privacidad table
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     int Number of matching rows.
+	 */
+	public static function doCountJoinAllExceptPrivacidad(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// We need to set the primary table name, since in the case that there are no WHERE columns
+		// it will be impossible for the BasePeer::createSelectSql() method to determine which
+		// tables go into the FROM clause.
+		$criteria->setPrimaryTableName(LibroPeer::TABLE_NAME);
+
+		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->setDistinct();
+		}
+
+		if (!$criteria->hasSelectClause()) {
+			LibroPeer::addSelectColumns($criteria);
+		}
+
+		$criteria->clearOrderByColumns(); // ORDER BY should not affect count
+
+		// Set the correct dbName
+		$criteria->setDbName(self::DATABASE_NAME);
+
+		if ($con === null) {
+			$con = Propel::getConnection(LibroPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+		}
+	
+		$criteria->addJoin(LibroPeer::USUARIO_ULT_ACC, UsuarioPeer::ID, $join_behavior);
+
+		$criteria->addJoin(LibroPeer::ID_GENERO, GeneroPeer::ID, $join_behavior);
+
+		$stmt = BasePeer::doCount($criteria, $con);
+
+		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$count = (int) $row[0];
+		} else {
+			$count = 0; // no rows returned; we infer that means 0 matches.
+		}
+		$stmt->closeCursor();
+		return $count;
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related Genero table
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     int Number of matching rows.
+	 */
+	public static function doCountJoinAllExceptGenero(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// We need to set the primary table name, since in the case that there are no WHERE columns
+		// it will be impossible for the BasePeer::createSelectSql() method to determine which
+		// tables go into the FROM clause.
+		$criteria->setPrimaryTableName(LibroPeer::TABLE_NAME);
+
+		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->setDistinct();
+		}
+
+		if (!$criteria->hasSelectClause()) {
+			LibroPeer::addSelectColumns($criteria);
+		}
+
+		$criteria->clearOrderByColumns(); // ORDER BY should not affect count
+
+		// Set the correct dbName
+		$criteria->setDbName(self::DATABASE_NAME);
+
+		if ($con === null) {
+			$con = Propel::getConnection(LibroPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+		}
+	
+		$criteria->addJoin(LibroPeer::USUARIO_ULT_ACC, UsuarioPeer::ID, $join_behavior);
+
+		$criteria->addJoin(LibroPeer::ID_PRIVACIDAD, PrivacidadPeer::ID, $join_behavior);
+
+		$stmt = BasePeer::doCount($criteria, $con);
+
+		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$count = (int) $row[0];
+		} else {
+			$count = 0; // no rows returned; we infer that means 0 matches.
+		}
+		$stmt->closeCursor();
+		return $count;
+	}
+
+
+	/**
+	 * Selects a collection of Libro objects pre-filled with all related objects except Usuario.
+	 *
+	 * @param      Criteria  $criteria
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     array Array of Libro objects.
+	 * @throws     PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinAllExceptUsuario(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$criteria = clone $criteria;
+
+		// Set the correct dbName if it has not been overridden
+		// $criteria->getDbName() will return the same object if not set to another value
+		// so == check is okay and faster
+		if ($criteria->getDbName() == Propel::getDefaultDB()) {
+			$criteria->setDbName(self::DATABASE_NAME);
+		}
+
+		LibroPeer::addSelectColumns($criteria);
+		$startcol2 = LibroPeer::NUM_HYDRATE_COLUMNS;
+
+		PrivacidadPeer::addSelectColumns($criteria);
+		$startcol3 = $startcol2 + PrivacidadPeer::NUM_HYDRATE_COLUMNS;
+
+		GeneroPeer::addSelectColumns($criteria);
+		$startcol4 = $startcol3 + GeneroPeer::NUM_HYDRATE_COLUMNS;
+
+		$criteria->addJoin(LibroPeer::ID_PRIVACIDAD, PrivacidadPeer::ID, $join_behavior);
+
+		$criteria->addJoin(LibroPeer::ID_GENERO, GeneroPeer::ID, $join_behavior);
+
+
+		$stmt = BasePeer::doSelect($criteria, $con);
+		$results = array();
+
+		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$key1 = LibroPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj1 = LibroPeer::getInstanceFromPool($key1))) {
+				// We no longer rehydrate the object, since this can cause data loss.
+				// See http://www.propelorm.org/ticket/509
+				// $obj1->hydrate($row, 0, true); // rehydrate
+			} else {
+				$cls = LibroPeer::getOMClass();
+
+				$obj1 = new $cls();
+				$obj1->hydrate($row);
+				LibroPeer::addInstanceToPool($obj1, $key1);
+			} // if obj1 already loaded
+
+				// Add objects for joined Privacidad rows
+
+				$key2 = PrivacidadPeer::getPrimaryKeyHashFromRow($row, $startcol2);
+				if ($key2 !== null) {
+					$obj2 = PrivacidadPeer::getInstanceFromPool($key2);
+					if (!$obj2) {
+	
+						$cls = PrivacidadPeer::getOMClass();
+
+					$obj2 = new $cls();
+					$obj2->hydrate($row, $startcol2);
+					PrivacidadPeer::addInstanceToPool($obj2, $key2);
+				} // if $obj2 already loaded
+
+				// Add the $obj1 (Libro) to the collection in $obj2 (Privacidad)
+				$obj2->addLibro($obj1);
+
+			} // if joined row is not null
+
+				// Add objects for joined Genero rows
+
+				$key3 = GeneroPeer::getPrimaryKeyHashFromRow($row, $startcol3);
+				if ($key3 !== null) {
+					$obj3 = GeneroPeer::getInstanceFromPool($key3);
+					if (!$obj3) {
+	
+						$cls = GeneroPeer::getOMClass();
+
+					$obj3 = new $cls();
+					$obj3->hydrate($row, $startcol3);
+					GeneroPeer::addInstanceToPool($obj3, $key3);
+				} // if $obj3 already loaded
+
+				// Add the $obj1 (Libro) to the collection in $obj3 (Genero)
+				$obj3->addLibro($obj1);
+
+			} // if joined row is not null
+
+			$results[] = $obj1;
+		}
+		$stmt->closeCursor();
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of Libro objects pre-filled with all related objects except Privacidad.
+	 *
+	 * @param      Criteria  $criteria
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     array Array of Libro objects.
+	 * @throws     PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinAllExceptPrivacidad(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$criteria = clone $criteria;
+
+		// Set the correct dbName if it has not been overridden
+		// $criteria->getDbName() will return the same object if not set to another value
+		// so == check is okay and faster
+		if ($criteria->getDbName() == Propel::getDefaultDB()) {
+			$criteria->setDbName(self::DATABASE_NAME);
+		}
+
+		LibroPeer::addSelectColumns($criteria);
+		$startcol2 = LibroPeer::NUM_HYDRATE_COLUMNS;
+
+		UsuarioPeer::addSelectColumns($criteria);
+		$startcol3 = $startcol2 + UsuarioPeer::NUM_HYDRATE_COLUMNS;
+
+		GeneroPeer::addSelectColumns($criteria);
+		$startcol4 = $startcol3 + GeneroPeer::NUM_HYDRATE_COLUMNS;
+
+		$criteria->addJoin(LibroPeer::USUARIO_ULT_ACC, UsuarioPeer::ID, $join_behavior);
+
+		$criteria->addJoin(LibroPeer::ID_GENERO, GeneroPeer::ID, $join_behavior);
+
+
+		$stmt = BasePeer::doSelect($criteria, $con);
+		$results = array();
+
+		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$key1 = LibroPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj1 = LibroPeer::getInstanceFromPool($key1))) {
+				// We no longer rehydrate the object, since this can cause data loss.
+				// See http://www.propelorm.org/ticket/509
+				// $obj1->hydrate($row, 0, true); // rehydrate
+			} else {
+				$cls = LibroPeer::getOMClass();
+
+				$obj1 = new $cls();
+				$obj1->hydrate($row);
+				LibroPeer::addInstanceToPool($obj1, $key1);
+			} // if obj1 already loaded
+
+				// Add objects for joined Usuario rows
+
+				$key2 = UsuarioPeer::getPrimaryKeyHashFromRow($row, $startcol2);
+				if ($key2 !== null) {
+					$obj2 = UsuarioPeer::getInstanceFromPool($key2);
+					if (!$obj2) {
+	
+						$cls = UsuarioPeer::getOMClass();
+
+					$obj2 = new $cls();
+					$obj2->hydrate($row, $startcol2);
+					UsuarioPeer::addInstanceToPool($obj2, $key2);
+				} // if $obj2 already loaded
+
+				// Add the $obj1 (Libro) to the collection in $obj2 (Usuario)
+				$obj2->addLibro($obj1);
+
+			} // if joined row is not null
+
+				// Add objects for joined Genero rows
+
+				$key3 = GeneroPeer::getPrimaryKeyHashFromRow($row, $startcol3);
+				if ($key3 !== null) {
+					$obj3 = GeneroPeer::getInstanceFromPool($key3);
+					if (!$obj3) {
+	
+						$cls = GeneroPeer::getOMClass();
+
+					$obj3 = new $cls();
+					$obj3->hydrate($row, $startcol3);
+					GeneroPeer::addInstanceToPool($obj3, $key3);
+				} // if $obj3 already loaded
+
+				// Add the $obj1 (Libro) to the collection in $obj3 (Genero)
+				$obj3->addLibro($obj1);
+
+			} // if joined row is not null
+
+			$results[] = $obj1;
+		}
+		$stmt->closeCursor();
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of Libro objects pre-filled with all related objects except Genero.
+	 *
+	 * @param      Criteria  $criteria
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     array Array of Libro objects.
+	 * @throws     PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinAllExceptGenero(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$criteria = clone $criteria;
+
+		// Set the correct dbName if it has not been overridden
+		// $criteria->getDbName() will return the same object if not set to another value
+		// so == check is okay and faster
+		if ($criteria->getDbName() == Propel::getDefaultDB()) {
+			$criteria->setDbName(self::DATABASE_NAME);
+		}
+
+		LibroPeer::addSelectColumns($criteria);
+		$startcol2 = LibroPeer::NUM_HYDRATE_COLUMNS;
+
+		UsuarioPeer::addSelectColumns($criteria);
+		$startcol3 = $startcol2 + UsuarioPeer::NUM_HYDRATE_COLUMNS;
+
+		PrivacidadPeer::addSelectColumns($criteria);
+		$startcol4 = $startcol3 + PrivacidadPeer::NUM_HYDRATE_COLUMNS;
+
+		$criteria->addJoin(LibroPeer::USUARIO_ULT_ACC, UsuarioPeer::ID, $join_behavior);
+
+		$criteria->addJoin(LibroPeer::ID_PRIVACIDAD, PrivacidadPeer::ID, $join_behavior);
+
+
+		$stmt = BasePeer::doSelect($criteria, $con);
+		$results = array();
+
+		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$key1 = LibroPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj1 = LibroPeer::getInstanceFromPool($key1))) {
+				// We no longer rehydrate the object, since this can cause data loss.
+				// See http://www.propelorm.org/ticket/509
+				// $obj1->hydrate($row, 0, true); // rehydrate
+			} else {
+				$cls = LibroPeer::getOMClass();
+
+				$obj1 = new $cls();
+				$obj1->hydrate($row);
+				LibroPeer::addInstanceToPool($obj1, $key1);
+			} // if obj1 already loaded
+
+				// Add objects for joined Usuario rows
+
+				$key2 = UsuarioPeer::getPrimaryKeyHashFromRow($row, $startcol2);
+				if ($key2 !== null) {
+					$obj2 = UsuarioPeer::getInstanceFromPool($key2);
+					if (!$obj2) {
+	
+						$cls = UsuarioPeer::getOMClass();
+
+					$obj2 = new $cls();
+					$obj2->hydrate($row, $startcol2);
+					UsuarioPeer::addInstanceToPool($obj2, $key2);
+				} // if $obj2 already loaded
+
+				// Add the $obj1 (Libro) to the collection in $obj2 (Usuario)
+				$obj2->addLibro($obj1);
+
+			} // if joined row is not null
+
+				// Add objects for joined Privacidad rows
+
+				$key3 = PrivacidadPeer::getPrimaryKeyHashFromRow($row, $startcol3);
+				if ($key3 !== null) {
+					$obj3 = PrivacidadPeer::getInstanceFromPool($key3);
+					if (!$obj3) {
+	
+						$cls = PrivacidadPeer::getOMClass();
+
+					$obj3 = new $cls();
+					$obj3->hydrate($row, $startcol3);
+					PrivacidadPeer::addInstanceToPool($obj3, $key3);
+				} // if $obj3 already loaded
+
+				// Add the $obj1 (Libro) to the collection in $obj3 (Privacidad)
+				$obj3->addLibro($obj1);
+
+			} // if joined row is not null
+
+			$results[] = $obj1;
+		}
+		$stmt->closeCursor();
+		return $results;
 	}
 
 	/**

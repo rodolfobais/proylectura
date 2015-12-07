@@ -32,6 +32,18 @@
  * @method     UsuarioQuery rightJoinAmistadRelatedByid_usuarioamigo($relationAlias = null) Adds a RIGHT JOIN clause to the query using the AmistadRelatedByid_usuarioamigo relation
  * @method     UsuarioQuery innerJoinAmistadRelatedByid_usuarioamigo($relationAlias = null) Adds a INNER JOIN clause to the query using the AmistadRelatedByid_usuarioamigo relation
  *
+ * @method     UsuarioQuery leftJoinCalificacion($relationAlias = null) Adds a LEFT JOIN clause to the query using the Calificacion relation
+ * @method     UsuarioQuery rightJoinCalificacion($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Calificacion relation
+ * @method     UsuarioQuery innerJoinCalificacion($relationAlias = null) Adds a INNER JOIN clause to the query using the Calificacion relation
+ *
+ * @method     UsuarioQuery leftJoinComentario($relationAlias = null) Adds a LEFT JOIN clause to the query using the Comentario relation
+ * @method     UsuarioQuery rightJoinComentario($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Comentario relation
+ * @method     UsuarioQuery innerJoinComentario($relationAlias = null) Adds a INNER JOIN clause to the query using the Comentario relation
+ *
+ * @method     UsuarioQuery leftJoinLibro($relationAlias = null) Adds a LEFT JOIN clause to the query using the Libro relation
+ * @method     UsuarioQuery rightJoinLibro($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Libro relation
+ * @method     UsuarioQuery innerJoinLibro($relationAlias = null) Adds a INNER JOIN clause to the query using the Libro relation
+ *
  * @method     UsuarioQuery leftJoinLista($relationAlias = null) Adds a LEFT JOIN clause to the query using the Lista relation
  * @method     UsuarioQuery rightJoinLista($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Lista relation
  * @method     UsuarioQuery innerJoinLista($relationAlias = null) Adds a INNER JOIN clause to the query using the Lista relation
@@ -583,6 +595,225 @@ abstract class BaseUsuarioQuery extends ModelCriteria
 		return $this
 			->joinAmistadRelatedByid_usuarioamigo($relationAlias, $joinType)
 			->useQuery($relationAlias ? $relationAlias : 'AmistadRelatedByid_usuarioamigo', 'AmistadQuery');
+	}
+
+	/**
+	 * Filter the query by a related Calificacion object
+	 *
+	 * @param     Calificacion $calificacion  the related object to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    UsuarioQuery The current query, for fluid interface
+	 */
+	public function filterByCalificacion($calificacion, $comparison = null)
+	{
+		if ($calificacion instanceof Calificacion) {
+			return $this
+				->addUsingAlias(UsuarioPeer::ID, $calificacion->getId_usuario(), $comparison);
+		} elseif ($calificacion instanceof PropelCollection) {
+			return $this
+				->useCalificacionQuery()
+				->filterByPrimaryKeys($calificacion->getPrimaryKeys())
+				->endUse();
+		} else {
+			throw new PropelException('filterByCalificacion() only accepts arguments of type Calificacion or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the Calificacion relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    UsuarioQuery The current query, for fluid interface
+	 */
+	public function joinCalificacion($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('Calificacion');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'Calificacion');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the Calificacion relation Calificacion object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    CalificacionQuery A secondary query class using the current class as primary query
+	 */
+	public function useCalificacionQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinCalificacion($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Calificacion', 'CalificacionQuery');
+	}
+
+	/**
+	 * Filter the query by a related Comentario object
+	 *
+	 * @param     Comentario $comentario  the related object to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    UsuarioQuery The current query, for fluid interface
+	 */
+	public function filterByComentario($comentario, $comparison = null)
+	{
+		if ($comentario instanceof Comentario) {
+			return $this
+				->addUsingAlias(UsuarioPeer::ID, $comentario->getId_usuario(), $comparison);
+		} elseif ($comentario instanceof PropelCollection) {
+			return $this
+				->useComentarioQuery()
+				->filterByPrimaryKeys($comentario->getPrimaryKeys())
+				->endUse();
+		} else {
+			throw new PropelException('filterByComentario() only accepts arguments of type Comentario or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the Comentario relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    UsuarioQuery The current query, for fluid interface
+	 */
+	public function joinComentario($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('Comentario');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'Comentario');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the Comentario relation Comentario object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    ComentarioQuery A secondary query class using the current class as primary query
+	 */
+	public function useComentarioQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinComentario($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Comentario', 'ComentarioQuery');
+	}
+
+	/**
+	 * Filter the query by a related Libro object
+	 *
+	 * @param     Libro $libro  the related object to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    UsuarioQuery The current query, for fluid interface
+	 */
+	public function filterByLibro($libro, $comparison = null)
+	{
+		if ($libro instanceof Libro) {
+			return $this
+				->addUsingAlias(UsuarioPeer::ID, $libro->getUsuario_ult_acc(), $comparison);
+		} elseif ($libro instanceof PropelCollection) {
+			return $this
+				->useLibroQuery()
+				->filterByPrimaryKeys($libro->getPrimaryKeys())
+				->endUse();
+		} else {
+			throw new PropelException('filterByLibro() only accepts arguments of type Libro or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the Libro relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    UsuarioQuery The current query, for fluid interface
+	 */
+	public function joinLibro($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('Libro');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'Libro');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the Libro relation Libro object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    LibroQuery A secondary query class using the current class as primary query
+	 */
+	public function useLibroQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+	{
+		return $this
+			->joinLibro($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Libro', 'LibroQuery');
 	}
 
 	/**

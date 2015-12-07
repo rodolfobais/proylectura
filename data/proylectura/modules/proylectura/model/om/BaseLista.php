@@ -49,12 +49,6 @@ abstract class BaseLista extends BaseObject  implements Persistent
 	protected $fecha;
 
 	/**
-	 * The value for the id_visibilidad field.
-	 * @var        int
-	 */
-	protected $id_visibilidad;
-
-	/**
 	 * The value for the id_usuario field.
 	 * @var        int
 	 */
@@ -160,16 +154,6 @@ abstract class BaseLista extends BaseObject  implements Persistent
 	}
 
 	/**
-	 * Get the [id_visibilidad] column value.
-	 * 
-	 * @return     int
-	 */
-	public function getId_visibilidad()
-	{
-		return $this->id_visibilidad;
-	}
-
-	/**
 	 * Get the [id_usuario] column value.
 	 * 
 	 * @return     int
@@ -250,26 +234,6 @@ abstract class BaseLista extends BaseObject  implements Persistent
 
 		return $this;
 	} // setFecha()
-
-	/**
-	 * Set the value of [id_visibilidad] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     Lista The current object (for fluent API support)
-	 */
-	public function setId_visibilidad($v)
-	{
-		if ($v !== null) {
-			$v = (int) $v;
-		}
-
-		if ($this->id_visibilidad !== $v) {
-			$this->id_visibilidad = $v;
-			$this->modifiedColumns[] = ListaPeer::ID_VISIBILIDAD;
-		}
-
-		return $this;
-	} // setId_visibilidad()
 
 	/**
 	 * Set the value of [id_usuario] column.
@@ -354,9 +318,8 @@ abstract class BaseLista extends BaseObject  implements Persistent
 			$this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
 			$this->nombre = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
 			$this->fecha = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
-			$this->id_visibilidad = ($row[$startcol + 3] !== null) ? (int) $row[$startcol + 3] : null;
-			$this->id_usuario = ($row[$startcol + 4] !== null) ? (int) $row[$startcol + 4] : null;
-			$this->id_genero = ($row[$startcol + 5] !== null) ? (int) $row[$startcol + 5] : null;
+			$this->id_usuario = ($row[$startcol + 3] !== null) ? (int) $row[$startcol + 3] : null;
+			$this->id_genero = ($row[$startcol + 4] !== null) ? (int) $row[$startcol + 4] : null;
 			$this->resetModified();
 
 			$this->setNew(false);
@@ -365,7 +328,7 @@ abstract class BaseLista extends BaseObject  implements Persistent
 				$this->ensureConsistency();
 			}
 
-			return $startcol + 6; // 6 = ListaPeer::NUM_HYDRATE_COLUMNS.
+			return $startcol + 5; // 5 = ListaPeer::NUM_HYDRATE_COLUMNS.
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Lista object", $e);
@@ -628,9 +591,6 @@ abstract class BaseLista extends BaseObject  implements Persistent
 		if ($this->isColumnModified(ListaPeer::FECHA)) {
 			$modifiedColumns[':p' . $index++]  = '`FECHA`';
 		}
-		if ($this->isColumnModified(ListaPeer::ID_VISIBILIDAD)) {
-			$modifiedColumns[':p' . $index++]  = '`ID_VISIBILIDAD`';
-		}
 		if ($this->isColumnModified(ListaPeer::ID_USUARIO)) {
 			$modifiedColumns[':p' . $index++]  = '`ID_USUARIO`';
 		}
@@ -656,9 +616,6 @@ abstract class BaseLista extends BaseObject  implements Persistent
 						break;
 					case '`FECHA`':
 						$stmt->bindValue($identifier, $this->fecha, PDO::PARAM_STR);
-						break;
-					case '`ID_VISIBILIDAD`':
-						$stmt->bindValue($identifier, $this->id_visibilidad, PDO::PARAM_INT);
 						break;
 					case '`ID_USUARIO`':
 						$stmt->bindValue($identifier, $this->id_usuario, PDO::PARAM_INT);
@@ -832,12 +789,9 @@ abstract class BaseLista extends BaseObject  implements Persistent
 				return $this->getFecha();
 				break;
 			case 3:
-				return $this->getId_visibilidad();
-				break;
-			case 4:
 				return $this->getId_usuario();
 				break;
-			case 5:
+			case 4:
 				return $this->getId_genero();
 				break;
 			default:
@@ -872,9 +826,8 @@ abstract class BaseLista extends BaseObject  implements Persistent
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getNombre(),
 			$keys[2] => $this->getFecha(),
-			$keys[3] => $this->getId_visibilidad(),
-			$keys[4] => $this->getId_usuario(),
-			$keys[5] => $this->getId_genero(),
+			$keys[3] => $this->getId_usuario(),
+			$keys[4] => $this->getId_genero(),
 		);
 		if ($includeForeignObjects) {
 			if (null !== $this->aUsuario) {
@@ -927,12 +880,9 @@ abstract class BaseLista extends BaseObject  implements Persistent
 				$this->setFecha($value);
 				break;
 			case 3:
-				$this->setId_visibilidad($value);
-				break;
-			case 4:
 				$this->setId_usuario($value);
 				break;
-			case 5:
+			case 4:
 				$this->setId_genero($value);
 				break;
 		} // switch()
@@ -962,9 +912,8 @@ abstract class BaseLista extends BaseObject  implements Persistent
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setNombre($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setFecha($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setId_visibilidad($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setId_usuario($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setId_genero($arr[$keys[5]]);
+		if (array_key_exists($keys[3], $arr)) $this->setId_usuario($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setId_genero($arr[$keys[4]]);
 	}
 
 	/**
@@ -979,7 +928,6 @@ abstract class BaseLista extends BaseObject  implements Persistent
 		if ($this->isColumnModified(ListaPeer::ID)) $criteria->add(ListaPeer::ID, $this->id);
 		if ($this->isColumnModified(ListaPeer::NOMBRE)) $criteria->add(ListaPeer::NOMBRE, $this->nombre);
 		if ($this->isColumnModified(ListaPeer::FECHA)) $criteria->add(ListaPeer::FECHA, $this->fecha);
-		if ($this->isColumnModified(ListaPeer::ID_VISIBILIDAD)) $criteria->add(ListaPeer::ID_VISIBILIDAD, $this->id_visibilidad);
 		if ($this->isColumnModified(ListaPeer::ID_USUARIO)) $criteria->add(ListaPeer::ID_USUARIO, $this->id_usuario);
 		if ($this->isColumnModified(ListaPeer::ID_GENERO)) $criteria->add(ListaPeer::ID_GENERO, $this->id_genero);
 
@@ -1046,7 +994,6 @@ abstract class BaseLista extends BaseObject  implements Persistent
 	{
 		$copyObj->setNombre($this->getNombre());
 		$copyObj->setFecha($this->getFecha());
-		$copyObj->setId_visibilidad($this->getId_visibilidad());
 		$copyObj->setId_usuario($this->getId_usuario());
 		$copyObj->setId_genero($this->getId_genero());
 
@@ -1406,7 +1353,6 @@ abstract class BaseLista extends BaseObject  implements Persistent
 		$this->id = null;
 		$this->nombre = null;
 		$this->fecha = null;
-		$this->id_visibilidad = null;
 		$this->id_usuario = null;
 		$this->id_genero = null;
 		$this->alreadyInSave = false;

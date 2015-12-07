@@ -42,7 +42,7 @@ class NotificacionTableMap extends TableMap
 		$this->addForeignKey('ID_EMISOR', 'Id_emisor', 'INTEGER', 'usuario', 'ID', true, null, null);
 		$this->addForeignKey('ID_RECEPTOR', 'Id_receptor', 'INTEGER', 'usuario', 'ID', true, null, null);
 		$this->addColumn('DESCRIPCION', 'Descripcion', 'CHAR', true, 255, null);
-		$this->addColumn('ID_TIPO_NOTIFICACION', 'Id_tipo_notificacion', 'INTEGER', true, null, null);
+		$this->addForeignKey('ID_TIPO_NOTIFICACION', 'Id_tipo_notificacion', 'INTEGER', 'tipo_notificacion', 'ID', true, null, null);
 		// validators
 	} // initialize()
 
@@ -53,6 +53,7 @@ class NotificacionTableMap extends TableMap
 	{
 		$this->addRelation('UsuarioRelatedById_emisor', 'Usuario', RelationMap::MANY_TO_ONE, array('id_emisor' => 'id', ), null, null);
 		$this->addRelation('UsuarioRelatedById_receptor', 'Usuario', RelationMap::MANY_TO_ONE, array('id_receptor' => 'id', ), null, null);
+		$this->addRelation('Tipo_notificacion', 'Tipo_notificacion', RelationMap::MANY_TO_ONE, array('id_tipo_notificacion' => 'id', ), null, null);
 	} // buildRelations()
 
 } // NotificacionTableMap

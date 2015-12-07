@@ -23,13 +23,13 @@ abstract class BaseListaPeer {
 	const TM_CLASS = 'ListaTableMap';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 6;
+	const NUM_COLUMNS = 5;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
 	/** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-	const NUM_HYDRATE_COLUMNS = 6;
+	const NUM_HYDRATE_COLUMNS = 5;
 
 	/** the column name for the ID field */
 	const ID = 'lista.ID';
@@ -39,9 +39,6 @@ abstract class BaseListaPeer {
 
 	/** the column name for the FECHA field */
 	const FECHA = 'lista.FECHA';
-
-	/** the column name for the ID_VISIBILIDAD field */
-	const ID_VISIBILIDAD = 'lista.ID_VISIBILIDAD';
 
 	/** the column name for the ID_USUARIO field */
 	const ID_USUARIO = 'lista.ID_USUARIO';
@@ -68,12 +65,12 @@ abstract class BaseListaPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	protected static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Nombre', 'Fecha', 'Id_visibilidad', 'Id_usuario', 'Id_genero', ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'nombre', 'fecha', 'id_visibilidad', 'id_usuario', 'id_genero', ),
-		BasePeer::TYPE_COLNAME => array (self::ID, self::NOMBRE, self::FECHA, self::ID_VISIBILIDAD, self::ID_USUARIO, self::ID_GENERO, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'NOMBRE', 'FECHA', 'ID_VISIBILIDAD', 'ID_USUARIO', 'ID_GENERO', ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'nombre', 'fecha', 'id_visibilidad', 'id_usuario', 'id_genero', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Nombre', 'Fecha', 'Id_usuario', 'Id_genero', ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'nombre', 'fecha', 'id_usuario', 'id_genero', ),
+		BasePeer::TYPE_COLNAME => array (self::ID, self::NOMBRE, self::FECHA, self::ID_USUARIO, self::ID_GENERO, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'NOMBRE', 'FECHA', 'ID_USUARIO', 'ID_GENERO', ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'nombre', 'fecha', 'id_usuario', 'id_genero', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
 	/**
@@ -83,12 +80,12 @@ abstract class BaseListaPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	protected static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Nombre' => 1, 'Fecha' => 2, 'Id_visibilidad' => 3, 'Id_usuario' => 4, 'Id_genero' => 5, ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'nombre' => 1, 'fecha' => 2, 'id_visibilidad' => 3, 'id_usuario' => 4, 'id_genero' => 5, ),
-		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::NOMBRE => 1, self::FECHA => 2, self::ID_VISIBILIDAD => 3, self::ID_USUARIO => 4, self::ID_GENERO => 5, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'NOMBRE' => 1, 'FECHA' => 2, 'ID_VISIBILIDAD' => 3, 'ID_USUARIO' => 4, 'ID_GENERO' => 5, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'nombre' => 1, 'fecha' => 2, 'id_visibilidad' => 3, 'id_usuario' => 4, 'id_genero' => 5, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Nombre' => 1, 'Fecha' => 2, 'Id_usuario' => 3, 'Id_genero' => 4, ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'nombre' => 1, 'fecha' => 2, 'id_usuario' => 3, 'id_genero' => 4, ),
+		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::NOMBRE => 1, self::FECHA => 2, self::ID_USUARIO => 3, self::ID_GENERO => 4, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'NOMBRE' => 1, 'FECHA' => 2, 'ID_USUARIO' => 3, 'ID_GENERO' => 4, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'nombre' => 1, 'fecha' => 2, 'id_usuario' => 3, 'id_genero' => 4, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
 	/**
@@ -163,14 +160,12 @@ abstract class BaseListaPeer {
 			$criteria->addSelectColumn(ListaPeer::ID);
 			$criteria->addSelectColumn(ListaPeer::NOMBRE);
 			$criteria->addSelectColumn(ListaPeer::FECHA);
-			$criteria->addSelectColumn(ListaPeer::ID_VISIBILIDAD);
 			$criteria->addSelectColumn(ListaPeer::ID_USUARIO);
 			$criteria->addSelectColumn(ListaPeer::ID_GENERO);
 		} else {
 			$criteria->addSelectColumn($alias . '.ID');
 			$criteria->addSelectColumn($alias . '.NOMBRE');
 			$criteria->addSelectColumn($alias . '.FECHA');
-			$criteria->addSelectColumn($alias . '.ID_VISIBILIDAD');
 			$criteria->addSelectColumn($alias . '.ID_USUARIO');
 			$criteria->addSelectColumn($alias . '.ID_GENERO');
 		}

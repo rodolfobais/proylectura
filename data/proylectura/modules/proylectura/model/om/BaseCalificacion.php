@@ -55,6 +55,16 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 	protected $id_libro;
 
 	/**
+	 * @var        Usuario
+	 */
+	protected $aUsuario;
+
+	/**
+	 * @var        Libro
+	 */
+	protected $aLibro;
+
+	/**
 	 * Flag to prevent endless save loop, if this object is referenced
 	 * by another object which falls in this transaction.
 	 * @var        boolean
@@ -165,6 +175,10 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 			$this->modifiedColumns[] = CalificacionPeer::ID_USUARIO;
 		}
 
+		if ($this->aUsuario !== null && $this->aUsuario->getId() !== $v) {
+			$this->aUsuario = null;
+		}
+
 		return $this;
 	} // setId_usuario()
 
@@ -183,6 +197,10 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 		if ($this->id_libro !== $v) {
 			$this->id_libro = $v;
 			$this->modifiedColumns[] = CalificacionPeer::ID_LIBRO;
+		}
+
+		if ($this->aLibro !== null && $this->aLibro->getId() !== $v) {
+			$this->aLibro = null;
 		}
 
 		return $this;
@@ -255,6 +273,12 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 	public function ensureConsistency()
 	{
 
+		if ($this->aUsuario !== null && $this->id_usuario !== $this->aUsuario->getId()) {
+			$this->aUsuario = null;
+		}
+		if ($this->aLibro !== null && $this->id_libro !== $this->aLibro->getId()) {
+			$this->aLibro = null;
+		}
 	} // ensureConsistency
 
 	/**
@@ -294,6 +318,8 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 
 		if ($deep) {  // also de-associate any related objects?
 
+			$this->aUsuario = null;
+			$this->aLibro = null;
 		} // if (deep)
 	}
 
@@ -403,6 +429,25 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 		$affectedRows = 0; // initialize var to track total num of affected rows
 		if (!$this->alreadyInSave) {
 			$this->alreadyInSave = true;
+
+			// We call the save method on the following object(s) if they
+			// were passed to this object by their coresponding set
+			// method.  This object relates to these object(s) by a
+			// foreign key reference.
+
+			if ($this->aUsuario !== null) {
+				if ($this->aUsuario->isModified() || $this->aUsuario->isNew()) {
+					$affectedRows += $this->aUsuario->save($con);
+				}
+				$this->setUsuario($this->aUsuario);
+			}
+
+			if ($this->aLibro !== null) {
+				if ($this->aLibro->isModified() || $this->aLibro->isNew()) {
+					$affectedRows += $this->aLibro->save($con);
+				}
+				$this->setLibro($this->aLibro);
+			}
 
 			if ($this->isNew() || $this->isModified()) {
 				// persist changes
@@ -567,6 +612,24 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 			$failureMap = array();
 
 
+			// We call the validate method on the following object(s) if they
+			// were passed to this object by their coresponding set
+			// method.  This object relates to these object(s) by a
+			// foreign key reference.
+
+			if ($this->aUsuario !== null) {
+				if (!$this->aUsuario->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsuario->getValidationFailures());
+				}
+			}
+
+			if ($this->aLibro !== null) {
+				if (!$this->aLibro->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aLibro->getValidationFailures());
+				}
+			}
+
+
 			if (($retval = CalificacionPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
@@ -634,10 +697,11 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 	 *                    Defaults to BasePeer::TYPE_PHPNAME.
 	 * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
 	 * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
+	 * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
 	 *
 	 * @return    array an associative array containing the field names (as keys) and field values
 	 */
-	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
+	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
 	{
 		if (isset($alreadyDumpedObjects['Calificacion'][$this->getPrimaryKey()])) {
 			return '*RECURSION*';
@@ -650,6 +714,14 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 			$keys[2] => $this->getId_usuario(),
 			$keys[3] => $this->getId_libro(),
 		);
+		if ($includeForeignObjects) {
+			if (null !== $this->aUsuario) {
+				$result['Usuario'] = $this->aUsuario->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+			}
+			if (null !== $this->aLibro) {
+				$result['Libro'] = $this->aLibro->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+			}
+		}
 		return $result;
 	}
 
@@ -800,6 +872,18 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 		$copyObj->setPuntuacion($this->getPuntuacion());
 		$copyObj->setId_usuario($this->getId_usuario());
 		$copyObj->setId_libro($this->getId_libro());
+
+		if ($deepCopy && !$this->startCopy) {
+			// important: temporarily setNew(false) because this affects the behavior of
+			// the getter/setter methods for fkey referrer objects.
+			$copyObj->setNew(false);
+			// store object hash to prevent cycle
+			$this->startCopy = true;
+
+			//unflag object copy
+			$this->startCopy = false;
+		} // if ($deepCopy)
+
 		if ($makeNew) {
 			$copyObj->setNew(true);
 			$copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -845,6 +929,104 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 	}
 
 	/**
+	 * Declares an association between this object and a Usuario object.
+	 *
+	 * @param      Usuario $v
+	 * @return     Calificacion The current object (for fluent API support)
+	 * @throws     PropelException
+	 */
+	public function setUsuario(Usuario $v = null)
+	{
+		if ($v === null) {
+			$this->setId_usuario(NULL);
+		} else {
+			$this->setId_usuario($v->getId());
+		}
+
+		$this->aUsuario = $v;
+
+		// Add binding for other direction of this n:n relationship.
+		// If this object has already been added to the Usuario object, it will not be re-added.
+		if ($v !== null) {
+			$v->addCalificacion($this);
+		}
+
+		return $this;
+	}
+
+
+	/**
+	 * Get the associated Usuario object
+	 *
+	 * @param      PropelPDO Optional Connection object.
+	 * @return     Usuario The associated Usuario object.
+	 * @throws     PropelException
+	 */
+	public function getUsuario(PropelPDO $con = null)
+	{
+		if ($this->aUsuario === null && ($this->id_usuario !== null)) {
+			$this->aUsuario = UsuarioQuery::create()->findPk($this->id_usuario, $con);
+			/* The following can be used additionally to
+				guarantee the related object contains a reference
+				to this object.  This level of coupling may, however, be
+				undesirable since it could result in an only partially populated collection
+				in the referenced object.
+				$this->aUsuario->addCalificacions($this);
+			 */
+		}
+		return $this->aUsuario;
+	}
+
+	/**
+	 * Declares an association between this object and a Libro object.
+	 *
+	 * @param      Libro $v
+	 * @return     Calificacion The current object (for fluent API support)
+	 * @throws     PropelException
+	 */
+	public function setLibro(Libro $v = null)
+	{
+		if ($v === null) {
+			$this->setId_libro(NULL);
+		} else {
+			$this->setId_libro($v->getId());
+		}
+
+		$this->aLibro = $v;
+
+		// Add binding for other direction of this n:n relationship.
+		// If this object has already been added to the Libro object, it will not be re-added.
+		if ($v !== null) {
+			$v->addCalificacion($this);
+		}
+
+		return $this;
+	}
+
+
+	/**
+	 * Get the associated Libro object
+	 *
+	 * @param      PropelPDO Optional Connection object.
+	 * @return     Libro The associated Libro object.
+	 * @throws     PropelException
+	 */
+	public function getLibro(PropelPDO $con = null)
+	{
+		if ($this->aLibro === null && ($this->id_libro !== null)) {
+			$this->aLibro = LibroQuery::create()->findPk($this->id_libro, $con);
+			/* The following can be used additionally to
+				guarantee the related object contains a reference
+				to this object.  This level of coupling may, however, be
+				undesirable since it could result in an only partially populated collection
+				in the referenced object.
+				$this->aLibro->addCalificacions($this);
+			 */
+		}
+		return $this->aLibro;
+	}
+
+	/**
 	 * Clears the current object and sets all attributes to their default values
 	 */
 	public function clear()
@@ -875,6 +1057,8 @@ abstract class BaseCalificacion extends BaseObject  implements Persistent
 		if ($deep) {
 		} // if ($deep)
 
+		$this->aUsuario = null;
+		$this->aLibro = null;
 	}
 
 	/**
