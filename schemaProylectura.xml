@@ -28,6 +28,13 @@
         <column name="puntuacion"   phpName="Puntuacion"    type="INTEGER" required="true" sqlType="INT(10)" />
         <column name="id_usuario"   phpName="Id_usuario"    type="INTEGER" required="true" sqlType="INT(10)" />
         <column name="id_libro"   phpName="Id_libro"    type="INTEGER" required="true" sqlType="INT(10)" />
+        
+        <foreign-key foreignTable="usuario" name="calificacion_usuario">
+            <reference local="id_usuario" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="libro" name="calificacion_libro">
+            <reference local="id_libro" foreign="id"/>
+        </foreign-key>        
     </table>
     
     <table name="comentario"  phpName="Comentario" idMethod="native" package="proylectura.model">
@@ -35,6 +42,13 @@
         <column name="comentario"   phpName="Comentario"    size="255"     required="true" type="CHAR" />
         <column name="id_usuario"   phpName="Id_usuario"    type="INTEGER" required="true" sqlType="INT(10)" />
         <column name="id_libro"   phpName="Id_libro"    type="INTEGER" required="true" sqlType="INT(10)" />
+        
+        <foreign-key foreignTable="usuario" name="comentario_usuario">
+            <reference local="id_usuario" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="libro" name="comentario_libro">
+            <reference local="id_libro" foreign="id"/>
+        </foreign-key>
     </table>
 
     <table name="genero"  phpName="Genero" idMethod="native" package="proylectura.model">
@@ -50,6 +64,26 @@
         <column name="autor"        phpName="Autor" type="CHAR" required="false" size="255" />
         <column name="image"        phpName="Image"   type="CHAR" size="255" required="false" />
         <column name="sinopsis"     phpName="Sinopsis"   type="CHAR" size="255" required="false" />
+        <column name="fecha_ult_acc"  phpName="Fecha_ult_acc" type="DATE" required="false"/>
+        <column name="hora_ult_acc"  phpName="Hora_ult_acc" size="8"     required="false" type="CHAR"/>
+        <column name="usuario_ult_acc" phpName="Usuario_ult_acc" type="INTEGER" required="false" sqlType="INT(10)" />
+        <column name="id_privacidad"    phpName="Id_privacidad"    type="INTEGER" required="false" sqlType="INT(10)" />
+        <column name="es_editable"    phpName="Es_editable" type="CHAR" size="1" required="false" />
+        
+        <foreign-key foreignTable="usuario" name="libro_usuario_ult_acc">
+            <reference local="usuario_ult_acc" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="privacidad" name="libro_privacidad">
+            <reference local="id_privacidad" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="genero" name="libro_genero">
+            <reference local="id_genero" foreign="id"/>
+        </foreign-key>
+    </table>
+    
+    <table name="privacidad"  phpName="Privacidad" idMethod="native" package="proylectura.model">
+        <column name="id"           phpName="Id"            type="INTEGER" required="true" sqlType="INT(10)" primaryKey="true" autoIncrement="true" />
+        <column name="nombre"   phpName="Nombre"    size="50"     required="true" type="CHAR" />
     </table>
     
     <table name="usuario"  phpName="Usuario" idMethod="native" package="proylectura.model">
@@ -65,7 +99,6 @@
         <column name="id"           phpName="Id"            type="INTEGER" required="true" sqlType="INT(10)" primaryKey="true" autoIncrement="true" />
         <column name="nombre"   phpName="Nombre"    size="50"     required="true" type="CHAR" />
         <column name="fecha"  phpName="Fecha" type="DATE" required="true"/>
-        <column name="id_visibilidad"   phpName="Id_visibilidad"    type="INTEGER" required="true" sqlType="INT(10)" />
         <column name="id_usuario"   phpName="Id_usuario"    type="INTEGER" required="true" sqlType="INT(10)" />
         <column name="id_genero"   phpName="Id_genero"    type="INTEGER" required="true" sqlType="INT(10)" />
         <foreign-key foreignTable="usuario" name="listaid_usuario">
@@ -142,7 +175,17 @@
         <foreign-key foreignTable="usuario" name="notificacion_receptor">
             <reference local="id_receptor" foreign="id"/>
         </foreign-key>
+        <foreign-key foreignTable="tipo_notificacion" name="notificacion_tiponotificacion">
+            <reference local="id_tipo_notificacion" foreign="id"/>
+        </foreign-key>
     </table>     
+    
+    <table name="tipo_notificacion"  phpName="Tipo_notificacion" idMethod="native" package="proylectura.model">
+        <column name="id"           phpName="Id"            type="INTEGER" required="true" sqlType="INT(10)" primaryKey="true" autoIncrement="true" />
+        <column name="nombre"   phpName="Nombre"    size="50"     required="true" type="CHAR" />
+        <column name="imagen"   phpName="Imagen"    size="150"     required="true" type="CHAR" />
+    </table>
+    
 
     <table name="solicitud" phpName="Solicitud" idMethod="native" package="proylectura.model">
         <column name="id"    phpName="Id"   type="INTEGER" required="true" sqlType="INT(10)" primaryKey= "true" autoIncrement="true" />

@@ -2,25 +2,25 @@
 
 
 /**
- * Base class that represents a row from the 'notificacion' table.
+ * Base class that represents a row from the 'privacidad' table.
  *
  * 
  *
  * @package    propel.generator.proylectura.model.om
  */
-abstract class BaseNotificacion extends BaseObject  implements Persistent
+abstract class BasePrivacidad extends BaseObject  implements Persistent
 {
 
 	/**
 	 * Peer class name
 	 */
-	const PEER = 'NotificacionPeer';
+	const PEER = 'PrivacidadPeer';
 
 	/**
 	 * The Peer class.
 	 * Instance provides a convenient way of calling static methods on a class
 	 * that calling code may not be able to identify.
-	 * @var        NotificacionPeer
+	 * @var        PrivacidadPeer
 	 */
 	protected static $peer;
 
@@ -37,43 +37,15 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 	protected $id;
 
 	/**
-	 * The value for the id_emisor field.
-	 * @var        int
-	 */
-	protected $id_emisor;
-
-	/**
-	 * The value for the id_receptor field.
-	 * @var        int
-	 */
-	protected $id_receptor;
-
-	/**
-	 * The value for the descripcion field.
+	 * The value for the nombre field.
 	 * @var        string
 	 */
-	protected $descripcion;
+	protected $nombre;
 
 	/**
-	 * The value for the id_tipo_notificacion field.
-	 * @var        int
+	 * @var        array Libro[] Collection to store aggregation of Libro objects.
 	 */
-	protected $id_tipo_notificacion;
-
-	/**
-	 * @var        Usuario
-	 */
-	protected $aUsuarioRelatedById_emisor;
-
-	/**
-	 * @var        Usuario
-	 */
-	protected $aUsuarioRelatedById_receptor;
-
-	/**
-	 * @var        Tipo_notificacion
-	 */
-	protected $aTipo_notificacion;
+	protected $collLibros;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
@@ -90,6 +62,12 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 	protected $alreadyInValidation = false;
 
 	/**
+	 * An array of objects scheduled for deletion.
+	 * @var		array
+	 */
+	protected $librosScheduledForDeletion = null;
+
+	/**
 	 * Get the [id] column value.
 	 * 
 	 * @return     int
@@ -100,50 +78,20 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 	}
 
 	/**
-	 * Get the [id_emisor] column value.
-	 * 
-	 * @return     int
-	 */
-	public function getId_emisor()
-	{
-		return $this->id_emisor;
-	}
-
-	/**
-	 * Get the [id_receptor] column value.
-	 * 
-	 * @return     int
-	 */
-	public function getId_receptor()
-	{
-		return $this->id_receptor;
-	}
-
-	/**
-	 * Get the [descripcion] column value.
+	 * Get the [nombre] column value.
 	 * 
 	 * @return     string
 	 */
-	public function getDescripcion()
+	public function getNombre()
 	{
-		return $this->descripcion;
-	}
-
-	/**
-	 * Get the [id_tipo_notificacion] column value.
-	 * 
-	 * @return     int
-	 */
-	public function getId_tipo_notificacion()
-	{
-		return $this->id_tipo_notificacion;
+		return $this->nombre;
 	}
 
 	/**
 	 * Set the value of [id] column.
 	 * 
 	 * @param      int $v new value
-	 * @return     Notificacion The current object (for fluent API support)
+	 * @return     Privacidad The current object (for fluent API support)
 	 */
 	public function setId($v)
 	{
@@ -153,103 +101,31 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 
 		if ($this->id !== $v) {
 			$this->id = $v;
-			$this->modifiedColumns[] = NotificacionPeer::ID;
+			$this->modifiedColumns[] = PrivacidadPeer::ID;
 		}
 
 		return $this;
 	} // setId()
 
 	/**
-	 * Set the value of [id_emisor] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     Notificacion The current object (for fluent API support)
-	 */
-	public function setId_emisor($v)
-	{
-		if ($v !== null) {
-			$v = (int) $v;
-		}
-
-		if ($this->id_emisor !== $v) {
-			$this->id_emisor = $v;
-			$this->modifiedColumns[] = NotificacionPeer::ID_EMISOR;
-		}
-
-		if ($this->aUsuarioRelatedById_emisor !== null && $this->aUsuarioRelatedById_emisor->getId() !== $v) {
-			$this->aUsuarioRelatedById_emisor = null;
-		}
-
-		return $this;
-	} // setId_emisor()
-
-	/**
-	 * Set the value of [id_receptor] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     Notificacion The current object (for fluent API support)
-	 */
-	public function setId_receptor($v)
-	{
-		if ($v !== null) {
-			$v = (int) $v;
-		}
-
-		if ($this->id_receptor !== $v) {
-			$this->id_receptor = $v;
-			$this->modifiedColumns[] = NotificacionPeer::ID_RECEPTOR;
-		}
-
-		if ($this->aUsuarioRelatedById_receptor !== null && $this->aUsuarioRelatedById_receptor->getId() !== $v) {
-			$this->aUsuarioRelatedById_receptor = null;
-		}
-
-		return $this;
-	} // setId_receptor()
-
-	/**
-	 * Set the value of [descripcion] column.
+	 * Set the value of [nombre] column.
 	 * 
 	 * @param      string $v new value
-	 * @return     Notificacion The current object (for fluent API support)
+	 * @return     Privacidad The current object (for fluent API support)
 	 */
-	public function setDescripcion($v)
+	public function setNombre($v)
 	{
 		if ($v !== null) {
 			$v = (string) $v;
 		}
 
-		if ($this->descripcion !== $v) {
-			$this->descripcion = $v;
-			$this->modifiedColumns[] = NotificacionPeer::DESCRIPCION;
+		if ($this->nombre !== $v) {
+			$this->nombre = $v;
+			$this->modifiedColumns[] = PrivacidadPeer::NOMBRE;
 		}
 
 		return $this;
-	} // setDescripcion()
-
-	/**
-	 * Set the value of [id_tipo_notificacion] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     Notificacion The current object (for fluent API support)
-	 */
-	public function setId_tipo_notificacion($v)
-	{
-		if ($v !== null) {
-			$v = (int) $v;
-		}
-
-		if ($this->id_tipo_notificacion !== $v) {
-			$this->id_tipo_notificacion = $v;
-			$this->modifiedColumns[] = NotificacionPeer::ID_TIPO_NOTIFICACION;
-		}
-
-		if ($this->aTipo_notificacion !== null && $this->aTipo_notificacion->getId() !== $v) {
-			$this->aTipo_notificacion = null;
-		}
-
-		return $this;
-	} // setId_tipo_notificacion()
+	} // setNombre()
 
 	/**
 	 * Indicates whether the columns in this object are only set to default values.
@@ -284,10 +160,7 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 		try {
 
 			$this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
-			$this->id_emisor = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
-			$this->id_receptor = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
-			$this->descripcion = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
-			$this->id_tipo_notificacion = ($row[$startcol + 4] !== null) ? (int) $row[$startcol + 4] : null;
+			$this->nombre = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
 			$this->resetModified();
 
 			$this->setNew(false);
@@ -296,10 +169,10 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 				$this->ensureConsistency();
 			}
 
-			return $startcol + 5; // 5 = NotificacionPeer::NUM_HYDRATE_COLUMNS.
+			return $startcol + 2; // 2 = PrivacidadPeer::NUM_HYDRATE_COLUMNS.
 
 		} catch (Exception $e) {
-			throw new PropelException("Error populating Notificacion object", $e);
+			throw new PropelException("Error populating Privacidad object", $e);
 		}
 	}
 
@@ -319,15 +192,6 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 	public function ensureConsistency()
 	{
 
-		if ($this->aUsuarioRelatedById_emisor !== null && $this->id_emisor !== $this->aUsuarioRelatedById_emisor->getId()) {
-			$this->aUsuarioRelatedById_emisor = null;
-		}
-		if ($this->aUsuarioRelatedById_receptor !== null && $this->id_receptor !== $this->aUsuarioRelatedById_receptor->getId()) {
-			$this->aUsuarioRelatedById_receptor = null;
-		}
-		if ($this->aTipo_notificacion !== null && $this->id_tipo_notificacion !== $this->aTipo_notificacion->getId()) {
-			$this->aTipo_notificacion = null;
-		}
 	} // ensureConsistency
 
 	/**
@@ -351,13 +215,13 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(NotificacionPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(PrivacidadPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 
 		// We don't need to alter the object instance pool; we're just modifying this instance
 		// already in the pool.
 
-		$stmt = NotificacionPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
+		$stmt = PrivacidadPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
 		$row = $stmt->fetch(PDO::FETCH_NUM);
 		$stmt->closeCursor();
 		if (!$row) {
@@ -367,9 +231,8 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 
 		if ($deep) {  // also de-associate any related objects?
 
-			$this->aUsuarioRelatedById_emisor = null;
-			$this->aUsuarioRelatedById_receptor = null;
-			$this->aTipo_notificacion = null;
+			$this->collLibros = null;
+
 		} // if (deep)
 	}
 
@@ -389,12 +252,12 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(NotificacionPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(PrivacidadPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 
 		$con->beginTransaction();
 		try {
-			$deleteQuery = NotificacionQuery::create()
+			$deleteQuery = PrivacidadQuery::create()
 				->filterByPrimaryKey($this->getPrimaryKey());
 			$ret = $this->preDelete($con);
 			if ($ret) {
@@ -431,7 +294,7 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(NotificacionPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(PrivacidadPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 
 		$con->beginTransaction();
@@ -451,7 +314,7 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 					$this->postUpdate($con);
 				}
 				$this->postSave($con);
-				NotificacionPeer::addInstanceToPool($this);
+				PrivacidadPeer::addInstanceToPool($this);
 			} else {
 				$affectedRows = 0;
 			}
@@ -480,32 +343,6 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 		if (!$this->alreadyInSave) {
 			$this->alreadyInSave = true;
 
-			// We call the save method on the following object(s) if they
-			// were passed to this object by their coresponding set
-			// method.  This object relates to these object(s) by a
-			// foreign key reference.
-
-			if ($this->aUsuarioRelatedById_emisor !== null) {
-				if ($this->aUsuarioRelatedById_emisor->isModified() || $this->aUsuarioRelatedById_emisor->isNew()) {
-					$affectedRows += $this->aUsuarioRelatedById_emisor->save($con);
-				}
-				$this->setUsuarioRelatedById_emisor($this->aUsuarioRelatedById_emisor);
-			}
-
-			if ($this->aUsuarioRelatedById_receptor !== null) {
-				if ($this->aUsuarioRelatedById_receptor->isModified() || $this->aUsuarioRelatedById_receptor->isNew()) {
-					$affectedRows += $this->aUsuarioRelatedById_receptor->save($con);
-				}
-				$this->setUsuarioRelatedById_receptor($this->aUsuarioRelatedById_receptor);
-			}
-
-			if ($this->aTipo_notificacion !== null) {
-				if ($this->aTipo_notificacion->isModified() || $this->aTipo_notificacion->isNew()) {
-					$affectedRows += $this->aTipo_notificacion->save($con);
-				}
-				$this->setTipo_notificacion($this->aTipo_notificacion);
-			}
-
 			if ($this->isNew() || $this->isModified()) {
 				// persist changes
 				if ($this->isNew()) {
@@ -515,6 +352,23 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 				}
 				$affectedRows += 1;
 				$this->resetModified();
+			}
+
+			if ($this->librosScheduledForDeletion !== null) {
+				if (!$this->librosScheduledForDeletion->isEmpty()) {
+		LibroQuery::create()
+						->filterByPrimaryKeys($this->librosScheduledForDeletion->getPrimaryKeys(false))
+						->delete($con);
+					$this->librosScheduledForDeletion = null;
+				}
+			}
+
+			if ($this->collLibros !== null) {
+				foreach ($this->collLibros as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
 			}
 
 			$this->alreadyInSave = false;
@@ -536,30 +390,21 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 		$modifiedColumns = array();
 		$index = 0;
 
-		$this->modifiedColumns[] = NotificacionPeer::ID;
+		$this->modifiedColumns[] = PrivacidadPeer::ID;
 		if (null !== $this->id) {
-			throw new PropelException('Cannot insert a value for auto-increment primary key (' . NotificacionPeer::ID . ')');
+			throw new PropelException('Cannot insert a value for auto-increment primary key (' . PrivacidadPeer::ID . ')');
 		}
 
 		 // check the columns in natural order for more readable SQL queries
-		if ($this->isColumnModified(NotificacionPeer::ID)) {
+		if ($this->isColumnModified(PrivacidadPeer::ID)) {
 			$modifiedColumns[':p' . $index++]  = '`ID`';
 		}
-		if ($this->isColumnModified(NotificacionPeer::ID_EMISOR)) {
-			$modifiedColumns[':p' . $index++]  = '`ID_EMISOR`';
-		}
-		if ($this->isColumnModified(NotificacionPeer::ID_RECEPTOR)) {
-			$modifiedColumns[':p' . $index++]  = '`ID_RECEPTOR`';
-		}
-		if ($this->isColumnModified(NotificacionPeer::DESCRIPCION)) {
-			$modifiedColumns[':p' . $index++]  = '`DESCRIPCION`';
-		}
-		if ($this->isColumnModified(NotificacionPeer::ID_TIPO_NOTIFICACION)) {
-			$modifiedColumns[':p' . $index++]  = '`ID_TIPO_NOTIFICACION`';
+		if ($this->isColumnModified(PrivacidadPeer::NOMBRE)) {
+			$modifiedColumns[':p' . $index++]  = '`NOMBRE`';
 		}
 
 		$sql = sprintf(
-			'INSERT INTO `notificacion` (%s) VALUES (%s)',
+			'INSERT INTO `privacidad` (%s) VALUES (%s)',
 			implode(', ', $modifiedColumns),
 			implode(', ', array_keys($modifiedColumns))
 		);
@@ -571,17 +416,8 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 					case '`ID`':
 						$stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
 						break;
-					case '`ID_EMISOR`':
-						$stmt->bindValue($identifier, $this->id_emisor, PDO::PARAM_INT);
-						break;
-					case '`ID_RECEPTOR`':
-						$stmt->bindValue($identifier, $this->id_receptor, PDO::PARAM_INT);
-						break;
-					case '`DESCRIPCION`':
-						$stmt->bindValue($identifier, $this->descripcion, PDO::PARAM_STR);
-						break;
-					case '`ID_TIPO_NOTIFICACION`':
-						$stmt->bindValue($identifier, $this->id_tipo_notificacion, PDO::PARAM_INT);
+					case '`NOMBRE`':
+						$stmt->bindValue($identifier, $this->nombre, PDO::PARAM_STR);
 						break;
 				}
 			}
@@ -675,34 +511,18 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 			$failureMap = array();
 
 
-			// We call the validate method on the following object(s) if they
-			// were passed to this object by their coresponding set
-			// method.  This object relates to these object(s) by a
-			// foreign key reference.
-
-			if ($this->aUsuarioRelatedById_emisor !== null) {
-				if (!$this->aUsuarioRelatedById_emisor->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUsuarioRelatedById_emisor->getValidationFailures());
-				}
-			}
-
-			if ($this->aUsuarioRelatedById_receptor !== null) {
-				if (!$this->aUsuarioRelatedById_receptor->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUsuarioRelatedById_receptor->getValidationFailures());
-				}
-			}
-
-			if ($this->aTipo_notificacion !== null) {
-				if (!$this->aTipo_notificacion->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aTipo_notificacion->getValidationFailures());
-				}
-			}
-
-
-			if (($retval = NotificacionPeer::doValidate($this, $columns)) !== true) {
+			if (($retval = PrivacidadPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
+
+				if ($this->collLibros !== null) {
+					foreach ($this->collLibros as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
 
 
 			$this->alreadyInValidation = false;
@@ -722,7 +542,7 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 	 */
 	public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = NotificacionPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = PrivacidadPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		$field = $this->getByPosition($pos);
 		return $field;
 	}
@@ -741,16 +561,7 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 				return $this->getId();
 				break;
 			case 1:
-				return $this->getId_emisor();
-				break;
-			case 2:
-				return $this->getId_receptor();
-				break;
-			case 3:
-				return $this->getDescripcion();
-				break;
-			case 4:
-				return $this->getId_tipo_notificacion();
+				return $this->getNombre();
 				break;
 			default:
 				return null;
@@ -775,27 +586,18 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 	 */
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
 	{
-		if (isset($alreadyDumpedObjects['Notificacion'][$this->getPrimaryKey()])) {
+		if (isset($alreadyDumpedObjects['Privacidad'][$this->getPrimaryKey()])) {
 			return '*RECURSION*';
 		}
-		$alreadyDumpedObjects['Notificacion'][$this->getPrimaryKey()] = true;
-		$keys = NotificacionPeer::getFieldNames($keyType);
+		$alreadyDumpedObjects['Privacidad'][$this->getPrimaryKey()] = true;
+		$keys = PrivacidadPeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getId(),
-			$keys[1] => $this->getId_emisor(),
-			$keys[2] => $this->getId_receptor(),
-			$keys[3] => $this->getDescripcion(),
-			$keys[4] => $this->getId_tipo_notificacion(),
+			$keys[1] => $this->getNombre(),
 		);
 		if ($includeForeignObjects) {
-			if (null !== $this->aUsuarioRelatedById_emisor) {
-				$result['UsuarioRelatedById_emisor'] = $this->aUsuarioRelatedById_emisor->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
-			}
-			if (null !== $this->aUsuarioRelatedById_receptor) {
-				$result['UsuarioRelatedById_receptor'] = $this->aUsuarioRelatedById_receptor->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
-			}
-			if (null !== $this->aTipo_notificacion) {
-				$result['Tipo_notificacion'] = $this->aTipo_notificacion->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+			if (null !== $this->collLibros) {
+				$result['Libros'] = $this->collLibros->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
 			}
 		}
 		return $result;
@@ -813,7 +615,7 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 	 */
 	public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = NotificacionPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = PrivacidadPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->setByPosition($pos, $value);
 	}
 
@@ -832,16 +634,7 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 				$this->setId($value);
 				break;
 			case 1:
-				$this->setId_emisor($value);
-				break;
-			case 2:
-				$this->setId_receptor($value);
-				break;
-			case 3:
-				$this->setDescripcion($value);
-				break;
-			case 4:
-				$this->setId_tipo_notificacion($value);
+				$this->setNombre($value);
 				break;
 		} // switch()
 	}
@@ -865,13 +658,10 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 	 */
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = NotificacionPeer::getFieldNames($keyType);
+		$keys = PrivacidadPeer::getFieldNames($keyType);
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setId_emisor($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setId_receptor($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setDescripcion($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setId_tipo_notificacion($arr[$keys[4]]);
+		if (array_key_exists($keys[1], $arr)) $this->setNombre($arr[$keys[1]]);
 	}
 
 	/**
@@ -881,13 +671,10 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 	 */
 	public function buildCriteria()
 	{
-		$criteria = new Criteria(NotificacionPeer::DATABASE_NAME);
+		$criteria = new Criteria(PrivacidadPeer::DATABASE_NAME);
 
-		if ($this->isColumnModified(NotificacionPeer::ID)) $criteria->add(NotificacionPeer::ID, $this->id);
-		if ($this->isColumnModified(NotificacionPeer::ID_EMISOR)) $criteria->add(NotificacionPeer::ID_EMISOR, $this->id_emisor);
-		if ($this->isColumnModified(NotificacionPeer::ID_RECEPTOR)) $criteria->add(NotificacionPeer::ID_RECEPTOR, $this->id_receptor);
-		if ($this->isColumnModified(NotificacionPeer::DESCRIPCION)) $criteria->add(NotificacionPeer::DESCRIPCION, $this->descripcion);
-		if ($this->isColumnModified(NotificacionPeer::ID_TIPO_NOTIFICACION)) $criteria->add(NotificacionPeer::ID_TIPO_NOTIFICACION, $this->id_tipo_notificacion);
+		if ($this->isColumnModified(PrivacidadPeer::ID)) $criteria->add(PrivacidadPeer::ID, $this->id);
+		if ($this->isColumnModified(PrivacidadPeer::NOMBRE)) $criteria->add(PrivacidadPeer::NOMBRE, $this->nombre);
 
 		return $criteria;
 	}
@@ -902,8 +689,8 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 	 */
 	public function buildPkeyCriteria()
 	{
-		$criteria = new Criteria(NotificacionPeer::DATABASE_NAME);
-		$criteria->add(NotificacionPeer::ID, $this->id);
+		$criteria = new Criteria(PrivacidadPeer::DATABASE_NAME);
+		$criteria->add(PrivacidadPeer::ID, $this->id);
 
 		return $criteria;
 	}
@@ -943,17 +730,14 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param      object $copyObj An object of Notificacion (or compatible) type.
+	 * @param      object $copyObj An object of Privacidad (or compatible) type.
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
 	 * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
 	 * @throws     PropelException
 	 */
 	public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
 	{
-		$copyObj->setId_emisor($this->getId_emisor());
-		$copyObj->setId_receptor($this->getId_receptor());
-		$copyObj->setDescripcion($this->getDescripcion());
-		$copyObj->setId_tipo_notificacion($this->getId_tipo_notificacion());
+		$copyObj->setNombre($this->getNombre());
 
 		if ($deepCopy && !$this->startCopy) {
 			// important: temporarily setNew(false) because this affects the behavior of
@@ -961,6 +745,12 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 			$copyObj->setNew(false);
 			// store object hash to prevent cycle
 			$this->startCopy = true;
+
+			foreach ($this->getLibros() as $relObj) {
+				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addLibro($relObj->copy($deepCopy));
+				}
+			}
 
 			//unflag object copy
 			$this->startCopy = false;
@@ -981,7 +771,7 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 	 * objects.
 	 *
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @return     Notificacion Clone of current object.
+	 * @return     Privacidad Clone of current object.
 	 * @throws     PropelException
 	 */
 	public function copy($deepCopy = false)
@@ -1000,161 +790,228 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 	 * same instance for all member of this class. The method could therefore
 	 * be static, but this would prevent one from overriding the behavior.
 	 *
-	 * @return     NotificacionPeer
+	 * @return     PrivacidadPeer
 	 */
 	public function getPeer()
 	{
 		if (self::$peer === null) {
-			self::$peer = new NotificacionPeer();
+			self::$peer = new PrivacidadPeer();
 		}
 		return self::$peer;
 	}
 
+
 	/**
-	 * Declares an association between this object and a Usuario object.
+	 * Initializes a collection based on the name of a relation.
+	 * Avoids crafting an 'init[$relationName]s' method name
+	 * that wouldn't work when StandardEnglishPluralizer is used.
 	 *
-	 * @param      Usuario $v
-	 * @return     Notificacion The current object (for fluent API support)
+	 * @param      string $relationName The name of the relation to initialize
+	 * @return     void
+	 */
+	public function initRelation($relationName)
+	{
+		if ('Libro' == $relationName) {
+			return $this->initLibros();
+		}
+	}
+
+	/**
+	 * Clears out the collLibros collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addLibros()
+	 */
+	public function clearLibros()
+	{
+		$this->collLibros = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collLibros collection.
+	 *
+	 * By default this just sets the collLibros collection to an empty array (like clearcollLibros());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @param      boolean $overrideExisting If set to true, the method call initializes
+	 *                                        the collection even if it is not empty
+	 *
+	 * @return     void
+	 */
+	public function initLibros($overrideExisting = true)
+	{
+		if (null !== $this->collLibros && !$overrideExisting) {
+			return;
+		}
+		$this->collLibros = new PropelObjectCollection();
+		$this->collLibros->setModel('Libro');
+	}
+
+	/**
+	 * Gets an array of Libro objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this Privacidad is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array Libro[] List of Libro objects
 	 * @throws     PropelException
 	 */
-	public function setUsuarioRelatedById_emisor(Usuario $v = null)
+	public function getLibros($criteria = null, PropelPDO $con = null)
 	{
-		if ($v === null) {
-			$this->setId_emisor(NULL);
-		} else {
-			$this->setId_emisor($v->getId());
+		if(null === $this->collLibros || null !== $criteria) {
+			if ($this->isNew() && null === $this->collLibros) {
+				// return empty collection
+				$this->initLibros();
+			} else {
+				$collLibros = LibroQuery::create(null, $criteria)
+					->filterByPrivacidad($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collLibros;
+				}
+				$this->collLibros = $collLibros;
+			}
+		}
+		return $this->collLibros;
+	}
+
+	/**
+	 * Sets a collection of Libro objects related by a one-to-many relationship
+	 * to the current object.
+	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+	 * and new objects from the given Propel collection.
+	 *
+	 * @param      PropelCollection $libros A Propel collection.
+	 * @param      PropelPDO $con Optional connection object
+	 */
+	public function setLibros(PropelCollection $libros, PropelPDO $con = null)
+	{
+		$this->librosScheduledForDeletion = $this->getLibros(new Criteria(), $con)->diff($libros);
+
+		foreach ($libros as $libro) {
+			// Fix issue with collection modified by reference
+			if ($libro->isNew()) {
+				$libro->setPrivacidad($this);
+			}
+			$this->addLibro($libro);
 		}
 
-		$this->aUsuarioRelatedById_emisor = $v;
+		$this->collLibros = $libros;
+	}
 
-		// Add binding for other direction of this n:n relationship.
-		// If this object has already been added to the Usuario object, it will not be re-added.
-		if ($v !== null) {
-			$v->addNotificacionRelatedById_emisor($this);
+	/**
+	 * Returns the number of related Libro objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related Libro objects.
+	 * @throws     PropelException
+	 */
+	public function countLibros(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collLibros || null !== $criteria) {
+			if ($this->isNew() && null === $this->collLibros) {
+				return 0;
+			} else {
+				$query = LibroQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterByPrivacidad($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collLibros);
+		}
+	}
+
+	/**
+	 * Method called to associate a Libro object to this object
+	 * through the Libro foreign key attribute.
+	 *
+	 * @param      Libro $l Libro
+	 * @return     Privacidad The current object (for fluent API support)
+	 */
+	public function addLibro(Libro $l)
+	{
+		if ($this->collLibros === null) {
+			$this->initLibros();
+		}
+		if (!$this->collLibros->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddLibro($l);
 		}
 
 		return $this;
 	}
 
-
 	/**
-	 * Get the associated Usuario object
-	 *
-	 * @param      PropelPDO Optional Connection object.
-	 * @return     Usuario The associated Usuario object.
-	 * @throws     PropelException
+	 * @param	Libro $libro The libro object to add.
 	 */
-	public function getUsuarioRelatedById_emisor(PropelPDO $con = null)
+	protected function doAddLibro($libro)
 	{
-		if ($this->aUsuarioRelatedById_emisor === null && ($this->id_emisor !== null)) {
-			$this->aUsuarioRelatedById_emisor = UsuarioQuery::create()->findPk($this->id_emisor, $con);
-			/* The following can be used additionally to
-				guarantee the related object contains a reference
-				to this object.  This level of coupling may, however, be
-				undesirable since it could result in an only partially populated collection
-				in the referenced object.
-				$this->aUsuarioRelatedById_emisor->addNotificacionsRelatedById_emisor($this);
-			 */
-		}
-		return $this->aUsuarioRelatedById_emisor;
-	}
-
-	/**
-	 * Declares an association between this object and a Usuario object.
-	 *
-	 * @param      Usuario $v
-	 * @return     Notificacion The current object (for fluent API support)
-	 * @throws     PropelException
-	 */
-	public function setUsuarioRelatedById_receptor(Usuario $v = null)
-	{
-		if ($v === null) {
-			$this->setId_receptor(NULL);
-		} else {
-			$this->setId_receptor($v->getId());
-		}
-
-		$this->aUsuarioRelatedById_receptor = $v;
-
-		// Add binding for other direction of this n:n relationship.
-		// If this object has already been added to the Usuario object, it will not be re-added.
-		if ($v !== null) {
-			$v->addNotificacionRelatedById_receptor($this);
-		}
-
-		return $this;
+		$this->collLibros[]= $libro;
+		$libro->setPrivacidad($this);
 	}
 
 
 	/**
-	 * Get the associated Usuario object
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Privacidad is new, it will return
+	 * an empty collection; or if this Privacidad has previously
+	 * been saved, it will retrieve related Libros from storage.
 	 *
-	 * @param      PropelPDO Optional Connection object.
-	 * @return     Usuario The associated Usuario object.
-	 * @throws     PropelException
-	 */
-	public function getUsuarioRelatedById_receptor(PropelPDO $con = null)
-	{
-		if ($this->aUsuarioRelatedById_receptor === null && ($this->id_receptor !== null)) {
-			$this->aUsuarioRelatedById_receptor = UsuarioQuery::create()->findPk($this->id_receptor, $con);
-			/* The following can be used additionally to
-				guarantee the related object contains a reference
-				to this object.  This level of coupling may, however, be
-				undesirable since it could result in an only partially populated collection
-				in the referenced object.
-				$this->aUsuarioRelatedById_receptor->addNotificacionsRelatedById_receptor($this);
-			 */
-		}
-		return $this->aUsuarioRelatedById_receptor;
-	}
-
-	/**
-	 * Declares an association between this object and a Tipo_notificacion object.
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Privacidad.
 	 *
-	 * @param      Tipo_notificacion $v
-	 * @return     Notificacion The current object (for fluent API support)
-	 * @throws     PropelException
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return     PropelCollection|array Libro[] List of Libro objects
 	 */
-	public function setTipo_notificacion(Tipo_notificacion $v = null)
+	public function getLibrosJoinUsuario($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
 	{
-		if ($v === null) {
-			$this->setId_tipo_notificacion(NULL);
-		} else {
-			$this->setId_tipo_notificacion($v->getId());
-		}
+		$query = LibroQuery::create(null, $criteria);
+		$query->joinWith('Usuario', $join_behavior);
 
-		$this->aTipo_notificacion = $v;
-
-		// Add binding for other direction of this n:n relationship.
-		// If this object has already been added to the Tipo_notificacion object, it will not be re-added.
-		if ($v !== null) {
-			$v->addNotificacion($this);
-		}
-
-		return $this;
+		return $this->getLibros($query, $con);
 	}
 
 
 	/**
-	 * Get the associated Tipo_notificacion object
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Privacidad is new, it will return
+	 * an empty collection; or if this Privacidad has previously
+	 * been saved, it will retrieve related Libros from storage.
 	 *
-	 * @param      PropelPDO Optional Connection object.
-	 * @return     Tipo_notificacion The associated Tipo_notificacion object.
-	 * @throws     PropelException
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Privacidad.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return     PropelCollection|array Libro[] List of Libro objects
 	 */
-	public function getTipo_notificacion(PropelPDO $con = null)
+	public function getLibrosJoinGenero($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
 	{
-		if ($this->aTipo_notificacion === null && ($this->id_tipo_notificacion !== null)) {
-			$this->aTipo_notificacion = Tipo_notificacionQuery::create()->findPk($this->id_tipo_notificacion, $con);
-			/* The following can be used additionally to
-				guarantee the related object contains a reference
-				to this object.  This level of coupling may, however, be
-				undesirable since it could result in an only partially populated collection
-				in the referenced object.
-				$this->aTipo_notificacion->addNotificacions($this);
-			 */
-		}
-		return $this->aTipo_notificacion;
+		$query = LibroQuery::create(null, $criteria);
+		$query->joinWith('Genero', $join_behavior);
+
+		return $this->getLibros($query, $con);
 	}
 
 	/**
@@ -1163,10 +1020,7 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 	public function clear()
 	{
 		$this->id = null;
-		$this->id_emisor = null;
-		$this->id_receptor = null;
-		$this->descripcion = null;
-		$this->id_tipo_notificacion = null;
+		$this->nombre = null;
 		$this->alreadyInSave = false;
 		$this->alreadyInValidation = false;
 		$this->clearAllReferences();
@@ -1187,11 +1041,17 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 	public function clearAllReferences($deep = false)
 	{
 		if ($deep) {
+			if ($this->collLibros) {
+				foreach ($this->collLibros as $o) {
+					$o->clearAllReferences($deep);
+				}
+			}
 		} // if ($deep)
 
-		$this->aUsuarioRelatedById_emisor = null;
-		$this->aUsuarioRelatedById_receptor = null;
-		$this->aTipo_notificacion = null;
+		if ($this->collLibros instanceof PropelCollection) {
+			$this->collLibros->clearIterator();
+		}
+		$this->collLibros = null;
 	}
 
 	/**
@@ -1201,7 +1061,7 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 	 */
 	public function __toString()
 	{
-		return (string) $this->exportTo(NotificacionPeer::DEFAULT_STRING_FORMAT);
+		return (string) $this->exportTo(PrivacidadPeer::DEFAULT_STRING_FORMAT);
 	}
 
-} // BaseNotificacion
+} // BasePrivacidad

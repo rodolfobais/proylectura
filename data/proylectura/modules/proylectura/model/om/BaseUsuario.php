@@ -77,6 +77,21 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	protected $collAmistadsRelatedByid_usuarioamigo;
 
 	/**
+	 * @var        array Calificacion[] Collection to store aggregation of Calificacion objects.
+	 */
+	protected $collCalificacions;
+
+	/**
+	 * @var        array Comentario[] Collection to store aggregation of Comentario objects.
+	 */
+	protected $collComentarios;
+
+	/**
+	 * @var        array Libro[] Collection to store aggregation of Libro objects.
+	 */
+	protected $collLibros;
+
+	/**
 	 * @var        array Lista[] Collection to store aggregation of Lista objects.
 	 */
 	protected $collListas;
@@ -151,6 +166,24 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	 * @var		array
 	 */
 	protected $amistadsRelatedByid_usuarioamigoScheduledForDeletion = null;
+
+	/**
+	 * An array of objects scheduled for deletion.
+	 * @var		array
+	 */
+	protected $calificacionsScheduledForDeletion = null;
+
+	/**
+	 * An array of objects scheduled for deletion.
+	 * @var		array
+	 */
+	protected $comentariosScheduledForDeletion = null;
+
+	/**
+	 * An array of objects scheduled for deletion.
+	 * @var		array
+	 */
+	protected $librosScheduledForDeletion = null;
 
 	/**
 	 * An array of objects scheduled for deletion.
@@ -504,6 +537,12 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 
 			$this->collAmistadsRelatedByid_usuarioamigo = null;
 
+			$this->collCalificacions = null;
+
+			$this->collComentarios = null;
+
+			$this->collLibros = null;
+
 			$this->collListas = null;
 
 			$this->collLibro_colaboradors = null;
@@ -673,6 +712,57 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 
 			if ($this->collAmistadsRelatedByid_usuarioamigo !== null) {
 				foreach ($this->collAmistadsRelatedByid_usuarioamigo as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->calificacionsScheduledForDeletion !== null) {
+				if (!$this->calificacionsScheduledForDeletion->isEmpty()) {
+		CalificacionQuery::create()
+						->filterByPrimaryKeys($this->calificacionsScheduledForDeletion->getPrimaryKeys(false))
+						->delete($con);
+					$this->calificacionsScheduledForDeletion = null;
+				}
+			}
+
+			if ($this->collCalificacions !== null) {
+				foreach ($this->collCalificacions as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->comentariosScheduledForDeletion !== null) {
+				if (!$this->comentariosScheduledForDeletion->isEmpty()) {
+		ComentarioQuery::create()
+						->filterByPrimaryKeys($this->comentariosScheduledForDeletion->getPrimaryKeys(false))
+						->delete($con);
+					$this->comentariosScheduledForDeletion = null;
+				}
+			}
+
+			if ($this->collComentarios !== null) {
+				foreach ($this->collComentarios as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->librosScheduledForDeletion !== null) {
+				if (!$this->librosScheduledForDeletion->isEmpty()) {
+		LibroQuery::create()
+						->filterByPrimaryKeys($this->librosScheduledForDeletion->getPrimaryKeys(false))
+						->delete($con);
+					$this->librosScheduledForDeletion = null;
+				}
+			}
+
+			if ($this->collLibros !== null) {
+				foreach ($this->collLibros as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -1034,6 +1124,30 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 					}
 				}
 
+				if ($this->collCalificacions !== null) {
+					foreach ($this->collCalificacions as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collComentarios !== null) {
+					foreach ($this->collComentarios as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collLibros !== null) {
+					foreach ($this->collLibros as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
 				if ($this->collListas !== null) {
 					foreach ($this->collListas as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
@@ -1207,6 +1321,15 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 			}
 			if (null !== $this->collAmistadsRelatedByid_usuarioamigo) {
 				$result['AmistadsRelatedByid_usuarioamigo'] = $this->collAmistadsRelatedByid_usuarioamigo->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			}
+			if (null !== $this->collCalificacions) {
+				$result['Calificacions'] = $this->collCalificacions->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			}
+			if (null !== $this->collComentarios) {
+				$result['Comentarios'] = $this->collComentarios->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			}
+			if (null !== $this->collLibros) {
+				$result['Libros'] = $this->collLibros->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
 			}
 			if (null !== $this->collListas) {
 				$result['Listas'] = $this->collListas->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
@@ -1421,6 +1544,24 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 				}
 			}
 
+			foreach ($this->getCalificacions() as $relObj) {
+				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addCalificacion($relObj->copy($deepCopy));
+				}
+			}
+
+			foreach ($this->getComentarios() as $relObj) {
+				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addComentario($relObj->copy($deepCopy));
+				}
+			}
+
+			foreach ($this->getLibros() as $relObj) {
+				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addLibro($relObj->copy($deepCopy));
+				}
+			}
+
 			foreach ($this->getListas() as $relObj) {
 				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
 					$copyObj->addLista($relObj->copy($deepCopy));
@@ -1545,6 +1686,15 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 		}
 		if ('AmistadRelatedByid_usuarioamigo' == $relationName) {
 			return $this->initAmistadsRelatedByid_usuarioamigo();
+		}
+		if ('Calificacion' == $relationName) {
+			return $this->initCalificacions();
+		}
+		if ('Comentario' == $relationName) {
+			return $this->initComentarios();
+		}
+		if ('Libro' == $relationName) {
+			return $this->initLibros();
 		}
 		if ('Lista' == $relationName) {
 			return $this->initListas();
@@ -1872,6 +2022,550 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	{
 		$this->collAmistadsRelatedByid_usuarioamigo[]= $amistadRelatedByid_usuarioamigo;
 		$amistadRelatedByid_usuarioamigo->setUsuarioRelatedByid_usuarioamigo($this);
+	}
+
+	/**
+	 * Clears out the collCalificacions collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addCalificacions()
+	 */
+	public function clearCalificacions()
+	{
+		$this->collCalificacions = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collCalificacions collection.
+	 *
+	 * By default this just sets the collCalificacions collection to an empty array (like clearcollCalificacions());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @param      boolean $overrideExisting If set to true, the method call initializes
+	 *                                        the collection even if it is not empty
+	 *
+	 * @return     void
+	 */
+	public function initCalificacions($overrideExisting = true)
+	{
+		if (null !== $this->collCalificacions && !$overrideExisting) {
+			return;
+		}
+		$this->collCalificacions = new PropelObjectCollection();
+		$this->collCalificacions->setModel('Calificacion');
+	}
+
+	/**
+	 * Gets an array of Calificacion objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this Usuario is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array Calificacion[] List of Calificacion objects
+	 * @throws     PropelException
+	 */
+	public function getCalificacions($criteria = null, PropelPDO $con = null)
+	{
+		if(null === $this->collCalificacions || null !== $criteria) {
+			if ($this->isNew() && null === $this->collCalificacions) {
+				// return empty collection
+				$this->initCalificacions();
+			} else {
+				$collCalificacions = CalificacionQuery::create(null, $criteria)
+					->filterByUsuario($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collCalificacions;
+				}
+				$this->collCalificacions = $collCalificacions;
+			}
+		}
+		return $this->collCalificacions;
+	}
+
+	/**
+	 * Sets a collection of Calificacion objects related by a one-to-many relationship
+	 * to the current object.
+	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+	 * and new objects from the given Propel collection.
+	 *
+	 * @param      PropelCollection $calificacions A Propel collection.
+	 * @param      PropelPDO $con Optional connection object
+	 */
+	public function setCalificacions(PropelCollection $calificacions, PropelPDO $con = null)
+	{
+		$this->calificacionsScheduledForDeletion = $this->getCalificacions(new Criteria(), $con)->diff($calificacions);
+
+		foreach ($calificacions as $calificacion) {
+			// Fix issue with collection modified by reference
+			if ($calificacion->isNew()) {
+				$calificacion->setUsuario($this);
+			}
+			$this->addCalificacion($calificacion);
+		}
+
+		$this->collCalificacions = $calificacions;
+	}
+
+	/**
+	 * Returns the number of related Calificacion objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related Calificacion objects.
+	 * @throws     PropelException
+	 */
+	public function countCalificacions(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collCalificacions || null !== $criteria) {
+			if ($this->isNew() && null === $this->collCalificacions) {
+				return 0;
+			} else {
+				$query = CalificacionQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterByUsuario($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collCalificacions);
+		}
+	}
+
+	/**
+	 * Method called to associate a Calificacion object to this object
+	 * through the Calificacion foreign key attribute.
+	 *
+	 * @param      Calificacion $l Calificacion
+	 * @return     Usuario The current object (for fluent API support)
+	 */
+	public function addCalificacion(Calificacion $l)
+	{
+		if ($this->collCalificacions === null) {
+			$this->initCalificacions();
+		}
+		if (!$this->collCalificacions->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddCalificacion($l);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param	Calificacion $calificacion The calificacion object to add.
+	 */
+	protected function doAddCalificacion($calificacion)
+	{
+		$this->collCalificacions[]= $calificacion;
+		$calificacion->setUsuario($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Usuario is new, it will return
+	 * an empty collection; or if this Usuario has previously
+	 * been saved, it will retrieve related Calificacions from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Usuario.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return     PropelCollection|array Calificacion[] List of Calificacion objects
+	 */
+	public function getCalificacionsJoinLibro($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$query = CalificacionQuery::create(null, $criteria);
+		$query->joinWith('Libro', $join_behavior);
+
+		return $this->getCalificacions($query, $con);
+	}
+
+	/**
+	 * Clears out the collComentarios collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addComentarios()
+	 */
+	public function clearComentarios()
+	{
+		$this->collComentarios = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collComentarios collection.
+	 *
+	 * By default this just sets the collComentarios collection to an empty array (like clearcollComentarios());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @param      boolean $overrideExisting If set to true, the method call initializes
+	 *                                        the collection even if it is not empty
+	 *
+	 * @return     void
+	 */
+	public function initComentarios($overrideExisting = true)
+	{
+		if (null !== $this->collComentarios && !$overrideExisting) {
+			return;
+		}
+		$this->collComentarios = new PropelObjectCollection();
+		$this->collComentarios->setModel('Comentario');
+	}
+
+	/**
+	 * Gets an array of Comentario objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this Usuario is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array Comentario[] List of Comentario objects
+	 * @throws     PropelException
+	 */
+	public function getComentarios($criteria = null, PropelPDO $con = null)
+	{
+		if(null === $this->collComentarios || null !== $criteria) {
+			if ($this->isNew() && null === $this->collComentarios) {
+				// return empty collection
+				$this->initComentarios();
+			} else {
+				$collComentarios = ComentarioQuery::create(null, $criteria)
+					->filterByUsuario($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collComentarios;
+				}
+				$this->collComentarios = $collComentarios;
+			}
+		}
+		return $this->collComentarios;
+	}
+
+	/**
+	 * Sets a collection of Comentario objects related by a one-to-many relationship
+	 * to the current object.
+	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+	 * and new objects from the given Propel collection.
+	 *
+	 * @param      PropelCollection $comentarios A Propel collection.
+	 * @param      PropelPDO $con Optional connection object
+	 */
+	public function setComentarios(PropelCollection $comentarios, PropelPDO $con = null)
+	{
+		$this->comentariosScheduledForDeletion = $this->getComentarios(new Criteria(), $con)->diff($comentarios);
+
+		foreach ($comentarios as $comentario) {
+			// Fix issue with collection modified by reference
+			if ($comentario->isNew()) {
+				$comentario->setUsuario($this);
+			}
+			$this->addComentario($comentario);
+		}
+
+		$this->collComentarios = $comentarios;
+	}
+
+	/**
+	 * Returns the number of related Comentario objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related Comentario objects.
+	 * @throws     PropelException
+	 */
+	public function countComentarios(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collComentarios || null !== $criteria) {
+			if ($this->isNew() && null === $this->collComentarios) {
+				return 0;
+			} else {
+				$query = ComentarioQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterByUsuario($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collComentarios);
+		}
+	}
+
+	/**
+	 * Method called to associate a Comentario object to this object
+	 * through the Comentario foreign key attribute.
+	 *
+	 * @param      Comentario $l Comentario
+	 * @return     Usuario The current object (for fluent API support)
+	 */
+	public function addComentario(Comentario $l)
+	{
+		if ($this->collComentarios === null) {
+			$this->initComentarios();
+		}
+		if (!$this->collComentarios->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddComentario($l);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param	Comentario $comentario The comentario object to add.
+	 */
+	protected function doAddComentario($comentario)
+	{
+		$this->collComentarios[]= $comentario;
+		$comentario->setUsuario($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Usuario is new, it will return
+	 * an empty collection; or if this Usuario has previously
+	 * been saved, it will retrieve related Comentarios from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Usuario.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return     PropelCollection|array Comentario[] List of Comentario objects
+	 */
+	public function getComentariosJoinLibro($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$query = ComentarioQuery::create(null, $criteria);
+		$query->joinWith('Libro', $join_behavior);
+
+		return $this->getComentarios($query, $con);
+	}
+
+	/**
+	 * Clears out the collLibros collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addLibros()
+	 */
+	public function clearLibros()
+	{
+		$this->collLibros = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collLibros collection.
+	 *
+	 * By default this just sets the collLibros collection to an empty array (like clearcollLibros());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @param      boolean $overrideExisting If set to true, the method call initializes
+	 *                                        the collection even if it is not empty
+	 *
+	 * @return     void
+	 */
+	public function initLibros($overrideExisting = true)
+	{
+		if (null !== $this->collLibros && !$overrideExisting) {
+			return;
+		}
+		$this->collLibros = new PropelObjectCollection();
+		$this->collLibros->setModel('Libro');
+	}
+
+	/**
+	 * Gets an array of Libro objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this Usuario is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array Libro[] List of Libro objects
+	 * @throws     PropelException
+	 */
+	public function getLibros($criteria = null, PropelPDO $con = null)
+	{
+		if(null === $this->collLibros || null !== $criteria) {
+			if ($this->isNew() && null === $this->collLibros) {
+				// return empty collection
+				$this->initLibros();
+			} else {
+				$collLibros = LibroQuery::create(null, $criteria)
+					->filterByUsuario($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collLibros;
+				}
+				$this->collLibros = $collLibros;
+			}
+		}
+		return $this->collLibros;
+	}
+
+	/**
+	 * Sets a collection of Libro objects related by a one-to-many relationship
+	 * to the current object.
+	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+	 * and new objects from the given Propel collection.
+	 *
+	 * @param      PropelCollection $libros A Propel collection.
+	 * @param      PropelPDO $con Optional connection object
+	 */
+	public function setLibros(PropelCollection $libros, PropelPDO $con = null)
+	{
+		$this->librosScheduledForDeletion = $this->getLibros(new Criteria(), $con)->diff($libros);
+
+		foreach ($libros as $libro) {
+			// Fix issue with collection modified by reference
+			if ($libro->isNew()) {
+				$libro->setUsuario($this);
+			}
+			$this->addLibro($libro);
+		}
+
+		$this->collLibros = $libros;
+	}
+
+	/**
+	 * Returns the number of related Libro objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related Libro objects.
+	 * @throws     PropelException
+	 */
+	public function countLibros(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collLibros || null !== $criteria) {
+			if ($this->isNew() && null === $this->collLibros) {
+				return 0;
+			} else {
+				$query = LibroQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterByUsuario($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collLibros);
+		}
+	}
+
+	/**
+	 * Method called to associate a Libro object to this object
+	 * through the Libro foreign key attribute.
+	 *
+	 * @param      Libro $l Libro
+	 * @return     Usuario The current object (for fluent API support)
+	 */
+	public function addLibro(Libro $l)
+	{
+		if ($this->collLibros === null) {
+			$this->initLibros();
+		}
+		if (!$this->collLibros->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddLibro($l);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param	Libro $libro The libro object to add.
+	 */
+	protected function doAddLibro($libro)
+	{
+		$this->collLibros[]= $libro;
+		$libro->setUsuario($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Usuario is new, it will return
+	 * an empty collection; or if this Usuario has previously
+	 * been saved, it will retrieve related Libros from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Usuario.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return     PropelCollection|array Libro[] List of Libro objects
+	 */
+	public function getLibrosJoinPrivacidad($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$query = LibroQuery::create(null, $criteria);
+		$query->joinWith('Privacidad', $join_behavior);
+
+		return $this->getLibros($query, $con);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Usuario is new, it will return
+	 * an empty collection; or if this Usuario has previously
+	 * been saved, it will retrieve related Libros from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Usuario.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return     PropelCollection|array Libro[] List of Libro objects
+	 */
+	public function getLibrosJoinGenero($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$query = LibroQuery::create(null, $criteria);
+		$query->joinWith('Genero', $join_behavior);
+
+		return $this->getLibros($query, $con);
 	}
 
 	/**
@@ -2837,6 +3531,31 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 		$notificacionRelatedById_emisor->setUsuarioRelatedById_emisor($this);
 	}
 
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Usuario is new, it will return
+	 * an empty collection; or if this Usuario has previously
+	 * been saved, it will retrieve related NotificacionsRelatedById_emisor from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Usuario.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return     PropelCollection|array Notificacion[] List of Notificacion objects
+	 */
+	public function getNotificacionsRelatedById_emisorJoinTipo_notificacion($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$query = NotificacionQuery::create(null, $criteria);
+		$query->joinWith('Tipo_notificacion', $join_behavior);
+
+		return $this->getNotificacionsRelatedById_emisor($query, $con);
+	}
+
 	/**
 	 * Clears out the collNotificacionsRelatedById_receptor collection
 	 *
@@ -2983,6 +3702,31 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	{
 		$this->collNotificacionsRelatedById_receptor[]= $notificacionRelatedById_receptor;
 		$notificacionRelatedById_receptor->setUsuarioRelatedById_receptor($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Usuario is new, it will return
+	 * an empty collection; or if this Usuario has previously
+	 * been saved, it will retrieve related NotificacionsRelatedById_receptor from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Usuario.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return     PropelCollection|array Notificacion[] List of Notificacion objects
+	 */
+	public function getNotificacionsRelatedById_receptorJoinTipo_notificacion($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$query = NotificacionQuery::create(null, $criteria);
+		$query->joinWith('Tipo_notificacion', $join_behavior);
+
+		return $this->getNotificacionsRelatedById_receptor($query, $con);
 	}
 
 	/**
@@ -3495,6 +4239,21 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 					$o->clearAllReferences($deep);
 				}
 			}
+			if ($this->collCalificacions) {
+				foreach ($this->collCalificacions as $o) {
+					$o->clearAllReferences($deep);
+				}
+			}
+			if ($this->collComentarios) {
+				foreach ($this->collComentarios as $o) {
+					$o->clearAllReferences($deep);
+				}
+			}
+			if ($this->collLibros) {
+				foreach ($this->collLibros as $o) {
+					$o->clearAllReferences($deep);
+				}
+			}
 			if ($this->collListas) {
 				foreach ($this->collListas as $o) {
 					$o->clearAllReferences($deep);
@@ -3555,6 +4314,18 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 			$this->collAmistadsRelatedByid_usuarioamigo->clearIterator();
 		}
 		$this->collAmistadsRelatedByid_usuarioamigo = null;
+		if ($this->collCalificacions instanceof PropelCollection) {
+			$this->collCalificacions->clearIterator();
+		}
+		$this->collCalificacions = null;
+		if ($this->collComentarios instanceof PropelCollection) {
+			$this->collComentarios->clearIterator();
+		}
+		$this->collComentarios = null;
+		if ($this->collLibros instanceof PropelCollection) {
+			$this->collLibros->clearIterator();
+		}
+		$this->collLibros = null;
 		if ($this->collListas instanceof PropelCollection) {
 			$this->collListas->clearIterator();
 		}

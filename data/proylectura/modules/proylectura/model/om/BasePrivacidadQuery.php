@@ -2,68 +2,64 @@
 
 
 /**
- * Base class that represents a query for the 'genero' table.
+ * Base class that represents a query for the 'privacidad' table.
  *
  * 
  *
- * @method     GeneroQuery orderById($order = Criteria::ASC) Order by the id column
- * @method     GeneroQuery orderByNombre($order = Criteria::ASC) Order by the nombre column
+ * @method     PrivacidadQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method     PrivacidadQuery orderByNombre($order = Criteria::ASC) Order by the nombre column
  *
- * @method     GeneroQuery groupById() Group by the id column
- * @method     GeneroQuery groupByNombre() Group by the nombre column
+ * @method     PrivacidadQuery groupById() Group by the id column
+ * @method     PrivacidadQuery groupByNombre() Group by the nombre column
  *
- * @method     GeneroQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
- * @method     GeneroQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
- * @method     GeneroQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ * @method     PrivacidadQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
+ * @method     PrivacidadQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
+ * @method     PrivacidadQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     GeneroQuery leftJoinLibro($relationAlias = null) Adds a LEFT JOIN clause to the query using the Libro relation
- * @method     GeneroQuery rightJoinLibro($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Libro relation
- * @method     GeneroQuery innerJoinLibro($relationAlias = null) Adds a INNER JOIN clause to the query using the Libro relation
+ * @method     PrivacidadQuery leftJoinLibro($relationAlias = null) Adds a LEFT JOIN clause to the query using the Libro relation
+ * @method     PrivacidadQuery rightJoinLibro($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Libro relation
+ * @method     PrivacidadQuery innerJoinLibro($relationAlias = null) Adds a INNER JOIN clause to the query using the Libro relation
  *
- * @method     GeneroQuery leftJoinLista($relationAlias = null) Adds a LEFT JOIN clause to the query using the Lista relation
- * @method     GeneroQuery rightJoinLista($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Lista relation
- * @method     GeneroQuery innerJoinLista($relationAlias = null) Adds a INNER JOIN clause to the query using the Lista relation
+ * @method     Privacidad findOne(PropelPDO $con = null) Return the first Privacidad matching the query
+ * @method     Privacidad findOneOrCreate(PropelPDO $con = null) Return the first Privacidad matching the query, or a new Privacidad object populated from the query conditions when no match is found
  *
- * @method     Genero findOne(PropelPDO $con = null) Return the first Genero matching the query
- * @method     Genero findOneOrCreate(PropelPDO $con = null) Return the first Genero matching the query, or a new Genero object populated from the query conditions when no match is found
+ * @method     Privacidad findOneById(int $id) Return the first Privacidad filtered by the id column
+ * @method     Privacidad findOneByNombre(string $nombre) Return the first Privacidad filtered by the nombre column
  *
- * @method     Genero findOneById(int $id) Return the first Genero filtered by the id column
- * @method     Genero findOneByNombre(string $nombre) Return the first Genero filtered by the nombre column
- *
- * @method     array findById(int $id) Return Genero objects filtered by the id column
- * @method     array findByNombre(string $nombre) Return Genero objects filtered by the nombre column
+ * @method     array findById(int $id) Return Privacidad objects filtered by the id column
+ * @method     array findByNombre(string $nombre) Return Privacidad objects filtered by the nombre column
  *
  * @package    propel.generator.proylectura.model.om
  */
-abstract class BaseGeneroQuery extends ModelCriteria
+abstract class BasePrivacidadQuery extends ModelCriteria
 {
 	
 	/**
-	 * Initializes internal state of BaseGeneroQuery object.
+	 * Initializes internal state of BasePrivacidadQuery object.
 	 *
 	 * @param     string $dbName The dabase name
 	 * @param     string $modelName The phpName of a model, e.g. 'Book'
 	 * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
 	 */
-	public function __construct($dbName = 'proylectura', $modelName = 'Genero', $modelAlias = null)
+	public function __construct($dbName = 'proylectura', $modelName = 'Privacidad', $modelAlias = null)
 	{
 		parent::__construct($dbName, $modelName, $modelAlias);
 	}
 
 	/**
-	 * Returns a new GeneroQuery object.
+	 * Returns a new PrivacidadQuery object.
 	 *
 	 * @param     string $modelAlias The alias of a model in the query
 	 * @param     Criteria $criteria Optional Criteria to build the query from
 	 *
-	 * @return    GeneroQuery
+	 * @return    PrivacidadQuery
 	 */
 	public static function create($modelAlias = null, $criteria = null)
 	{
-		if ($criteria instanceof GeneroQuery) {
+		if ($criteria instanceof PrivacidadQuery) {
 			return $criteria;
 		}
-		$query = new GeneroQuery();
+		$query = new PrivacidadQuery();
 		if (null !== $modelAlias) {
 			$query->setModelAlias($modelAlias);
 		}
@@ -85,19 +81,19 @@ abstract class BaseGeneroQuery extends ModelCriteria
 	 * @param     mixed $key Primary key to use for the query
 	 * @param     PropelPDO $con an optional connection object
 	 *
-	 * @return    Genero|array|mixed the result, formatted by the current formatter
+	 * @return    Privacidad|array|mixed the result, formatted by the current formatter
 	 */
 	public function findPk($key, $con = null)
 	{
 		if ($key === null) {
 			return null;
 		}
-		if ((null !== ($obj = GeneroPeer::getInstanceFromPool((string) $key))) && !$this->formatter) {
+		if ((null !== ($obj = PrivacidadPeer::getInstanceFromPool((string) $key))) && !$this->formatter) {
 			// the object is alredy in the instance pool
 			return $obj;
 		}
 		if ($con === null) {
-			$con = Propel::getConnection(GeneroPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(PrivacidadPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 		$this->basePreSelect($con);
 		if ($this->formatter || $this->modelAlias || $this->with || $this->select
@@ -116,11 +112,11 @@ abstract class BaseGeneroQuery extends ModelCriteria
 	 * @param     mixed $key Primary key to use for the query
 	 * @param     PropelPDO $con A connection object
 	 *
-	 * @return    Genero A model object, or null if the key is not found
+	 * @return    Privacidad A model object, or null if the key is not found
 	 */
 	protected function findPkSimple($key, $con)
 	{
-		$sql = 'SELECT `ID`, `NOMBRE` FROM `genero` WHERE `ID` = :p0';
+		$sql = 'SELECT `ID`, `NOMBRE` FROM `privacidad` WHERE `ID` = :p0';
 		try {
 			$stmt = $con->prepare($sql);
 			$stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -131,9 +127,9 @@ abstract class BaseGeneroQuery extends ModelCriteria
 		}
 		$obj = null;
 		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$obj = new Genero();
+			$obj = new Privacidad();
 			$obj->hydrate($row);
-		GeneroPeer::addInstanceToPool($obj, (string) $key);
+		PrivacidadPeer::addInstanceToPool($obj, (string) $key);
 		}
 		$stmt->closeCursor();
 
@@ -146,7 +142,7 @@ abstract class BaseGeneroQuery extends ModelCriteria
 	 * @param     mixed $key Primary key to use for the query
 	 * @param     PropelPDO $con A connection object
 	 *
-	 * @return    Genero|array|mixed the result, formatted by the current formatter
+	 * @return    Privacidad|array|mixed the result, formatted by the current formatter
 	 */
 	protected function findPkComplex($key, $con)
 	{
@@ -186,11 +182,11 @@ abstract class BaseGeneroQuery extends ModelCriteria
 	 *
 	 * @param     mixed $key Primary key to use for the query
 	 *
-	 * @return    GeneroQuery The current query, for fluid interface
+	 * @return    PrivacidadQuery The current query, for fluid interface
 	 */
 	public function filterByPrimaryKey($key)
 	{
-		return $this->addUsingAlias(GeneroPeer::ID, $key, Criteria::EQUAL);
+		return $this->addUsingAlias(PrivacidadPeer::ID, $key, Criteria::EQUAL);
 	}
 
 	/**
@@ -198,11 +194,11 @@ abstract class BaseGeneroQuery extends ModelCriteria
 	 *
 	 * @param     array $keys The list of primary key to use for the query
 	 *
-	 * @return    GeneroQuery The current query, for fluid interface
+	 * @return    PrivacidadQuery The current query, for fluid interface
 	 */
 	public function filterByPrimaryKeys($keys)
 	{
-		return $this->addUsingAlias(GeneroPeer::ID, $keys, Criteria::IN);
+		return $this->addUsingAlias(PrivacidadPeer::ID, $keys, Criteria::IN);
 	}
 
 	/**
@@ -221,14 +217,14 @@ abstract class BaseGeneroQuery extends ModelCriteria
 	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
 	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
 	 *
-	 * @return    GeneroQuery The current query, for fluid interface
+	 * @return    PrivacidadQuery The current query, for fluid interface
 	 */
 	public function filterById($id = null, $comparison = null)
 	{
 		if (is_array($id) && null === $comparison) {
 			$comparison = Criteria::IN;
 		}
-		return $this->addUsingAlias(GeneroPeer::ID, $id, $comparison);
+		return $this->addUsingAlias(PrivacidadPeer::ID, $id, $comparison);
 	}
 
 	/**
@@ -244,7 +240,7 @@ abstract class BaseGeneroQuery extends ModelCriteria
 	 *              Accepts wildcards (* and % trigger a LIKE)
 	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
 	 *
-	 * @return    GeneroQuery The current query, for fluid interface
+	 * @return    PrivacidadQuery The current query, for fluid interface
 	 */
 	public function filterByNombre($nombre = null, $comparison = null)
 	{
@@ -256,7 +252,7 @@ abstract class BaseGeneroQuery extends ModelCriteria
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(GeneroPeer::NOMBRE, $nombre, $comparison);
+		return $this->addUsingAlias(PrivacidadPeer::NOMBRE, $nombre, $comparison);
 	}
 
 	/**
@@ -265,13 +261,13 @@ abstract class BaseGeneroQuery extends ModelCriteria
 	 * @param     Libro $libro  the related object to use as filter
 	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
 	 *
-	 * @return    GeneroQuery The current query, for fluid interface
+	 * @return    PrivacidadQuery The current query, for fluid interface
 	 */
 	public function filterByLibro($libro, $comparison = null)
 	{
 		if ($libro instanceof Libro) {
 			return $this
-				->addUsingAlias(GeneroPeer::ID, $libro->getId_genero(), $comparison);
+				->addUsingAlias(PrivacidadPeer::ID, $libro->getId_privacidad(), $comparison);
 		} elseif ($libro instanceof PropelCollection) {
 			return $this
 				->useLibroQuery()
@@ -288,7 +284,7 @@ abstract class BaseGeneroQuery extends ModelCriteria
 	 * @param     string $relationAlias optional alias for the relation
 	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
 	 *
-	 * @return    GeneroQuery The current query, for fluid interface
+	 * @return    PrivacidadQuery The current query, for fluid interface
 	 */
 	public function joinLibro($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
 	{
@@ -333,92 +329,19 @@ abstract class BaseGeneroQuery extends ModelCriteria
 	}
 
 	/**
-	 * Filter the query by a related Lista object
-	 *
-	 * @param     Lista $lista  the related object to use as filter
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    GeneroQuery The current query, for fluid interface
-	 */
-	public function filterByLista($lista, $comparison = null)
-	{
-		if ($lista instanceof Lista) {
-			return $this
-				->addUsingAlias(GeneroPeer::ID, $lista->getId_genero(), $comparison);
-		} elseif ($lista instanceof PropelCollection) {
-			return $this
-				->useListaQuery()
-				->filterByPrimaryKeys($lista->getPrimaryKeys())
-				->endUse();
-		} else {
-			throw new PropelException('filterByLista() only accepts arguments of type Lista or PropelCollection');
-		}
-	}
-
-	/**
-	 * Adds a JOIN clause to the query using the Lista relation
-	 *
-	 * @param     string $relationAlias optional alias for the relation
-	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-	 *
-	 * @return    GeneroQuery The current query, for fluid interface
-	 */
-	public function joinLista($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-	{
-		$tableMap = $this->getTableMap();
-		$relationMap = $tableMap->getRelation('Lista');
-
-		// create a ModelJoin object for this join
-		$join = new ModelJoin();
-		$join->setJoinType($joinType);
-		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-		if ($previousJoin = $this->getPreviousJoin()) {
-			$join->setPreviousJoin($previousJoin);
-		}
-
-		// add the ModelJoin to the current object
-		if($relationAlias) {
-			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-			$this->addJoinObject($join, $relationAlias);
-		} else {
-			$this->addJoinObject($join, 'Lista');
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Use the Lista relation Lista object
-	 *
-	 * @see       useQuery()
-	 *
-	 * @param     string $relationAlias optional alias for the relation,
-	 *                                   to be used as main alias in the secondary query
-	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-	 *
-	 * @return    ListaQuery A secondary query class using the current class as primary query
-	 */
-	public function useListaQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-	{
-		return $this
-			->joinLista($relationAlias, $joinType)
-			->useQuery($relationAlias ? $relationAlias : 'Lista', 'ListaQuery');
-	}
-
-	/**
 	 * Exclude object from result
 	 *
-	 * @param     Genero $genero Object to remove from the list of results
+	 * @param     Privacidad $privacidad Object to remove from the list of results
 	 *
-	 * @return    GeneroQuery The current query, for fluid interface
+	 * @return    PrivacidadQuery The current query, for fluid interface
 	 */
-	public function prune($genero = null)
+	public function prune($privacidad = null)
 	{
-		if ($genero) {
-			$this->addUsingAlias(GeneroPeer::ID, $genero->getId(), Criteria::NOT_EQUAL);
+		if ($privacidad) {
+			$this->addUsingAlias(PrivacidadPeer::ID, $privacidad->getId(), Criteria::NOT_EQUAL);
 		}
 
 		return $this;
 	}
 
-} // BaseGeneroQuery
+} // BasePrivacidadQuery

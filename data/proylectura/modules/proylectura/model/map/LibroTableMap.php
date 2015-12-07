@@ -41,10 +41,15 @@ class LibroTableMap extends TableMap
 		$this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
 		$this->addColumn('NOMBRE', 'Nombre', 'CHAR', true, 50, null);
 		$this->addColumn('FECHA', 'Fecha', 'DATE', false, null, null);
-		$this->addColumn('ID_GENERO', 'Id_genero', 'INTEGER', false, null, null);
+		$this->addForeignKey('ID_GENERO', 'Id_genero', 'INTEGER', 'genero', 'ID', false, null, null);
 		$this->addColumn('AUTOR', 'Autor', 'CHAR', false, 255, null);
 		$this->addColumn('IMAGE', 'Image', 'CHAR', false, 255, null);
 		$this->addColumn('SINOPSIS', 'Sinopsis', 'CHAR', false, 255, null);
+		$this->addColumn('FECHA_ULT_ACC', 'Fecha_ult_acc', 'DATE', false, null, null);
+		$this->addColumn('HORA_ULT_ACC', 'Hora_ult_acc', 'CHAR', false, 8, null);
+		$this->addForeignKey('USUARIO_ULT_ACC', 'Usuario_ult_acc', 'INTEGER', 'usuario', 'ID', false, null, null);
+		$this->addForeignKey('ID_PRIVACIDAD', 'Id_privacidad', 'INTEGER', 'privacidad', 'ID', false, null, null);
+		$this->addColumn('ES_EDITABLE', 'Es_editable', 'CHAR', false, 1, null);
 		// validators
 	} // initialize()
 
@@ -53,7 +58,12 @@ class LibroTableMap extends TableMap
 	 */
 	public function buildRelations()
 	{
+		$this->addRelation('Usuario', 'Usuario', RelationMap::MANY_TO_ONE, array('usuario_ult_acc' => 'id', ), null, null);
+		$this->addRelation('Privacidad', 'Privacidad', RelationMap::MANY_TO_ONE, array('id_privacidad' => 'id', ), null, null);
+		$this->addRelation('Genero', 'Genero', RelationMap::MANY_TO_ONE, array('id_genero' => 'id', ), null, null);
 		$this->addRelation('Audiolibro', 'Audiolibro', RelationMap::ONE_TO_MANY, array('id' => 'idlibro', ), null, null, 'Audiolibros');
+		$this->addRelation('Calificacion', 'Calificacion', RelationMap::ONE_TO_MANY, array('id' => 'id_libro', ), null, null, 'Calificacions');
+		$this->addRelation('Comentario', 'Comentario', RelationMap::ONE_TO_MANY, array('id' => 'id_libro', ), null, null, 'Comentarios');
 		$this->addRelation('Libro_colaborador', 'Libro_colaborador', RelationMap::ONE_TO_MANY, array('id' => 'idlibro', ), null, null, 'Libro_colaboradors');
 		$this->addRelation('Libro_version', 'Libro_version', RelationMap::ONE_TO_MANY, array('id' => 'idlibro', ), null, null, 'Libro_versions');
 		$this->addRelation('Slider_mae', 'Slider_mae', RelationMap::ONE_TO_MANY, array('id' => 'id_libro', ), null, null, 'Slider_maes');

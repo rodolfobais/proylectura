@@ -73,9 +73,64 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	protected $sinopsis;
 
 	/**
+	 * The value for the fecha_ult_acc field.
+	 * @var        string
+	 */
+	protected $fecha_ult_acc;
+
+	/**
+	 * The value for the hora_ult_acc field.
+	 * @var        string
+	 */
+	protected $hora_ult_acc;
+
+	/**
+	 * The value for the usuario_ult_acc field.
+	 * @var        int
+	 */
+	protected $usuario_ult_acc;
+
+	/**
+	 * The value for the id_privacidad field.
+	 * @var        int
+	 */
+	protected $id_privacidad;
+
+	/**
+	 * The value for the es_editable field.
+	 * @var        string
+	 */
+	protected $es_editable;
+
+	/**
+	 * @var        Usuario
+	 */
+	protected $aUsuario;
+
+	/**
+	 * @var        Privacidad
+	 */
+	protected $aPrivacidad;
+
+	/**
+	 * @var        Genero
+	 */
+	protected $aGenero;
+
+	/**
 	 * @var        array Audiolibro[] Collection to store aggregation of Audiolibro objects.
 	 */
 	protected $collAudiolibros;
+
+	/**
+	 * @var        array Calificacion[] Collection to store aggregation of Calificacion objects.
+	 */
+	protected $collCalificacions;
+
+	/**
+	 * @var        array Comentario[] Collection to store aggregation of Comentario objects.
+	 */
+	protected $collComentarios;
 
 	/**
 	 * @var        array Libro_colaborador[] Collection to store aggregation of Libro_colaborador objects.
@@ -121,6 +176,18 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	 * @var		array
 	 */
 	protected $audiolibrosScheduledForDeletion = null;
+
+	/**
+	 * An array of objects scheduled for deletion.
+	 * @var		array
+	 */
+	protected $calificacionsScheduledForDeletion = null;
+
+	/**
+	 * An array of objects scheduled for deletion.
+	 * @var		array
+	 */
+	protected $comentariosScheduledForDeletion = null;
 
 	/**
 	 * An array of objects scheduled for deletion.
@@ -251,6 +318,84 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	}
 
 	/**
+	 * Get the [optionally formatted] temporal [fecha_ult_acc] column value.
+	 * 
+	 *
+	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
+	 *							If format is NULL, then the raw DateTime object will be returned.
+	 * @return     mixed Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00
+	 * @throws     PropelException - if unable to parse/validate the date/time value.
+	 */
+	public function getFecha_ult_acc($format = '%x')
+	{
+		if ($this->fecha_ult_acc === null) {
+			return null;
+		}
+
+
+		if ($this->fecha_ult_acc === '0000-00-00') {
+			// while technically this is not a default value of NULL,
+			// this seems to be closest in meaning.
+			return null;
+		} else {
+			try {
+				$dt = new DateTime($this->fecha_ult_acc);
+			} catch (Exception $x) {
+				throw new PropelException("Internally stored date/time/timestamp value could not be converted to DateTime: " . var_export($this->fecha_ult_acc, true), $x);
+			}
+		}
+
+		if ($format === null) {
+			// Because propel.useDateTimeClass is TRUE, we return a DateTime object.
+			return $dt;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $dt->format('U'));
+		} else {
+			return $dt->format($format);
+		}
+	}
+
+	/**
+	 * Get the [hora_ult_acc] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getHora_ult_acc()
+	{
+		return $this->hora_ult_acc;
+	}
+
+	/**
+	 * Get the [usuario_ult_acc] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getUsuario_ult_acc()
+	{
+		return $this->usuario_ult_acc;
+	}
+
+	/**
+	 * Get the [id_privacidad] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getId_privacidad()
+	{
+		return $this->id_privacidad;
+	}
+
+	/**
+	 * Get the [es_editable] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getEs_editable()
+	{
+		return $this->es_editable;
+	}
+
+	/**
 	 * Set the value of [id] column.
 	 * 
 	 * @param      int $v new value
@@ -329,6 +474,10 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			$this->modifiedColumns[] = LibroPeer::ID_GENERO;
 		}
 
+		if ($this->aGenero !== null && $this->aGenero->getId() !== $v) {
+			$this->aGenero = null;
+		}
+
 		return $this;
 	} // setId_genero()
 
@@ -393,6 +542,116 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	} // setSinopsis()
 
 	/**
+	 * Sets the value of [fecha_ult_acc] column to a normalized version of the date/time value specified.
+	 * 
+	 * @param      mixed $v string, integer (timestamp), or DateTime value.
+	 *               Empty strings are treated as NULL.
+	 * @return     Libro The current object (for fluent API support)
+	 */
+	public function setFecha_ult_acc($v)
+	{
+		$dt = PropelDateTime::newInstance($v, null, 'DateTime');
+		if ($this->fecha_ult_acc !== null || $dt !== null) {
+			$currentDateAsString = ($this->fecha_ult_acc !== null && $tmpDt = new DateTime($this->fecha_ult_acc)) ? $tmpDt->format('Y-m-d') : null;
+			$newDateAsString = $dt ? $dt->format('Y-m-d') : null;
+			if ($currentDateAsString !== $newDateAsString) {
+				$this->fecha_ult_acc = $newDateAsString;
+				$this->modifiedColumns[] = LibroPeer::FECHA_ULT_ACC;
+			}
+		} // if either are not null
+
+		return $this;
+	} // setFecha_ult_acc()
+
+	/**
+	 * Set the value of [hora_ult_acc] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     Libro The current object (for fluent API support)
+	 */
+	public function setHora_ult_acc($v)
+	{
+		if ($v !== null) {
+			$v = (string) $v;
+		}
+
+		if ($this->hora_ult_acc !== $v) {
+			$this->hora_ult_acc = $v;
+			$this->modifiedColumns[] = LibroPeer::HORA_ULT_ACC;
+		}
+
+		return $this;
+	} // setHora_ult_acc()
+
+	/**
+	 * Set the value of [usuario_ult_acc] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     Libro The current object (for fluent API support)
+	 */
+	public function setUsuario_ult_acc($v)
+	{
+		if ($v !== null) {
+			$v = (int) $v;
+		}
+
+		if ($this->usuario_ult_acc !== $v) {
+			$this->usuario_ult_acc = $v;
+			$this->modifiedColumns[] = LibroPeer::USUARIO_ULT_ACC;
+		}
+
+		if ($this->aUsuario !== null && $this->aUsuario->getId() !== $v) {
+			$this->aUsuario = null;
+		}
+
+		return $this;
+	} // setUsuario_ult_acc()
+
+	/**
+	 * Set the value of [id_privacidad] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     Libro The current object (for fluent API support)
+	 */
+	public function setId_privacidad($v)
+	{
+		if ($v !== null) {
+			$v = (int) $v;
+		}
+
+		if ($this->id_privacidad !== $v) {
+			$this->id_privacidad = $v;
+			$this->modifiedColumns[] = LibroPeer::ID_PRIVACIDAD;
+		}
+
+		if ($this->aPrivacidad !== null && $this->aPrivacidad->getId() !== $v) {
+			$this->aPrivacidad = null;
+		}
+
+		return $this;
+	} // setId_privacidad()
+
+	/**
+	 * Set the value of [es_editable] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     Libro The current object (for fluent API support)
+	 */
+	public function setEs_editable($v)
+	{
+		if ($v !== null) {
+			$v = (string) $v;
+		}
+
+		if ($this->es_editable !== $v) {
+			$this->es_editable = $v;
+			$this->modifiedColumns[] = LibroPeer::ES_EDITABLE;
+		}
+
+		return $this;
+	} // setEs_editable()
+
+	/**
 	 * Indicates whether the columns in this object are only set to default values.
 	 *
 	 * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -431,6 +690,11 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			$this->autor = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
 			$this->image = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
 			$this->sinopsis = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
+			$this->fecha_ult_acc = ($row[$startcol + 7] !== null) ? (string) $row[$startcol + 7] : null;
+			$this->hora_ult_acc = ($row[$startcol + 8] !== null) ? (string) $row[$startcol + 8] : null;
+			$this->usuario_ult_acc = ($row[$startcol + 9] !== null) ? (int) $row[$startcol + 9] : null;
+			$this->id_privacidad = ($row[$startcol + 10] !== null) ? (int) $row[$startcol + 10] : null;
+			$this->es_editable = ($row[$startcol + 11] !== null) ? (string) $row[$startcol + 11] : null;
 			$this->resetModified();
 
 			$this->setNew(false);
@@ -439,7 +703,7 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 				$this->ensureConsistency();
 			}
 
-			return $startcol + 7; // 7 = LibroPeer::NUM_HYDRATE_COLUMNS.
+			return $startcol + 12; // 12 = LibroPeer::NUM_HYDRATE_COLUMNS.
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Libro object", $e);
@@ -462,6 +726,15 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	public function ensureConsistency()
 	{
 
+		if ($this->aGenero !== null && $this->id_genero !== $this->aGenero->getId()) {
+			$this->aGenero = null;
+		}
+		if ($this->aUsuario !== null && $this->usuario_ult_acc !== $this->aUsuario->getId()) {
+			$this->aUsuario = null;
+		}
+		if ($this->aPrivacidad !== null && $this->id_privacidad !== $this->aPrivacidad->getId()) {
+			$this->aPrivacidad = null;
+		}
 	} // ensureConsistency
 
 	/**
@@ -501,7 +774,14 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 
 		if ($deep) {  // also de-associate any related objects?
 
+			$this->aUsuario = null;
+			$this->aPrivacidad = null;
+			$this->aGenero = null;
 			$this->collAudiolibros = null;
+
+			$this->collCalificacions = null;
+
+			$this->collComentarios = null;
 
 			$this->collLibro_colaboradors = null;
 
@@ -623,6 +903,32 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 		if (!$this->alreadyInSave) {
 			$this->alreadyInSave = true;
 
+			// We call the save method on the following object(s) if they
+			// were passed to this object by their coresponding set
+			// method.  This object relates to these object(s) by a
+			// foreign key reference.
+
+			if ($this->aUsuario !== null) {
+				if ($this->aUsuario->isModified() || $this->aUsuario->isNew()) {
+					$affectedRows += $this->aUsuario->save($con);
+				}
+				$this->setUsuario($this->aUsuario);
+			}
+
+			if ($this->aPrivacidad !== null) {
+				if ($this->aPrivacidad->isModified() || $this->aPrivacidad->isNew()) {
+					$affectedRows += $this->aPrivacidad->save($con);
+				}
+				$this->setPrivacidad($this->aPrivacidad);
+			}
+
+			if ($this->aGenero !== null) {
+				if ($this->aGenero->isModified() || $this->aGenero->isNew()) {
+					$affectedRows += $this->aGenero->save($con);
+				}
+				$this->setGenero($this->aGenero);
+			}
+
 			if ($this->isNew() || $this->isModified()) {
 				// persist changes
 				if ($this->isNew()) {
@@ -645,6 +951,40 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 
 			if ($this->collAudiolibros !== null) {
 				foreach ($this->collAudiolibros as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->calificacionsScheduledForDeletion !== null) {
+				if (!$this->calificacionsScheduledForDeletion->isEmpty()) {
+		CalificacionQuery::create()
+						->filterByPrimaryKeys($this->calificacionsScheduledForDeletion->getPrimaryKeys(false))
+						->delete($con);
+					$this->calificacionsScheduledForDeletion = null;
+				}
+			}
+
+			if ($this->collCalificacions !== null) {
+				foreach ($this->collCalificacions as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->comentariosScheduledForDeletion !== null) {
+				if (!$this->comentariosScheduledForDeletion->isEmpty()) {
+		ComentarioQuery::create()
+						->filterByPrimaryKeys($this->comentariosScheduledForDeletion->getPrimaryKeys(false))
+						->delete($con);
+					$this->comentariosScheduledForDeletion = null;
+				}
+			}
+
+			if ($this->collComentarios !== null) {
+				foreach ($this->collComentarios as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -782,6 +1122,21 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 		if ($this->isColumnModified(LibroPeer::SINOPSIS)) {
 			$modifiedColumns[':p' . $index++]  = '`SINOPSIS`';
 		}
+		if ($this->isColumnModified(LibroPeer::FECHA_ULT_ACC)) {
+			$modifiedColumns[':p' . $index++]  = '`FECHA_ULT_ACC`';
+		}
+		if ($this->isColumnModified(LibroPeer::HORA_ULT_ACC)) {
+			$modifiedColumns[':p' . $index++]  = '`HORA_ULT_ACC`';
+		}
+		if ($this->isColumnModified(LibroPeer::USUARIO_ULT_ACC)) {
+			$modifiedColumns[':p' . $index++]  = '`USUARIO_ULT_ACC`';
+		}
+		if ($this->isColumnModified(LibroPeer::ID_PRIVACIDAD)) {
+			$modifiedColumns[':p' . $index++]  = '`ID_PRIVACIDAD`';
+		}
+		if ($this->isColumnModified(LibroPeer::ES_EDITABLE)) {
+			$modifiedColumns[':p' . $index++]  = '`ES_EDITABLE`';
+		}
 
 		$sql = sprintf(
 			'INSERT INTO `libro` (%s) VALUES (%s)',
@@ -813,6 +1168,21 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 						break;
 					case '`SINOPSIS`':
 						$stmt->bindValue($identifier, $this->sinopsis, PDO::PARAM_STR);
+						break;
+					case '`FECHA_ULT_ACC`':
+						$stmt->bindValue($identifier, $this->fecha_ult_acc, PDO::PARAM_STR);
+						break;
+					case '`HORA_ULT_ACC`':
+						$stmt->bindValue($identifier, $this->hora_ult_acc, PDO::PARAM_STR);
+						break;
+					case '`USUARIO_ULT_ACC`':
+						$stmt->bindValue($identifier, $this->usuario_ult_acc, PDO::PARAM_INT);
+						break;
+					case '`ID_PRIVACIDAD`':
+						$stmt->bindValue($identifier, $this->id_privacidad, PDO::PARAM_INT);
+						break;
+					case '`ES_EDITABLE`':
+						$stmt->bindValue($identifier, $this->es_editable, PDO::PARAM_STR);
 						break;
 				}
 			}
@@ -906,6 +1276,30 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			$failureMap = array();
 
 
+			// We call the validate method on the following object(s) if they
+			// were passed to this object by their coresponding set
+			// method.  This object relates to these object(s) by a
+			// foreign key reference.
+
+			if ($this->aUsuario !== null) {
+				if (!$this->aUsuario->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsuario->getValidationFailures());
+				}
+			}
+
+			if ($this->aPrivacidad !== null) {
+				if (!$this->aPrivacidad->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aPrivacidad->getValidationFailures());
+				}
+			}
+
+			if ($this->aGenero !== null) {
+				if (!$this->aGenero->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aGenero->getValidationFailures());
+				}
+			}
+
+
 			if (($retval = LibroPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
@@ -913,6 +1307,22 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 
 				if ($this->collAudiolibros !== null) {
 					foreach ($this->collAudiolibros as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collCalificacions !== null) {
+					foreach ($this->collCalificacions as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collComentarios !== null) {
+					foreach ($this->collComentarios as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -1013,6 +1423,21 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			case 6:
 				return $this->getSinopsis();
 				break;
+			case 7:
+				return $this->getFecha_ult_acc();
+				break;
+			case 8:
+				return $this->getHora_ult_acc();
+				break;
+			case 9:
+				return $this->getUsuario_ult_acc();
+				break;
+			case 10:
+				return $this->getId_privacidad();
+				break;
+			case 11:
+				return $this->getEs_editable();
+				break;
 			default:
 				return null;
 				break;
@@ -1049,10 +1474,30 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			$keys[4] => $this->getAutor(),
 			$keys[5] => $this->getImage(),
 			$keys[6] => $this->getSinopsis(),
+			$keys[7] => $this->getFecha_ult_acc(),
+			$keys[8] => $this->getHora_ult_acc(),
+			$keys[9] => $this->getUsuario_ult_acc(),
+			$keys[10] => $this->getId_privacidad(),
+			$keys[11] => $this->getEs_editable(),
 		);
 		if ($includeForeignObjects) {
+			if (null !== $this->aUsuario) {
+				$result['Usuario'] = $this->aUsuario->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+			}
+			if (null !== $this->aPrivacidad) {
+				$result['Privacidad'] = $this->aPrivacidad->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+			}
+			if (null !== $this->aGenero) {
+				$result['Genero'] = $this->aGenero->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+			}
 			if (null !== $this->collAudiolibros) {
 				$result['Audiolibros'] = $this->collAudiolibros->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			}
+			if (null !== $this->collCalificacions) {
+				$result['Calificacions'] = $this->collCalificacions->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			}
+			if (null !== $this->collComentarios) {
+				$result['Comentarios'] = $this->collComentarios->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
 			}
 			if (null !== $this->collLibro_colaboradors) {
 				$result['Libro_colaboradors'] = $this->collLibro_colaboradors->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
@@ -1121,6 +1566,21 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			case 6:
 				$this->setSinopsis($value);
 				break;
+			case 7:
+				$this->setFecha_ult_acc($value);
+				break;
+			case 8:
+				$this->setHora_ult_acc($value);
+				break;
+			case 9:
+				$this->setUsuario_ult_acc($value);
+				break;
+			case 10:
+				$this->setId_privacidad($value);
+				break;
+			case 11:
+				$this->setEs_editable($value);
+				break;
 		} // switch()
 	}
 
@@ -1152,6 +1612,11 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 		if (array_key_exists($keys[4], $arr)) $this->setAutor($arr[$keys[4]]);
 		if (array_key_exists($keys[5], $arr)) $this->setImage($arr[$keys[5]]);
 		if (array_key_exists($keys[6], $arr)) $this->setSinopsis($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setFecha_ult_acc($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setHora_ult_acc($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setUsuario_ult_acc($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setId_privacidad($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setEs_editable($arr[$keys[11]]);
 	}
 
 	/**
@@ -1170,6 +1635,11 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 		if ($this->isColumnModified(LibroPeer::AUTOR)) $criteria->add(LibroPeer::AUTOR, $this->autor);
 		if ($this->isColumnModified(LibroPeer::IMAGE)) $criteria->add(LibroPeer::IMAGE, $this->image);
 		if ($this->isColumnModified(LibroPeer::SINOPSIS)) $criteria->add(LibroPeer::SINOPSIS, $this->sinopsis);
+		if ($this->isColumnModified(LibroPeer::FECHA_ULT_ACC)) $criteria->add(LibroPeer::FECHA_ULT_ACC, $this->fecha_ult_acc);
+		if ($this->isColumnModified(LibroPeer::HORA_ULT_ACC)) $criteria->add(LibroPeer::HORA_ULT_ACC, $this->hora_ult_acc);
+		if ($this->isColumnModified(LibroPeer::USUARIO_ULT_ACC)) $criteria->add(LibroPeer::USUARIO_ULT_ACC, $this->usuario_ult_acc);
+		if ($this->isColumnModified(LibroPeer::ID_PRIVACIDAD)) $criteria->add(LibroPeer::ID_PRIVACIDAD, $this->id_privacidad);
+		if ($this->isColumnModified(LibroPeer::ES_EDITABLE)) $criteria->add(LibroPeer::ES_EDITABLE, $this->es_editable);
 
 		return $criteria;
 	}
@@ -1238,6 +1708,11 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 		$copyObj->setAutor($this->getAutor());
 		$copyObj->setImage($this->getImage());
 		$copyObj->setSinopsis($this->getSinopsis());
+		$copyObj->setFecha_ult_acc($this->getFecha_ult_acc());
+		$copyObj->setHora_ult_acc($this->getHora_ult_acc());
+		$copyObj->setUsuario_ult_acc($this->getUsuario_ult_acc());
+		$copyObj->setId_privacidad($this->getId_privacidad());
+		$copyObj->setEs_editable($this->getEs_editable());
 
 		if ($deepCopy && !$this->startCopy) {
 			// important: temporarily setNew(false) because this affects the behavior of
@@ -1249,6 +1724,18 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			foreach ($this->getAudiolibros() as $relObj) {
 				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
 					$copyObj->addAudiolibro($relObj->copy($deepCopy));
+				}
+			}
+
+			foreach ($this->getCalificacions() as $relObj) {
+				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addCalificacion($relObj->copy($deepCopy));
+				}
+			}
+
+			foreach ($this->getComentarios() as $relObj) {
+				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addComentario($relObj->copy($deepCopy));
 				}
 			}
 
@@ -1330,6 +1817,153 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 		return self::$peer;
 	}
 
+	/**
+	 * Declares an association between this object and a Usuario object.
+	 *
+	 * @param      Usuario $v
+	 * @return     Libro The current object (for fluent API support)
+	 * @throws     PropelException
+	 */
+	public function setUsuario(Usuario $v = null)
+	{
+		if ($v === null) {
+			$this->setUsuario_ult_acc(NULL);
+		} else {
+			$this->setUsuario_ult_acc($v->getId());
+		}
+
+		$this->aUsuario = $v;
+
+		// Add binding for other direction of this n:n relationship.
+		// If this object has already been added to the Usuario object, it will not be re-added.
+		if ($v !== null) {
+			$v->addLibro($this);
+		}
+
+		return $this;
+	}
+
+
+	/**
+	 * Get the associated Usuario object
+	 *
+	 * @param      PropelPDO Optional Connection object.
+	 * @return     Usuario The associated Usuario object.
+	 * @throws     PropelException
+	 */
+	public function getUsuario(PropelPDO $con = null)
+	{
+		if ($this->aUsuario === null && ($this->usuario_ult_acc !== null)) {
+			$this->aUsuario = UsuarioQuery::create()->findPk($this->usuario_ult_acc, $con);
+			/* The following can be used additionally to
+				guarantee the related object contains a reference
+				to this object.  This level of coupling may, however, be
+				undesirable since it could result in an only partially populated collection
+				in the referenced object.
+				$this->aUsuario->addLibros($this);
+			 */
+		}
+		return $this->aUsuario;
+	}
+
+	/**
+	 * Declares an association between this object and a Privacidad object.
+	 *
+	 * @param      Privacidad $v
+	 * @return     Libro The current object (for fluent API support)
+	 * @throws     PropelException
+	 */
+	public function setPrivacidad(Privacidad $v = null)
+	{
+		if ($v === null) {
+			$this->setId_privacidad(NULL);
+		} else {
+			$this->setId_privacidad($v->getId());
+		}
+
+		$this->aPrivacidad = $v;
+
+		// Add binding for other direction of this n:n relationship.
+		// If this object has already been added to the Privacidad object, it will not be re-added.
+		if ($v !== null) {
+			$v->addLibro($this);
+		}
+
+		return $this;
+	}
+
+
+	/**
+	 * Get the associated Privacidad object
+	 *
+	 * @param      PropelPDO Optional Connection object.
+	 * @return     Privacidad The associated Privacidad object.
+	 * @throws     PropelException
+	 */
+	public function getPrivacidad(PropelPDO $con = null)
+	{
+		if ($this->aPrivacidad === null && ($this->id_privacidad !== null)) {
+			$this->aPrivacidad = PrivacidadQuery::create()->findPk($this->id_privacidad, $con);
+			/* The following can be used additionally to
+				guarantee the related object contains a reference
+				to this object.  This level of coupling may, however, be
+				undesirable since it could result in an only partially populated collection
+				in the referenced object.
+				$this->aPrivacidad->addLibros($this);
+			 */
+		}
+		return $this->aPrivacidad;
+	}
+
+	/**
+	 * Declares an association between this object and a Genero object.
+	 *
+	 * @param      Genero $v
+	 * @return     Libro The current object (for fluent API support)
+	 * @throws     PropelException
+	 */
+	public function setGenero(Genero $v = null)
+	{
+		if ($v === null) {
+			$this->setId_genero(NULL);
+		} else {
+			$this->setId_genero($v->getId());
+		}
+
+		$this->aGenero = $v;
+
+		// Add binding for other direction of this n:n relationship.
+		// If this object has already been added to the Genero object, it will not be re-added.
+		if ($v !== null) {
+			$v->addLibro($this);
+		}
+
+		return $this;
+	}
+
+
+	/**
+	 * Get the associated Genero object
+	 *
+	 * @param      PropelPDO Optional Connection object.
+	 * @return     Genero The associated Genero object.
+	 * @throws     PropelException
+	 */
+	public function getGenero(PropelPDO $con = null)
+	{
+		if ($this->aGenero === null && ($this->id_genero !== null)) {
+			$this->aGenero = GeneroQuery::create()->findPk($this->id_genero, $con);
+			/* The following can be used additionally to
+				guarantee the related object contains a reference
+				to this object.  This level of coupling may, however, be
+				undesirable since it could result in an only partially populated collection
+				in the referenced object.
+				$this->aGenero->addLibros($this);
+			 */
+		}
+		return $this->aGenero;
+	}
+
 
 	/**
 	 * Initializes a collection based on the name of a relation.
@@ -1343,6 +1977,12 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	{
 		if ('Audiolibro' == $relationName) {
 			return $this->initAudiolibros();
+		}
+		if ('Calificacion' == $relationName) {
+			return $this->initCalificacions();
+		}
+		if ('Comentario' == $relationName) {
+			return $this->initComentarios();
 		}
 		if ('Libro_colaborador' == $relationName) {
 			return $this->initLibro_colaboradors();
@@ -1507,6 +2147,352 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	{
 		$this->collAudiolibros[]= $audiolibro;
 		$audiolibro->setLibro($this);
+	}
+
+	/**
+	 * Clears out the collCalificacions collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addCalificacions()
+	 */
+	public function clearCalificacions()
+	{
+		$this->collCalificacions = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collCalificacions collection.
+	 *
+	 * By default this just sets the collCalificacions collection to an empty array (like clearcollCalificacions());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @param      boolean $overrideExisting If set to true, the method call initializes
+	 *                                        the collection even if it is not empty
+	 *
+	 * @return     void
+	 */
+	public function initCalificacions($overrideExisting = true)
+	{
+		if (null !== $this->collCalificacions && !$overrideExisting) {
+			return;
+		}
+		$this->collCalificacions = new PropelObjectCollection();
+		$this->collCalificacions->setModel('Calificacion');
+	}
+
+	/**
+	 * Gets an array of Calificacion objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this Libro is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array Calificacion[] List of Calificacion objects
+	 * @throws     PropelException
+	 */
+	public function getCalificacions($criteria = null, PropelPDO $con = null)
+	{
+		if(null === $this->collCalificacions || null !== $criteria) {
+			if ($this->isNew() && null === $this->collCalificacions) {
+				// return empty collection
+				$this->initCalificacions();
+			} else {
+				$collCalificacions = CalificacionQuery::create(null, $criteria)
+					->filterByLibro($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collCalificacions;
+				}
+				$this->collCalificacions = $collCalificacions;
+			}
+		}
+		return $this->collCalificacions;
+	}
+
+	/**
+	 * Sets a collection of Calificacion objects related by a one-to-many relationship
+	 * to the current object.
+	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+	 * and new objects from the given Propel collection.
+	 *
+	 * @param      PropelCollection $calificacions A Propel collection.
+	 * @param      PropelPDO $con Optional connection object
+	 */
+	public function setCalificacions(PropelCollection $calificacions, PropelPDO $con = null)
+	{
+		$this->calificacionsScheduledForDeletion = $this->getCalificacions(new Criteria(), $con)->diff($calificacions);
+
+		foreach ($calificacions as $calificacion) {
+			// Fix issue with collection modified by reference
+			if ($calificacion->isNew()) {
+				$calificacion->setLibro($this);
+			}
+			$this->addCalificacion($calificacion);
+		}
+
+		$this->collCalificacions = $calificacions;
+	}
+
+	/**
+	 * Returns the number of related Calificacion objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related Calificacion objects.
+	 * @throws     PropelException
+	 */
+	public function countCalificacions(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collCalificacions || null !== $criteria) {
+			if ($this->isNew() && null === $this->collCalificacions) {
+				return 0;
+			} else {
+				$query = CalificacionQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterByLibro($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collCalificacions);
+		}
+	}
+
+	/**
+	 * Method called to associate a Calificacion object to this object
+	 * through the Calificacion foreign key attribute.
+	 *
+	 * @param      Calificacion $l Calificacion
+	 * @return     Libro The current object (for fluent API support)
+	 */
+	public function addCalificacion(Calificacion $l)
+	{
+		if ($this->collCalificacions === null) {
+			$this->initCalificacions();
+		}
+		if (!$this->collCalificacions->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddCalificacion($l);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param	Calificacion $calificacion The calificacion object to add.
+	 */
+	protected function doAddCalificacion($calificacion)
+	{
+		$this->collCalificacions[]= $calificacion;
+		$calificacion->setLibro($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Libro is new, it will return
+	 * an empty collection; or if this Libro has previously
+	 * been saved, it will retrieve related Calificacions from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Libro.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return     PropelCollection|array Calificacion[] List of Calificacion objects
+	 */
+	public function getCalificacionsJoinUsuario($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$query = CalificacionQuery::create(null, $criteria);
+		$query->joinWith('Usuario', $join_behavior);
+
+		return $this->getCalificacions($query, $con);
+	}
+
+	/**
+	 * Clears out the collComentarios collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addComentarios()
+	 */
+	public function clearComentarios()
+	{
+		$this->collComentarios = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collComentarios collection.
+	 *
+	 * By default this just sets the collComentarios collection to an empty array (like clearcollComentarios());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @param      boolean $overrideExisting If set to true, the method call initializes
+	 *                                        the collection even if it is not empty
+	 *
+	 * @return     void
+	 */
+	public function initComentarios($overrideExisting = true)
+	{
+		if (null !== $this->collComentarios && !$overrideExisting) {
+			return;
+		}
+		$this->collComentarios = new PropelObjectCollection();
+		$this->collComentarios->setModel('Comentario');
+	}
+
+	/**
+	 * Gets an array of Comentario objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this Libro is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array Comentario[] List of Comentario objects
+	 * @throws     PropelException
+	 */
+	public function getComentarios($criteria = null, PropelPDO $con = null)
+	{
+		if(null === $this->collComentarios || null !== $criteria) {
+			if ($this->isNew() && null === $this->collComentarios) {
+				// return empty collection
+				$this->initComentarios();
+			} else {
+				$collComentarios = ComentarioQuery::create(null, $criteria)
+					->filterByLibro($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collComentarios;
+				}
+				$this->collComentarios = $collComentarios;
+			}
+		}
+		return $this->collComentarios;
+	}
+
+	/**
+	 * Sets a collection of Comentario objects related by a one-to-many relationship
+	 * to the current object.
+	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+	 * and new objects from the given Propel collection.
+	 *
+	 * @param      PropelCollection $comentarios A Propel collection.
+	 * @param      PropelPDO $con Optional connection object
+	 */
+	public function setComentarios(PropelCollection $comentarios, PropelPDO $con = null)
+	{
+		$this->comentariosScheduledForDeletion = $this->getComentarios(new Criteria(), $con)->diff($comentarios);
+
+		foreach ($comentarios as $comentario) {
+			// Fix issue with collection modified by reference
+			if ($comentario->isNew()) {
+				$comentario->setLibro($this);
+			}
+			$this->addComentario($comentario);
+		}
+
+		$this->collComentarios = $comentarios;
+	}
+
+	/**
+	 * Returns the number of related Comentario objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related Comentario objects.
+	 * @throws     PropelException
+	 */
+	public function countComentarios(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collComentarios || null !== $criteria) {
+			if ($this->isNew() && null === $this->collComentarios) {
+				return 0;
+			} else {
+				$query = ComentarioQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterByLibro($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collComentarios);
+		}
+	}
+
+	/**
+	 * Method called to associate a Comentario object to this object
+	 * through the Comentario foreign key attribute.
+	 *
+	 * @param      Comentario $l Comentario
+	 * @return     Libro The current object (for fluent API support)
+	 */
+	public function addComentario(Comentario $l)
+	{
+		if ($this->collComentarios === null) {
+			$this->initComentarios();
+		}
+		if (!$this->collComentarios->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddComentario($l);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param	Comentario $comentario The comentario object to add.
+	 */
+	protected function doAddComentario($comentario)
+	{
+		$this->collComentarios[]= $comentario;
+		$comentario->setLibro($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Libro is new, it will return
+	 * an empty collection; or if this Libro has previously
+	 * been saved, it will retrieve related Comentarios from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Libro.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return     PropelCollection|array Comentario[] List of Comentario objects
+	 */
+	public function getComentariosJoinUsuario($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$query = ComentarioQuery::create(null, $criteria);
+		$query->joinWith('Usuario', $join_behavior);
+
+		return $this->getComentarios($query, $con);
 	}
 
 	/**
@@ -2361,6 +3347,11 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 		$this->autor = null;
 		$this->image = null;
 		$this->sinopsis = null;
+		$this->fecha_ult_acc = null;
+		$this->hora_ult_acc = null;
+		$this->usuario_ult_acc = null;
+		$this->id_privacidad = null;
+		$this->es_editable = null;
 		$this->alreadyInSave = false;
 		$this->alreadyInValidation = false;
 		$this->clearAllReferences();
@@ -2383,6 +3374,16 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 		if ($deep) {
 			if ($this->collAudiolibros) {
 				foreach ($this->collAudiolibros as $o) {
+					$o->clearAllReferences($deep);
+				}
+			}
+			if ($this->collCalificacions) {
+				foreach ($this->collCalificacions as $o) {
+					$o->clearAllReferences($deep);
+				}
+			}
+			if ($this->collComentarios) {
+				foreach ($this->collComentarios as $o) {
 					$o->clearAllReferences($deep);
 				}
 			}
@@ -2417,6 +3418,14 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			$this->collAudiolibros->clearIterator();
 		}
 		$this->collAudiolibros = null;
+		if ($this->collCalificacions instanceof PropelCollection) {
+			$this->collCalificacions->clearIterator();
+		}
+		$this->collCalificacions = null;
+		if ($this->collComentarios instanceof PropelCollection) {
+			$this->collComentarios->clearIterator();
+		}
+		$this->collComentarios = null;
 		if ($this->collLibro_colaboradors instanceof PropelCollection) {
 			$this->collLibro_colaboradors->clearIterator();
 		}
@@ -2437,6 +3446,9 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			$this->collClasificadoss->clearIterator();
 		}
 		$this->collClasificadoss = null;
+		$this->aUsuario = null;
+		$this->aPrivacidad = null;
+		$this->aGenero = null;
 	}
 
 	/**

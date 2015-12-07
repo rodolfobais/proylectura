@@ -9,14 +9,12 @@
  * @method     ListaQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ListaQuery orderByNombre($order = Criteria::ASC) Order by the nombre column
  * @method     ListaQuery orderByFecha($order = Criteria::ASC) Order by the fecha column
- * @method     ListaQuery orderById_visibilidad($order = Criteria::ASC) Order by the id_visibilidad column
  * @method     ListaQuery orderById_usuario($order = Criteria::ASC) Order by the id_usuario column
  * @method     ListaQuery orderById_genero($order = Criteria::ASC) Order by the id_genero column
  *
  * @method     ListaQuery groupById() Group by the id column
  * @method     ListaQuery groupByNombre() Group by the nombre column
  * @method     ListaQuery groupByFecha() Group by the fecha column
- * @method     ListaQuery groupById_visibilidad() Group by the id_visibilidad column
  * @method     ListaQuery groupById_usuario() Group by the id_usuario column
  * @method     ListaQuery groupById_genero() Group by the id_genero column
  *
@@ -42,14 +40,12 @@
  * @method     Lista findOneById(int $id) Return the first Lista filtered by the id column
  * @method     Lista findOneByNombre(string $nombre) Return the first Lista filtered by the nombre column
  * @method     Lista findOneByFecha(string $fecha) Return the first Lista filtered by the fecha column
- * @method     Lista findOneById_visibilidad(int $id_visibilidad) Return the first Lista filtered by the id_visibilidad column
  * @method     Lista findOneById_usuario(int $id_usuario) Return the first Lista filtered by the id_usuario column
  * @method     Lista findOneById_genero(int $id_genero) Return the first Lista filtered by the id_genero column
  *
  * @method     array findById(int $id) Return Lista objects filtered by the id column
  * @method     array findByNombre(string $nombre) Return Lista objects filtered by the nombre column
  * @method     array findByFecha(string $fecha) Return Lista objects filtered by the fecha column
- * @method     array findById_visibilidad(int $id_visibilidad) Return Lista objects filtered by the id_visibilidad column
  * @method     array findById_usuario(int $id_usuario) Return Lista objects filtered by the id_usuario column
  * @method     array findById_genero(int $id_genero) Return Lista objects filtered by the id_genero column
  *
@@ -140,7 +136,7 @@ abstract class BaseListaQuery extends ModelCriteria
 	 */
 	protected function findPkSimple($key, $con)
 	{
-		$sql = 'SELECT `ID`, `NOMBRE`, `FECHA`, `ID_VISIBILIDAD`, `ID_USUARIO`, `ID_GENERO` FROM `lista` WHERE `ID` = :p0';
+		$sql = 'SELECT `ID`, `NOMBRE`, `FECHA`, `ID_USUARIO`, `ID_GENERO` FROM `lista` WHERE `ID` = :p0';
 		try {
 			$stmt = $con->prepare($sql);
 			$stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -319,46 +315,6 @@ abstract class BaseListaQuery extends ModelCriteria
 			}
 		}
 		return $this->addUsingAlias(ListaPeer::FECHA, $fecha, $comparison);
-	}
-
-	/**
-	 * Filter the query on the id_visibilidad column
-	 *
-	 * Example usage:
-	 * <code>
-	 * $query->filterById_visibilidad(1234); // WHERE id_visibilidad = 1234
-	 * $query->filterById_visibilidad(array(12, 34)); // WHERE id_visibilidad IN (12, 34)
-	 * $query->filterById_visibilidad(array('min' => 12)); // WHERE id_visibilidad > 12
-	 * </code>
-	 *
-	 * @param     mixed $id_visibilidad The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    ListaQuery The current query, for fluid interface
-	 */
-	public function filterById_visibilidad($id_visibilidad = null, $comparison = null)
-	{
-		if (is_array($id_visibilidad)) {
-			$useMinMax = false;
-			if (isset($id_visibilidad['min'])) {
-				$this->addUsingAlias(ListaPeer::ID_VISIBILIDAD, $id_visibilidad['min'], Criteria::GREATER_EQUAL);
-				$useMinMax = true;
-			}
-			if (isset($id_visibilidad['max'])) {
-				$this->addUsingAlias(ListaPeer::ID_VISIBILIDAD, $id_visibilidad['max'], Criteria::LESS_EQUAL);
-				$useMinMax = true;
-			}
-			if ($useMinMax) {
-				return $this;
-			}
-			if (null === $comparison) {
-				$comparison = Criteria::IN;
-			}
-		}
-		return $this->addUsingAlias(ListaPeer::ID_VISIBILIDAD, $id_visibilidad, $comparison);
 	}
 
 	/**

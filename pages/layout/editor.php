@@ -34,12 +34,6 @@ if(array_key_exists("id", $_GET)){
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
         <style>
             #etiquetaGuardado{
                 color: green;
@@ -48,23 +42,18 @@ if(array_key_exists("id", $_GET)){
         </style>
     </head>
     <body>
-        <!---start-wrap---->
-       
-				
-        <!---end-header---->
-        <!--start-image-slider---->
         <div class="wrap">
             <div class="box box-info">
                 <div class="box-header">
                     <input type="text" placeholder="Nombre del proyecto" class="form-control" value="<?=$nombreLibro?>" id="nombrelibro" style="width: 70%">
                     <div class="pull-right box-tools">
                         <button class="btn btn-info btn-sm" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                        <button class="btn btn-info btn-sm" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
                     </div><!-- /. tools -->
                 </div><!-- /.box-header -->
                 <div class="box-body pad">
                     <form id="formeditor">
                         <input type="hidden" id="idlibro" value="<?=$idlibro?>"/>
+                        <input type="hidden" id="ultimaaccion" value=""/>
                         <textarea id="editor1" name="editor1" rows="10" cols="80"><?=$texto?></textarea>
                     </form>
                     <button class="btn btn-block btn-default" onclick="guardarversion()">Guardar&nbsp;<span id="etiquetaGuardado">(Guardado correctamente)</span></button>

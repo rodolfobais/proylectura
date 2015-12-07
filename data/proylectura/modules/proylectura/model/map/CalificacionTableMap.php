@@ -40,8 +40,8 @@ class CalificacionTableMap extends TableMap
 		// columns
 		$this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
 		$this->addColumn('PUNTUACION', 'Puntuacion', 'INTEGER', true, null, null);
-		$this->addColumn('ID_USUARIO', 'Id_usuario', 'INTEGER', true, null, null);
-		$this->addColumn('ID_LIBRO', 'Id_libro', 'INTEGER', true, null, null);
+		$this->addForeignKey('ID_USUARIO', 'Id_usuario', 'INTEGER', 'usuario', 'ID', true, null, null);
+		$this->addForeignKey('ID_LIBRO', 'Id_libro', 'INTEGER', 'libro', 'ID', true, null, null);
 		// validators
 	} // initialize()
 
@@ -50,6 +50,8 @@ class CalificacionTableMap extends TableMap
 	 */
 	public function buildRelations()
 	{
+		$this->addRelation('Usuario', 'Usuario', RelationMap::MANY_TO_ONE, array('id_usuario' => 'id', ), null, null);
+		$this->addRelation('Libro', 'Libro', RelationMap::MANY_TO_ONE, array('id_libro' => 'id', ), null, null);
 	} // buildRelations()
 
 } // CalificacionTableMap

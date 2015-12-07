@@ -49,6 +49,37 @@ switch ($datos->acc) {
         file_put_contents(SITE_PATH."/libros_version/libro_".$idLibro."_".$libroVersion->getId().".txt",  base64_decode($datos->texto));
         echo json_encode(array('msg' => "Libro guardado correctamente", 'idlibro' => $idLibro));
     break;
+    case "marcarActividad":
+        $fecha = date("Y-m-d");
+        $hora = date("h:i:s");
+        
+        $libroObj = LibroQuery::create()->findOneById($datos->idlibro);
+        $libroObj->setFecha_ult_acc($fecha);
+        $libroObj->setHora_ult_acc($hora);
+        $libroObj->setUsuario_ult_acc($_SESSION['userid']);
+        $libroObj->save();
+        
+        
+        
+        
+        echo json_encode(array( 'fecha' => $fecha." ".$hora));
+    break;
+    case "VerificarActividad":
+        $fechaActual = date("Y-m-d");
+        $horaActual = date("h:i:s");
+        $libroObj = LibroQuery::create()->findOneById($datos->idlibro);
+        $usuario = $libroObj->getUsuario()->getNombre();
+        //diferencia
+        $desde = $libroObj->getFecha_ult_acc()." ".$libroObj->getHora_ult_acc();
+        $hasta = $fechaActual." ".$horaActual;
+        $segundos=strtotime($hasta) - strtotime($desde);
+        $diferencia_minutos=intval($segundos/60);
+        
+        echo json_encode(array( 
+            'diferencia_minutos' => $diferencia_minutos, 
+            'usuario_bloqueador' => $libroObj->getUsuario()->getNombre()
+        ));
+    break;
 }
 
 
