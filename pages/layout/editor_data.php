@@ -80,6 +80,13 @@ switch ($datos->acc) {
             'usuario_bloqueador' => $libroObj->getUsuario()->getNombre()
         ));
     break;
+    case "vistaPrevia":
+        $texto = file_get_contents(SITE_PATH."/libros/libro_".$datos->idlibro.".txt");
+        $html = base64_decode($texto);
+        echo json_encode(array( 
+            'html' => $html
+        ));
+    break;
 }
 
 

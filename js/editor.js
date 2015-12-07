@@ -1,9 +1,7 @@
 var tiempoGuardAut = 30000;
 
 function habilitareditor(){
-    var actividad = VerificarActividad();
-    alert(actividad.diferencia_minutos);
-    alert(actividad.usuario_bloqueador);
+    VerificarActividad();
     CKEDITOR.replace('editor1');
     setTimeout(function(){ 
         guardadoAutomatico();
@@ -130,4 +128,24 @@ function VerificarActividad(){
             
         }
    });
+}
+function vistaPrevia(){
+    guardarlibro();
+    var json = {
+        idlibro: $("#idlibro").val(),
+        acc: "vistaPrevia"
+    };
+    $.ajax({
+        data: {json: $.toJSON(json) },
+        type: 'POST',
+        dataType: 'json',
+        url: 'pages/layout/editor_data.php',
+        success: function(data){
+            $("#vistaPrevia").html(data.html);
+        }
+   });
+}
+function verPdf(){
+    guardarlibro();
+    window.location.href = "pages/layout/generarlibropdf.php?id="+$("#idlibro").val();
 }

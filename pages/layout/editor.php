@@ -56,10 +56,13 @@ if(array_key_exists("id", $_GET)){
                         <input type="hidden" id="ultimaaccion" value=""/>
                         <textarea id="editor1" name="editor1" rows="10" cols="80"><?=$texto?></textarea>
                     </form>
-                    <button class="btn btn-block btn-default" onclick="guardarversion()">Guardar&nbsp;<span id="etiquetaGuardado">(Guardado correctamente)</span></button>
+                    <button class="btn btn-default" onclick="verPdf()" style="width: 24%" >Ver PDF</button>
+                    <button class="btn btn-default" onclick="vistaPrevia()" style="width: 24%" >Vista previa</button>
+                    <button class="btn btn-default" onclick="guardarversion()" style="width: 51%" >Guardar&nbsp;<span id="etiquetaGuardado">(Guardado correctamente)</span></button>
                 </div>
               </div>
             <div class="clear"> </div>
+            <div id="vistaPrevia" style="padding: 15px;"></div>
         </div>
     </body>
 </html>
