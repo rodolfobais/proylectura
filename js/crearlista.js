@@ -2,9 +2,9 @@
 function buscar(){
             var busqueda = document.getElementById('audiolibro').value;
 			$.ajax({
-				url: "php/audiolibro_gw.php?op=bu",//Le paso las variables a esta url Nota: envio con opcion "mo"
+				url: "pages/layout/audiolibro_gw.php?op=bu",//Le paso las variables a esta url Nota: envio con opcion "mo"
 				type: "POST", //a travès de POST
-				data: 'busqueda='+busqueda,		
+				data: 'busqueda='+busqueda,	
 				cache: false,
 				success: function (html) {	//Devuelve la respuesta de la url en la variable html			
 					
@@ -13,21 +13,16 @@ function buscar(){
 				}		
 			});
         }
-		
 		var audiolibrosAgregados = Array();
-			
 		function sumarAudiolibro(id){
-				
 			audiolibrosAgregados.push(id);
 			$.ajax({
-				url: "php/audiolibro_gw.php?op=agaudiolibro",//Le paso las variables a esta url Nota: envio con opcion "mo"
+				url: "{$PROJECT_REL_DIR}/pages/layout/audiolibro_gw.php?op=agaudiolibro",//Le paso las variables a esta url Nota: envio con opcion "mo"
 				type: "POST", //a travès de POST
 				data: 'audiolibros='+audiolibrosAgregados+'&ultimoagregado='+id,		
 				cache: false,
-				success: function (html) {	//Devuelve la respuesta de la url en la variable html			
-					
+				success: function (html) {	//Devuelve la respuesta de la url en la variable html
 					 document.getElementById('audiolibrossumados').innerHTML=html;
-                   
 				}		
 			});
 			
@@ -46,7 +41,6 @@ function buscar(){
 				success: function (html) {	//Devuelve la respuesta de la url en la variable html			
 					
 					 document.getElementById('audiolibrossumados').innerHTML=html;
-                   
 				}		
 			});
 			
@@ -69,9 +63,6 @@ function buscar(){
 			});
 			
 		}
-		
-		
-		
 		function preguntosicomparte(){
 			if(document.getElementById('privacidadlista').value==2){
 				document.getElementById('DivCompartir').style.display="block";
