@@ -62,7 +62,7 @@ if(array_key_exists("id", $_GET)){
                 </div>
               </div>
             <div class="clear"> </div>
-            <div id="vistaPrevia" style="padding: 15px;"></div>
+            <div id="vistaPrevia" style="padding: 15px;" class="box"></div>
         </div>
     </body>
 </html>
