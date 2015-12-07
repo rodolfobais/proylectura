@@ -47,7 +47,7 @@
               </a>
                 <ul class="treeview-menu">
                     <li><a onclick="refreshDivs('cuerpocentro','pages/layout/clasificados.php')"><i class="fa fa-circle-o"></i> Clasificados</a></li>
-                    <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> Listado</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/clasificados_lista.php')"><i class="fa fa-circle-o"></i> Listado</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -86,9 +86,11 @@
                     <li><a onclick="refreshDivs('cuerpocentro','pages/layout/generos.php')"><i class="fa fa-circle-o"></i> Generos</a></li>
                 </ul>
             </li>  
-            <div class="reproductor" id="contenedorReproductor">
-                <embed src="reproductor/dewplayer-playlist.swf" height="200" width="240" wmode="transparent" flashvars="xml=listas/<?php echo $ultimaCreada; ?>.xml&autoplay=0&autoreplay=1&randomplay=0&volume=100"></embed>
-            </div>
+            <li class="treeview">
+                <div class="reproductor" id="contenedorReproductor">
+                    <embed src="reproductor/dewplayer-playlist.swf" height="200" width="240" wmode="transparent"></embed>
+                </div>
+            </li>
           </ul>
         </section>
         <!-- /.sidebar -->
