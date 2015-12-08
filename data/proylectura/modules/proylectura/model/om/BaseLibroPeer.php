@@ -23,13 +23,13 @@ abstract class BaseLibroPeer {
 	const TM_CLASS = 'LibroTableMap';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 13;
+	const NUM_COLUMNS = 14;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
 	/** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-	const NUM_HYDRATE_COLUMNS = 13;
+	const NUM_HYDRATE_COLUMNS = 14;
 
 	/** the column name for the ID field */
 	const ID = 'libro.ID';
@@ -70,6 +70,9 @@ abstract class BaseLibroPeer {
 	/** the column name for the ID_USUARIO field */
 	const ID_USUARIO = 'libro.ID_USUARIO';
 
+	/** the column name for the DEBAJA field */
+	const DEBAJA = 'libro.DEBAJA';
+
 	/** The default string format for model objects of the related table **/
 	const DEFAULT_STRING_FORMAT = 'YAML';
 
@@ -89,12 +92,12 @@ abstract class BaseLibroPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	protected static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Nombre', 'Fecha', 'Id_genero', 'Autor', 'Image', 'Sinopsis', 'Fecha_ult_acc', 'Hora_ult_acc', 'Usuario_ult_acc', 'Id_privacidad', 'Es_editable', 'Id_usuario', ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'nombre', 'fecha', 'id_genero', 'autor', 'image', 'sinopsis', 'fecha_ult_acc', 'hora_ult_acc', 'usuario_ult_acc', 'id_privacidad', 'es_editable', 'id_usuario', ),
-		BasePeer::TYPE_COLNAME => array (self::ID, self::NOMBRE, self::FECHA, self::ID_GENERO, self::AUTOR, self::IMAGE, self::SINOPSIS, self::FECHA_ULT_ACC, self::HORA_ULT_ACC, self::USUARIO_ULT_ACC, self::ID_PRIVACIDAD, self::ES_EDITABLE, self::ID_USUARIO, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'NOMBRE', 'FECHA', 'ID_GENERO', 'AUTOR', 'IMAGE', 'SINOPSIS', 'FECHA_ULT_ACC', 'HORA_ULT_ACC', 'USUARIO_ULT_ACC', 'ID_PRIVACIDAD', 'ES_EDITABLE', 'ID_USUARIO', ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'nombre', 'fecha', 'id_genero', 'autor', 'image', 'sinopsis', 'fecha_ult_acc', 'hora_ult_acc', 'usuario_ult_acc', 'id_privacidad', 'es_editable', 'id_usuario', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Nombre', 'Fecha', 'Id_genero', 'Autor', 'Image', 'Sinopsis', 'Fecha_ult_acc', 'Hora_ult_acc', 'Usuario_ult_acc', 'Id_privacidad', 'Es_editable', 'Id_usuario', 'Debaja', ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'nombre', 'fecha', 'id_genero', 'autor', 'image', 'sinopsis', 'fecha_ult_acc', 'hora_ult_acc', 'usuario_ult_acc', 'id_privacidad', 'es_editable', 'id_usuario', 'debaja', ),
+		BasePeer::TYPE_COLNAME => array (self::ID, self::NOMBRE, self::FECHA, self::ID_GENERO, self::AUTOR, self::IMAGE, self::SINOPSIS, self::FECHA_ULT_ACC, self::HORA_ULT_ACC, self::USUARIO_ULT_ACC, self::ID_PRIVACIDAD, self::ES_EDITABLE, self::ID_USUARIO, self::DEBAJA, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'NOMBRE', 'FECHA', 'ID_GENERO', 'AUTOR', 'IMAGE', 'SINOPSIS', 'FECHA_ULT_ACC', 'HORA_ULT_ACC', 'USUARIO_ULT_ACC', 'ID_PRIVACIDAD', 'ES_EDITABLE', 'ID_USUARIO', 'DEBAJA', ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'nombre', 'fecha', 'id_genero', 'autor', 'image', 'sinopsis', 'fecha_ult_acc', 'hora_ult_acc', 'usuario_ult_acc', 'id_privacidad', 'es_editable', 'id_usuario', 'debaja', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
 	);
 
 	/**
@@ -104,12 +107,12 @@ abstract class BaseLibroPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	protected static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Nombre' => 1, 'Fecha' => 2, 'Id_genero' => 3, 'Autor' => 4, 'Image' => 5, 'Sinopsis' => 6, 'Fecha_ult_acc' => 7, 'Hora_ult_acc' => 8, 'Usuario_ult_acc' => 9, 'Id_privacidad' => 10, 'Es_editable' => 11, 'Id_usuario' => 12, ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'nombre' => 1, 'fecha' => 2, 'id_genero' => 3, 'autor' => 4, 'image' => 5, 'sinopsis' => 6, 'fecha_ult_acc' => 7, 'hora_ult_acc' => 8, 'usuario_ult_acc' => 9, 'id_privacidad' => 10, 'es_editable' => 11, 'id_usuario' => 12, ),
-		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::NOMBRE => 1, self::FECHA => 2, self::ID_GENERO => 3, self::AUTOR => 4, self::IMAGE => 5, self::SINOPSIS => 6, self::FECHA_ULT_ACC => 7, self::HORA_ULT_ACC => 8, self::USUARIO_ULT_ACC => 9, self::ID_PRIVACIDAD => 10, self::ES_EDITABLE => 11, self::ID_USUARIO => 12, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'NOMBRE' => 1, 'FECHA' => 2, 'ID_GENERO' => 3, 'AUTOR' => 4, 'IMAGE' => 5, 'SINOPSIS' => 6, 'FECHA_ULT_ACC' => 7, 'HORA_ULT_ACC' => 8, 'USUARIO_ULT_ACC' => 9, 'ID_PRIVACIDAD' => 10, 'ES_EDITABLE' => 11, 'ID_USUARIO' => 12, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'nombre' => 1, 'fecha' => 2, 'id_genero' => 3, 'autor' => 4, 'image' => 5, 'sinopsis' => 6, 'fecha_ult_acc' => 7, 'hora_ult_acc' => 8, 'usuario_ult_acc' => 9, 'id_privacidad' => 10, 'es_editable' => 11, 'id_usuario' => 12, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Nombre' => 1, 'Fecha' => 2, 'Id_genero' => 3, 'Autor' => 4, 'Image' => 5, 'Sinopsis' => 6, 'Fecha_ult_acc' => 7, 'Hora_ult_acc' => 8, 'Usuario_ult_acc' => 9, 'Id_privacidad' => 10, 'Es_editable' => 11, 'Id_usuario' => 12, 'Debaja' => 13, ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'nombre' => 1, 'fecha' => 2, 'id_genero' => 3, 'autor' => 4, 'image' => 5, 'sinopsis' => 6, 'fecha_ult_acc' => 7, 'hora_ult_acc' => 8, 'usuario_ult_acc' => 9, 'id_privacidad' => 10, 'es_editable' => 11, 'id_usuario' => 12, 'debaja' => 13, ),
+		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::NOMBRE => 1, self::FECHA => 2, self::ID_GENERO => 3, self::AUTOR => 4, self::IMAGE => 5, self::SINOPSIS => 6, self::FECHA_ULT_ACC => 7, self::HORA_ULT_ACC => 8, self::USUARIO_ULT_ACC => 9, self::ID_PRIVACIDAD => 10, self::ES_EDITABLE => 11, self::ID_USUARIO => 12, self::DEBAJA => 13, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'NOMBRE' => 1, 'FECHA' => 2, 'ID_GENERO' => 3, 'AUTOR' => 4, 'IMAGE' => 5, 'SINOPSIS' => 6, 'FECHA_ULT_ACC' => 7, 'HORA_ULT_ACC' => 8, 'USUARIO_ULT_ACC' => 9, 'ID_PRIVACIDAD' => 10, 'ES_EDITABLE' => 11, 'ID_USUARIO' => 12, 'DEBAJA' => 13, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'nombre' => 1, 'fecha' => 2, 'id_genero' => 3, 'autor' => 4, 'image' => 5, 'sinopsis' => 6, 'fecha_ult_acc' => 7, 'hora_ult_acc' => 8, 'usuario_ult_acc' => 9, 'id_privacidad' => 10, 'es_editable' => 11, 'id_usuario' => 12, 'debaja' => 13, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
 	);
 
 	/**
@@ -194,6 +197,7 @@ abstract class BaseLibroPeer {
 			$criteria->addSelectColumn(LibroPeer::ID_PRIVACIDAD);
 			$criteria->addSelectColumn(LibroPeer::ES_EDITABLE);
 			$criteria->addSelectColumn(LibroPeer::ID_USUARIO);
+			$criteria->addSelectColumn(LibroPeer::DEBAJA);
 		} else {
 			$criteria->addSelectColumn($alias . '.ID');
 			$criteria->addSelectColumn($alias . '.NOMBRE');
@@ -208,6 +212,7 @@ abstract class BaseLibroPeer {
 			$criteria->addSelectColumn($alias . '.ID_PRIVACIDAD');
 			$criteria->addSelectColumn($alias . '.ES_EDITABLE');
 			$criteria->addSelectColumn($alias . '.ID_USUARIO');
+			$criteria->addSelectColumn($alias . '.DEBAJA');
 		}
 	}
 

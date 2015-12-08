@@ -84,6 +84,14 @@
  * @method     UsuarioQuery rightJoinNotificacionRelatedById_receptor($relationAlias = null) Adds a RIGHT JOIN clause to the query using the NotificacionRelatedById_receptor relation
  * @method     UsuarioQuery innerJoinNotificacionRelatedById_receptor($relationAlias = null) Adds a INNER JOIN clause to the query using the NotificacionRelatedById_receptor relation
  *
+ * @method     UsuarioQuery leftJoinSolicitud_amistadRelatedById_libro($relationAlias = null) Adds a LEFT JOIN clause to the query using the Solicitud_amistadRelatedById_libro relation
+ * @method     UsuarioQuery rightJoinSolicitud_amistadRelatedById_libro($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Solicitud_amistadRelatedById_libro relation
+ * @method     UsuarioQuery innerJoinSolicitud_amistadRelatedById_libro($relationAlias = null) Adds a INNER JOIN clause to the query using the Solicitud_amistadRelatedById_libro relation
+ *
+ * @method     UsuarioQuery leftJoinSolicitud_amistadRelatedById_usuario_solicitante($relationAlias = null) Adds a LEFT JOIN clause to the query using the Solicitud_amistadRelatedById_usuario_solicitante relation
+ * @method     UsuarioQuery rightJoinSolicitud_amistadRelatedById_usuario_solicitante($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Solicitud_amistadRelatedById_usuario_solicitante relation
+ * @method     UsuarioQuery innerJoinSolicitud_amistadRelatedById_usuario_solicitante($relationAlias = null) Adds a INNER JOIN clause to the query using the Solicitud_amistadRelatedById_usuario_solicitante relation
+ *
  * @method     UsuarioQuery leftJoinSolicitud($relationAlias = null) Adds a LEFT JOIN clause to the query using the Solicitud relation
  * @method     UsuarioQuery rightJoinSolicitud($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Solicitud relation
  * @method     UsuarioQuery innerJoinSolicitud($relationAlias = null) Adds a INNER JOIN clause to the query using the Solicitud relation
@@ -1539,6 +1547,152 @@ abstract class BaseUsuarioQuery extends ModelCriteria
 		return $this
 			->joinNotificacionRelatedById_receptor($relationAlias, $joinType)
 			->useQuery($relationAlias ? $relationAlias : 'NotificacionRelatedById_receptor', 'NotificacionQuery');
+	}
+
+	/**
+	 * Filter the query by a related Solicitud_amistad object
+	 *
+	 * @param     Solicitud_amistad $solicitud_amistad  the related object to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    UsuarioQuery The current query, for fluid interface
+	 */
+	public function filterBySolicitud_amistadRelatedById_libro($solicitud_amistad, $comparison = null)
+	{
+		if ($solicitud_amistad instanceof Solicitud_amistad) {
+			return $this
+				->addUsingAlias(UsuarioPeer::ID, $solicitud_amistad->getId_libro(), $comparison);
+		} elseif ($solicitud_amistad instanceof PropelCollection) {
+			return $this
+				->useSolicitud_amistadRelatedById_libroQuery()
+				->filterByPrimaryKeys($solicitud_amistad->getPrimaryKeys())
+				->endUse();
+		} else {
+			throw new PropelException('filterBySolicitud_amistadRelatedById_libro() only accepts arguments of type Solicitud_amistad or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the Solicitud_amistadRelatedById_libro relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    UsuarioQuery The current query, for fluid interface
+	 */
+	public function joinSolicitud_amistadRelatedById_libro($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('Solicitud_amistadRelatedById_libro');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'Solicitud_amistadRelatedById_libro');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the Solicitud_amistadRelatedById_libro relation Solicitud_amistad object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    Solicitud_amistadQuery A secondary query class using the current class as primary query
+	 */
+	public function useSolicitud_amistadRelatedById_libroQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinSolicitud_amistadRelatedById_libro($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Solicitud_amistadRelatedById_libro', 'Solicitud_amistadQuery');
+	}
+
+	/**
+	 * Filter the query by a related Solicitud_amistad object
+	 *
+	 * @param     Solicitud_amistad $solicitud_amistad  the related object to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    UsuarioQuery The current query, for fluid interface
+	 */
+	public function filterBySolicitud_amistadRelatedById_usuario_solicitante($solicitud_amistad, $comparison = null)
+	{
+		if ($solicitud_amistad instanceof Solicitud_amistad) {
+			return $this
+				->addUsingAlias(UsuarioPeer::ID, $solicitud_amistad->getId_usuario_solicitante(), $comparison);
+		} elseif ($solicitud_amistad instanceof PropelCollection) {
+			return $this
+				->useSolicitud_amistadRelatedById_usuario_solicitanteQuery()
+				->filterByPrimaryKeys($solicitud_amistad->getPrimaryKeys())
+				->endUse();
+		} else {
+			throw new PropelException('filterBySolicitud_amistadRelatedById_usuario_solicitante() only accepts arguments of type Solicitud_amistad or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the Solicitud_amistadRelatedById_usuario_solicitante relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    UsuarioQuery The current query, for fluid interface
+	 */
+	public function joinSolicitud_amistadRelatedById_usuario_solicitante($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('Solicitud_amistadRelatedById_usuario_solicitante');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'Solicitud_amistadRelatedById_usuario_solicitante');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the Solicitud_amistadRelatedById_usuario_solicitante relation Solicitud_amistad object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    Solicitud_amistadQuery A secondary query class using the current class as primary query
+	 */
+	public function useSolicitud_amistadRelatedById_usuario_solicitanteQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinSolicitud_amistadRelatedById_usuario_solicitante($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Solicitud_amistadRelatedById_usuario_solicitante', 'Solicitud_amistadQuery');
 	}
 
 	/**

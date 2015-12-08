@@ -19,6 +19,7 @@
  * @method     LibroQuery orderById_privacidad($order = Criteria::ASC) Order by the id_privacidad column
  * @method     LibroQuery orderByEs_editable($order = Criteria::ASC) Order by the es_editable column
  * @method     LibroQuery orderById_usuario($order = Criteria::ASC) Order by the id_usuario column
+ * @method     LibroQuery orderByDebaja($order = Criteria::ASC) Order by the debaja column
  *
  * @method     LibroQuery groupById() Group by the id column
  * @method     LibroQuery groupByNombre() Group by the nombre column
@@ -33,6 +34,7 @@
  * @method     LibroQuery groupById_privacidad() Group by the id_privacidad column
  * @method     LibroQuery groupByEs_editable() Group by the es_editable column
  * @method     LibroQuery groupById_usuario() Group by the id_usuario column
+ * @method     LibroQuery groupByDebaja() Group by the debaja column
  *
  * @method     LibroQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     LibroQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -106,6 +108,7 @@
  * @method     Libro findOneById_privacidad(int $id_privacidad) Return the first Libro filtered by the id_privacidad column
  * @method     Libro findOneByEs_editable(string $es_editable) Return the first Libro filtered by the es_editable column
  * @method     Libro findOneById_usuario(int $id_usuario) Return the first Libro filtered by the id_usuario column
+ * @method     Libro findOneByDebaja(string $debaja) Return the first Libro filtered by the debaja column
  *
  * @method     array findById(int $id) Return Libro objects filtered by the id column
  * @method     array findByNombre(string $nombre) Return Libro objects filtered by the nombre column
@@ -120,6 +123,7 @@
  * @method     array findById_privacidad(int $id_privacidad) Return Libro objects filtered by the id_privacidad column
  * @method     array findByEs_editable(string $es_editable) Return Libro objects filtered by the es_editable column
  * @method     array findById_usuario(int $id_usuario) Return Libro objects filtered by the id_usuario column
+ * @method     array findByDebaja(string $debaja) Return Libro objects filtered by the debaja column
  *
  * @package    propel.generator.proylectura.model.om
  */
@@ -208,7 +212,7 @@ abstract class BaseLibroQuery extends ModelCriteria
 	 */
 	protected function findPkSimple($key, $con)
 	{
-		$sql = 'SELECT `ID`, `NOMBRE`, `FECHA`, `ID_GENERO`, `AUTOR`, `IMAGE`, `SINOPSIS`, `FECHA_ULT_ACC`, `HORA_ULT_ACC`, `USUARIO_ULT_ACC`, `ID_PRIVACIDAD`, `ES_EDITABLE`, `ID_USUARIO` FROM `libro` WHERE `ID` = :p0';
+		$sql = 'SELECT `ID`, `NOMBRE`, `FECHA`, `ID_GENERO`, `AUTOR`, `IMAGE`, `SINOPSIS`, `FECHA_ULT_ACC`, `HORA_ULT_ACC`, `USUARIO_ULT_ACC`, `ID_PRIVACIDAD`, `ES_EDITABLE`, `ID_USUARIO`, `DEBAJA` FROM `libro` WHERE `ID` = :p0';
 		try {
 			$stmt = $con->prepare($sql);
 			$stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -737,6 +741,34 @@ abstract class BaseLibroQuery extends ModelCriteria
 			}
 		}
 		return $this->addUsingAlias(LibroPeer::ID_USUARIO, $id_usuario, $comparison);
+	}
+
+	/**
+	 * Filter the query on the debaja column
+	 *
+	 * Example usage:
+	 * <code>
+	 * $query->filterByDebaja('fooValue');   // WHERE debaja = 'fooValue'
+	 * $query->filterByDebaja('%fooValue%'); // WHERE debaja LIKE '%fooValue%'
+	 * </code>
+	 *
+	 * @param     string $debaja The value to use as filter.
+	 *              Accepts wildcards (* and % trigger a LIKE)
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    LibroQuery The current query, for fluid interface
+	 */
+	public function filterByDebaja($debaja = null, $comparison = null)
+	{
+		if (null === $comparison) {
+			if (is_array($debaja)) {
+				$comparison = Criteria::IN;
+			} elseif (preg_match('/[\%\*]/', $debaja)) {
+				$debaja = str_replace('*', '%', $debaja);
+				$comparison = Criteria::LIKE;
+			}
+		}
+		return $this->addUsingAlias(LibroPeer::DEBAJA, $debaja, $comparison);
 	}
 
 	/**

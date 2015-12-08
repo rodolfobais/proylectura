@@ -51,6 +51,7 @@ class LibroTableMap extends TableMap
 		$this->addForeignKey('ID_PRIVACIDAD', 'Id_privacidad', 'INTEGER', 'privacidad', 'ID', false, null, null);
 		$this->addColumn('ES_EDITABLE', 'Es_editable', 'CHAR', false, 1, null);
 		$this->addForeignKey('ID_USUARIO', 'Id_usuario', 'INTEGER', 'usuario', 'ID', false, null, null);
+		$this->addColumn('DEBAJA', 'Debaja', 'CHAR', false, 1, null);
 		// validators
 	} // initialize()
 

@@ -109,6 +109,12 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	protected $id_usuario;
 
 	/**
+	 * The value for the debaja field.
+	 * @var        string
+	 */
+	protected $debaja;
+
+	/**
 	 * @var        Usuario
 	 */
 	protected $aUsuarioRelatedByUsuario_ult_acc;
@@ -428,6 +434,16 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	}
 
 	/**
+	 * Get the [debaja] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getDebaja()
+	{
+		return $this->debaja;
+	}
+
+	/**
 	 * Set the value of [id] column.
 	 * 
 	 * @param      int $v new value
@@ -708,6 +724,26 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	} // setId_usuario()
 
 	/**
+	 * Set the value of [debaja] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     Libro The current object (for fluent API support)
+	 */
+	public function setDebaja($v)
+	{
+		if ($v !== null) {
+			$v = (string) $v;
+		}
+
+		if ($this->debaja !== $v) {
+			$this->debaja = $v;
+			$this->modifiedColumns[] = LibroPeer::DEBAJA;
+		}
+
+		return $this;
+	} // setDebaja()
+
+	/**
 	 * Indicates whether the columns in this object are only set to default values.
 	 *
 	 * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -752,6 +788,7 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			$this->id_privacidad = ($row[$startcol + 10] !== null) ? (int) $row[$startcol + 10] : null;
 			$this->es_editable = ($row[$startcol + 11] !== null) ? (string) $row[$startcol + 11] : null;
 			$this->id_usuario = ($row[$startcol + 12] !== null) ? (int) $row[$startcol + 12] : null;
+			$this->debaja = ($row[$startcol + 13] !== null) ? (string) $row[$startcol + 13] : null;
 			$this->resetModified();
 
 			$this->setNew(false);
@@ -760,7 +797,7 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 				$this->ensureConsistency();
 			}
 
-			return $startcol + 13; // 13 = LibroPeer::NUM_HYDRATE_COLUMNS.
+			return $startcol + 14; // 14 = LibroPeer::NUM_HYDRATE_COLUMNS.
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Libro object", $e);
@@ -1227,6 +1264,9 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 		if ($this->isColumnModified(LibroPeer::ID_USUARIO)) {
 			$modifiedColumns[':p' . $index++]  = '`ID_USUARIO`';
 		}
+		if ($this->isColumnModified(LibroPeer::DEBAJA)) {
+			$modifiedColumns[':p' . $index++]  = '`DEBAJA`';
+		}
 
 		$sql = sprintf(
 			'INSERT INTO `libro` (%s) VALUES (%s)',
@@ -1276,6 +1316,9 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 						break;
 					case '`ID_USUARIO`':
 						$stmt->bindValue($identifier, $this->id_usuario, PDO::PARAM_INT);
+						break;
+					case '`DEBAJA`':
+						$stmt->bindValue($identifier, $this->debaja, PDO::PARAM_STR);
 						break;
 				}
 			}
@@ -1548,6 +1591,9 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			case 12:
 				return $this->getId_usuario();
 				break;
+			case 13:
+				return $this->getDebaja();
+				break;
 			default:
 				return null;
 				break;
@@ -1590,6 +1636,7 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			$keys[10] => $this->getId_privacidad(),
 			$keys[11] => $this->getEs_editable(),
 			$keys[12] => $this->getId_usuario(),
+			$keys[13] => $this->getDebaja(),
 		);
 		if ($includeForeignObjects) {
 			if (null !== $this->aUsuarioRelatedByUsuario_ult_acc) {
@@ -1701,6 +1748,9 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			case 12:
 				$this->setId_usuario($value);
 				break;
+			case 13:
+				$this->setDebaja($value);
+				break;
 		} // switch()
 	}
 
@@ -1738,6 +1788,7 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 		if (array_key_exists($keys[10], $arr)) $this->setId_privacidad($arr[$keys[10]]);
 		if (array_key_exists($keys[11], $arr)) $this->setEs_editable($arr[$keys[11]]);
 		if (array_key_exists($keys[12], $arr)) $this->setId_usuario($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setDebaja($arr[$keys[13]]);
 	}
 
 	/**
@@ -1762,6 +1813,7 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 		if ($this->isColumnModified(LibroPeer::ID_PRIVACIDAD)) $criteria->add(LibroPeer::ID_PRIVACIDAD, $this->id_privacidad);
 		if ($this->isColumnModified(LibroPeer::ES_EDITABLE)) $criteria->add(LibroPeer::ES_EDITABLE, $this->es_editable);
 		if ($this->isColumnModified(LibroPeer::ID_USUARIO)) $criteria->add(LibroPeer::ID_USUARIO, $this->id_usuario);
+		if ($this->isColumnModified(LibroPeer::DEBAJA)) $criteria->add(LibroPeer::DEBAJA, $this->debaja);
 
 		return $criteria;
 	}
@@ -1836,6 +1888,7 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 		$copyObj->setId_privacidad($this->getId_privacidad());
 		$copyObj->setEs_editable($this->getEs_editable());
 		$copyObj->setId_usuario($this->getId_usuario());
+		$copyObj->setDebaja($this->getDebaja());
 
 		if ($deepCopy && !$this->startCopy) {
 			// important: temporarily setNew(false) because this affects the behavior of
@@ -3732,6 +3785,7 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 		$this->id_privacidad = null;
 		$this->es_editable = null;
 		$this->id_usuario = null;
+		$this->debaja = null;
 		$this->alreadyInSave = false;
 		$this->alreadyInValidation = false;
 		$this->clearAllReferences();
