@@ -2,3 +2,8 @@
 /data/config.php
 /data/smarty/templates_c/
 /data/smarty/cache/
+/libros/
+/libros_version/
+/uploads/
+/pdf/
+/listas/
