@@ -11,25 +11,25 @@ include_once("../../data/config.php");
 
 switch ($_POST["accion"]) {
     case "e"://Edit
-        $libroObj = LibroQuery::create()->findOneById($datos->id);
-        //echo $usuarioObj->toArray();
-        
-        $libroObj->setNombre($datos->nombre);
-        $libroObj->setFecha($datos->fecha);
-        $libroObj->setSinopsis($datos->sinopsis);
-        
-
+        $libroObj = LibroQuery::create()->findOneById($_POST["id"]);
+        $libroObj->setNombre($_POST["nombrelibro"]);
+        $libroObj->setId_genero($_POST["vinculogenero"]);
+        $libroObj->setFecha(date('Y-m-d'));
+        $libroObj->setAutor($_POST["autor"]);
+        //$libroObj->setEs_editable("n");
+        $libroObj->setSinopsis($_POST["sinopsis"]);
+        $libroObj->setId_privacidad($_POST["privacidad"]);
         $libroObj->save();
-        echo json_encode(array( 'error' => 0, 'msg' => "Libro modificado correctamente"));
+         
+        $status = "Libro actualizado correctamente";
+        echo  $status;
     break;
     
     case "d"://Delete
-        $libroObj = LibroQuery::create()->findOneById($datos->id);
-        //$objTerapia = TerapiasQuery::create()->findOneById($_GET["id"]);
-        if($libroObj != null){
-                $libroObj->delete();
-        }
-        echo json_encode(array( 'error' => 0, 'msg' => "Libro borrado correctamente"));
+        $libroObj = LibroQuery::create()->findOneById($_POST["id"]);
+        $libroObj->setDebaja("s");
+        $libroObj->save();
+        echo "Libro borrado correctamente";
     break;
     case "n"://New
         $libroObj = new Libro();
@@ -95,11 +95,19 @@ switch ($_POST["accion"]) {
         } else {
             $status = "Error al subir el PDF";
         }
-        echo  $status;
+        echo  $status;   
+    break;
+    case "obtener_datos":
+        $libro = LibroQuery::create()->findOneById($_POST["id"]);      
         
-        
-        
-        
+        //echo $clasificadosObj->toArray();
+        echo json_encode(array( 
+            'nombre' => $libro->getNombre(), 
+            'genero' => $libro->getId_genero(),
+            'autor' => $libro->getAutor(),
+            'sinopsis' => $libro->getSinopsis(),
+            'privacidad' => $libro->getId_privacidad()
+        ));
     break;
 
 }

@@ -5,11 +5,11 @@ ini_set("display_errors", 1);
 include_once("../../data/config.php");
 
 //$libros = LibroQuery::create()->find();
-$libros = LibroQuery::create()->find();
+$libros = LibroQuery::create()->filterByDebaja(NULL)->find();
 //$usuarios = UsuarioQuery::create()->find();
 $generos = GeneroQuery::create()->find();
         
-$options = "<option value = ''>Seleccione un libro</option> ";
+$options = "<option value = ''>Seleccione un genero</option> ";
 //$listaLibros = ""; 
 foreach ($generos as $reg) { 
      //$listaGeneros .= "<li>".$reg->getNombre()."</li>";
@@ -62,18 +62,20 @@ foreach ($generos as $reg) {
                         <div class="box-header with-border">
                             <h3 class="box-title" id="titulo_formulario">Nuevo libro</h3>
                             <div class="box-tools pull-right">
-                                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
                             </div><!-- /.box-tools -->
                         </div><!-- /.box-header -->
                         <div class="box-body" >
                             <form id="formpdf">
                                 <input type="hidden" id="accion" value="n" name="accion"/>
-                                <input type="file" id="image" value="" name="image"  /> 
                                 <div class="form-group" hidden="Id">
                                     <label>Id</label>
-                                    <input type="text" class="form-control" placeholder="ID" disabled id="id">
+                                    <input type="text" class="form-control" placeholder="ID" id="id" name="id">
                                 </div>
-                                <br />
+                                <div class="form-group" id="campo_imagen">
+                                    <label>Imagen de portada</label>
+                                    <input type="file" id="image" value="" name="image"  /> 
+                                </div>  
                                 <div class="form-group">
                                     <label>Nombre</label>
                                     <input type="text" class="form-control" placeholder="Nombre" id="nombrelibro" name="nombrelibro">
@@ -94,8 +96,10 @@ foreach ($generos as $reg) {
                                     <label>Seleccione la Privacidad </label>
                                     <select class="form-control" id="privacidad" name="privacidad"><?= $privacidadopcion; ?></select>
                                 </div>
-                                <br />
-                                <input type="file" id="pdf" value="" name="pdf"  /> 
+                                <div class="form-group" id="campo_pdf">
+                                    <label>Pdf</label>
+                                    <input type="file" id="pdf" value="" name="pdf"  /> 
+                                </div>
                             </form>
                             <div class="form-group">
                                 <button class="btn btn-block btn-default" onclick="enviar_form_libro()">Subir</button>
