@@ -1,23 +1,3 @@
-<?php 
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
-include_once("../../data/config.php");
-
-$usuario = UsuarioQuery::create()->find();
-//$usuario = UsuarioQuery :: create() ->findOneById(1);
-
-//$mensaje->getUsuarioRelatedById_usuario_remitente()->getNick();
-//'<li class="header">You have 5 messages</li>'
-
-foreach ($usuario as $reg) {
-  
-//$listaLibros .= "<li>".$reg->getNombre()."</li>";
-
-    $lista_usuarios .= '<option>'.$reg->getNombre()
-    .'</option>';               
-                                
-}
-?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -42,9 +22,6 @@ foreach ($usuario as $reg) {
     <link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">
     <!-- iCheck -->
     <link rel="stylesheet" href="../../plugins/iCheck/flat/blue.css">
-    <!-- bootstrap wysihtml5 - text editor -->
-    <link rel="stylesheet" href="../../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
-
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -61,69 +38,85 @@ foreach ($usuario as $reg) {
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Mensajes
-            <small>13 mensajes nuevos</small>
+            Notificaciones
+            <small>13 notificaciones nuevas</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Mensajes</li>
+            <li class="active">Notificaciones</li>
           </ol>
         </section>
 
         <!-- Main content -->
         <section class="content">
           <div class="row">
-            <div class="col-md-3">
-              <a href="mailbox.php" class="btn btn-primary btn-block margin-bottom">Bandeja de entrada</a>
-              <div class="box box-solid">
-                <div class="box-header with-border">
-                  <h3 class="box-title">Carpetas</h3>
-                  <div class="box-tools">
-                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                  </div>
-                </div>
-                <div class="box-body no-padding">
-                  <ul class="nav nav-pills nav-stacked">
-                    <li><a href="mailbox.php"><i class="fa fa-inbox"></i> Buzon de entrada <span class="label label-primary pull-right">12</span></a></li>
-                    <li><a href="enviados.php"><i class="fa fa-envelope-o"></i> Enviados</a></li>
-                    <li><a href="papelera.php"><i class="fa fa-trash-o"></i> Papelera</a></li>
-                  </ul>
-                </div><!-- /.box-body -->
-              </div><!-- /. box -->
-  
-            </div><!-- /.col -->
+            
             <div class="col-md-9">
               <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Escribir mensaje nuevo</h3>
+                  <h3 class="box-title">Notificaciones</h3>
+                  <div class="box-tools pull-right">
+
+                  </div><!-- /.box-tools -->
                 </div><!-- /.box-header -->
-                <div class="box-body">
-                  <div class="form-group">
-                    Para: <select id="lista_usuarios">    
-                    <?php
-                    echo $lista_usuarios;
-                    ?>
-                    
-                    </select>
-                   
-
-                     <!--<input class="form-control" placeholder="To:">--->
+                <div class="box-body no-padding">
+                  <div class="mailbox-controls">
+                    <!-- Check all button -->
+                    <button class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
+                    <div class="btn-group">
+                      <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                      
+                    </div><!-- /.btn-group -->
+                    <button class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                    <div class="pull-right">
+                      1-50/200
+                      <div class="btn-group">
+                        <button class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
+                        <button class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
+                      </div><!-- /.btn-group -->
+                    </div><!-- /.pull-right -->
                   </div>
-
-                  <div class="form-group">
-                    <textarea id="compose-textarea" class="form-control" style="height: 300px">
-
-                    </textarea>
-                  </div>
-
+                  <div class="table-responsive mailbox-messages">
+                    <table class="table table-hover table-striped">
+                      <tbody>
+                        <tr>
+                          <td><input type="checkbox"></td>
+                          <td class="mailbox-star"><a href="#"><i class="fa fa-star text-yellow"></i></a></td>
+                          <td class="mailbox-name"><a href="read-mail.php">Alexander Pierce</a></td>
+                          <td class="mailbox-subject"><b>AdminLTE 2.0 Issue</b> - Trying to find a solution to this problem...</td>
+                          <td class="mailbox-attachment"></td>
+                          <td class="mailbox-date">5 mins ago</td>
+                        </tr>
+                        <tr>
+                          <td><input type="checkbox"></td>
+                          <td class="mailbox-star"><a href="#"><i class="fa fa-star-o text-yellow"></i></a></td>
+                          <td class="mailbox-name"><a href="read-mail.html">Alexander Pierce</a></td>
+                          <td class="mailbox-subject"><b>AdminLTE 2.0 Issue</b> - Trying to find a solution to this problem...</td>
+                          <td class="mailbox-attachment"><i class="fa fa-paperclip"></i></td>
+                          <td class="mailbox-date">28 mins ago</td>
+                        </tr>
+                        
+                      </tbody>
+                    </table><!-- /.table -->
+                  </div><!-- /.mail-box-messages -->
                 </div><!-- /.box-body -->
-                <div class="box-footer">
-                  <div class="pull-right">
-                    
-                    <button onclick="enviar_mensaje()" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Enviar</button>
+                <div class="box-footer no-padding">
+                  <div class="mailbox-controls">
+                    <!-- Check all button -->
+                    <button class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
+                    <div class="btn-group">
+                      <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                    </div><!-- /.btn-group -->
+                    <button class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                    <div class="pull-right">
+                      1-50/200
+                      <div class="btn-group">
+                        <button class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
+                        <button class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
+                      </div><!-- /.btn-group -->
+                    </div><!-- /.pull-right -->
                   </div>
-                  <button class="btn btn-default"><i class="fa fa-times"></i> Deshacer</button>
-                </div><!-- /.box-footer -->
+                </div>
               </div><!-- /. box -->
             </div><!-- /.col -->
           </div><!-- /.row -->
@@ -308,24 +301,55 @@ foreach ($usuario as $reg) {
     <script src="../../plugins/fastclick/fastclick.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../../dist/js/app.min.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="../../dist/js/demo.js"></script>
     <!-- iCheck -->
     <script src="../../plugins/iCheck/icheck.min.js"></script>
-    <!-- Bootstrap WYSIHTML5 -->
-    <script src="../../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
     <!-- Page Script -->
     <script>
       $(function () {
-        //Add text editor
-        $("#compose-textarea").wysihtml5();
-      });
-      
-      $(function enviar_mensaje()
-              
-            
-       });
+        //Enable iCheck plugin for checkboxes
+        //iCheck for checkbox and radio inputs
+        $('.mailbox-messages input[type="checkbox"]').iCheck({
+          checkboxClass: 'icheckbox_flat-blue',
+          radioClass: 'iradio_flat-blue'
+        });
 
+        //Enable check and uncheck all functionality
+        $(".checkbox-toggle").click(function () {
+          var clicks = $(this).data('clicks');
+          if (clicks) {
+            //Uncheck all checkboxes
+            $(".mailbox-messages input[type='checkbox']").iCheck("uncheck");
+            $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
+          } else {
+            //Check all checkboxes
+            $(".mailbox-messages input[type='checkbox']").iCheck("check");
+            $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
+          }
+          $(this).data("clicks", !clicks);
+        });
+
+        //Handle starring for glyphicon and font awesome
+        $(".mailbox-star").click(function (e) {
+          e.preventDefault();
+          //detect type
+          var $this = $(this).find("a > i");
+          var glyph = $this.hasClass("glyphicon");
+          var fa = $this.hasClass("fa");
+
+          //Switch states
+          if (glyph) {
+            $this.toggleClass("glyphicon-star");
+            $this.toggleClass("glyphicon-star-empty");
+          }
+
+          if (fa) {
+            $this.toggleClass("fa-star");
+            $this.toggleClass("fa-star-o");
+          }
+        });
+      });
     </script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="../../dist/js/demo.js"></script>
   </body>
 </html>

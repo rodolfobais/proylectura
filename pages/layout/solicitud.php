@@ -5,7 +5,7 @@ ini_set("display_errors", 1);
 include_once("../../data/config.php");
 
 $solicitud = SolicitudQuery::create()->find();
-                
+//$solicitud = SolicitudQuery :: create()->findOneById(1);                
 
 $salida = //'<li class="header">Tenes 10 solicitudes</li>'
         
@@ -15,10 +15,10 @@ $cont= 0;
 foreach ($solicitud as $reg) {
     //$listaLibros .= "<li>".$reg->getNombre()."</li>";
     $cont ++;
-    $salida .= ' <li>
+    $salida .= ' <li style:"width: 3px;">
                         <a href="#">
-                          <i class="fa fa-users text-aqua"></i> Jorge te envio una solicitud de amistad
-                        </a>
+                          <i class="fa fa-users text-aqua"></i>'. $reg->getUsuarioRelatedById_usuario_solicitante()->getNombre() .'</a> te envio una solicitud de amistad
+                        <button class="btn btn-default btn-sm" onclick="aceptar_solicitud()"> Aceptar</button><button class="btn btn-default btn-sm" onclick="rechazar_solicitud()"> Rechazar</button>
                       </li>';
     /*echo "<tr>"
     . "<td>".$reg->getId()."</td>"
@@ -33,7 +33,7 @@ $salida .= '</ul>
     </li>
 <li class="footer"><a href="#">Ver todas las solicitudes</a></li>';
 
-echo json_encode(array( 'error' => 0, 'salida' => $salida, 'cantidad' => $cantidad)); //muestra el array concatenado
+echo json_encode(array( 'error' => 0, 'salida' => $salida, 'cantidad' => $cont)); //muestra el array concatenado
 ?>
                     
                   

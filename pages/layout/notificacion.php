@@ -33,7 +33,7 @@ $salida .= '</ul>
     </li>
 <li class="footer"><a href="#">Ver todas las notificaciones</a></li>';
 
-echo json_encode(array( 'error' => 0, 'salida' => $salida, 'cantidad' => $cantidad)); //muestra el array concatenado
+echo json_encode(array( 'error' => 0, 'salida' => $salida, 'cantidad' => $cont)); //muestra el array concatenado
 ?>
                     
                   
