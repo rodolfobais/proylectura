@@ -89,6 +89,7 @@
             $( document ).ready(function() {
                 refreshDivs('cuerpocentro','pages/layout/home.php');
                 iniciarcarousel();
+                actualizacionesAutomaticas();
             });
             
         </script>
