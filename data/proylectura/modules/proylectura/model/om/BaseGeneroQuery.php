@@ -20,6 +20,10 @@
  * @method     GeneroQuery rightJoinLibro($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Libro relation
  * @method     GeneroQuery innerJoinLibro($relationAlias = null) Adds a INNER JOIN clause to the query using the Libro relation
  *
+ * @method     GeneroQuery leftJoinUsuario_intereses($relationAlias = null) Adds a LEFT JOIN clause to the query using the Usuario_intereses relation
+ * @method     GeneroQuery rightJoinUsuario_intereses($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Usuario_intereses relation
+ * @method     GeneroQuery innerJoinUsuario_intereses($relationAlias = null) Adds a INNER JOIN clause to the query using the Usuario_intereses relation
+ *
  * @method     GeneroQuery leftJoinLista($relationAlias = null) Adds a LEFT JOIN clause to the query using the Lista relation
  * @method     GeneroQuery rightJoinLista($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Lista relation
  * @method     GeneroQuery innerJoinLista($relationAlias = null) Adds a INNER JOIN clause to the query using the Lista relation
@@ -330,6 +334,79 @@ abstract class BaseGeneroQuery extends ModelCriteria
 		return $this
 			->joinLibro($relationAlias, $joinType)
 			->useQuery($relationAlias ? $relationAlias : 'Libro', 'LibroQuery');
+	}
+
+	/**
+	 * Filter the query by a related Usuario_intereses object
+	 *
+	 * @param     Usuario_intereses $usuario_intereses  the related object to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    GeneroQuery The current query, for fluid interface
+	 */
+	public function filterByUsuario_intereses($usuario_intereses, $comparison = null)
+	{
+		if ($usuario_intereses instanceof Usuario_intereses) {
+			return $this
+				->addUsingAlias(GeneroPeer::ID, $usuario_intereses->getId_genero(), $comparison);
+		} elseif ($usuario_intereses instanceof PropelCollection) {
+			return $this
+				->useUsuario_interesesQuery()
+				->filterByPrimaryKeys($usuario_intereses->getPrimaryKeys())
+				->endUse();
+		} else {
+			throw new PropelException('filterByUsuario_intereses() only accepts arguments of type Usuario_intereses or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the Usuario_intereses relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    GeneroQuery The current query, for fluid interface
+	 */
+	public function joinUsuario_intereses($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('Usuario_intereses');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'Usuario_intereses');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the Usuario_intereses relation Usuario_intereses object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    Usuario_interesesQuery A secondary query class using the current class as primary query
+	 */
+	public function useUsuario_interesesQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinUsuario_intereses($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Usuario_intereses', 'Usuario_interesesQuery');
 	}
 
 	/**

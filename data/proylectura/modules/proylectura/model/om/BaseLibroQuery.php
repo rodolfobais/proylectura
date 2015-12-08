@@ -74,6 +74,10 @@
  * @method     LibroQuery rightJoinLibro_version($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Libro_version relation
  * @method     LibroQuery innerJoinLibro_version($relationAlias = null) Adds a INNER JOIN clause to the query using the Libro_version relation
  *
+ * @method     LibroQuery leftJoinSolicitud($relationAlias = null) Adds a LEFT JOIN clause to the query using the Solicitud relation
+ * @method     LibroQuery rightJoinSolicitud($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Solicitud relation
+ * @method     LibroQuery innerJoinSolicitud($relationAlias = null) Adds a INNER JOIN clause to the query using the Solicitud relation
+ *
  * @method     LibroQuery leftJoinSlider_mae($relationAlias = null) Adds a LEFT JOIN clause to the query using the Slider_mae relation
  * @method     LibroQuery rightJoinSlider_mae($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Slider_mae relation
  * @method     LibroQuery innerJoinSlider_mae($relationAlias = null) Adds a INNER JOIN clause to the query using the Slider_mae relation
@@ -1394,6 +1398,79 @@ abstract class BaseLibroQuery extends ModelCriteria
 		return $this
 			->joinLibro_version($relationAlias, $joinType)
 			->useQuery($relationAlias ? $relationAlias : 'Libro_version', 'Libro_versionQuery');
+	}
+
+	/**
+	 * Filter the query by a related Solicitud object
+	 *
+	 * @param     Solicitud $solicitud  the related object to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    LibroQuery The current query, for fluid interface
+	 */
+	public function filterBySolicitud($solicitud, $comparison = null)
+	{
+		if ($solicitud instanceof Solicitud) {
+			return $this
+				->addUsingAlias(LibroPeer::ID, $solicitud->getId_libro(), $comparison);
+		} elseif ($solicitud instanceof PropelCollection) {
+			return $this
+				->useSolicitudQuery()
+				->filterByPrimaryKeys($solicitud->getPrimaryKeys())
+				->endUse();
+		} else {
+			throw new PropelException('filterBySolicitud() only accepts arguments of type Solicitud or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the Solicitud relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    LibroQuery The current query, for fluid interface
+	 */
+	public function joinSolicitud($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('Solicitud');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'Solicitud');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the Solicitud relation Solicitud object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    SolicitudQuery A secondary query class using the current class as primary query
+	 */
+	public function useSolicitudQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinSolicitud($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Solicitud', 'SolicitudQuery');
 	}
 
 	/**

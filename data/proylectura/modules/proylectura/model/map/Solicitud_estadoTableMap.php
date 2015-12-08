@@ -3,7 +3,7 @@
 
 
 /**
- * This class defines the structure of the 'mensaje' table.
+ * This class defines the structure of the 'solicitud_estado' table.
  *
  *
  *
@@ -14,13 +14,13 @@
  *
  * @package    propel.generator.proylectura.model.map
  */
-class MensajeTableMap extends TableMap
+class Solicitud_estadoTableMap extends TableMap
 {
 
 	/**
 	 * The (dot-path) name of this class
 	 */
-	const CLASS_NAME = 'proylectura.model.map.MensajeTableMap';
+	const CLASS_NAME = 'proylectura.model.map.Solicitud_estadoTableMap';
 
 	/**
 	 * Initialize the table attributes, columns and validators
@@ -32,17 +32,14 @@ class MensajeTableMap extends TableMap
 	public function initialize()
 	{
 		// attributes
-		$this->setName('mensaje');
-		$this->setPhpName('Mensaje');
-		$this->setClassname('Mensaje');
+		$this->setName('solicitud_estado');
+		$this->setPhpName('Solicitud_estado');
+		$this->setClassname('Solicitud_estado');
 		$this->setPackage('proylectura.model');
 		$this->setUseIdGenerator(true);
 		// columns
 		$this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
-		$this->addForeignKey('ID_USUARIO_DESTINATARIO', 'Id_usuario_destinatario', 'INTEGER', 'usuario', 'ID', true, null, null);
-		$this->addForeignKey('ID_USUARIO_REMITENTE', 'Id_usuario_remitente', 'INTEGER', 'usuario', 'ID', true, null, null);
-		$this->addColumn('MENSAJE', 'Mensaje', 'CHAR', true, 255, null);
-		$this->addColumn('LEIDO', 'Leido', 'CHAR', false, 1, null);
+		$this->addColumn('DESCRP', 'Descrp', 'CHAR', true, 50, null);
 		// validators
 	} // initialize()
 
@@ -51,8 +48,7 @@ class MensajeTableMap extends TableMap
 	 */
 	public function buildRelations()
 	{
-		$this->addRelation('UsuarioRelatedById_usuario_destinatario', 'Usuario', RelationMap::MANY_TO_ONE, array('id_usuario_destinatario' => 'id', ), null, null);
-		$this->addRelation('UsuarioRelatedById_usuario_remitente', 'Usuario', RelationMap::MANY_TO_ONE, array('id_usuario_remitente' => 'id', ), null, null);
+		$this->addRelation('Solicitud', 'Solicitud', RelationMap::ONE_TO_MANY, array('id' => 'id_estado', ), null, null, 'Solicituds');
 	} // buildRelations()
 
-} // MensajeTableMap
+} // Solicitud_estadoTableMap

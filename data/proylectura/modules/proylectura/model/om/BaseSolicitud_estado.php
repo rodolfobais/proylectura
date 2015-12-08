@@ -2,25 +2,25 @@
 
 
 /**
- * Base class that represents a row from the 'mensaje' table.
+ * Base class that represents a row from the 'solicitud_estado' table.
  *
  * 
  *
  * @package    propel.generator.proylectura.model.om
  */
-abstract class BaseMensaje extends BaseObject  implements Persistent
+abstract class BaseSolicitud_estado extends BaseObject  implements Persistent
 {
 
 	/**
 	 * Peer class name
 	 */
-	const PEER = 'MensajePeer';
+	const PEER = 'Solicitud_estadoPeer';
 
 	/**
 	 * The Peer class.
 	 * Instance provides a convenient way of calling static methods on a class
 	 * that calling code may not be able to identify.
-	 * @var        MensajePeer
+	 * @var        Solicitud_estadoPeer
 	 */
 	protected static $peer;
 
@@ -37,38 +37,15 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 	protected $id;
 
 	/**
-	 * The value for the id_usuario_destinatario field.
-	 * @var        int
-	 */
-	protected $id_usuario_destinatario;
-
-	/**
-	 * The value for the id_usuario_remitente field.
-	 * @var        int
-	 */
-	protected $id_usuario_remitente;
-
-	/**
-	 * The value for the mensaje field.
+	 * The value for the descrp field.
 	 * @var        string
 	 */
-	protected $mensaje;
+	protected $descrp;
 
 	/**
-	 * The value for the leido field.
-	 * @var        string
+	 * @var        array Solicitud[] Collection to store aggregation of Solicitud objects.
 	 */
-	protected $leido;
-
-	/**
-	 * @var        Usuario
-	 */
-	protected $aUsuarioRelatedById_usuario_destinatario;
-
-	/**
-	 * @var        Usuario
-	 */
-	protected $aUsuarioRelatedById_usuario_remitente;
+	protected $collSolicituds;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
@@ -85,6 +62,12 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 	protected $alreadyInValidation = false;
 
 	/**
+	 * An array of objects scheduled for deletion.
+	 * @var		array
+	 */
+	protected $solicitudsScheduledForDeletion = null;
+
+	/**
 	 * Get the [id] column value.
 	 * 
 	 * @return     int
@@ -95,50 +78,20 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 	}
 
 	/**
-	 * Get the [id_usuario_destinatario] column value.
-	 * 
-	 * @return     int
-	 */
-	public function getId_usuario_destinatario()
-	{
-		return $this->id_usuario_destinatario;
-	}
-
-	/**
-	 * Get the [id_usuario_remitente] column value.
-	 * 
-	 * @return     int
-	 */
-	public function getId_usuario_remitente()
-	{
-		return $this->id_usuario_remitente;
-	}
-
-	/**
-	 * Get the [mensaje] column value.
+	 * Get the [descrp] column value.
 	 * 
 	 * @return     string
 	 */
-	public function getMensaje()
+	public function getDescrp()
 	{
-		return $this->mensaje;
-	}
-
-	/**
-	 * Get the [leido] column value.
-	 * 
-	 * @return     string
-	 */
-	public function getLeido()
-	{
-		return $this->leido;
+		return $this->descrp;
 	}
 
 	/**
 	 * Set the value of [id] column.
 	 * 
 	 * @param      int $v new value
-	 * @return     Mensaje The current object (for fluent API support)
+	 * @return     Solicitud_estado The current object (for fluent API support)
 	 */
 	public function setId($v)
 	{
@@ -148,99 +101,31 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 
 		if ($this->id !== $v) {
 			$this->id = $v;
-			$this->modifiedColumns[] = MensajePeer::ID;
+			$this->modifiedColumns[] = Solicitud_estadoPeer::ID;
 		}
 
 		return $this;
 	} // setId()
 
 	/**
-	 * Set the value of [id_usuario_destinatario] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     Mensaje The current object (for fluent API support)
-	 */
-	public function setId_usuario_destinatario($v)
-	{
-		if ($v !== null) {
-			$v = (int) $v;
-		}
-
-		if ($this->id_usuario_destinatario !== $v) {
-			$this->id_usuario_destinatario = $v;
-			$this->modifiedColumns[] = MensajePeer::ID_USUARIO_DESTINATARIO;
-		}
-
-		if ($this->aUsuarioRelatedById_usuario_destinatario !== null && $this->aUsuarioRelatedById_usuario_destinatario->getId() !== $v) {
-			$this->aUsuarioRelatedById_usuario_destinatario = null;
-		}
-
-		return $this;
-	} // setId_usuario_destinatario()
-
-	/**
-	 * Set the value of [id_usuario_remitente] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     Mensaje The current object (for fluent API support)
-	 */
-	public function setId_usuario_remitente($v)
-	{
-		if ($v !== null) {
-			$v = (int) $v;
-		}
-
-		if ($this->id_usuario_remitente !== $v) {
-			$this->id_usuario_remitente = $v;
-			$this->modifiedColumns[] = MensajePeer::ID_USUARIO_REMITENTE;
-		}
-
-		if ($this->aUsuarioRelatedById_usuario_remitente !== null && $this->aUsuarioRelatedById_usuario_remitente->getId() !== $v) {
-			$this->aUsuarioRelatedById_usuario_remitente = null;
-		}
-
-		return $this;
-	} // setId_usuario_remitente()
-
-	/**
-	 * Set the value of [mensaje] column.
+	 * Set the value of [descrp] column.
 	 * 
 	 * @param      string $v new value
-	 * @return     Mensaje The current object (for fluent API support)
+	 * @return     Solicitud_estado The current object (for fluent API support)
 	 */
-	public function setMensaje($v)
+	public function setDescrp($v)
 	{
 		if ($v !== null) {
 			$v = (string) $v;
 		}
 
-		if ($this->mensaje !== $v) {
-			$this->mensaje = $v;
-			$this->modifiedColumns[] = MensajePeer::MENSAJE;
+		if ($this->descrp !== $v) {
+			$this->descrp = $v;
+			$this->modifiedColumns[] = Solicitud_estadoPeer::DESCRP;
 		}
 
 		return $this;
-	} // setMensaje()
-
-	/**
-	 * Set the value of [leido] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     Mensaje The current object (for fluent API support)
-	 */
-	public function setLeido($v)
-	{
-		if ($v !== null) {
-			$v = (string) $v;
-		}
-
-		if ($this->leido !== $v) {
-			$this->leido = $v;
-			$this->modifiedColumns[] = MensajePeer::LEIDO;
-		}
-
-		return $this;
-	} // setLeido()
+	} // setDescrp()
 
 	/**
 	 * Indicates whether the columns in this object are only set to default values.
@@ -275,10 +160,7 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 		try {
 
 			$this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
-			$this->id_usuario_destinatario = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
-			$this->id_usuario_remitente = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
-			$this->mensaje = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
-			$this->leido = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
+			$this->descrp = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
 			$this->resetModified();
 
 			$this->setNew(false);
@@ -287,10 +169,10 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 				$this->ensureConsistency();
 			}
 
-			return $startcol + 5; // 5 = MensajePeer::NUM_HYDRATE_COLUMNS.
+			return $startcol + 2; // 2 = Solicitud_estadoPeer::NUM_HYDRATE_COLUMNS.
 
 		} catch (Exception $e) {
-			throw new PropelException("Error populating Mensaje object", $e);
+			throw new PropelException("Error populating Solicitud_estado object", $e);
 		}
 	}
 
@@ -310,12 +192,6 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 	public function ensureConsistency()
 	{
 
-		if ($this->aUsuarioRelatedById_usuario_destinatario !== null && $this->id_usuario_destinatario !== $this->aUsuarioRelatedById_usuario_destinatario->getId()) {
-			$this->aUsuarioRelatedById_usuario_destinatario = null;
-		}
-		if ($this->aUsuarioRelatedById_usuario_remitente !== null && $this->id_usuario_remitente !== $this->aUsuarioRelatedById_usuario_remitente->getId()) {
-			$this->aUsuarioRelatedById_usuario_remitente = null;
-		}
 	} // ensureConsistency
 
 	/**
@@ -339,13 +215,13 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(MensajePeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(Solicitud_estadoPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 
 		// We don't need to alter the object instance pool; we're just modifying this instance
 		// already in the pool.
 
-		$stmt = MensajePeer::doSelectStmt($this->buildPkeyCriteria(), $con);
+		$stmt = Solicitud_estadoPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
 		$row = $stmt->fetch(PDO::FETCH_NUM);
 		$stmt->closeCursor();
 		if (!$row) {
@@ -355,8 +231,8 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 
 		if ($deep) {  // also de-associate any related objects?
 
-			$this->aUsuarioRelatedById_usuario_destinatario = null;
-			$this->aUsuarioRelatedById_usuario_remitente = null;
+			$this->collSolicituds = null;
+
 		} // if (deep)
 	}
 
@@ -376,12 +252,12 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(MensajePeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(Solicitud_estadoPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 
 		$con->beginTransaction();
 		try {
-			$deleteQuery = MensajeQuery::create()
+			$deleteQuery = Solicitud_estadoQuery::create()
 				->filterByPrimaryKey($this->getPrimaryKey());
 			$ret = $this->preDelete($con);
 			if ($ret) {
@@ -418,7 +294,7 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(MensajePeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(Solicitud_estadoPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 
 		$con->beginTransaction();
@@ -438,7 +314,7 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 					$this->postUpdate($con);
 				}
 				$this->postSave($con);
-				MensajePeer::addInstanceToPool($this);
+				Solicitud_estadoPeer::addInstanceToPool($this);
 			} else {
 				$affectedRows = 0;
 			}
@@ -467,25 +343,6 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 		if (!$this->alreadyInSave) {
 			$this->alreadyInSave = true;
 
-			// We call the save method on the following object(s) if they
-			// were passed to this object by their coresponding set
-			// method.  This object relates to these object(s) by a
-			// foreign key reference.
-
-			if ($this->aUsuarioRelatedById_usuario_destinatario !== null) {
-				if ($this->aUsuarioRelatedById_usuario_destinatario->isModified() || $this->aUsuarioRelatedById_usuario_destinatario->isNew()) {
-					$affectedRows += $this->aUsuarioRelatedById_usuario_destinatario->save($con);
-				}
-				$this->setUsuarioRelatedById_usuario_destinatario($this->aUsuarioRelatedById_usuario_destinatario);
-			}
-
-			if ($this->aUsuarioRelatedById_usuario_remitente !== null) {
-				if ($this->aUsuarioRelatedById_usuario_remitente->isModified() || $this->aUsuarioRelatedById_usuario_remitente->isNew()) {
-					$affectedRows += $this->aUsuarioRelatedById_usuario_remitente->save($con);
-				}
-				$this->setUsuarioRelatedById_usuario_remitente($this->aUsuarioRelatedById_usuario_remitente);
-			}
-
 			if ($this->isNew() || $this->isModified()) {
 				// persist changes
 				if ($this->isNew()) {
@@ -495,6 +352,23 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 				}
 				$affectedRows += 1;
 				$this->resetModified();
+			}
+
+			if ($this->solicitudsScheduledForDeletion !== null) {
+				if (!$this->solicitudsScheduledForDeletion->isEmpty()) {
+		SolicitudQuery::create()
+						->filterByPrimaryKeys($this->solicitudsScheduledForDeletion->getPrimaryKeys(false))
+						->delete($con);
+					$this->solicitudsScheduledForDeletion = null;
+				}
+			}
+
+			if ($this->collSolicituds !== null) {
+				foreach ($this->collSolicituds as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
 			}
 
 			$this->alreadyInSave = false;
@@ -516,30 +390,21 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 		$modifiedColumns = array();
 		$index = 0;
 
-		$this->modifiedColumns[] = MensajePeer::ID;
+		$this->modifiedColumns[] = Solicitud_estadoPeer::ID;
 		if (null !== $this->id) {
-			throw new PropelException('Cannot insert a value for auto-increment primary key (' . MensajePeer::ID . ')');
+			throw new PropelException('Cannot insert a value for auto-increment primary key (' . Solicitud_estadoPeer::ID . ')');
 		}
 
 		 // check the columns in natural order for more readable SQL queries
-		if ($this->isColumnModified(MensajePeer::ID)) {
+		if ($this->isColumnModified(Solicitud_estadoPeer::ID)) {
 			$modifiedColumns[':p' . $index++]  = '`ID`';
 		}
-		if ($this->isColumnModified(MensajePeer::ID_USUARIO_DESTINATARIO)) {
-			$modifiedColumns[':p' . $index++]  = '`ID_USUARIO_DESTINATARIO`';
-		}
-		if ($this->isColumnModified(MensajePeer::ID_USUARIO_REMITENTE)) {
-			$modifiedColumns[':p' . $index++]  = '`ID_USUARIO_REMITENTE`';
-		}
-		if ($this->isColumnModified(MensajePeer::MENSAJE)) {
-			$modifiedColumns[':p' . $index++]  = '`MENSAJE`';
-		}
-		if ($this->isColumnModified(MensajePeer::LEIDO)) {
-			$modifiedColumns[':p' . $index++]  = '`LEIDO`';
+		if ($this->isColumnModified(Solicitud_estadoPeer::DESCRP)) {
+			$modifiedColumns[':p' . $index++]  = '`DESCRP`';
 		}
 
 		$sql = sprintf(
-			'INSERT INTO `mensaje` (%s) VALUES (%s)',
+			'INSERT INTO `solicitud_estado` (%s) VALUES (%s)',
 			implode(', ', $modifiedColumns),
 			implode(', ', array_keys($modifiedColumns))
 		);
@@ -551,17 +416,8 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 					case '`ID`':
 						$stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
 						break;
-					case '`ID_USUARIO_DESTINATARIO`':
-						$stmt->bindValue($identifier, $this->id_usuario_destinatario, PDO::PARAM_INT);
-						break;
-					case '`ID_USUARIO_REMITENTE`':
-						$stmt->bindValue($identifier, $this->id_usuario_remitente, PDO::PARAM_INT);
-						break;
-					case '`MENSAJE`':
-						$stmt->bindValue($identifier, $this->mensaje, PDO::PARAM_STR);
-						break;
-					case '`LEIDO`':
-						$stmt->bindValue($identifier, $this->leido, PDO::PARAM_STR);
+					case '`DESCRP`':
+						$stmt->bindValue($identifier, $this->descrp, PDO::PARAM_STR);
 						break;
 				}
 			}
@@ -655,28 +511,18 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 			$failureMap = array();
 
 
-			// We call the validate method on the following object(s) if they
-			// were passed to this object by their coresponding set
-			// method.  This object relates to these object(s) by a
-			// foreign key reference.
-
-			if ($this->aUsuarioRelatedById_usuario_destinatario !== null) {
-				if (!$this->aUsuarioRelatedById_usuario_destinatario->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUsuarioRelatedById_usuario_destinatario->getValidationFailures());
-				}
-			}
-
-			if ($this->aUsuarioRelatedById_usuario_remitente !== null) {
-				if (!$this->aUsuarioRelatedById_usuario_remitente->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUsuarioRelatedById_usuario_remitente->getValidationFailures());
-				}
-			}
-
-
-			if (($retval = MensajePeer::doValidate($this, $columns)) !== true) {
+			if (($retval = Solicitud_estadoPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
+
+				if ($this->collSolicituds !== null) {
+					foreach ($this->collSolicituds as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
 
 
 			$this->alreadyInValidation = false;
@@ -696,7 +542,7 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 	 */
 	public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = MensajePeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = Solicitud_estadoPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		$field = $this->getByPosition($pos);
 		return $field;
 	}
@@ -715,16 +561,7 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 				return $this->getId();
 				break;
 			case 1:
-				return $this->getId_usuario_destinatario();
-				break;
-			case 2:
-				return $this->getId_usuario_remitente();
-				break;
-			case 3:
-				return $this->getMensaje();
-				break;
-			case 4:
-				return $this->getLeido();
+				return $this->getDescrp();
 				break;
 			default:
 				return null;
@@ -749,24 +586,18 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 	 */
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
 	{
-		if (isset($alreadyDumpedObjects['Mensaje'][$this->getPrimaryKey()])) {
+		if (isset($alreadyDumpedObjects['Solicitud_estado'][$this->getPrimaryKey()])) {
 			return '*RECURSION*';
 		}
-		$alreadyDumpedObjects['Mensaje'][$this->getPrimaryKey()] = true;
-		$keys = MensajePeer::getFieldNames($keyType);
+		$alreadyDumpedObjects['Solicitud_estado'][$this->getPrimaryKey()] = true;
+		$keys = Solicitud_estadoPeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getId(),
-			$keys[1] => $this->getId_usuario_destinatario(),
-			$keys[2] => $this->getId_usuario_remitente(),
-			$keys[3] => $this->getMensaje(),
-			$keys[4] => $this->getLeido(),
+			$keys[1] => $this->getDescrp(),
 		);
 		if ($includeForeignObjects) {
-			if (null !== $this->aUsuarioRelatedById_usuario_destinatario) {
-				$result['UsuarioRelatedById_usuario_destinatario'] = $this->aUsuarioRelatedById_usuario_destinatario->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
-			}
-			if (null !== $this->aUsuarioRelatedById_usuario_remitente) {
-				$result['UsuarioRelatedById_usuario_remitente'] = $this->aUsuarioRelatedById_usuario_remitente->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+			if (null !== $this->collSolicituds) {
+				$result['Solicituds'] = $this->collSolicituds->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
 			}
 		}
 		return $result;
@@ -784,7 +615,7 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 	 */
 	public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = MensajePeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = Solicitud_estadoPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->setByPosition($pos, $value);
 	}
 
@@ -803,16 +634,7 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 				$this->setId($value);
 				break;
 			case 1:
-				$this->setId_usuario_destinatario($value);
-				break;
-			case 2:
-				$this->setId_usuario_remitente($value);
-				break;
-			case 3:
-				$this->setMensaje($value);
-				break;
-			case 4:
-				$this->setLeido($value);
+				$this->setDescrp($value);
 				break;
 		} // switch()
 	}
@@ -836,13 +658,10 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 	 */
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = MensajePeer::getFieldNames($keyType);
+		$keys = Solicitud_estadoPeer::getFieldNames($keyType);
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setId_usuario_destinatario($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setId_usuario_remitente($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setMensaje($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setLeido($arr[$keys[4]]);
+		if (array_key_exists($keys[1], $arr)) $this->setDescrp($arr[$keys[1]]);
 	}
 
 	/**
@@ -852,13 +671,10 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 	 */
 	public function buildCriteria()
 	{
-		$criteria = new Criteria(MensajePeer::DATABASE_NAME);
+		$criteria = new Criteria(Solicitud_estadoPeer::DATABASE_NAME);
 
-		if ($this->isColumnModified(MensajePeer::ID)) $criteria->add(MensajePeer::ID, $this->id);
-		if ($this->isColumnModified(MensajePeer::ID_USUARIO_DESTINATARIO)) $criteria->add(MensajePeer::ID_USUARIO_DESTINATARIO, $this->id_usuario_destinatario);
-		if ($this->isColumnModified(MensajePeer::ID_USUARIO_REMITENTE)) $criteria->add(MensajePeer::ID_USUARIO_REMITENTE, $this->id_usuario_remitente);
-		if ($this->isColumnModified(MensajePeer::MENSAJE)) $criteria->add(MensajePeer::MENSAJE, $this->mensaje);
-		if ($this->isColumnModified(MensajePeer::LEIDO)) $criteria->add(MensajePeer::LEIDO, $this->leido);
+		if ($this->isColumnModified(Solicitud_estadoPeer::ID)) $criteria->add(Solicitud_estadoPeer::ID, $this->id);
+		if ($this->isColumnModified(Solicitud_estadoPeer::DESCRP)) $criteria->add(Solicitud_estadoPeer::DESCRP, $this->descrp);
 
 		return $criteria;
 	}
@@ -873,8 +689,8 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 	 */
 	public function buildPkeyCriteria()
 	{
-		$criteria = new Criteria(MensajePeer::DATABASE_NAME);
-		$criteria->add(MensajePeer::ID, $this->id);
+		$criteria = new Criteria(Solicitud_estadoPeer::DATABASE_NAME);
+		$criteria->add(Solicitud_estadoPeer::ID, $this->id);
 
 		return $criteria;
 	}
@@ -914,17 +730,14 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param      object $copyObj An object of Mensaje (or compatible) type.
+	 * @param      object $copyObj An object of Solicitud_estado (or compatible) type.
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
 	 * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
 	 * @throws     PropelException
 	 */
 	public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
 	{
-		$copyObj->setId_usuario_destinatario($this->getId_usuario_destinatario());
-		$copyObj->setId_usuario_remitente($this->getId_usuario_remitente());
-		$copyObj->setMensaje($this->getMensaje());
-		$copyObj->setLeido($this->getLeido());
+		$copyObj->setDescrp($this->getDescrp());
 
 		if ($deepCopy && !$this->startCopy) {
 			// important: temporarily setNew(false) because this affects the behavior of
@@ -932,6 +745,12 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 			$copyObj->setNew(false);
 			// store object hash to prevent cycle
 			$this->startCopy = true;
+
+			foreach ($this->getSolicituds() as $relObj) {
+				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addSolicitud($relObj->copy($deepCopy));
+				}
+			}
 
 			//unflag object copy
 			$this->startCopy = false;
@@ -952,7 +771,7 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 	 * objects.
 	 *
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @return     Mensaje Clone of current object.
+	 * @return     Solicitud_estado Clone of current object.
 	 * @throws     PropelException
 	 */
 	public function copy($deepCopy = false)
@@ -971,112 +790,228 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 	 * same instance for all member of this class. The method could therefore
 	 * be static, but this would prevent one from overriding the behavior.
 	 *
-	 * @return     MensajePeer
+	 * @return     Solicitud_estadoPeer
 	 */
 	public function getPeer()
 	{
 		if (self::$peer === null) {
-			self::$peer = new MensajePeer();
+			self::$peer = new Solicitud_estadoPeer();
 		}
 		return self::$peer;
 	}
 
+
 	/**
-	 * Declares an association between this object and a Usuario object.
+	 * Initializes a collection based on the name of a relation.
+	 * Avoids crafting an 'init[$relationName]s' method name
+	 * that wouldn't work when StandardEnglishPluralizer is used.
 	 *
-	 * @param      Usuario $v
-	 * @return     Mensaje The current object (for fluent API support)
+	 * @param      string $relationName The name of the relation to initialize
+	 * @return     void
+	 */
+	public function initRelation($relationName)
+	{
+		if ('Solicitud' == $relationName) {
+			return $this->initSolicituds();
+		}
+	}
+
+	/**
+	 * Clears out the collSolicituds collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addSolicituds()
+	 */
+	public function clearSolicituds()
+	{
+		$this->collSolicituds = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collSolicituds collection.
+	 *
+	 * By default this just sets the collSolicituds collection to an empty array (like clearcollSolicituds());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @param      boolean $overrideExisting If set to true, the method call initializes
+	 *                                        the collection even if it is not empty
+	 *
+	 * @return     void
+	 */
+	public function initSolicituds($overrideExisting = true)
+	{
+		if (null !== $this->collSolicituds && !$overrideExisting) {
+			return;
+		}
+		$this->collSolicituds = new PropelObjectCollection();
+		$this->collSolicituds->setModel('Solicitud');
+	}
+
+	/**
+	 * Gets an array of Solicitud objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this Solicitud_estado is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array Solicitud[] List of Solicitud objects
 	 * @throws     PropelException
 	 */
-	public function setUsuarioRelatedById_usuario_destinatario(Usuario $v = null)
+	public function getSolicituds($criteria = null, PropelPDO $con = null)
 	{
-		if ($v === null) {
-			$this->setId_usuario_destinatario(NULL);
-		} else {
-			$this->setId_usuario_destinatario($v->getId());
+		if(null === $this->collSolicituds || null !== $criteria) {
+			if ($this->isNew() && null === $this->collSolicituds) {
+				// return empty collection
+				$this->initSolicituds();
+			} else {
+				$collSolicituds = SolicitudQuery::create(null, $criteria)
+					->filterBySolicitud_estado($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collSolicituds;
+				}
+				$this->collSolicituds = $collSolicituds;
+			}
+		}
+		return $this->collSolicituds;
+	}
+
+	/**
+	 * Sets a collection of Solicitud objects related by a one-to-many relationship
+	 * to the current object.
+	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+	 * and new objects from the given Propel collection.
+	 *
+	 * @param      PropelCollection $solicituds A Propel collection.
+	 * @param      PropelPDO $con Optional connection object
+	 */
+	public function setSolicituds(PropelCollection $solicituds, PropelPDO $con = null)
+	{
+		$this->solicitudsScheduledForDeletion = $this->getSolicituds(new Criteria(), $con)->diff($solicituds);
+
+		foreach ($solicituds as $solicitud) {
+			// Fix issue with collection modified by reference
+			if ($solicitud->isNew()) {
+				$solicitud->setSolicitud_estado($this);
+			}
+			$this->addSolicitud($solicitud);
 		}
 
-		$this->aUsuarioRelatedById_usuario_destinatario = $v;
+		$this->collSolicituds = $solicituds;
+	}
 
-		// Add binding for other direction of this n:n relationship.
-		// If this object has already been added to the Usuario object, it will not be re-added.
-		if ($v !== null) {
-			$v->addMensajeRelatedById_usuario_destinatario($this);
+	/**
+	 * Returns the number of related Solicitud objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related Solicitud objects.
+	 * @throws     PropelException
+	 */
+	public function countSolicituds(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collSolicituds || null !== $criteria) {
+			if ($this->isNew() && null === $this->collSolicituds) {
+				return 0;
+			} else {
+				$query = SolicitudQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterBySolicitud_estado($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collSolicituds);
+		}
+	}
+
+	/**
+	 * Method called to associate a Solicitud object to this object
+	 * through the Solicitud foreign key attribute.
+	 *
+	 * @param      Solicitud $l Solicitud
+	 * @return     Solicitud_estado The current object (for fluent API support)
+	 */
+	public function addSolicitud(Solicitud $l)
+	{
+		if ($this->collSolicituds === null) {
+			$this->initSolicituds();
+		}
+		if (!$this->collSolicituds->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddSolicitud($l);
 		}
 
 		return $this;
 	}
 
-
 	/**
-	 * Get the associated Usuario object
-	 *
-	 * @param      PropelPDO Optional Connection object.
-	 * @return     Usuario The associated Usuario object.
-	 * @throws     PropelException
+	 * @param	Solicitud $solicitud The solicitud object to add.
 	 */
-	public function getUsuarioRelatedById_usuario_destinatario(PropelPDO $con = null)
+	protected function doAddSolicitud($solicitud)
 	{
-		if ($this->aUsuarioRelatedById_usuario_destinatario === null && ($this->id_usuario_destinatario !== null)) {
-			$this->aUsuarioRelatedById_usuario_destinatario = UsuarioQuery::create()->findPk($this->id_usuario_destinatario, $con);
-			/* The following can be used additionally to
-				guarantee the related object contains a reference
-				to this object.  This level of coupling may, however, be
-				undesirable since it could result in an only partially populated collection
-				in the referenced object.
-				$this->aUsuarioRelatedById_usuario_destinatario->addMensajesRelatedById_usuario_destinatario($this);
-			 */
-		}
-		return $this->aUsuarioRelatedById_usuario_destinatario;
-	}
-
-	/**
-	 * Declares an association between this object and a Usuario object.
-	 *
-	 * @param      Usuario $v
-	 * @return     Mensaje The current object (for fluent API support)
-	 * @throws     PropelException
-	 */
-	public function setUsuarioRelatedById_usuario_remitente(Usuario $v = null)
-	{
-		if ($v === null) {
-			$this->setId_usuario_remitente(NULL);
-		} else {
-			$this->setId_usuario_remitente($v->getId());
-		}
-
-		$this->aUsuarioRelatedById_usuario_remitente = $v;
-
-		// Add binding for other direction of this n:n relationship.
-		// If this object has already been added to the Usuario object, it will not be re-added.
-		if ($v !== null) {
-			$v->addMensajeRelatedById_usuario_remitente($this);
-		}
-
-		return $this;
+		$this->collSolicituds[]= $solicitud;
+		$solicitud->setSolicitud_estado($this);
 	}
 
 
 	/**
-	 * Get the associated Usuario object
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Solicitud_estado is new, it will return
+	 * an empty collection; or if this Solicitud_estado has previously
+	 * been saved, it will retrieve related Solicituds from storage.
 	 *
-	 * @param      PropelPDO Optional Connection object.
-	 * @return     Usuario The associated Usuario object.
-	 * @throws     PropelException
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Solicitud_estado.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return     PropelCollection|array Solicitud[] List of Solicitud objects
 	 */
-	public function getUsuarioRelatedById_usuario_remitente(PropelPDO $con = null)
+	public function getSolicitudsJoinLibro($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
 	{
-		if ($this->aUsuarioRelatedById_usuario_remitente === null && ($this->id_usuario_remitente !== null)) {
-			$this->aUsuarioRelatedById_usuario_remitente = UsuarioQuery::create()->findPk($this->id_usuario_remitente, $con);
-			/* The following can be used additionally to
-				guarantee the related object contains a reference
-				to this object.  This level of coupling may, however, be
-				undesirable since it could result in an only partially populated collection
-				in the referenced object.
-				$this->aUsuarioRelatedById_usuario_remitente->addMensajesRelatedById_usuario_remitente($this);
-			 */
-		}
-		return $this->aUsuarioRelatedById_usuario_remitente;
+		$query = SolicitudQuery::create(null, $criteria);
+		$query->joinWith('Libro', $join_behavior);
+
+		return $this->getSolicituds($query, $con);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Solicitud_estado is new, it will return
+	 * an empty collection; or if this Solicitud_estado has previously
+	 * been saved, it will retrieve related Solicituds from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Solicitud_estado.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return     PropelCollection|array Solicitud[] List of Solicitud objects
+	 */
+	public function getSolicitudsJoinUsuario($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$query = SolicitudQuery::create(null, $criteria);
+		$query->joinWith('Usuario', $join_behavior);
+
+		return $this->getSolicituds($query, $con);
 	}
 
 	/**
@@ -1085,10 +1020,7 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 	public function clear()
 	{
 		$this->id = null;
-		$this->id_usuario_destinatario = null;
-		$this->id_usuario_remitente = null;
-		$this->mensaje = null;
-		$this->leido = null;
+		$this->descrp = null;
 		$this->alreadyInSave = false;
 		$this->alreadyInValidation = false;
 		$this->clearAllReferences();
@@ -1109,10 +1041,17 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 	public function clearAllReferences($deep = false)
 	{
 		if ($deep) {
+			if ($this->collSolicituds) {
+				foreach ($this->collSolicituds as $o) {
+					$o->clearAllReferences($deep);
+				}
+			}
 		} // if ($deep)
 
-		$this->aUsuarioRelatedById_usuario_destinatario = null;
-		$this->aUsuarioRelatedById_usuario_remitente = null;
+		if ($this->collSolicituds instanceof PropelCollection) {
+			$this->collSolicituds->clearIterator();
+		}
+		$this->collSolicituds = null;
 	}
 
 	/**
@@ -1122,7 +1061,7 @@ abstract class BaseMensaje extends BaseObject  implements Persistent
 	 */
 	public function __toString()
 	{
-		return (string) $this->exportTo(MensajePeer::DEFAULT_STRING_FORMAT);
+		return (string) $this->exportTo(Solicitud_estadoPeer::DEFAULT_STRING_FORMAT);
 	}
 
-} // BaseMensaje
+} // BaseSolicitud_estado

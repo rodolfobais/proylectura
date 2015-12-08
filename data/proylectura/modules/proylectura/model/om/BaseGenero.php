@@ -48,6 +48,11 @@ abstract class BaseGenero extends BaseObject  implements Persistent
 	protected $collLibros;
 
 	/**
+	 * @var        array Usuario_intereses[] Collection to store aggregation of Usuario_intereses objects.
+	 */
+	protected $collUsuario_interesess;
+
+	/**
 	 * @var        array Lista[] Collection to store aggregation of Lista objects.
 	 */
 	protected $collListas;
@@ -71,6 +76,12 @@ abstract class BaseGenero extends BaseObject  implements Persistent
 	 * @var		array
 	 */
 	protected $librosScheduledForDeletion = null;
+
+	/**
+	 * An array of objects scheduled for deletion.
+	 * @var		array
+	 */
+	protected $usuario_interesessScheduledForDeletion = null;
 
 	/**
 	 * An array of objects scheduled for deletion.
@@ -244,6 +255,8 @@ abstract class BaseGenero extends BaseObject  implements Persistent
 
 			$this->collLibros = null;
 
+			$this->collUsuario_interesess = null;
+
 			$this->collListas = null;
 
 		} // if (deep)
@@ -378,6 +391,23 @@ abstract class BaseGenero extends BaseObject  implements Persistent
 
 			if ($this->collLibros !== null) {
 				foreach ($this->collLibros as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->usuario_interesessScheduledForDeletion !== null) {
+				if (!$this->usuario_interesessScheduledForDeletion->isEmpty()) {
+		Usuario_interesesQuery::create()
+						->filterByPrimaryKeys($this->usuario_interesessScheduledForDeletion->getPrimaryKeys(false))
+						->delete($con);
+					$this->usuario_interesessScheduledForDeletion = null;
+				}
+			}
+
+			if ($this->collUsuario_interesess !== null) {
+				foreach ($this->collUsuario_interesess as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -554,6 +584,14 @@ abstract class BaseGenero extends BaseObject  implements Persistent
 					}
 				}
 
+				if ($this->collUsuario_interesess !== null) {
+					foreach ($this->collUsuario_interesess as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
 				if ($this->collListas !== null) {
 					foreach ($this->collListas as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
@@ -636,6 +674,9 @@ abstract class BaseGenero extends BaseObject  implements Persistent
 		if ($includeForeignObjects) {
 			if (null !== $this->collLibros) {
 				$result['Libros'] = $this->collLibros->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			}
+			if (null !== $this->collUsuario_interesess) {
+				$result['Usuario_interesess'] = $this->collUsuario_interesess->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
 			}
 			if (null !== $this->collListas) {
 				$result['Listas'] = $this->collListas->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
@@ -793,6 +834,12 @@ abstract class BaseGenero extends BaseObject  implements Persistent
 				}
 			}
 
+			foreach ($this->getUsuario_interesess() as $relObj) {
+				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addUsuario_intereses($relObj->copy($deepCopy));
+				}
+			}
+
 			foreach ($this->getListas() as $relObj) {
 				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
 					$copyObj->addLista($relObj->copy($deepCopy));
@@ -860,6 +907,9 @@ abstract class BaseGenero extends BaseObject  implements Persistent
 	{
 		if ('Libro' == $relationName) {
 			return $this->initLibros();
+		}
+		if ('Usuario_intereses' == $relationName) {
+			return $this->initUsuario_interesess();
 		}
 		if ('Lista' == $relationName) {
 			return $this->initListas();
@@ -1090,6 +1140,179 @@ abstract class BaseGenero extends BaseObject  implements Persistent
 	}
 
 	/**
+	 * Clears out the collUsuario_interesess collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addUsuario_interesess()
+	 */
+	public function clearUsuario_interesess()
+	{
+		$this->collUsuario_interesess = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collUsuario_interesess collection.
+	 *
+	 * By default this just sets the collUsuario_interesess collection to an empty array (like clearcollUsuario_interesess());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @param      boolean $overrideExisting If set to true, the method call initializes
+	 *                                        the collection even if it is not empty
+	 *
+	 * @return     void
+	 */
+	public function initUsuario_interesess($overrideExisting = true)
+	{
+		if (null !== $this->collUsuario_interesess && !$overrideExisting) {
+			return;
+		}
+		$this->collUsuario_interesess = new PropelObjectCollection();
+		$this->collUsuario_interesess->setModel('Usuario_intereses');
+	}
+
+	/**
+	 * Gets an array of Usuario_intereses objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this Genero is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array Usuario_intereses[] List of Usuario_intereses objects
+	 * @throws     PropelException
+	 */
+	public function getUsuario_interesess($criteria = null, PropelPDO $con = null)
+	{
+		if(null === $this->collUsuario_interesess || null !== $criteria) {
+			if ($this->isNew() && null === $this->collUsuario_interesess) {
+				// return empty collection
+				$this->initUsuario_interesess();
+			} else {
+				$collUsuario_interesess = Usuario_interesesQuery::create(null, $criteria)
+					->filterByGenero($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collUsuario_interesess;
+				}
+				$this->collUsuario_interesess = $collUsuario_interesess;
+			}
+		}
+		return $this->collUsuario_interesess;
+	}
+
+	/**
+	 * Sets a collection of Usuario_intereses objects related by a one-to-many relationship
+	 * to the current object.
+	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+	 * and new objects from the given Propel collection.
+	 *
+	 * @param      PropelCollection $usuario_interesess A Propel collection.
+	 * @param      PropelPDO $con Optional connection object
+	 */
+	public function setUsuario_interesess(PropelCollection $usuario_interesess, PropelPDO $con = null)
+	{
+		$this->usuario_interesessScheduledForDeletion = $this->getUsuario_interesess(new Criteria(), $con)->diff($usuario_interesess);
+
+		foreach ($usuario_interesess as $usuario_intereses) {
+			// Fix issue with collection modified by reference
+			if ($usuario_intereses->isNew()) {
+				$usuario_intereses->setGenero($this);
+			}
+			$this->addUsuario_intereses($usuario_intereses);
+		}
+
+		$this->collUsuario_interesess = $usuario_interesess;
+	}
+
+	/**
+	 * Returns the number of related Usuario_intereses objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related Usuario_intereses objects.
+	 * @throws     PropelException
+	 */
+	public function countUsuario_interesess(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collUsuario_interesess || null !== $criteria) {
+			if ($this->isNew() && null === $this->collUsuario_interesess) {
+				return 0;
+			} else {
+				$query = Usuario_interesesQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterByGenero($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collUsuario_interesess);
+		}
+	}
+
+	/**
+	 * Method called to associate a Usuario_intereses object to this object
+	 * through the Usuario_intereses foreign key attribute.
+	 *
+	 * @param      Usuario_intereses $l Usuario_intereses
+	 * @return     Genero The current object (for fluent API support)
+	 */
+	public function addUsuario_intereses(Usuario_intereses $l)
+	{
+		if ($this->collUsuario_interesess === null) {
+			$this->initUsuario_interesess();
+		}
+		if (!$this->collUsuario_interesess->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddUsuario_intereses($l);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param	Usuario_intereses $usuario_intereses The usuario_intereses object to add.
+	 */
+	protected function doAddUsuario_intereses($usuario_intereses)
+	{
+		$this->collUsuario_interesess[]= $usuario_intereses;
+		$usuario_intereses->setGenero($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Genero is new, it will return
+	 * an empty collection; or if this Genero has previously
+	 * been saved, it will retrieve related Usuario_interesess from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Genero.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return     PropelCollection|array Usuario_intereses[] List of Usuario_intereses objects
+	 */
+	public function getUsuario_interesessJoinUsuario($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$query = Usuario_interesesQuery::create(null, $criteria);
+		$query->joinWith('Usuario', $join_behavior);
+
+		return $this->getUsuario_interesess($query, $con);
+	}
+
+	/**
 	 * Clears out the collListas collection
 	 *
 	 * This does not modify the database; however, it will remove any associated objects, causing
@@ -1294,6 +1517,11 @@ abstract class BaseGenero extends BaseObject  implements Persistent
 					$o->clearAllReferences($deep);
 				}
 			}
+			if ($this->collUsuario_interesess) {
+				foreach ($this->collUsuario_interesess as $o) {
+					$o->clearAllReferences($deep);
+				}
+			}
 			if ($this->collListas) {
 				foreach ($this->collListas as $o) {
 					$o->clearAllReferences($deep);
@@ -1305,6 +1533,10 @@ abstract class BaseGenero extends BaseObject  implements Persistent
 			$this->collLibros->clearIterator();
 		}
 		$this->collLibros = null;
+		if ($this->collUsuario_interesess instanceof PropelCollection) {
+			$this->collUsuario_interesess->clearIterator();
+		}
+		$this->collUsuario_interesess = null;
 		if ($this->collListas instanceof PropelCollection) {
 			$this->collListas->clearIterator();
 		}

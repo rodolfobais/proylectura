@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 08-12-2015 a las 11:59:26
+-- Tiempo de generación: 08-12-2015 a las 13:03:57
 -- Versión del servidor: 5.5.41-0ubuntu0.14.04.1
 -- Versión de PHP: 5.5.9-1ubuntu4.9
 
@@ -26,15 +26,15 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `amistad`
 --
 
--- CREATE TABLE IF NOT EXISTS `amistad` (
---   `id` int(10) NOT NULL AUTO_INCREMENT,
---   `id_usuario` int(10) NOT NULL,
---   `id_usuarioamigo` int(10) NOT NULL,
---   `estado` int(10) NOT NULL,
---   PRIMARY KEY (`id`),
---   KEY `FI_stad_usuario` (`id_usuario`),
---   KEY `FI_stad_id_usuarioamigo` (`id_usuarioamigo`)
--- ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+CREATE TABLE IF NOT EXISTS `amistad` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `id_usuario` int(10) NOT NULL,
+  `id_usuarioamigo` int(10) NOT NULL,
+  `estado` int(10) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FI_stad_usuario` (`id_usuario`),
+  KEY `FI_stad_id_usuarioamigo` (`id_usuarioamigo`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -42,33 +42,13 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `audiolibro`
 --
 
--- CREATE TABLE IF NOT EXISTS `audiolibro` (
---   `id` int(10) NOT NULL AUTO_INCREMENT,
---   `nombre` char(50) NOT NULL,
---   `idlibro` int(10) NOT NULL,
---   PRIMARY KEY (`id`),
---   KEY `FI_iolibro_libro` (`idlibro`)
--- ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `autor`
---
-
-CREATE TABLE IF NOT EXISTS `autor` (
+CREATE TABLE IF NOT EXISTS `audiolibro` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `nombre` char(100) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
---
--- Volcado de datos para la tabla `autor`
---
-
-INSERT INTO `autor` (`id`, `nombre`) VALUES
-(1, 'nuevo nombre'),
-(2, 'asd2');
+  `nombre` char(50) NOT NULL,
+  `idlibro` int(10) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FI_iolibro_libro` (`idlibro`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -99,15 +79,7 @@ CREATE TABLE IF NOT EXISTS `clasificados` (
   `texto_largo` char(250) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FI_sificados_libro` (`id_libro`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
---
--- Volcado de datos para la tabla `clasificados`
---
-
-INSERT INTO `clasificados` (`id`, `id_libro`, `texto_corto`, `texto_largo`) VALUES
-(1, 33, 'testesteste', 'etetetetet'),
-(2, 23, 'aershdjfjhgrsg rs g', ' gag ag wth whwt ht h');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -171,9 +143,13 @@ CREATE TABLE IF NOT EXISTS `libro` (
   `usuario_ult_acc` int(10) DEFAULT NULL,
   `id_privacidad` int(10) DEFAULT NULL,
   `es_editable` char(1) DEFAULT NULL,
-  `id_usuario` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=71 ;
+  `id_usuario` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FI_ro_usuario_ult_acc` (`usuario_ult_acc`),
+  KEY `FI_ro_privacidad` (`id_privacidad`),
+  KEY `FI_ro_genero` (`id_genero`),
+  KEY `FI_ro_id_usuario` (`id_usuario`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=35 ;
 
 --
 -- Volcado de datos para la tabla `libro`
@@ -256,7 +232,6 @@ CREATE TABLE IF NOT EXISTS `lista` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `nombre` char(50) NOT NULL,
   `fecha` date NOT NULL,
-  `id_visibilidad` int(10) NOT NULL,
   `id_usuario` int(10) NOT NULL,
   `id_genero` int(10) NOT NULL,
   PRIMARY KEY (`id`),
@@ -290,6 +265,7 @@ CREATE TABLE IF NOT EXISTS `mensaje` (
   `id_usuario_destinatario` int(10) NOT NULL,
   `id_usuario_remitente` int(10) NOT NULL,
   `mensaje` char(255) NOT NULL,
+  `leido` char(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FI_saje_usuario_detinatario` (`id_usuario_destinatario`),
   KEY `FI_saje_usuario_remitente` (`id_usuario_remitente`)
@@ -307,9 +283,11 @@ CREATE TABLE IF NOT EXISTS `notificacion` (
   `id_receptor` int(10) NOT NULL,
   `descripcion` char(255) NOT NULL,
   `id_tipo_notificacion` int(10) NOT NULL,
+  `leido` char(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FI_ificacion_emisor` (`id_emisor`),
-  KEY `FI_ificacion_receptor` (`id_receptor`)
+  KEY `FI_ificacion_receptor` (`id_receptor`),
+  KEY `FI_ificacion_tiponotificacion` (`id_tipo_notificacion`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -404,13 +382,42 @@ INSERT INTO `slider_mae` (`id`, `id_libro`, `posicion`, `id_categoria`) VALUES
 
 CREATE TABLE IF NOT EXISTS `solicitud` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `id_usuario_solicitado` int(10) NOT NULL,
+  `id_libro` int(10) NOT NULL,
   `id_usuario_solicitante` int(10) NOT NULL,
-  `estado` int(10) NOT NULL,
-  `fecha` date NOT NULL,
+  `id_estado` int(10) NOT NULL,
+  `fecha_solic` date DEFAULT NULL,
+  `hora_solic` char(8) DEFAULT NULL,
+  `fecha_aprob` date DEFAULT NULL,
+  `hora_aprob` char(8) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FI_icitud_usuario_solicitado` (`id_usuario_solicitado`),
-  KEY `FI_icitud_usuario_solicitante` (`id_usuario_solicitante`)
+  KEY `FI_icitud_libro` (`id_libro`),
+  KEY `FI_icitud_usuario_solicitante` (`id_usuario_solicitante`),
+  KEY `FI_icitud_estado` (`id_estado`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `solicitud_estado`
+--
+
+CREATE TABLE IF NOT EXISTS `solicitud_estado` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `descrp` char(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipo_notificacion`
+--
+
+CREATE TABLE IF NOT EXISTS `tipo_notificacion` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `nombre` char(50) NOT NULL,
+  `imagen` char(150) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -421,11 +428,13 @@ CREATE TABLE IF NOT EXISTS `solicitud` (
 
 CREATE TABLE IF NOT EXISTS `usuario` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `nick` char(50) NOT NULL,
-  `nombre` char(50) NOT NULL,
+  `nombre` char(255) NOT NULL,
   `mail` char(100) NOT NULL,
   `password` char(255) NOT NULL,
   `admin` int(11) NOT NULL,
+  `educacion` char(255) DEFAULT NULL,
+  `lugar` char(255) DEFAULT NULL,
+  `nota` char(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
 
@@ -433,13 +442,28 @@ CREATE TABLE IF NOT EXISTS `usuario` (
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id`,  `nombre`, `mail`, `password`, `admin`) VALUES
-(16, 'Tecla', 'tecla@tecla.com', 'drodriguez', 0),
-(17, 'Fer', 'fer@fer.com', '123456', 0),
-(18, 'admin', 'admin@admin.com', 'admin', 1),
-(20, 'Jorge Miranda', 'jorge@jorge.com', '12345', 0),
-(21, 'Rodo', 'rodo@rodo.com', '123456', 0),
-(22, 'Chris', 'chris@chris.com', '123456', 0);
+INSERT INTO `usuario` (`id`, `nombre`, `mail`, `password`, `admin`, `educacion`, `lugar`, `nota`) VALUES
+(16, 'Tecla', 'tecla@tecla.com', 'drodriguez', 0, NULL, NULL, NULL),
+(17, 'Fer', 'fer@fer.com', '123456', 0, NULL, NULL, NULL),
+(18, 'admin', 'admin@admin.com', 'admin', 1, NULL, NULL, NULL),
+(20, 'Jorge Miranda', 'jorge@jorge.com', '12345', 0, NULL, NULL, NULL),
+(21, 'Rodo', 'rodo@rodo.com', '123456', 0, NULL, NULL, NULL),
+(22, 'Chris', 'chris@chris.com', '123456', 0, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuario_intereses`
+--
+
+CREATE TABLE IF NOT EXISTS `usuario_intereses` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `id_usuario` int(10) NOT NULL,
+  `id_genero` int(10) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FI_ereses_usuario` (`id_usuario`),
+  KEY `FI_ereses_genero` (`id_genero`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
 -- Restricciones para tablas volcadas
@@ -449,8 +473,8 @@ INSERT INTO `usuario` (`id`,  `nombre`, `mail`, `password`, `admin`) VALUES
 -- Filtros para la tabla `amistad`
 --
 ALTER TABLE `amistad`
-  ADD CONSTRAINT `amistad_id_usuarioamigo` FOREIGN KEY (`id_usuarioamigo`) REFERENCES `usuario` (`id`),
-  ADD CONSTRAINT `amistad_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`);
+  ADD CONSTRAINT `amistad_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`),
+  ADD CONSTRAINT `amistad_id_usuarioamigo` FOREIGN KEY (`id_usuarioamigo`) REFERENCES `usuario` (`id`);
 
 --
 -- Filtros para la tabla `audiolibro`
@@ -462,8 +486,8 @@ ALTER TABLE `audiolibro`
 -- Filtros para la tabla `calificacion`
 --
 ALTER TABLE `calificacion`
-  ADD CONSTRAINT `calificacion_libro` FOREIGN KEY (`id_libro`) REFERENCES `libro` (`id`),
-  ADD CONSTRAINT `calificacion_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`);
+  ADD CONSTRAINT `calificacion_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`),
+  ADD CONSTRAINT `calificacion_libro` FOREIGN KEY (`id_libro`) REFERENCES `libro` (`id`);
 
 --
 -- Filtros para la tabla `clasificados`
@@ -475,8 +499,17 @@ ALTER TABLE `clasificados`
 -- Filtros para la tabla `comentario`
 --
 ALTER TABLE `comentario`
-  ADD CONSTRAINT `comentario_libro` FOREIGN KEY (`id_libro`) REFERENCES `libro` (`id`),
-  ADD CONSTRAINT `comentario_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`);
+  ADD CONSTRAINT `comentario_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`),
+  ADD CONSTRAINT `comentario_libro` FOREIGN KEY (`id_libro`) REFERENCES `libro` (`id`);
+
+--
+-- Filtros para la tabla `libro`
+--
+ALTER TABLE `libro`
+  ADD CONSTRAINT `libro_usuario_ult_acc` FOREIGN KEY (`usuario_ult_acc`) REFERENCES `usuario` (`id`),
+  ADD CONSTRAINT `libro_privacidad` FOREIGN KEY (`id_privacidad`) REFERENCES `privacidad` (`id`),
+  ADD CONSTRAINT `libro_genero` FOREIGN KEY (`id_genero`) REFERENCES `genero` (`id`),
+  ADD CONSTRAINT `libro_id_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`);
 
 --
 -- Filtros para la tabla `libro_colaborador`
@@ -518,7 +551,8 @@ ALTER TABLE `mensaje`
 --
 ALTER TABLE `notificacion`
   ADD CONSTRAINT `notificacion_emisor` FOREIGN KEY (`id_emisor`) REFERENCES `usuario` (`id`),
-  ADD CONSTRAINT `notificacion_receptor` FOREIGN KEY (`id_receptor`) REFERENCES `usuario` (`id`);
+  ADD CONSTRAINT `notificacion_receptor` FOREIGN KEY (`id_receptor`) REFERENCES `usuario` (`id`),
+  ADD CONSTRAINT `notificacion_tiponotificacion` FOREIGN KEY (`id_tipo_notificacion`) REFERENCES `tipo_notificacion` (`id`);
 
 --
 -- Filtros para la tabla `postulantes`
@@ -531,15 +565,23 @@ ALTER TABLE `postulantes`
 -- Filtros para la tabla `slider_mae`
 --
 ALTER TABLE `slider_mae`
-  ADD CONSTRAINT `slider_mae_categoria` FOREIGN KEY (`id_categoria`) REFERENCES `slider_categ` (`id`),
-  ADD CONSTRAINT `slider_mae_libro` FOREIGN KEY (`id_libro`) REFERENCES `libro` (`id`);
+  ADD CONSTRAINT `slider_mae_libro` FOREIGN KEY (`id_libro`) REFERENCES `libro` (`id`),
+  ADD CONSTRAINT `slider_mae_categoria` FOREIGN KEY (`id_categoria`) REFERENCES `slider_categ` (`id`);
 
 --
 -- Filtros para la tabla `solicitud`
 --
 ALTER TABLE `solicitud`
-  ADD CONSTRAINT `solicitud_usuario_solicitado` FOREIGN KEY (`id_usuario_solicitado`) REFERENCES `usuario` (`id`),
-  ADD CONSTRAINT `solicitud_usuario_solicitante` FOREIGN KEY (`id_usuario_solicitante`) REFERENCES `usuario` (`id`);
+  ADD CONSTRAINT `solicitud_libro` FOREIGN KEY (`id_libro`) REFERENCES `libro` (`id`),
+  ADD CONSTRAINT `solicitud_usuario_solicitante` FOREIGN KEY (`id_usuario_solicitante`) REFERENCES `usuario` (`id`),
+  ADD CONSTRAINT `solicitud_estado` FOREIGN KEY (`id_estado`) REFERENCES `solicitud_estado` (`id`);
+
+--
+-- Filtros para la tabla `usuario_intereses`
+--
+ALTER TABLE `usuario_intereses`
+  ADD CONSTRAINT `intereses_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`),
+  ADD CONSTRAINT `intereses_genero` FOREIGN KEY (`id_genero`) REFERENCES `genero` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

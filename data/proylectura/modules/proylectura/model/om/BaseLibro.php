@@ -154,6 +154,11 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	protected $collLibro_versions;
 
 	/**
+	 * @var        array Solicitud[] Collection to store aggregation of Solicitud objects.
+	 */
+	protected $collSolicituds;
+
+	/**
 	 * @var        array Slider_mae[] Collection to store aggregation of Slider_mae objects.
 	 */
 	protected $collSlider_maes;
@@ -211,6 +216,12 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	 * @var		array
 	 */
 	protected $libro_versionsScheduledForDeletion = null;
+
+	/**
+	 * An array of objects scheduled for deletion.
+	 * @var		array
+	 */
+	protected $solicitudsScheduledForDeletion = null;
 
 	/**
 	 * An array of objects scheduled for deletion.
@@ -837,6 +848,8 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 
 			$this->collLibro_versions = null;
 
+			$this->collSolicituds = null;
+
 			$this->collSlider_maes = null;
 
 			$this->collPostulantess = null;
@@ -1076,6 +1089,23 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 
 			if ($this->collLibro_versions !== null) {
 				foreach ($this->collLibro_versions as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->solicitudsScheduledForDeletion !== null) {
+				if (!$this->solicitudsScheduledForDeletion->isEmpty()) {
+		SolicitudQuery::create()
+						->filterByPrimaryKeys($this->solicitudsScheduledForDeletion->getPrimaryKeys(false))
+						->delete($con);
+					$this->solicitudsScheduledForDeletion = null;
+				}
+			}
+
+			if ($this->collSolicituds !== null) {
+				foreach ($this->collSolicituds as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -1414,6 +1444,14 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 					}
 				}
 
+				if ($this->collSolicituds !== null) {
+					foreach ($this->collSolicituds as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
 				if ($this->collSlider_maes !== null) {
 					foreach ($this->collSlider_maes as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
@@ -1580,6 +1618,9 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			}
 			if (null !== $this->collLibro_versions) {
 				$result['Libro_versions'] = $this->collLibro_versions->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			}
+			if (null !== $this->collSolicituds) {
+				$result['Solicituds'] = $this->collSolicituds->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
 			}
 			if (null !== $this->collSlider_maes) {
 				$result['Slider_maes'] = $this->collSlider_maes->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
@@ -1830,6 +1871,12 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			foreach ($this->getLibro_versions() as $relObj) {
 				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
 					$copyObj->addLibro_version($relObj->copy($deepCopy));
+				}
+			}
+
+			foreach ($this->getSolicituds() as $relObj) {
+				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addSolicitud($relObj->copy($deepCopy));
 				}
 			}
 
@@ -2120,6 +2167,9 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 		}
 		if ('Libro_version' == $relationName) {
 			return $this->initLibro_versions();
+		}
+		if ('Solicitud' == $relationName) {
+			return $this->initSolicituds();
 		}
 		if ('Slider_mae' == $relationName) {
 			return $this->initSlider_maes();
@@ -2973,6 +3023,204 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 	}
 
 	/**
+	 * Clears out the collSolicituds collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addSolicituds()
+	 */
+	public function clearSolicituds()
+	{
+		$this->collSolicituds = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collSolicituds collection.
+	 *
+	 * By default this just sets the collSolicituds collection to an empty array (like clearcollSolicituds());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @param      boolean $overrideExisting If set to true, the method call initializes
+	 *                                        the collection even if it is not empty
+	 *
+	 * @return     void
+	 */
+	public function initSolicituds($overrideExisting = true)
+	{
+		if (null !== $this->collSolicituds && !$overrideExisting) {
+			return;
+		}
+		$this->collSolicituds = new PropelObjectCollection();
+		$this->collSolicituds->setModel('Solicitud');
+	}
+
+	/**
+	 * Gets an array of Solicitud objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this Libro is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array Solicitud[] List of Solicitud objects
+	 * @throws     PropelException
+	 */
+	public function getSolicituds($criteria = null, PropelPDO $con = null)
+	{
+		if(null === $this->collSolicituds || null !== $criteria) {
+			if ($this->isNew() && null === $this->collSolicituds) {
+				// return empty collection
+				$this->initSolicituds();
+			} else {
+				$collSolicituds = SolicitudQuery::create(null, $criteria)
+					->filterByLibro($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collSolicituds;
+				}
+				$this->collSolicituds = $collSolicituds;
+			}
+		}
+		return $this->collSolicituds;
+	}
+
+	/**
+	 * Sets a collection of Solicitud objects related by a one-to-many relationship
+	 * to the current object.
+	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+	 * and new objects from the given Propel collection.
+	 *
+	 * @param      PropelCollection $solicituds A Propel collection.
+	 * @param      PropelPDO $con Optional connection object
+	 */
+	public function setSolicituds(PropelCollection $solicituds, PropelPDO $con = null)
+	{
+		$this->solicitudsScheduledForDeletion = $this->getSolicituds(new Criteria(), $con)->diff($solicituds);
+
+		foreach ($solicituds as $solicitud) {
+			// Fix issue with collection modified by reference
+			if ($solicitud->isNew()) {
+				$solicitud->setLibro($this);
+			}
+			$this->addSolicitud($solicitud);
+		}
+
+		$this->collSolicituds = $solicituds;
+	}
+
+	/**
+	 * Returns the number of related Solicitud objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related Solicitud objects.
+	 * @throws     PropelException
+	 */
+	public function countSolicituds(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collSolicituds || null !== $criteria) {
+			if ($this->isNew() && null === $this->collSolicituds) {
+				return 0;
+			} else {
+				$query = SolicitudQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterByLibro($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collSolicituds);
+		}
+	}
+
+	/**
+	 * Method called to associate a Solicitud object to this object
+	 * through the Solicitud foreign key attribute.
+	 *
+	 * @param      Solicitud $l Solicitud
+	 * @return     Libro The current object (for fluent API support)
+	 */
+	public function addSolicitud(Solicitud $l)
+	{
+		if ($this->collSolicituds === null) {
+			$this->initSolicituds();
+		}
+		if (!$this->collSolicituds->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddSolicitud($l);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param	Solicitud $solicitud The solicitud object to add.
+	 */
+	protected function doAddSolicitud($solicitud)
+	{
+		$this->collSolicituds[]= $solicitud;
+		$solicitud->setLibro($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Libro is new, it will return
+	 * an empty collection; or if this Libro has previously
+	 * been saved, it will retrieve related Solicituds from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Libro.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return     PropelCollection|array Solicitud[] List of Solicitud objects
+	 */
+	public function getSolicitudsJoinUsuario($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$query = SolicitudQuery::create(null, $criteria);
+		$query->joinWith('Usuario', $join_behavior);
+
+		return $this->getSolicituds($query, $con);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Libro is new, it will return
+	 * an empty collection; or if this Libro has previously
+	 * been saved, it will retrieve related Solicituds from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Libro.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return     PropelCollection|array Solicitud[] List of Solicitud objects
+	 */
+	public function getSolicitudsJoinSolicitud_estado($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$query = SolicitudQuery::create(null, $criteria);
+		$query->joinWith('Solicitud_estado', $join_behavior);
+
+		return $this->getSolicituds($query, $con);
+	}
+
+	/**
 	 * Clears out the collSlider_maes collection
 	 *
 	 * This does not modify the database; however, it will remove any associated objects, causing
@@ -3529,6 +3777,11 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 					$o->clearAllReferences($deep);
 				}
 			}
+			if ($this->collSolicituds) {
+				foreach ($this->collSolicituds as $o) {
+					$o->clearAllReferences($deep);
+				}
+			}
 			if ($this->collSlider_maes) {
 				foreach ($this->collSlider_maes as $o) {
 					$o->clearAllReferences($deep);
@@ -3566,6 +3819,10 @@ abstract class BaseLibro extends BaseObject  implements Persistent
 			$this->collLibro_versions->clearIterator();
 		}
 		$this->collLibro_versions = null;
+		if ($this->collSolicituds instanceof PropelCollection) {
+			$this->collSolicituds->clearIterator();
+		}
+		$this->collSolicituds = null;
 		if ($this->collSlider_maes instanceof PropelCollection) {
 			$this->collSlider_maes->clearIterator();
 		}
