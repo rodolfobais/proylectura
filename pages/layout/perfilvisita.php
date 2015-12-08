@@ -1,27 +1,37 @@
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="http://localhost/proylectura/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="http://localhost/proylectura/css/perfil.css">
-    <link rel="stylesheet" href="http://localhost/proylectura/dist/css/skins/_all-skins.min.css">  
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+<?php
+//die;
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+include_once("../../data/config.php");
+
+//include("perfilpublico");
+//include("perfilprivado");
+
+
+//$libros = LibroQuery::create()->find();
+//$usuarios = UsuarioQuery::create()->find();
+$audiolibros = AudiolibroQuery::create()->find();
+$libros = LibroQuery::create()->find();
+//$libros=  LibroQuery::create()->findOneById($idLibro);
+$idusuario=18;
+$usuario=  UsuarioQuery::create()->findOneById($idusuario);
+
+//$options = "<option value = ''>Seleccione un libro</option> ";
+$listaaudios = ""; 
+//$arr=array();
+foreach ($audiolibros as $reg) { 
+    //if(!array_key_exists($reg->getId(), $arr)){
+     //$arr[$reg->getId()] = "";
+     $listaaudios .= "<li>".$reg->getNombre()."</li>";
+     //$options .= "<option value = '".$reg->getId()."'>".$reg->getNombre()."</option> ";
+     //$options .= "<option value = '".$reg->getId()."'>".$reg->getNombre()."</option> ";
+     //$options .= "<option value = '".$reg->getId()."'>".$reg->getNombre()."</option> ";
+     //}
+ }
+?>
     <div class="wrappers">
       <!-- Content Wrappers. Contains page content -->
       <div class="content-wrappers">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-          <h1>
-            Perfil de Usuario
-          </h1>
-        </section>
-
-        <!-- Main content -->
         <section class="content">
 
           <div class="row">
@@ -31,8 +41,7 @@
               <div class="box box-primary">
                 <div class="box-body box-profile">
                   <img class="profile-user-img img-responsive img-circle" src="http://localhost/proylectura/dist/img/user4-128x128.jpg" alt="User profile picture">
-                  <h3 class="profile-username text-center">Admin Administrador</h3>
-                  <p class="text-muted text-center">Desarrollador</p>
+                  <h3 class="profile-username text-center"><?php echo $usuario->getNombre(); ?></h3>
 
                   <ul class="list-group list-group-unbordered">
                     <li class="list-group-item">
@@ -85,11 +94,26 @@
                 <div class="tab-content">
                   <div class="active tab-pane" id="activity">
                     <!-- Post -->
+                    <div class="active tab-pane" id="activity">
                     <div class="post">
-                      <p>
-                        La actividad del usuario es privada, debe ser amigo para poder visualizarlo.
-                      </p>
+                    <?php
+                    
+                        foreach ($libros as $reg) {
+                            //$listaLibros .= "<li>".$reg->getNombre()."</li>";
+                            
+                            echo "<tr>"
+                            . "<div class='user-block' >"
+                            . "<img class='img-circle img-bordered-sm' src='portadas/".$reg->getImage().".jpg' alt='user image'/>"
+                            . "<span onclick=\"refreshDivs('cuerpocentro','pages/layout/perfillibro.php')\"  class='username'><a id = \"nombre_".$reg->getId()."\">".$reg->getNombre()."</a></span>"
+                            . "</div>"
+                            . "<p id = \"nombre_".$reg->getId()."\">".$reg->getSinopsis()."</p>"
+                            . "</tr>";
+                            
+                        }
+                    
+                    ?>
                     </div><!-- /.post -->
+                  </div>
                     <!-- Post -->
                     <!-- Post -->
                   </div><!-- /.tab-pane -->

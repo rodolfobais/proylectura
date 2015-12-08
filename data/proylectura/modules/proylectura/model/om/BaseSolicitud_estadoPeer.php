@@ -2,67 +2,49 @@
 
 
 /**
- * Base static class for performing query and update operations on the 'usuario' table.
+ * Base static class for performing query and update operations on the 'solicitud_estado' table.
  *
  * 
  *
  * @package    propel.generator.proylectura.model.om
  */
-abstract class BaseUsuarioPeer {
+abstract class BaseSolicitud_estadoPeer {
 
 	/** the default database name for this class */
 	const DATABASE_NAME = 'proylectura';
 
 	/** the table name for this class */
-	const TABLE_NAME = 'usuario';
+	const TABLE_NAME = 'solicitud_estado';
 
 	/** the related Propel class for this table */
-	const OM_CLASS = 'Usuario';
+	const OM_CLASS = 'Solicitud_estado';
 
 	/** the related TableMap class for this table */
-	const TM_CLASS = 'UsuarioTableMap';
+	const TM_CLASS = 'Solicitud_estadoTableMap';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 8;
+	const NUM_COLUMNS = 2;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
 	/** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-	const NUM_HYDRATE_COLUMNS = 8;
+	const NUM_HYDRATE_COLUMNS = 2;
 
 	/** the column name for the ID field */
-	const ID = 'usuario.ID';
+	const ID = 'solicitud_estado.ID';
 
-	/** the column name for the NOMBRE field */
-	const NOMBRE = 'usuario.NOMBRE';
-
-	/** the column name for the MAIL field */
-	const MAIL = 'usuario.MAIL';
-
-	/** the column name for the PASSWORD field */
-	const PASSWORD = 'usuario.PASSWORD';
-
-	/** the column name for the ADMIN field */
-	const ADMIN = 'usuario.ADMIN';
-
-	/** the column name for the EDUCACION field */
-	const EDUCACION = 'usuario.EDUCACION';
-
-	/** the column name for the LUGAR field */
-	const LUGAR = 'usuario.LUGAR';
-
-	/** the column name for the NOTA field */
-	const NOTA = 'usuario.NOTA';
+	/** the column name for the DESCRP field */
+	const DESCRP = 'solicitud_estado.DESCRP';
 
 	/** The default string format for model objects of the related table **/
 	const DEFAULT_STRING_FORMAT = 'YAML';
 
 	/**
-	 * An identiy map to hold any loaded instances of Usuario objects.
+	 * An identiy map to hold any loaded instances of Solicitud_estado objects.
 	 * This must be public so that other peer classes can access this when hydrating from JOIN
 	 * queries.
-	 * @var        array Usuario[]
+	 * @var        array Solicitud_estado[]
 	 */
 	public static $instances = array();
 
@@ -74,12 +56,12 @@ abstract class BaseUsuarioPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	protected static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Nombre', 'mail', 'Password', 'Admin', 'Educacion', 'Lugar', 'Nota', ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'nombre', 'mail', 'password', 'admin', 'educacion', 'lugar', 'nota', ),
-		BasePeer::TYPE_COLNAME => array (self::ID, self::NOMBRE, self::MAIL, self::PASSWORD, self::ADMIN, self::EDUCACION, self::LUGAR, self::NOTA, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'NOMBRE', 'MAIL', 'PASSWORD', 'ADMIN', 'EDUCACION', 'LUGAR', 'NOTA', ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'nombre', 'mail', 'password', 'admin', 'educacion', 'lugar', 'nota', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Descrp', ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'descrp', ),
+		BasePeer::TYPE_COLNAME => array (self::ID, self::DESCRP, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'DESCRP', ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'descrp', ),
+		BasePeer::TYPE_NUM => array (0, 1, )
 	);
 
 	/**
@@ -89,12 +71,12 @@ abstract class BaseUsuarioPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	protected static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Nombre' => 1, 'mail' => 2, 'Password' => 3, 'Admin' => 4, 'Educacion' => 5, 'Lugar' => 6, 'Nota' => 7, ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'nombre' => 1, 'mail' => 2, 'password' => 3, 'admin' => 4, 'educacion' => 5, 'lugar' => 6, 'nota' => 7, ),
-		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::NOMBRE => 1, self::MAIL => 2, self::PASSWORD => 3, self::ADMIN => 4, self::EDUCACION => 5, self::LUGAR => 6, self::NOTA => 7, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'NOMBRE' => 1, 'MAIL' => 2, 'PASSWORD' => 3, 'ADMIN' => 4, 'EDUCACION' => 5, 'LUGAR' => 6, 'NOTA' => 7, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'nombre' => 1, 'mail' => 2, 'password' => 3, 'admin' => 4, 'educacion' => 5, 'lugar' => 6, 'nota' => 7, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Descrp' => 1, ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'descrp' => 1, ),
+		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::DESCRP => 1, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'DESCRP' => 1, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'descrp' => 1, ),
+		BasePeer::TYPE_NUM => array (0, 1, )
 	);
 
 	/**
@@ -143,12 +125,12 @@ abstract class BaseUsuarioPeer {
 	 *		$c->addJoin(TablePeer::alias("alias1", TablePeer::PRIMARY_KEY_COLUMN), TablePeer::PRIMARY_KEY_COLUMN);
 	 * </code>
 	 * @param      string $alias The alias for the current table.
-	 * @param      string $column The column name for current table. (i.e. UsuarioPeer::COLUMN_NAME).
+	 * @param      string $column The column name for current table. (i.e. Solicitud_estadoPeer::COLUMN_NAME).
 	 * @return     string
 	 */
 	public static function alias($alias, $column)
 	{
-		return str_replace(UsuarioPeer::TABLE_NAME.'.', $alias.'.', $column);
+		return str_replace(Solicitud_estadoPeer::TABLE_NAME.'.', $alias.'.', $column);
 	}
 
 	/**
@@ -166,23 +148,11 @@ abstract class BaseUsuarioPeer {
 	public static function addSelectColumns(Criteria $criteria, $alias = null)
 	{
 		if (null === $alias) {
-			$criteria->addSelectColumn(UsuarioPeer::ID);
-			$criteria->addSelectColumn(UsuarioPeer::NOMBRE);
-			$criteria->addSelectColumn(UsuarioPeer::MAIL);
-			$criteria->addSelectColumn(UsuarioPeer::PASSWORD);
-			$criteria->addSelectColumn(UsuarioPeer::ADMIN);
-			$criteria->addSelectColumn(UsuarioPeer::EDUCACION);
-			$criteria->addSelectColumn(UsuarioPeer::LUGAR);
-			$criteria->addSelectColumn(UsuarioPeer::NOTA);
+			$criteria->addSelectColumn(Solicitud_estadoPeer::ID);
+			$criteria->addSelectColumn(Solicitud_estadoPeer::DESCRP);
 		} else {
 			$criteria->addSelectColumn($alias . '.ID');
-			$criteria->addSelectColumn($alias . '.NOMBRE');
-			$criteria->addSelectColumn($alias . '.MAIL');
-			$criteria->addSelectColumn($alias . '.PASSWORD');
-			$criteria->addSelectColumn($alias . '.ADMIN');
-			$criteria->addSelectColumn($alias . '.EDUCACION');
-			$criteria->addSelectColumn($alias . '.LUGAR');
-			$criteria->addSelectColumn($alias . '.NOTA');
+			$criteria->addSelectColumn($alias . '.DESCRP');
 		}
 	}
 
@@ -202,21 +172,21 @@ abstract class BaseUsuarioPeer {
 		// We need to set the primary table name, since in the case that there are no WHERE columns
 		// it will be impossible for the BasePeer::createSelectSql() method to determine which
 		// tables go into the FROM clause.
-		$criteria->setPrimaryTableName(UsuarioPeer::TABLE_NAME);
+		$criteria->setPrimaryTableName(Solicitud_estadoPeer::TABLE_NAME);
 
 		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
 			$criteria->setDistinct();
 		}
 
 		if (!$criteria->hasSelectClause()) {
-			UsuarioPeer::addSelectColumns($criteria);
+			Solicitud_estadoPeer::addSelectColumns($criteria);
 		}
 
 		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
 		$criteria->setDbName(self::DATABASE_NAME); // Set the correct dbName
 
 		if ($con === null) {
-			$con = Propel::getConnection(UsuarioPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(Solicitud_estadoPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 		// BasePeer returns a PDOStatement
 		$stmt = BasePeer::doCount($criteria, $con);
@@ -234,7 +204,7 @@ abstract class BaseUsuarioPeer {
 	 *
 	 * @param      Criteria $criteria object used to create the SELECT statement.
 	 * @param      PropelPDO $con
-	 * @return     Usuario
+	 * @return     Solicitud_estado
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
@@ -242,7 +212,7 @@ abstract class BaseUsuarioPeer {
 	{
 		$critcopy = clone $criteria;
 		$critcopy->setLimit(1);
-		$objects = UsuarioPeer::doSelect($critcopy, $con);
+		$objects = Solicitud_estadoPeer::doSelect($critcopy, $con);
 		if ($objects) {
 			return $objects[0];
 		}
@@ -259,7 +229,7 @@ abstract class BaseUsuarioPeer {
 	 */
 	public static function doSelect(Criteria $criteria, PropelPDO $con = null)
 	{
-		return UsuarioPeer::populateObjects(UsuarioPeer::doSelectStmt($criteria, $con));
+		return Solicitud_estadoPeer::populateObjects(Solicitud_estadoPeer::doSelectStmt($criteria, $con));
 	}
 	/**
 	 * Prepares the Criteria object and uses the parent doSelect() method to execute a PDOStatement.
@@ -277,12 +247,12 @@ abstract class BaseUsuarioPeer {
 	public static function doSelectStmt(Criteria $criteria, PropelPDO $con = null)
 	{
 		if ($con === null) {
-			$con = Propel::getConnection(UsuarioPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(Solicitud_estadoPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 
 		if (!$criteria->hasSelectClause()) {
 			$criteria = clone $criteria;
-			UsuarioPeer::addSelectColumns($criteria);
+			Solicitud_estadoPeer::addSelectColumns($criteria);
 		}
 
 		// Set the correct dbName
@@ -300,7 +270,7 @@ abstract class BaseUsuarioPeer {
 	 * to the cache in order to ensure that the same objects are always returned by doSelect*()
 	 * and retrieveByPK*() calls.
 	 *
-	 * @param      Usuario $value A Usuario object.
+	 * @param      Solicitud_estado $value A Solicitud_estado object.
 	 * @param      string $key (optional) key to use for instance map (for performance boost if key was already calculated externally).
 	 */
 	public static function addInstanceToPool($obj, $key = null)
@@ -321,18 +291,18 @@ abstract class BaseUsuarioPeer {
 	 * methods in your stub classes -- you may need to explicitly remove objects
 	 * from the cache in order to prevent returning objects that no longer exist.
 	 *
-	 * @param      mixed $value A Usuario object or a primary key value.
+	 * @param      mixed $value A Solicitud_estado object or a primary key value.
 	 */
 	public static function removeInstanceFromPool($value)
 	{
 		if (Propel::isInstancePoolingEnabled() && $value !== null) {
-			if (is_object($value) && $value instanceof Usuario) {
+			if (is_object($value) && $value instanceof Solicitud_estado) {
 				$key = (string) $value->getId();
 			} elseif (is_scalar($value)) {
 				// assume we've been passed a primary key
 				$key = (string) $value;
 			} else {
-				$e = new PropelException("Invalid value passed to removeInstanceFromPool().  Expected primary key or Usuario object; got " . (is_object($value) ? get_class($value) . ' object.' : var_export($value,true)));
+				$e = new PropelException("Invalid value passed to removeInstanceFromPool().  Expected primary key or Solicitud_estado object; got " . (is_object($value) ? get_class($value) . ' object.' : var_export($value,true)));
 				throw $e;
 			}
 
@@ -347,7 +317,7 @@ abstract class BaseUsuarioPeer {
 	 * a multi-column primary key, a serialize()d version of the primary key will be returned.
 	 *
 	 * @param      string $key The key (@see getPrimaryKeyHash()) for this instance.
-	 * @return     Usuario Found object or NULL if 1) no instance exists for specified key or 2) instance pooling has been disabled.
+	 * @return     Solicitud_estado Found object or NULL if 1) no instance exists for specified key or 2) instance pooling has been disabled.
 	 * @see        getPrimaryKeyHash()
 	 */
 	public static function getInstanceFromPool($key)
@@ -371,7 +341,7 @@ abstract class BaseUsuarioPeer {
 	}
 	
 	/**
-	 * Method to invalidate the instance pool of all tables related to usuario
+	 * Method to invalidate the instance pool of all tables related to solicitud_estado
 	 * by a foreign key with ON DELETE CASCADE
 	 */
 	public static function clearRelatedInstancePool()
@@ -423,11 +393,11 @@ abstract class BaseUsuarioPeer {
 		$results = array();
 	
 		// set the class once to avoid overhead in the loop
-		$cls = UsuarioPeer::getOMClass();
+		$cls = Solicitud_estadoPeer::getOMClass();
 		// populate the object(s)
 		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$key = UsuarioPeer::getPrimaryKeyHashFromRow($row, 0);
-			if (null !== ($obj = UsuarioPeer::getInstanceFromPool($key))) {
+			$key = Solicitud_estadoPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj = Solicitud_estadoPeer::getInstanceFromPool($key))) {
 				// We no longer rehydrate the object, since this can cause data loss.
 				// See http://www.propelorm.org/ticket/509
 				// $obj->hydrate($row, 0, true); // rehydrate
@@ -436,7 +406,7 @@ abstract class BaseUsuarioPeer {
 				$obj = new $cls();
 				$obj->hydrate($row);
 				$results[] = $obj;
-				UsuarioPeer::addInstanceToPool($obj, $key);
+				Solicitud_estadoPeer::addInstanceToPool($obj, $key);
 			} // if key exists
 		}
 		$stmt->closeCursor();
@@ -449,21 +419,21 @@ abstract class BaseUsuarioPeer {
 	 * @param      int $startcol The 0-based offset for reading from the resultset row.
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
-	 * @return     array (Usuario object, last column rank)
+	 * @return     array (Solicitud_estado object, last column rank)
 	 */
 	public static function populateObject($row, $startcol = 0)
 	{
-		$key = UsuarioPeer::getPrimaryKeyHashFromRow($row, $startcol);
-		if (null !== ($obj = UsuarioPeer::getInstanceFromPool($key))) {
+		$key = Solicitud_estadoPeer::getPrimaryKeyHashFromRow($row, $startcol);
+		if (null !== ($obj = Solicitud_estadoPeer::getInstanceFromPool($key))) {
 			// We no longer rehydrate the object, since this can cause data loss.
 			// See http://www.propelorm.org/ticket/509
 			// $obj->hydrate($row, $startcol, true); // rehydrate
-			$col = $startcol + UsuarioPeer::NUM_HYDRATE_COLUMNS;
+			$col = $startcol + Solicitud_estadoPeer::NUM_HYDRATE_COLUMNS;
 		} else {
-			$cls = UsuarioPeer::OM_CLASS;
+			$cls = Solicitud_estadoPeer::OM_CLASS;
 			$obj = new $cls();
 			$col = $obj->hydrate($row, $startcol);
-			UsuarioPeer::addInstanceToPool($obj, $key);
+			Solicitud_estadoPeer::addInstanceToPool($obj, $key);
 		}
 		return array($obj, $col);
 	}
@@ -485,10 +455,10 @@ abstract class BaseUsuarioPeer {
 	 */
 	public static function buildTableMap()
 	{
-	  $dbMap = Propel::getDatabaseMap(BaseUsuarioPeer::DATABASE_NAME);
-	  if (!$dbMap->hasTable(BaseUsuarioPeer::TABLE_NAME))
+	  $dbMap = Propel::getDatabaseMap(BaseSolicitud_estadoPeer::DATABASE_NAME);
+	  if (!$dbMap->hasTable(BaseSolicitud_estadoPeer::TABLE_NAME))
 	  {
-	    $dbMap->addTableObject(new UsuarioTableMap());
+	    $dbMap->addTableObject(new Solicitud_estadoTableMap());
 	  }
 	}
 
@@ -500,13 +470,13 @@ abstract class BaseUsuarioPeer {
 	 */
 	public static function getOMClass()
 	{
-		return UsuarioPeer::OM_CLASS;
+		return Solicitud_estadoPeer::OM_CLASS;
 	}
 
 	/**
-	 * Performs an INSERT on the database, given a Usuario or Criteria object.
+	 * Performs an INSERT on the database, given a Solicitud_estado or Criteria object.
 	 *
-	 * @param      mixed $values Criteria or Usuario object containing data that is used to create the INSERT statement.
+	 * @param      mixed $values Criteria or Solicitud_estado object containing data that is used to create the INSERT statement.
 	 * @param      PropelPDO $con the PropelPDO connection to use
 	 * @return     mixed The new primary key.
 	 * @throws     PropelException Any exceptions caught during processing will be
@@ -515,17 +485,17 @@ abstract class BaseUsuarioPeer {
 	public static function doInsert($values, PropelPDO $con = null)
 	{
 		if ($con === null) {
-			$con = Propel::getConnection(UsuarioPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(Solicitud_estadoPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; // rename for clarity
 		} else {
-			$criteria = $values->buildCriteria(); // build Criteria from Usuario object
+			$criteria = $values->buildCriteria(); // build Criteria from Solicitud_estado object
 		}
 
-		if ($criteria->containsKey(UsuarioPeer::ID) && $criteria->keyContainsValue(UsuarioPeer::ID) ) {
-			throw new PropelException('Cannot insert a value for auto-increment primary key ('.UsuarioPeer::ID.')');
+		if ($criteria->containsKey(Solicitud_estadoPeer::ID) && $criteria->keyContainsValue(Solicitud_estadoPeer::ID) ) {
+			throw new PropelException('Cannot insert a value for auto-increment primary key ('.Solicitud_estadoPeer::ID.')');
 		}
 
 
@@ -547,9 +517,9 @@ abstract class BaseUsuarioPeer {
 	}
 
 	/**
-	 * Performs an UPDATE on the database, given a Usuario or Criteria object.
+	 * Performs an UPDATE on the database, given a Solicitud_estado or Criteria object.
 	 *
-	 * @param      mixed $values Criteria or Usuario object containing data that is used to create the UPDATE statement.
+	 * @param      mixed $values Criteria or Solicitud_estado object containing data that is used to create the UPDATE statement.
 	 * @param      PropelPDO $con The connection to use (specify PropelPDO connection object to exert more control over transactions).
 	 * @return     int The number of affected rows (if supported by underlying database driver).
 	 * @throws     PropelException Any exceptions caught during processing will be
@@ -558,7 +528,7 @@ abstract class BaseUsuarioPeer {
 	public static function doUpdate($values, PropelPDO $con = null)
 	{
 		if ($con === null) {
-			$con = Propel::getConnection(UsuarioPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(Solicitud_estadoPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 
 		$selectCriteria = new Criteria(self::DATABASE_NAME);
@@ -566,15 +536,15 @@ abstract class BaseUsuarioPeer {
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; // rename for clarity
 
-			$comparison = $criteria->getComparison(UsuarioPeer::ID);
-			$value = $criteria->remove(UsuarioPeer::ID);
+			$comparison = $criteria->getComparison(Solicitud_estadoPeer::ID);
+			$value = $criteria->remove(Solicitud_estadoPeer::ID);
 			if ($value) {
-				$selectCriteria->add(UsuarioPeer::ID, $value, $comparison);
+				$selectCriteria->add(Solicitud_estadoPeer::ID, $value, $comparison);
 			} else {
-				$selectCriteria->setPrimaryTableName(UsuarioPeer::TABLE_NAME);
+				$selectCriteria->setPrimaryTableName(Solicitud_estadoPeer::TABLE_NAME);
 			}
 
-		} else { // $values is Usuario object
+		} else { // $values is Solicitud_estado object
 			$criteria = $values->buildCriteria(); // gets full criteria
 			$selectCriteria = $values->buildPkeyCriteria(); // gets criteria w/ primary key(s)
 		}
@@ -586,7 +556,7 @@ abstract class BaseUsuarioPeer {
 	}
 
 	/**
-	 * Deletes all rows from the usuario table.
+	 * Deletes all rows from the solicitud_estado table.
 	 *
 	 * @param      PropelPDO $con the connection to use
 	 * @return     int The number of affected rows (if supported by underlying database driver).
@@ -594,19 +564,19 @@ abstract class BaseUsuarioPeer {
 	public static function doDeleteAll(PropelPDO $con = null)
 	{
 		if ($con === null) {
-			$con = Propel::getConnection(UsuarioPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(Solicitud_estadoPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 		$affectedRows = 0; // initialize var to track total num of affected rows
 		try {
 			// use transaction because $criteria could contain info
 			// for more than one table or we could emulating ON DELETE CASCADE, etc.
 			$con->beginTransaction();
-			$affectedRows += BasePeer::doDeleteAll(UsuarioPeer::TABLE_NAME, $con, UsuarioPeer::DATABASE_NAME);
+			$affectedRows += BasePeer::doDeleteAll(Solicitud_estadoPeer::TABLE_NAME, $con, Solicitud_estadoPeer::DATABASE_NAME);
 			// Because this db requires some delete cascade/set null emulation, we have to
 			// clear the cached instance *after* the emulation has happened (since
 			// instances get re-added by the select statement contained therein).
-			UsuarioPeer::clearInstancePool();
-			UsuarioPeer::clearRelatedInstancePool();
+			Solicitud_estadoPeer::clearInstancePool();
+			Solicitud_estadoPeer::clearRelatedInstancePool();
 			$con->commit();
 			return $affectedRows;
 		} catch (PropelException $e) {
@@ -616,9 +586,9 @@ abstract class BaseUsuarioPeer {
 	}
 
 	/**
-	 * Performs a DELETE on the database, given a Usuario or Criteria object OR a primary key value.
+	 * Performs a DELETE on the database, given a Solicitud_estado or Criteria object OR a primary key value.
 	 *
-	 * @param      mixed $values Criteria or Usuario object or primary key or array of primary keys
+	 * @param      mixed $values Criteria or Solicitud_estado object or primary key or array of primary keys
 	 *              which is used to create the DELETE statement
 	 * @param      PropelPDO $con the connection to use
 	 * @return     int 	The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -629,27 +599,27 @@ abstract class BaseUsuarioPeer {
 	 public static function doDelete($values, PropelPDO $con = null)
 	 {
 		if ($con === null) {
-			$con = Propel::getConnection(UsuarioPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(Solicitud_estadoPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 
 		if ($values instanceof Criteria) {
 			// invalidate the cache for all objects of this type, since we have no
 			// way of knowing (without running a query) what objects should be invalidated
 			// from the cache based on this Criteria.
-			UsuarioPeer::clearInstancePool();
+			Solicitud_estadoPeer::clearInstancePool();
 			// rename for clarity
 			$criteria = clone $values;
-		} elseif ($values instanceof Usuario) { // it's a model object
+		} elseif ($values instanceof Solicitud_estado) { // it's a model object
 			// invalidate the cache for this single object
-			UsuarioPeer::removeInstanceFromPool($values);
+			Solicitud_estadoPeer::removeInstanceFromPool($values);
 			// create criteria based on pk values
 			$criteria = $values->buildPkeyCriteria();
 		} else { // it's a primary key, or an array of pks
 			$criteria = new Criteria(self::DATABASE_NAME);
-			$criteria->add(UsuarioPeer::ID, (array) $values, Criteria::IN);
+			$criteria->add(Solicitud_estadoPeer::ID, (array) $values, Criteria::IN);
 			// invalidate the cache for this object(s)
 			foreach ((array) $values as $singleval) {
-				UsuarioPeer::removeInstanceFromPool($singleval);
+				Solicitud_estadoPeer::removeInstanceFromPool($singleval);
 			}
 		}
 
@@ -664,7 +634,7 @@ abstract class BaseUsuarioPeer {
 			$con->beginTransaction();
 			
 			$affectedRows += BasePeer::doDelete($criteria, $con);
-			UsuarioPeer::clearRelatedInstancePool();
+			Solicitud_estadoPeer::clearRelatedInstancePool();
 			$con->commit();
 			return $affectedRows;
 		} catch (PropelException $e) {
@@ -674,13 +644,13 @@ abstract class BaseUsuarioPeer {
 	}
 
 	/**
-	 * Validates all modified columns of given Usuario object.
+	 * Validates all modified columns of given Solicitud_estado object.
 	 * If parameter $columns is either a single column name or an array of column names
 	 * than only those columns are validated.
 	 *
 	 * NOTICE: This does not apply to primary or foreign keys for now.
 	 *
-	 * @param      Usuario $obj The object to validate.
+	 * @param      Solicitud_estado $obj The object to validate.
 	 * @param      mixed $cols Column name or array of column names.
 	 *
 	 * @return     mixed TRUE if all columns are valid or the error message of the first invalid column.
@@ -690,8 +660,8 @@ abstract class BaseUsuarioPeer {
 		$columns = array();
 
 		if ($cols) {
-			$dbMap = Propel::getDatabaseMap(UsuarioPeer::DATABASE_NAME);
-			$tableMap = $dbMap->getTable(UsuarioPeer::TABLE_NAME);
+			$dbMap = Propel::getDatabaseMap(Solicitud_estadoPeer::DATABASE_NAME);
+			$tableMap = $dbMap->getTable(Solicitud_estadoPeer::TABLE_NAME);
 
 			if (! is_array($cols)) {
 				$cols = array($cols);
@@ -707,7 +677,7 @@ abstract class BaseUsuarioPeer {
 
 		}
 
-		return BasePeer::doValidate(UsuarioPeer::DATABASE_NAME, UsuarioPeer::TABLE_NAME, $columns);
+		return BasePeer::doValidate(Solicitud_estadoPeer::DATABASE_NAME, Solicitud_estadoPeer::TABLE_NAME, $columns);
 	}
 
 	/**
@@ -715,23 +685,23 @@ abstract class BaseUsuarioPeer {
 	 *
 	 * @param      int $pk the primary key.
 	 * @param      PropelPDO $con the connection to use
-	 * @return     Usuario
+	 * @return     Solicitud_estado
 	 */
 	public static function retrieveByPK($pk, PropelPDO $con = null)
 	{
 
-		if (null !== ($obj = UsuarioPeer::getInstanceFromPool((string) $pk))) {
+		if (null !== ($obj = Solicitud_estadoPeer::getInstanceFromPool((string) $pk))) {
 			return $obj;
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(UsuarioPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(Solicitud_estadoPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 
-		$criteria = new Criteria(UsuarioPeer::DATABASE_NAME);
-		$criteria->add(UsuarioPeer::ID, $pk);
+		$criteria = new Criteria(Solicitud_estadoPeer::DATABASE_NAME);
+		$criteria->add(Solicitud_estadoPeer::ID, $pk);
 
-		$v = UsuarioPeer::doSelect($criteria, $con);
+		$v = Solicitud_estadoPeer::doSelect($criteria, $con);
 
 		return !empty($v) > 0 ? $v[0] : null;
 	}
@@ -747,23 +717,23 @@ abstract class BaseUsuarioPeer {
 	public static function retrieveByPKs($pks, PropelPDO $con = null)
 	{
 		if ($con === null) {
-			$con = Propel::getConnection(UsuarioPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(Solicitud_estadoPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 
 		$objs = null;
 		if (empty($pks)) {
 			$objs = array();
 		} else {
-			$criteria = new Criteria(UsuarioPeer::DATABASE_NAME);
-			$criteria->add(UsuarioPeer::ID, $pks, Criteria::IN);
-			$objs = UsuarioPeer::doSelect($criteria, $con);
+			$criteria = new Criteria(Solicitud_estadoPeer::DATABASE_NAME);
+			$criteria->add(Solicitud_estadoPeer::ID, $pks, Criteria::IN);
+			$objs = Solicitud_estadoPeer::doSelect($criteria, $con);
 		}
 		return $objs;
 	}
 
-} // BaseUsuarioPeer
+} // BaseSolicitud_estadoPeer
 
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-BaseUsuarioPeer::buildTableMap();
+BaseSolicitud_estadoPeer::buildTableMap();
 

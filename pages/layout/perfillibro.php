@@ -7,7 +7,7 @@ include_once("../../data/config.php");
 //$libros = LibroQuery::create()->find();
 //$usuarios = UsuarioQuery::create()->find();
 $audiolibros = AudiolibroQuery::create()->find();
-$idLibro=1;
+$idLibro=2;
 $libro=  LibroQuery::create()->findOneById($idLibro);
 
 //$options = "<option value = ''>Seleccione un libro</option> ";

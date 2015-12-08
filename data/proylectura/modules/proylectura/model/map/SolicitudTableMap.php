@@ -39,10 +39,13 @@ class SolicitudTableMap extends TableMap
 		$this->setUseIdGenerator(true);
 		// columns
 		$this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
-		$this->addForeignKey('ID_USUARIO_SOLICITADO', 'Id_usuario_solicitado', 'INTEGER', 'usuario', 'ID', true, null, null);
+		$this->addForeignKey('ID_LIBRO', 'Id_libro', 'INTEGER', 'libro', 'ID', true, null, null);
 		$this->addForeignKey('ID_USUARIO_SOLICITANTE', 'Id_usuario_solicitante', 'INTEGER', 'usuario', 'ID', true, null, null);
-		$this->addColumn('ESTADO', 'Estado', 'INTEGER', true, null, null);
-		$this->addColumn('FECHA', 'Fecha', 'DATE', true, null, null);
+		$this->addForeignKey('ID_ESTADO', 'Id_estado', 'INTEGER', 'solicitud_estado', 'ID', true, null, null);
+		$this->addColumn('FECHA_SOLIC', 'Fecha_solic', 'DATE', false, null, null);
+		$this->addColumn('HORA_SOLIC', 'Hora_solic', 'CHAR', false, 8, null);
+		$this->addColumn('FECHA_APROB', 'Fecha_aprob', 'DATE', false, null, null);
+		$this->addColumn('HORA_APROB', 'Hora_aprob', 'CHAR', false, 8, null);
 		// validators
 	} // initialize()
 
@@ -51,8 +54,9 @@ class SolicitudTableMap extends TableMap
 	 */
 	public function buildRelations()
 	{
-		$this->addRelation('UsuarioRelatedById_usuario_solicitado', 'Usuario', RelationMap::MANY_TO_ONE, array('id_usuario_solicitado' => 'id', ), null, null);
-		$this->addRelation('UsuarioRelatedById_usuario_solicitante', 'Usuario', RelationMap::MANY_TO_ONE, array('id_usuario_solicitante' => 'id', ), null, null);
+		$this->addRelation('Libro', 'Libro', RelationMap::MANY_TO_ONE, array('id_libro' => 'id', ), null, null);
+		$this->addRelation('Usuario', 'Usuario', RelationMap::MANY_TO_ONE, array('id_usuario_solicitante' => 'id', ), null, null);
+		$this->addRelation('Solicitud_estado', 'Solicitud_estado', RelationMap::MANY_TO_ONE, array('id_estado' => 'id', ), null, null);
 	} // buildRelations()
 
 } // SolicitudTableMap

@@ -23,28 +23,37 @@ abstract class BaseSolicitudPeer {
 	const TM_CLASS = 'SolicitudTableMap';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 5;
+	const NUM_COLUMNS = 8;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
 	/** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-	const NUM_HYDRATE_COLUMNS = 5;
+	const NUM_HYDRATE_COLUMNS = 8;
 
 	/** the column name for the ID field */
 	const ID = 'solicitud.ID';
 
-	/** the column name for the ID_USUARIO_SOLICITADO field */
-	const ID_USUARIO_SOLICITADO = 'solicitud.ID_USUARIO_SOLICITADO';
+	/** the column name for the ID_LIBRO field */
+	const ID_LIBRO = 'solicitud.ID_LIBRO';
 
 	/** the column name for the ID_USUARIO_SOLICITANTE field */
 	const ID_USUARIO_SOLICITANTE = 'solicitud.ID_USUARIO_SOLICITANTE';
 
-	/** the column name for the ESTADO field */
-	const ESTADO = 'solicitud.ESTADO';
+	/** the column name for the ID_ESTADO field */
+	const ID_ESTADO = 'solicitud.ID_ESTADO';
 
-	/** the column name for the FECHA field */
-	const FECHA = 'solicitud.FECHA';
+	/** the column name for the FECHA_SOLIC field */
+	const FECHA_SOLIC = 'solicitud.FECHA_SOLIC';
+
+	/** the column name for the HORA_SOLIC field */
+	const HORA_SOLIC = 'solicitud.HORA_SOLIC';
+
+	/** the column name for the FECHA_APROB field */
+	const FECHA_APROB = 'solicitud.FECHA_APROB';
+
+	/** the column name for the HORA_APROB field */
+	const HORA_APROB = 'solicitud.HORA_APROB';
 
 	/** The default string format for model objects of the related table **/
 	const DEFAULT_STRING_FORMAT = 'YAML';
@@ -65,12 +74,12 @@ abstract class BaseSolicitudPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	protected static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Id_usuario_solicitado', 'Id_usuario_solicitante', 'Estado', 'Fecha', ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'id_usuario_solicitado', 'id_usuario_solicitante', 'estado', 'fecha', ),
-		BasePeer::TYPE_COLNAME => array (self::ID, self::ID_USUARIO_SOLICITADO, self::ID_USUARIO_SOLICITANTE, self::ESTADO, self::FECHA, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'ID_USUARIO_SOLICITADO', 'ID_USUARIO_SOLICITANTE', 'ESTADO', 'FECHA', ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'id_usuario_solicitado', 'id_usuario_solicitante', 'estado', 'fecha', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Id_libro', 'Id_usuario_solicitante', 'Id_estado', 'Fecha_solic', 'Hora_solic', 'Fecha_aprob', 'Hora_aprob', ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'id_libro', 'id_usuario_solicitante', 'id_estado', 'fecha_solic', 'hora_solic', 'fecha_aprob', 'hora_aprob', ),
+		BasePeer::TYPE_COLNAME => array (self::ID, self::ID_LIBRO, self::ID_USUARIO_SOLICITANTE, self::ID_ESTADO, self::FECHA_SOLIC, self::HORA_SOLIC, self::FECHA_APROB, self::HORA_APROB, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'ID_LIBRO', 'ID_USUARIO_SOLICITANTE', 'ID_ESTADO', 'FECHA_SOLIC', 'HORA_SOLIC', 'FECHA_APROB', 'HORA_APROB', ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'id_libro', 'id_usuario_solicitante', 'id_estado', 'fecha_solic', 'hora_solic', 'fecha_aprob', 'hora_aprob', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
 	);
 
 	/**
@@ -80,12 +89,12 @@ abstract class BaseSolicitudPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	protected static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Id_usuario_solicitado' => 1, 'Id_usuario_solicitante' => 2, 'Estado' => 3, 'Fecha' => 4, ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'id_usuario_solicitado' => 1, 'id_usuario_solicitante' => 2, 'estado' => 3, 'fecha' => 4, ),
-		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::ID_USUARIO_SOLICITADO => 1, self::ID_USUARIO_SOLICITANTE => 2, self::ESTADO => 3, self::FECHA => 4, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'ID_USUARIO_SOLICITADO' => 1, 'ID_USUARIO_SOLICITANTE' => 2, 'ESTADO' => 3, 'FECHA' => 4, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'id_usuario_solicitado' => 1, 'id_usuario_solicitante' => 2, 'estado' => 3, 'fecha' => 4, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Id_libro' => 1, 'Id_usuario_solicitante' => 2, 'Id_estado' => 3, 'Fecha_solic' => 4, 'Hora_solic' => 5, 'Fecha_aprob' => 6, 'Hora_aprob' => 7, ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'id_libro' => 1, 'id_usuario_solicitante' => 2, 'id_estado' => 3, 'fecha_solic' => 4, 'hora_solic' => 5, 'fecha_aprob' => 6, 'hora_aprob' => 7, ),
+		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::ID_LIBRO => 1, self::ID_USUARIO_SOLICITANTE => 2, self::ID_ESTADO => 3, self::FECHA_SOLIC => 4, self::HORA_SOLIC => 5, self::FECHA_APROB => 6, self::HORA_APROB => 7, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'ID_LIBRO' => 1, 'ID_USUARIO_SOLICITANTE' => 2, 'ID_ESTADO' => 3, 'FECHA_SOLIC' => 4, 'HORA_SOLIC' => 5, 'FECHA_APROB' => 6, 'HORA_APROB' => 7, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'id_libro' => 1, 'id_usuario_solicitante' => 2, 'id_estado' => 3, 'fecha_solic' => 4, 'hora_solic' => 5, 'fecha_aprob' => 6, 'hora_aprob' => 7, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
 	);
 
 	/**
@@ -158,16 +167,22 @@ abstract class BaseSolicitudPeer {
 	{
 		if (null === $alias) {
 			$criteria->addSelectColumn(SolicitudPeer::ID);
-			$criteria->addSelectColumn(SolicitudPeer::ID_USUARIO_SOLICITADO);
+			$criteria->addSelectColumn(SolicitudPeer::ID_LIBRO);
 			$criteria->addSelectColumn(SolicitudPeer::ID_USUARIO_SOLICITANTE);
-			$criteria->addSelectColumn(SolicitudPeer::ESTADO);
-			$criteria->addSelectColumn(SolicitudPeer::FECHA);
+			$criteria->addSelectColumn(SolicitudPeer::ID_ESTADO);
+			$criteria->addSelectColumn(SolicitudPeer::FECHA_SOLIC);
+			$criteria->addSelectColumn(SolicitudPeer::HORA_SOLIC);
+			$criteria->addSelectColumn(SolicitudPeer::FECHA_APROB);
+			$criteria->addSelectColumn(SolicitudPeer::HORA_APROB);
 		} else {
 			$criteria->addSelectColumn($alias . '.ID');
-			$criteria->addSelectColumn($alias . '.ID_USUARIO_SOLICITADO');
+			$criteria->addSelectColumn($alias . '.ID_LIBRO');
 			$criteria->addSelectColumn($alias . '.ID_USUARIO_SOLICITANTE');
-			$criteria->addSelectColumn($alias . '.ESTADO');
-			$criteria->addSelectColumn($alias . '.FECHA');
+			$criteria->addSelectColumn($alias . '.ID_ESTADO');
+			$criteria->addSelectColumn($alias . '.FECHA_SOLIC');
+			$criteria->addSelectColumn($alias . '.HORA_SOLIC');
+			$criteria->addSelectColumn($alias . '.FECHA_APROB');
+			$criteria->addSelectColumn($alias . '.HORA_APROB');
 		}
 	}
 
@@ -455,7 +470,7 @@ abstract class BaseSolicitudPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UsuarioRelatedById_usuario_solicitado table
+	 * Returns the number of rows matching criteria, joining the related Libro table
 	 *
 	 * @param      Criteria $criteria
 	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
@@ -463,7 +478,7 @@ abstract class BaseSolicitudPeer {
 	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
 	 * @return     int Number of matching rows.
 	 */
-	public static function doCountJoinUsuarioRelatedById_usuario_solicitado(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	public static function doCountJoinLibro(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -490,7 +505,7 @@ abstract class BaseSolicitudPeer {
 			$con = Propel::getConnection(SolicitudPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 
-		$criteria->addJoin(SolicitudPeer::ID_USUARIO_SOLICITADO, UsuarioPeer::ID, $join_behavior);
+		$criteria->addJoin(SolicitudPeer::ID_LIBRO, LibroPeer::ID, $join_behavior);
 
 		$stmt = BasePeer::doCount($criteria, $con);
 
@@ -505,7 +520,7 @@ abstract class BaseSolicitudPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UsuarioRelatedById_usuario_solicitante table
+	 * Returns the number of rows matching criteria, joining the related Usuario table
 	 *
 	 * @param      Criteria $criteria
 	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
@@ -513,7 +528,7 @@ abstract class BaseSolicitudPeer {
 	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
 	 * @return     int Number of matching rows.
 	 */
-	public static function doCountJoinUsuarioRelatedById_usuario_solicitante(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	public static function doCountJoinUsuario(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -555,7 +570,57 @@ abstract class BaseSolicitudPeer {
 
 
 	/**
-	 * Selects a collection of Solicitud objects pre-filled with their Usuario objects.
+	 * Returns the number of rows matching criteria, joining the related Solicitud_estado table
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     int Number of matching rows.
+	 */
+	public static function doCountJoinSolicitud_estado(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// We need to set the primary table name, since in the case that there are no WHERE columns
+		// it will be impossible for the BasePeer::createSelectSql() method to determine which
+		// tables go into the FROM clause.
+		$criteria->setPrimaryTableName(SolicitudPeer::TABLE_NAME);
+
+		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->setDistinct();
+		}
+
+		if (!$criteria->hasSelectClause()) {
+			SolicitudPeer::addSelectColumns($criteria);
+		}
+
+		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
+
+		// Set the correct dbName
+		$criteria->setDbName(self::DATABASE_NAME);
+
+		if ($con === null) {
+			$con = Propel::getConnection(SolicitudPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+		}
+
+		$criteria->addJoin(SolicitudPeer::ID_ESTADO, Solicitud_estadoPeer::ID, $join_behavior);
+
+		$stmt = BasePeer::doCount($criteria, $con);
+
+		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$count = (int) $row[0];
+		} else {
+			$count = 0; // no rows returned; we infer that means 0 matches.
+		}
+		$stmt->closeCursor();
+		return $count;
+	}
+
+
+	/**
+	 * Selects a collection of Solicitud objects pre-filled with their Libro objects.
 	 * @param      Criteria  $criteria
 	 * @param      PropelPDO $con
 	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
@@ -563,7 +628,7 @@ abstract class BaseSolicitudPeer {
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinUsuarioRelatedById_usuario_solicitado(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	public static function doSelectJoinLibro(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
 	{
 		$criteria = clone $criteria;
 
@@ -574,9 +639,9 @@ abstract class BaseSolicitudPeer {
 
 		SolicitudPeer::addSelectColumns($criteria);
 		$startcol = SolicitudPeer::NUM_HYDRATE_COLUMNS;
-		UsuarioPeer::addSelectColumns($criteria);
+		LibroPeer::addSelectColumns($criteria);
 
-		$criteria->addJoin(SolicitudPeer::ID_USUARIO_SOLICITADO, UsuarioPeer::ID, $join_behavior);
+		$criteria->addJoin(SolicitudPeer::ID_LIBRO, LibroPeer::ID, $join_behavior);
 
 		$stmt = BasePeer::doSelect($criteria, $con);
 		$results = array();
@@ -596,20 +661,20 @@ abstract class BaseSolicitudPeer {
 				SolicitudPeer::addInstanceToPool($obj1, $key1);
 			} // if $obj1 already loaded
 
-			$key2 = UsuarioPeer::getPrimaryKeyHashFromRow($row, $startcol);
+			$key2 = LibroPeer::getPrimaryKeyHashFromRow($row, $startcol);
 			if ($key2 !== null) {
-				$obj2 = UsuarioPeer::getInstanceFromPool($key2);
+				$obj2 = LibroPeer::getInstanceFromPool($key2);
 				if (!$obj2) {
 
-					$cls = UsuarioPeer::getOMClass();
+					$cls = LibroPeer::getOMClass();
 
 					$obj2 = new $cls();
 					$obj2->hydrate($row, $startcol);
-					UsuarioPeer::addInstanceToPool($obj2, $key2);
+					LibroPeer::addInstanceToPool($obj2, $key2);
 				} // if obj2 already loaded
 
-				// Add the $obj1 (Solicitud) to $obj2 (Usuario)
-				$obj2->addSolicitudRelatedById_usuario_solicitado($obj1);
+				// Add the $obj1 (Solicitud) to $obj2 (Libro)
+				$obj2->addSolicitud($obj1);
 
 			} // if joined row was not null
 
@@ -629,7 +694,7 @@ abstract class BaseSolicitudPeer {
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinUsuarioRelatedById_usuario_solicitante(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	public static function doSelectJoinUsuario(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
 	{
 		$criteria = clone $criteria;
 
@@ -675,7 +740,73 @@ abstract class BaseSolicitudPeer {
 				} // if obj2 already loaded
 
 				// Add the $obj1 (Solicitud) to $obj2 (Usuario)
-				$obj2->addSolicitudRelatedById_usuario_solicitante($obj1);
+				$obj2->addSolicitud($obj1);
+
+			} // if joined row was not null
+
+			$results[] = $obj1;
+		}
+		$stmt->closeCursor();
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of Solicitud objects pre-filled with their Solicitud_estado objects.
+	 * @param      Criteria  $criteria
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     array Array of Solicitud objects.
+	 * @throws     PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinSolicitud_estado(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$criteria = clone $criteria;
+
+		// Set the correct dbName if it has not been overridden
+		if ($criteria->getDbName() == Propel::getDefaultDB()) {
+			$criteria->setDbName(self::DATABASE_NAME);
+		}
+
+		SolicitudPeer::addSelectColumns($criteria);
+		$startcol = SolicitudPeer::NUM_HYDRATE_COLUMNS;
+		Solicitud_estadoPeer::addSelectColumns($criteria);
+
+		$criteria->addJoin(SolicitudPeer::ID_ESTADO, Solicitud_estadoPeer::ID, $join_behavior);
+
+		$stmt = BasePeer::doSelect($criteria, $con);
+		$results = array();
+
+		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$key1 = SolicitudPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj1 = SolicitudPeer::getInstanceFromPool($key1))) {
+				// We no longer rehydrate the object, since this can cause data loss.
+				// See http://www.propelorm.org/ticket/509
+				// $obj1->hydrate($row, 0, true); // rehydrate
+			} else {
+
+				$cls = SolicitudPeer::getOMClass();
+
+				$obj1 = new $cls();
+				$obj1->hydrate($row);
+				SolicitudPeer::addInstanceToPool($obj1, $key1);
+			} // if $obj1 already loaded
+
+			$key2 = Solicitud_estadoPeer::getPrimaryKeyHashFromRow($row, $startcol);
+			if ($key2 !== null) {
+				$obj2 = Solicitud_estadoPeer::getInstanceFromPool($key2);
+				if (!$obj2) {
+
+					$cls = Solicitud_estadoPeer::getOMClass();
+
+					$obj2 = new $cls();
+					$obj2->hydrate($row, $startcol);
+					Solicitud_estadoPeer::addInstanceToPool($obj2, $key2);
+				} // if obj2 already loaded
+
+				// Add the $obj1 (Solicitud) to $obj2 (Solicitud_estado)
+				$obj2->addSolicitud($obj1);
 
 			} // if joined row was not null
 
@@ -722,9 +853,11 @@ abstract class BaseSolicitudPeer {
 			$con = Propel::getConnection(SolicitudPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 
-		$criteria->addJoin(SolicitudPeer::ID_USUARIO_SOLICITADO, UsuarioPeer::ID, $join_behavior);
+		$criteria->addJoin(SolicitudPeer::ID_LIBRO, LibroPeer::ID, $join_behavior);
 
 		$criteria->addJoin(SolicitudPeer::ID_USUARIO_SOLICITANTE, UsuarioPeer::ID, $join_behavior);
+
+		$criteria->addJoin(SolicitudPeer::ID_ESTADO, Solicitud_estadoPeer::ID, $join_behavior);
 
 		$stmt = BasePeer::doCount($criteria, $con);
 
@@ -759,15 +892,20 @@ abstract class BaseSolicitudPeer {
 		SolicitudPeer::addSelectColumns($criteria);
 		$startcol2 = SolicitudPeer::NUM_HYDRATE_COLUMNS;
 
-		UsuarioPeer::addSelectColumns($criteria);
-		$startcol3 = $startcol2 + UsuarioPeer::NUM_HYDRATE_COLUMNS;
+		LibroPeer::addSelectColumns($criteria);
+		$startcol3 = $startcol2 + LibroPeer::NUM_HYDRATE_COLUMNS;
 
 		UsuarioPeer::addSelectColumns($criteria);
 		$startcol4 = $startcol3 + UsuarioPeer::NUM_HYDRATE_COLUMNS;
 
-		$criteria->addJoin(SolicitudPeer::ID_USUARIO_SOLICITADO, UsuarioPeer::ID, $join_behavior);
+		Solicitud_estadoPeer::addSelectColumns($criteria);
+		$startcol5 = $startcol4 + Solicitud_estadoPeer::NUM_HYDRATE_COLUMNS;
+
+		$criteria->addJoin(SolicitudPeer::ID_LIBRO, LibroPeer::ID, $join_behavior);
 
 		$criteria->addJoin(SolicitudPeer::ID_USUARIO_SOLICITANTE, UsuarioPeer::ID, $join_behavior);
+
+		$criteria->addJoin(SolicitudPeer::ID_ESTADO, Solicitud_estadoPeer::ID, $join_behavior);
 
 		$stmt = BasePeer::doSelect($criteria, $con);
 		$results = array();
@@ -786,22 +924,22 @@ abstract class BaseSolicitudPeer {
 				SolicitudPeer::addInstanceToPool($obj1, $key1);
 			} // if obj1 already loaded
 
-			// Add objects for joined Usuario rows
+			// Add objects for joined Libro rows
 
-			$key2 = UsuarioPeer::getPrimaryKeyHashFromRow($row, $startcol2);
+			$key2 = LibroPeer::getPrimaryKeyHashFromRow($row, $startcol2);
 			if ($key2 !== null) {
-				$obj2 = UsuarioPeer::getInstanceFromPool($key2);
+				$obj2 = LibroPeer::getInstanceFromPool($key2);
 				if (!$obj2) {
 
-					$cls = UsuarioPeer::getOMClass();
+					$cls = LibroPeer::getOMClass();
 
 					$obj2 = new $cls();
 					$obj2->hydrate($row, $startcol2);
-					UsuarioPeer::addInstanceToPool($obj2, $key2);
+					LibroPeer::addInstanceToPool($obj2, $key2);
 				} // if obj2 loaded
 
-				// Add the $obj1 (Solicitud) to the collection in $obj2 (Usuario)
-				$obj2->addSolicitudRelatedById_usuario_solicitado($obj1);
+				// Add the $obj1 (Solicitud) to the collection in $obj2 (Libro)
+				$obj2->addSolicitud($obj1);
 			} // if joined row not null
 
 			// Add objects for joined Usuario rows
@@ -819,7 +957,25 @@ abstract class BaseSolicitudPeer {
 				} // if obj3 loaded
 
 				// Add the $obj1 (Solicitud) to the collection in $obj3 (Usuario)
-				$obj3->addSolicitudRelatedById_usuario_solicitante($obj1);
+				$obj3->addSolicitud($obj1);
+			} // if joined row not null
+
+			// Add objects for joined Solicitud_estado rows
+
+			$key4 = Solicitud_estadoPeer::getPrimaryKeyHashFromRow($row, $startcol4);
+			if ($key4 !== null) {
+				$obj4 = Solicitud_estadoPeer::getInstanceFromPool($key4);
+				if (!$obj4) {
+
+					$cls = Solicitud_estadoPeer::getOMClass();
+
+					$obj4 = new $cls();
+					$obj4->hydrate($row, $startcol4);
+					Solicitud_estadoPeer::addInstanceToPool($obj4, $key4);
+				} // if obj4 loaded
+
+				// Add the $obj1 (Solicitud) to the collection in $obj4 (Solicitud_estado)
+				$obj4->addSolicitud($obj1);
 			} // if joined row not null
 
 			$results[] = $obj1;
@@ -830,7 +986,7 @@ abstract class BaseSolicitudPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UsuarioRelatedById_usuario_solicitado table
+	 * Returns the number of rows matching criteria, joining the related Libro table
 	 *
 	 * @param      Criteria $criteria
 	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
@@ -838,7 +994,7 @@ abstract class BaseSolicitudPeer {
 	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
 	 * @return     int Number of matching rows.
 	 */
-	public static function doCountJoinAllExceptUsuarioRelatedById_usuario_solicitado(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	public static function doCountJoinAllExceptLibro(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -865,6 +1021,10 @@ abstract class BaseSolicitudPeer {
 			$con = Propel::getConnection(SolicitudPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 	
+		$criteria->addJoin(SolicitudPeer::ID_USUARIO_SOLICITANTE, UsuarioPeer::ID, $join_behavior);
+
+		$criteria->addJoin(SolicitudPeer::ID_ESTADO, Solicitud_estadoPeer::ID, $join_behavior);
+
 		$stmt = BasePeer::doCount($criteria, $con);
 
 		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
@@ -878,7 +1038,7 @@ abstract class BaseSolicitudPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UsuarioRelatedById_usuario_solicitante table
+	 * Returns the number of rows matching criteria, joining the related Usuario table
 	 *
 	 * @param      Criteria $criteria
 	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
@@ -886,7 +1046,7 @@ abstract class BaseSolicitudPeer {
 	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
 	 * @return     int Number of matching rows.
 	 */
-	public static function doCountJoinAllExceptUsuarioRelatedById_usuario_solicitante(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	public static function doCountJoinAllExceptUsuario(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -913,6 +1073,10 @@ abstract class BaseSolicitudPeer {
 			$con = Propel::getConnection(SolicitudPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 	
+		$criteria->addJoin(SolicitudPeer::ID_LIBRO, LibroPeer::ID, $join_behavior);
+
+		$criteria->addJoin(SolicitudPeer::ID_ESTADO, Solicitud_estadoPeer::ID, $join_behavior);
+
 		$stmt = BasePeer::doCount($criteria, $con);
 
 		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
@@ -926,7 +1090,59 @@ abstract class BaseSolicitudPeer {
 
 
 	/**
-	 * Selects a collection of Solicitud objects pre-filled with all related objects except UsuarioRelatedById_usuario_solicitado.
+	 * Returns the number of rows matching criteria, joining the related Solicitud_estado table
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     int Number of matching rows.
+	 */
+	public static function doCountJoinAllExceptSolicitud_estado(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// We need to set the primary table name, since in the case that there are no WHERE columns
+		// it will be impossible for the BasePeer::createSelectSql() method to determine which
+		// tables go into the FROM clause.
+		$criteria->setPrimaryTableName(SolicitudPeer::TABLE_NAME);
+
+		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->setDistinct();
+		}
+
+		if (!$criteria->hasSelectClause()) {
+			SolicitudPeer::addSelectColumns($criteria);
+		}
+
+		$criteria->clearOrderByColumns(); // ORDER BY should not affect count
+
+		// Set the correct dbName
+		$criteria->setDbName(self::DATABASE_NAME);
+
+		if ($con === null) {
+			$con = Propel::getConnection(SolicitudPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+		}
+	
+		$criteria->addJoin(SolicitudPeer::ID_LIBRO, LibroPeer::ID, $join_behavior);
+
+		$criteria->addJoin(SolicitudPeer::ID_USUARIO_SOLICITANTE, UsuarioPeer::ID, $join_behavior);
+
+		$stmt = BasePeer::doCount($criteria, $con);
+
+		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$count = (int) $row[0];
+		} else {
+			$count = 0; // no rows returned; we infer that means 0 matches.
+		}
+		$stmt->closeCursor();
+		return $count;
+	}
+
+
+	/**
+	 * Selects a collection of Solicitud objects pre-filled with all related objects except Libro.
 	 *
 	 * @param      Criteria  $criteria
 	 * @param      PropelPDO $con
@@ -935,7 +1151,7 @@ abstract class BaseSolicitudPeer {
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinAllExceptUsuarioRelatedById_usuario_solicitado(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	public static function doSelectJoinAllExceptLibro(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
 	{
 		$criteria = clone $criteria;
 
@@ -948,6 +1164,16 @@ abstract class BaseSolicitudPeer {
 
 		SolicitudPeer::addSelectColumns($criteria);
 		$startcol2 = SolicitudPeer::NUM_HYDRATE_COLUMNS;
+
+		UsuarioPeer::addSelectColumns($criteria);
+		$startcol3 = $startcol2 + UsuarioPeer::NUM_HYDRATE_COLUMNS;
+
+		Solicitud_estadoPeer::addSelectColumns($criteria);
+		$startcol4 = $startcol3 + Solicitud_estadoPeer::NUM_HYDRATE_COLUMNS;
+
+		$criteria->addJoin(SolicitudPeer::ID_USUARIO_SOLICITANTE, UsuarioPeer::ID, $join_behavior);
+
+		$criteria->addJoin(SolicitudPeer::ID_ESTADO, Solicitud_estadoPeer::ID, $join_behavior);
 
 
 		$stmt = BasePeer::doSelect($criteria, $con);
@@ -966,6 +1192,44 @@ abstract class BaseSolicitudPeer {
 				$obj1->hydrate($row);
 				SolicitudPeer::addInstanceToPool($obj1, $key1);
 			} // if obj1 already loaded
+
+				// Add objects for joined Usuario rows
+
+				$key2 = UsuarioPeer::getPrimaryKeyHashFromRow($row, $startcol2);
+				if ($key2 !== null) {
+					$obj2 = UsuarioPeer::getInstanceFromPool($key2);
+					if (!$obj2) {
+	
+						$cls = UsuarioPeer::getOMClass();
+
+					$obj2 = new $cls();
+					$obj2->hydrate($row, $startcol2);
+					UsuarioPeer::addInstanceToPool($obj2, $key2);
+				} // if $obj2 already loaded
+
+				// Add the $obj1 (Solicitud) to the collection in $obj2 (Usuario)
+				$obj2->addSolicitud($obj1);
+
+			} // if joined row is not null
+
+				// Add objects for joined Solicitud_estado rows
+
+				$key3 = Solicitud_estadoPeer::getPrimaryKeyHashFromRow($row, $startcol3);
+				if ($key3 !== null) {
+					$obj3 = Solicitud_estadoPeer::getInstanceFromPool($key3);
+					if (!$obj3) {
+	
+						$cls = Solicitud_estadoPeer::getOMClass();
+
+					$obj3 = new $cls();
+					$obj3->hydrate($row, $startcol3);
+					Solicitud_estadoPeer::addInstanceToPool($obj3, $key3);
+				} // if $obj3 already loaded
+
+				// Add the $obj1 (Solicitud) to the collection in $obj3 (Solicitud_estado)
+				$obj3->addSolicitud($obj1);
+
+			} // if joined row is not null
 
 			$results[] = $obj1;
 		}
@@ -975,7 +1239,7 @@ abstract class BaseSolicitudPeer {
 
 
 	/**
-	 * Selects a collection of Solicitud objects pre-filled with all related objects except UsuarioRelatedById_usuario_solicitante.
+	 * Selects a collection of Solicitud objects pre-filled with all related objects except Usuario.
 	 *
 	 * @param      Criteria  $criteria
 	 * @param      PropelPDO $con
@@ -984,7 +1248,7 @@ abstract class BaseSolicitudPeer {
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinAllExceptUsuarioRelatedById_usuario_solicitante(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	public static function doSelectJoinAllExceptUsuario(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
 	{
 		$criteria = clone $criteria;
 
@@ -997,6 +1261,16 @@ abstract class BaseSolicitudPeer {
 
 		SolicitudPeer::addSelectColumns($criteria);
 		$startcol2 = SolicitudPeer::NUM_HYDRATE_COLUMNS;
+
+		LibroPeer::addSelectColumns($criteria);
+		$startcol3 = $startcol2 + LibroPeer::NUM_HYDRATE_COLUMNS;
+
+		Solicitud_estadoPeer::addSelectColumns($criteria);
+		$startcol4 = $startcol3 + Solicitud_estadoPeer::NUM_HYDRATE_COLUMNS;
+
+		$criteria->addJoin(SolicitudPeer::ID_LIBRO, LibroPeer::ID, $join_behavior);
+
+		$criteria->addJoin(SolicitudPeer::ID_ESTADO, Solicitud_estadoPeer::ID, $join_behavior);
 
 
 		$stmt = BasePeer::doSelect($criteria, $con);
@@ -1015,6 +1289,141 @@ abstract class BaseSolicitudPeer {
 				$obj1->hydrate($row);
 				SolicitudPeer::addInstanceToPool($obj1, $key1);
 			} // if obj1 already loaded
+
+				// Add objects for joined Libro rows
+
+				$key2 = LibroPeer::getPrimaryKeyHashFromRow($row, $startcol2);
+				if ($key2 !== null) {
+					$obj2 = LibroPeer::getInstanceFromPool($key2);
+					if (!$obj2) {
+	
+						$cls = LibroPeer::getOMClass();
+
+					$obj2 = new $cls();
+					$obj2->hydrate($row, $startcol2);
+					LibroPeer::addInstanceToPool($obj2, $key2);
+				} // if $obj2 already loaded
+
+				// Add the $obj1 (Solicitud) to the collection in $obj2 (Libro)
+				$obj2->addSolicitud($obj1);
+
+			} // if joined row is not null
+
+				// Add objects for joined Solicitud_estado rows
+
+				$key3 = Solicitud_estadoPeer::getPrimaryKeyHashFromRow($row, $startcol3);
+				if ($key3 !== null) {
+					$obj3 = Solicitud_estadoPeer::getInstanceFromPool($key3);
+					if (!$obj3) {
+	
+						$cls = Solicitud_estadoPeer::getOMClass();
+
+					$obj3 = new $cls();
+					$obj3->hydrate($row, $startcol3);
+					Solicitud_estadoPeer::addInstanceToPool($obj3, $key3);
+				} // if $obj3 already loaded
+
+				// Add the $obj1 (Solicitud) to the collection in $obj3 (Solicitud_estado)
+				$obj3->addSolicitud($obj1);
+
+			} // if joined row is not null
+
+			$results[] = $obj1;
+		}
+		$stmt->closeCursor();
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of Solicitud objects pre-filled with all related objects except Solicitud_estado.
+	 *
+	 * @param      Criteria  $criteria
+	 * @param      PropelPDO $con
+	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+	 * @return     array Array of Solicitud objects.
+	 * @throws     PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinAllExceptSolicitud_estado(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$criteria = clone $criteria;
+
+		// Set the correct dbName if it has not been overridden
+		// $criteria->getDbName() will return the same object if not set to another value
+		// so == check is okay and faster
+		if ($criteria->getDbName() == Propel::getDefaultDB()) {
+			$criteria->setDbName(self::DATABASE_NAME);
+		}
+
+		SolicitudPeer::addSelectColumns($criteria);
+		$startcol2 = SolicitudPeer::NUM_HYDRATE_COLUMNS;
+
+		LibroPeer::addSelectColumns($criteria);
+		$startcol3 = $startcol2 + LibroPeer::NUM_HYDRATE_COLUMNS;
+
+		UsuarioPeer::addSelectColumns($criteria);
+		$startcol4 = $startcol3 + UsuarioPeer::NUM_HYDRATE_COLUMNS;
+
+		$criteria->addJoin(SolicitudPeer::ID_LIBRO, LibroPeer::ID, $join_behavior);
+
+		$criteria->addJoin(SolicitudPeer::ID_USUARIO_SOLICITANTE, UsuarioPeer::ID, $join_behavior);
+
+
+		$stmt = BasePeer::doSelect($criteria, $con);
+		$results = array();
+
+		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+			$key1 = SolicitudPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj1 = SolicitudPeer::getInstanceFromPool($key1))) {
+				// We no longer rehydrate the object, since this can cause data loss.
+				// See http://www.propelorm.org/ticket/509
+				// $obj1->hydrate($row, 0, true); // rehydrate
+			} else {
+				$cls = SolicitudPeer::getOMClass();
+
+				$obj1 = new $cls();
+				$obj1->hydrate($row);
+				SolicitudPeer::addInstanceToPool($obj1, $key1);
+			} // if obj1 already loaded
+
+				// Add objects for joined Libro rows
+
+				$key2 = LibroPeer::getPrimaryKeyHashFromRow($row, $startcol2);
+				if ($key2 !== null) {
+					$obj2 = LibroPeer::getInstanceFromPool($key2);
+					if (!$obj2) {
+	
+						$cls = LibroPeer::getOMClass();
+
+					$obj2 = new $cls();
+					$obj2->hydrate($row, $startcol2);
+					LibroPeer::addInstanceToPool($obj2, $key2);
+				} // if $obj2 already loaded
+
+				// Add the $obj1 (Solicitud) to the collection in $obj2 (Libro)
+				$obj2->addSolicitud($obj1);
+
+			} // if joined row is not null
+
+				// Add objects for joined Usuario rows
+
+				$key3 = UsuarioPeer::getPrimaryKeyHashFromRow($row, $startcol3);
+				if ($key3 !== null) {
+					$obj3 = UsuarioPeer::getInstanceFromPool($key3);
+					if (!$obj3) {
+	
+						$cls = UsuarioPeer::getOMClass();
+
+					$obj3 = new $cls();
+					$obj3->hydrate($row, $startcol3);
+					UsuarioPeer::addInstanceToPool($obj3, $key3);
+				} // if $obj3 already loaded
+
+				// Add the $obj1 (Solicitud) to the collection in $obj3 (Usuario)
+				$obj3->addSolicitud($obj1);
+
+			} // if joined row is not null
 
 			$results[] = $obj1;
 		}

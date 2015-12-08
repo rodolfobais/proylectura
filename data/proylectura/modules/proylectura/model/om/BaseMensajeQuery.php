@@ -9,12 +9,14 @@
  * @method     MensajeQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     MensajeQuery orderById_usuario_destinatario($order = Criteria::ASC) Order by the id_usuario_destinatario column
  * @method     MensajeQuery orderById_usuario_remitente($order = Criteria::ASC) Order by the id_usuario_remitente column
- * @method     MensajeQuery orderBymensaje($order = Criteria::ASC) Order by the mensaje column
+ * @method     MensajeQuery orderByMensaje($order = Criteria::ASC) Order by the mensaje column
+ * @method     MensajeQuery orderByLeido($order = Criteria::ASC) Order by the leido column
  *
  * @method     MensajeQuery groupById() Group by the id column
  * @method     MensajeQuery groupById_usuario_destinatario() Group by the id_usuario_destinatario column
  * @method     MensajeQuery groupById_usuario_remitente() Group by the id_usuario_remitente column
- * @method     MensajeQuery groupBymensaje() Group by the mensaje column
+ * @method     MensajeQuery groupByMensaje() Group by the mensaje column
+ * @method     MensajeQuery groupByLeido() Group by the leido column
  *
  * @method     MensajeQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     MensajeQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -34,12 +36,14 @@
  * @method     Mensaje findOneById(int $id) Return the first Mensaje filtered by the id column
  * @method     Mensaje findOneById_usuario_destinatario(int $id_usuario_destinatario) Return the first Mensaje filtered by the id_usuario_destinatario column
  * @method     Mensaje findOneById_usuario_remitente(int $id_usuario_remitente) Return the first Mensaje filtered by the id_usuario_remitente column
- * @method     Mensaje findOneBymensaje(string $mensaje) Return the first Mensaje filtered by the mensaje column
+ * @method     Mensaje findOneByMensaje(string $mensaje) Return the first Mensaje filtered by the mensaje column
+ * @method     Mensaje findOneByLeido(string $leido) Return the first Mensaje filtered by the leido column
  *
  * @method     array findById(int $id) Return Mensaje objects filtered by the id column
  * @method     array findById_usuario_destinatario(int $id_usuario_destinatario) Return Mensaje objects filtered by the id_usuario_destinatario column
  * @method     array findById_usuario_remitente(int $id_usuario_remitente) Return Mensaje objects filtered by the id_usuario_remitente column
- * @method     array findBymensaje(string $mensaje) Return Mensaje objects filtered by the mensaje column
+ * @method     array findByMensaje(string $mensaje) Return Mensaje objects filtered by the mensaje column
+ * @method     array findByLeido(string $leido) Return Mensaje objects filtered by the leido column
  *
  * @package    propel.generator.proylectura.model.om
  */
@@ -128,7 +132,7 @@ abstract class BaseMensajeQuery extends ModelCriteria
 	 */
 	protected function findPkSimple($key, $con)
 	{
-		$sql = 'SELECT `ID`, `ID_USUARIO_DESTINATARIO`, `ID_USUARIO_REMITENTE`, `MENSAJE` FROM `mensaje` WHERE `ID` = :p0';
+		$sql = 'SELECT `ID`, `ID_USUARIO_DESTINATARIO`, `ID_USUARIO_REMITENTE`, `MENSAJE`, `LEIDO` FROM `mensaje` WHERE `ID` = :p0';
 		try {
 			$stmt = $con->prepare($sql);
 			$stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -328,8 +332,8 @@ abstract class BaseMensajeQuery extends ModelCriteria
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterBymensaje('fooValue');   // WHERE mensaje = 'fooValue'
-	 * $query->filterBymensaje('%fooValue%'); // WHERE mensaje LIKE '%fooValue%'
+	 * $query->filterByMensaje('fooValue');   // WHERE mensaje = 'fooValue'
+	 * $query->filterByMensaje('%fooValue%'); // WHERE mensaje LIKE '%fooValue%'
 	 * </code>
 	 *
 	 * @param     string $mensaje The value to use as filter.
@@ -338,7 +342,7 @@ abstract class BaseMensajeQuery extends ModelCriteria
 	 *
 	 * @return    MensajeQuery The current query, for fluid interface
 	 */
-	public function filterBymensaje($mensaje = null, $comparison = null)
+	public function filterByMensaje($mensaje = null, $comparison = null)
 	{
 		if (null === $comparison) {
 			if (is_array($mensaje)) {
@@ -349,6 +353,34 @@ abstract class BaseMensajeQuery extends ModelCriteria
 			}
 		}
 		return $this->addUsingAlias(MensajePeer::MENSAJE, $mensaje, $comparison);
+	}
+
+	/**
+	 * Filter the query on the leido column
+	 *
+	 * Example usage:
+	 * <code>
+	 * $query->filterByLeido('fooValue');   // WHERE leido = 'fooValue'
+	 * $query->filterByLeido('%fooValue%'); // WHERE leido LIKE '%fooValue%'
+	 * </code>
+	 *
+	 * @param     string $leido The value to use as filter.
+	 *              Accepts wildcards (* and % trigger a LIKE)
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    MensajeQuery The current query, for fluid interface
+	 */
+	public function filterByLeido($leido = null, $comparison = null)
+	{
+		if (null === $comparison) {
+			if (is_array($leido)) {
+				$comparison = Criteria::IN;
+			} elseif (preg_match('/[\%\*]/', $leido)) {
+				$leido = str_replace('*', '%', $leido);
+				$comparison = Criteria::LIKE;
+			}
+		}
+		return $this->addUsingAlias(MensajePeer::LEIDO, $leido, $comparison);
 	}
 
 	/**

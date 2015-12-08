@@ -23,13 +23,13 @@ abstract class BaseMensajePeer {
 	const TM_CLASS = 'MensajeTableMap';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 4;
+	const NUM_COLUMNS = 5;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
 	/** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-	const NUM_HYDRATE_COLUMNS = 4;
+	const NUM_HYDRATE_COLUMNS = 5;
 
 	/** the column name for the ID field */
 	const ID = 'mensaje.ID';
@@ -42,6 +42,9 @@ abstract class BaseMensajePeer {
 
 	/** the column name for the MENSAJE field */
 	const MENSAJE = 'mensaje.MENSAJE';
+
+	/** the column name for the LEIDO field */
+	const LEIDO = 'mensaje.LEIDO';
 
 	/** The default string format for model objects of the related table **/
 	const DEFAULT_STRING_FORMAT = 'YAML';
@@ -62,12 +65,12 @@ abstract class BaseMensajePeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	protected static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Id_usuario_destinatario', 'Id_usuario_remitente', 'mensaje', ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'id_usuario_destinatario', 'id_usuario_remitente', 'mensaje', ),
-		BasePeer::TYPE_COLNAME => array (self::ID, self::ID_USUARIO_DESTINATARIO, self::ID_USUARIO_REMITENTE, self::MENSAJE, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'ID_USUARIO_DESTINATARIO', 'ID_USUARIO_REMITENTE', 'MENSAJE', ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'id_usuario_destinatario', 'id_usuario_remitente', 'mensaje', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Id_usuario_destinatario', 'Id_usuario_remitente', 'Mensaje', 'Leido', ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'id_usuario_destinatario', 'id_usuario_remitente', 'mensaje', 'leido', ),
+		BasePeer::TYPE_COLNAME => array (self::ID, self::ID_USUARIO_DESTINATARIO, self::ID_USUARIO_REMITENTE, self::MENSAJE, self::LEIDO, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'ID_USUARIO_DESTINATARIO', 'ID_USUARIO_REMITENTE', 'MENSAJE', 'LEIDO', ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'id_usuario_destinatario', 'id_usuario_remitente', 'mensaje', 'leido', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
 	/**
@@ -77,12 +80,12 @@ abstract class BaseMensajePeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	protected static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Id_usuario_destinatario' => 1, 'Id_usuario_remitente' => 2, 'mensaje' => 3, ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'id_usuario_destinatario' => 1, 'id_usuario_remitente' => 2, 'mensaje' => 3, ),
-		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::ID_USUARIO_DESTINATARIO => 1, self::ID_USUARIO_REMITENTE => 2, self::MENSAJE => 3, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'ID_USUARIO_DESTINATARIO' => 1, 'ID_USUARIO_REMITENTE' => 2, 'MENSAJE' => 3, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'id_usuario_destinatario' => 1, 'id_usuario_remitente' => 2, 'mensaje' => 3, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Id_usuario_destinatario' => 1, 'Id_usuario_remitente' => 2, 'Mensaje' => 3, 'Leido' => 4, ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'id_usuario_destinatario' => 1, 'id_usuario_remitente' => 2, 'mensaje' => 3, 'leido' => 4, ),
+		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::ID_USUARIO_DESTINATARIO => 1, self::ID_USUARIO_REMITENTE => 2, self::MENSAJE => 3, self::LEIDO => 4, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'ID_USUARIO_DESTINATARIO' => 1, 'ID_USUARIO_REMITENTE' => 2, 'MENSAJE' => 3, 'LEIDO' => 4, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'id_usuario_destinatario' => 1, 'id_usuario_remitente' => 2, 'mensaje' => 3, 'leido' => 4, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
 	/**
@@ -158,11 +161,13 @@ abstract class BaseMensajePeer {
 			$criteria->addSelectColumn(MensajePeer::ID_USUARIO_DESTINATARIO);
 			$criteria->addSelectColumn(MensajePeer::ID_USUARIO_REMITENTE);
 			$criteria->addSelectColumn(MensajePeer::MENSAJE);
+			$criteria->addSelectColumn(MensajePeer::LEIDO);
 		} else {
 			$criteria->addSelectColumn($alias . '.ID');
 			$criteria->addSelectColumn($alias . '.ID_USUARIO_DESTINATARIO');
 			$criteria->addSelectColumn($alias . '.ID_USUARIO_REMITENTE');
 			$criteria->addSelectColumn($alias . '.MENSAJE');
+			$criteria->addSelectColumn($alias . '.LEIDO');
 		}
 	}
 

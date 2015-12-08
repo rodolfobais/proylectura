@@ -3,7 +3,7 @@
 
 
 /**
- * This class defines the structure of the 'mensaje' table.
+ * This class defines the structure of the 'usuario_intereses' table.
  *
  *
  *
@@ -14,13 +14,13 @@
  *
  * @package    propel.generator.proylectura.model.map
  */
-class MensajeTableMap extends TableMap
+class Usuario_interesesTableMap extends TableMap
 {
 
 	/**
 	 * The (dot-path) name of this class
 	 */
-	const CLASS_NAME = 'proylectura.model.map.MensajeTableMap';
+	const CLASS_NAME = 'proylectura.model.map.Usuario_interesesTableMap';
 
 	/**
 	 * Initialize the table attributes, columns and validators
@@ -32,17 +32,15 @@ class MensajeTableMap extends TableMap
 	public function initialize()
 	{
 		// attributes
-		$this->setName('mensaje');
-		$this->setPhpName('Mensaje');
-		$this->setClassname('Mensaje');
+		$this->setName('usuario_intereses');
+		$this->setPhpName('Usuario_intereses');
+		$this->setClassname('Usuario_intereses');
 		$this->setPackage('proylectura.model');
 		$this->setUseIdGenerator(true);
 		// columns
 		$this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
-		$this->addForeignKey('ID_USUARIO_DESTINATARIO', 'Id_usuario_destinatario', 'INTEGER', 'usuario', 'ID', true, null, null);
-		$this->addForeignKey('ID_USUARIO_REMITENTE', 'Id_usuario_remitente', 'INTEGER', 'usuario', 'ID', true, null, null);
-		$this->addColumn('MENSAJE', 'Mensaje', 'CHAR', true, 255, null);
-		$this->addColumn('LEIDO', 'Leido', 'CHAR', false, 1, null);
+		$this->addForeignKey('ID_USUARIO', 'Id_usuario', 'INTEGER', 'usuario', 'ID', true, null, null);
+		$this->addForeignKey('ID_GENERO', 'Id_genero', 'INTEGER', 'genero', 'ID', true, null, null);
 		// validators
 	} // initialize()
 
@@ -51,8 +49,8 @@ class MensajeTableMap extends TableMap
 	 */
 	public function buildRelations()
 	{
-		$this->addRelation('UsuarioRelatedById_usuario_destinatario', 'Usuario', RelationMap::MANY_TO_ONE, array('id_usuario_destinatario' => 'id', ), null, null);
-		$this->addRelation('UsuarioRelatedById_usuario_remitente', 'Usuario', RelationMap::MANY_TO_ONE, array('id_usuario_remitente' => 'id', ), null, null);
+		$this->addRelation('Usuario', 'Usuario', RelationMap::MANY_TO_ONE, array('id_usuario' => 'id', ), null, null);
+		$this->addRelation('Genero', 'Genero', RelationMap::MANY_TO_ONE, array('id_genero' => 'id', ), null, null);
 	} // buildRelations()
 
-} // MensajeTableMap
+} // Usuario_interesesTableMap

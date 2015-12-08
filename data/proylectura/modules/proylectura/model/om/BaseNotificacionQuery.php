@@ -11,12 +11,14 @@
  * @method     NotificacionQuery orderById_receptor($order = Criteria::ASC) Order by the id_receptor column
  * @method     NotificacionQuery orderByDescripcion($order = Criteria::ASC) Order by the descripcion column
  * @method     NotificacionQuery orderById_tipo_notificacion($order = Criteria::ASC) Order by the id_tipo_notificacion column
+ * @method     NotificacionQuery orderByLeido($order = Criteria::ASC) Order by the leido column
  *
  * @method     NotificacionQuery groupById() Group by the id column
  * @method     NotificacionQuery groupById_emisor() Group by the id_emisor column
  * @method     NotificacionQuery groupById_receptor() Group by the id_receptor column
  * @method     NotificacionQuery groupByDescripcion() Group by the descripcion column
  * @method     NotificacionQuery groupById_tipo_notificacion() Group by the id_tipo_notificacion column
+ * @method     NotificacionQuery groupByLeido() Group by the leido column
  *
  * @method     NotificacionQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     NotificacionQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -42,12 +44,14 @@
  * @method     Notificacion findOneById_receptor(int $id_receptor) Return the first Notificacion filtered by the id_receptor column
  * @method     Notificacion findOneByDescripcion(string $descripcion) Return the first Notificacion filtered by the descripcion column
  * @method     Notificacion findOneById_tipo_notificacion(int $id_tipo_notificacion) Return the first Notificacion filtered by the id_tipo_notificacion column
+ * @method     Notificacion findOneByLeido(string $leido) Return the first Notificacion filtered by the leido column
  *
  * @method     array findById(int $id) Return Notificacion objects filtered by the id column
  * @method     array findById_emisor(int $id_emisor) Return Notificacion objects filtered by the id_emisor column
  * @method     array findById_receptor(int $id_receptor) Return Notificacion objects filtered by the id_receptor column
  * @method     array findByDescripcion(string $descripcion) Return Notificacion objects filtered by the descripcion column
  * @method     array findById_tipo_notificacion(int $id_tipo_notificacion) Return Notificacion objects filtered by the id_tipo_notificacion column
+ * @method     array findByLeido(string $leido) Return Notificacion objects filtered by the leido column
  *
  * @package    propel.generator.proylectura.model.om
  */
@@ -136,7 +140,7 @@ abstract class BaseNotificacionQuery extends ModelCriteria
 	 */
 	protected function findPkSimple($key, $con)
 	{
-		$sql = 'SELECT `ID`, `ID_EMISOR`, `ID_RECEPTOR`, `DESCRIPCION`, `ID_TIPO_NOTIFICACION` FROM `notificacion` WHERE `ID` = :p0';
+		$sql = 'SELECT `ID`, `ID_EMISOR`, `ID_RECEPTOR`, `DESCRIPCION`, `ID_TIPO_NOTIFICACION`, `LEIDO` FROM `notificacion` WHERE `ID` = :p0';
 		try {
 			$stmt = $con->prepare($sql);
 			$stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -399,6 +403,34 @@ abstract class BaseNotificacionQuery extends ModelCriteria
 			}
 		}
 		return $this->addUsingAlias(NotificacionPeer::ID_TIPO_NOTIFICACION, $id_tipo_notificacion, $comparison);
+	}
+
+	/**
+	 * Filter the query on the leido column
+	 *
+	 * Example usage:
+	 * <code>
+	 * $query->filterByLeido('fooValue');   // WHERE leido = 'fooValue'
+	 * $query->filterByLeido('%fooValue%'); // WHERE leido LIKE '%fooValue%'
+	 * </code>
+	 *
+	 * @param     string $leido The value to use as filter.
+	 *              Accepts wildcards (* and % trigger a LIKE)
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    NotificacionQuery The current query, for fluid interface
+	 */
+	public function filterByLeido($leido = null, $comparison = null)
+	{
+		if (null === $comparison) {
+			if (is_array($leido)) {
+				$comparison = Criteria::IN;
+			} elseif (preg_match('/[\%\*]/', $leido)) {
+				$leido = str_replace('*', '%', $leido);
+				$comparison = Criteria::LIKE;
+			}
+		}
+		return $this->addUsingAlias(NotificacionPeer::LEIDO, $leido, $comparison);
 	}
 
 	/**

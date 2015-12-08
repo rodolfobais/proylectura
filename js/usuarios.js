@@ -3,6 +3,7 @@ function editaregistro(id){
     $("#formulario_usuarios #nick").val($("#nick_"+id).html());
     $("#formulario_usuarios #nombre").val($("#nombre_"+id).html());
     $("#formulario_usuarios #mail").val($("#mail_"+id).html());
+    $("#formulario_usuarios #password").val($("#password_"+id).html());
     //$("#formulario_usuarios #nombre").val($("#nombre_"+id).html());
     $("#formulario_usuarios #titulo_formulario").html("Editar usuario.");
     $("#formulario_usuarios .box-body").show("slow");
@@ -14,6 +15,7 @@ function enviar_form_usuarios(){
         nick: $("#formulario_usuarios #nick").val() , 
         nombre: $("#formulario_usuarios #nombre").val() , 
         mail: $("#formulario_usuarios #mail").val() , 
+        mail: $("#formulario_usuarios #password").val() , 
         accion: $("#formulario_usuarios #accion").val()
     };
     $.ajax({

@@ -61,6 +61,12 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 	protected $id_tipo_notificacion;
 
 	/**
+	 * The value for the leido field.
+	 * @var        string
+	 */
+	protected $leido;
+
+	/**
 	 * @var        Usuario
 	 */
 	protected $aUsuarioRelatedById_emisor;
@@ -137,6 +143,16 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 	public function getId_tipo_notificacion()
 	{
 		return $this->id_tipo_notificacion;
+	}
+
+	/**
+	 * Get the [leido] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getLeido()
+	{
+		return $this->leido;
 	}
 
 	/**
@@ -252,6 +268,26 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 	} // setId_tipo_notificacion()
 
 	/**
+	 * Set the value of [leido] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     Notificacion The current object (for fluent API support)
+	 */
+	public function setLeido($v)
+	{
+		if ($v !== null) {
+			$v = (string) $v;
+		}
+
+		if ($this->leido !== $v) {
+			$this->leido = $v;
+			$this->modifiedColumns[] = NotificacionPeer::LEIDO;
+		}
+
+		return $this;
+	} // setLeido()
+
+	/**
 	 * Indicates whether the columns in this object are only set to default values.
 	 *
 	 * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -288,6 +324,7 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 			$this->id_receptor = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
 			$this->descripcion = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
 			$this->id_tipo_notificacion = ($row[$startcol + 4] !== null) ? (int) $row[$startcol + 4] : null;
+			$this->leido = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
 			$this->resetModified();
 
 			$this->setNew(false);
@@ -296,7 +333,7 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 				$this->ensureConsistency();
 			}
 
-			return $startcol + 5; // 5 = NotificacionPeer::NUM_HYDRATE_COLUMNS.
+			return $startcol + 6; // 6 = NotificacionPeer::NUM_HYDRATE_COLUMNS.
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Notificacion object", $e);
@@ -557,6 +594,9 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 		if ($this->isColumnModified(NotificacionPeer::ID_TIPO_NOTIFICACION)) {
 			$modifiedColumns[':p' . $index++]  = '`ID_TIPO_NOTIFICACION`';
 		}
+		if ($this->isColumnModified(NotificacionPeer::LEIDO)) {
+			$modifiedColumns[':p' . $index++]  = '`LEIDO`';
+		}
 
 		$sql = sprintf(
 			'INSERT INTO `notificacion` (%s) VALUES (%s)',
@@ -582,6 +622,9 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 						break;
 					case '`ID_TIPO_NOTIFICACION`':
 						$stmt->bindValue($identifier, $this->id_tipo_notificacion, PDO::PARAM_INT);
+						break;
+					case '`LEIDO`':
+						$stmt->bindValue($identifier, $this->leido, PDO::PARAM_STR);
 						break;
 				}
 			}
@@ -752,6 +795,9 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 			case 4:
 				return $this->getId_tipo_notificacion();
 				break;
+			case 5:
+				return $this->getLeido();
+				break;
 			default:
 				return null;
 				break;
@@ -786,6 +832,7 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 			$keys[2] => $this->getId_receptor(),
 			$keys[3] => $this->getDescripcion(),
 			$keys[4] => $this->getId_tipo_notificacion(),
+			$keys[5] => $this->getLeido(),
 		);
 		if ($includeForeignObjects) {
 			if (null !== $this->aUsuarioRelatedById_emisor) {
@@ -843,6 +890,9 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 			case 4:
 				$this->setId_tipo_notificacion($value);
 				break;
+			case 5:
+				$this->setLeido($value);
+				break;
 		} // switch()
 	}
 
@@ -872,6 +922,7 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 		if (array_key_exists($keys[2], $arr)) $this->setId_receptor($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setDescripcion($arr[$keys[3]]);
 		if (array_key_exists($keys[4], $arr)) $this->setId_tipo_notificacion($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setLeido($arr[$keys[5]]);
 	}
 
 	/**
@@ -888,6 +939,7 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 		if ($this->isColumnModified(NotificacionPeer::ID_RECEPTOR)) $criteria->add(NotificacionPeer::ID_RECEPTOR, $this->id_receptor);
 		if ($this->isColumnModified(NotificacionPeer::DESCRIPCION)) $criteria->add(NotificacionPeer::DESCRIPCION, $this->descripcion);
 		if ($this->isColumnModified(NotificacionPeer::ID_TIPO_NOTIFICACION)) $criteria->add(NotificacionPeer::ID_TIPO_NOTIFICACION, $this->id_tipo_notificacion);
+		if ($this->isColumnModified(NotificacionPeer::LEIDO)) $criteria->add(NotificacionPeer::LEIDO, $this->leido);
 
 		return $criteria;
 	}
@@ -954,6 +1006,7 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 		$copyObj->setId_receptor($this->getId_receptor());
 		$copyObj->setDescripcion($this->getDescripcion());
 		$copyObj->setId_tipo_notificacion($this->getId_tipo_notificacion());
+		$copyObj->setLeido($this->getLeido());
 
 		if ($deepCopy && !$this->startCopy) {
 			// important: temporarily setNew(false) because this affects the behavior of
@@ -1167,6 +1220,7 @@ abstract class BaseNotificacion extends BaseObject  implements Persistent
 		$this->id_receptor = null;
 		$this->descripcion = null;
 		$this->id_tipo_notificacion = null;
+		$this->leido = null;
 		$this->alreadyInSave = false;
 		$this->alreadyInValidation = false;
 		$this->clearAllReferences();

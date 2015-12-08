@@ -2,25 +2,25 @@
 
 
 /**
- * Base class that represents a row from the 'solicitud' table.
+ * Base class that represents a row from the 'usuario_intereses' table.
  *
  * 
  *
  * @package    propel.generator.proylectura.model.om
  */
-abstract class BaseSolicitud extends BaseObject  implements Persistent
+abstract class BaseUsuario_intereses extends BaseObject  implements Persistent
 {
 
 	/**
 	 * Peer class name
 	 */
-	const PEER = 'SolicitudPeer';
+	const PEER = 'Usuario_interesesPeer';
 
 	/**
 	 * The Peer class.
 	 * Instance provides a convenient way of calling static methods on a class
 	 * that calling code may not be able to identify.
-	 * @var        SolicitudPeer
+	 * @var        Usuario_interesesPeer
 	 */
 	protected static $peer;
 
@@ -37,51 +37,16 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 	protected $id;
 
 	/**
-	 * The value for the id_libro field.
+	 * The value for the id_usuario field.
 	 * @var        int
 	 */
-	protected $id_libro;
+	protected $id_usuario;
 
 	/**
-	 * The value for the id_usuario_solicitante field.
+	 * The value for the id_genero field.
 	 * @var        int
 	 */
-	protected $id_usuario_solicitante;
-
-	/**
-	 * The value for the id_estado field.
-	 * @var        int
-	 */
-	protected $id_estado;
-
-	/**
-	 * The value for the fecha_solic field.
-	 * @var        string
-	 */
-	protected $fecha_solic;
-
-	/**
-	 * The value for the hora_solic field.
-	 * @var        string
-	 */
-	protected $hora_solic;
-
-	/**
-	 * The value for the fecha_aprob field.
-	 * @var        string
-	 */
-	protected $fecha_aprob;
-
-	/**
-	 * The value for the hora_aprob field.
-	 * @var        string
-	 */
-	protected $hora_aprob;
-
-	/**
-	 * @var        Libro
-	 */
-	protected $aLibro;
+	protected $id_genero;
 
 	/**
 	 * @var        Usuario
@@ -89,9 +54,9 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 	protected $aUsuario;
 
 	/**
-	 * @var        Solicitud_estado
+	 * @var        Genero
 	 */
-	protected $aSolicitud_estado;
+	protected $aGenero;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
@@ -118,136 +83,30 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 	}
 
 	/**
-	 * Get the [id_libro] column value.
+	 * Get the [id_usuario] column value.
 	 * 
 	 * @return     int
 	 */
-	public function getId_libro()
+	public function getId_usuario()
 	{
-		return $this->id_libro;
+		return $this->id_usuario;
 	}
 
 	/**
-	 * Get the [id_usuario_solicitante] column value.
+	 * Get the [id_genero] column value.
 	 * 
 	 * @return     int
 	 */
-	public function getId_usuario_solicitante()
+	public function getId_genero()
 	{
-		return $this->id_usuario_solicitante;
-	}
-
-	/**
-	 * Get the [id_estado] column value.
-	 * 
-	 * @return     int
-	 */
-	public function getId_estado()
-	{
-		return $this->id_estado;
-	}
-
-	/**
-	 * Get the [optionally formatted] temporal [fecha_solic] column value.
-	 * 
-	 *
-	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
-	 *							If format is NULL, then the raw DateTime object will be returned.
-	 * @return     mixed Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00
-	 * @throws     PropelException - if unable to parse/validate the date/time value.
-	 */
-	public function getFecha_solic($format = '%x')
-	{
-		if ($this->fecha_solic === null) {
-			return null;
-		}
-
-
-		if ($this->fecha_solic === '0000-00-00') {
-			// while technically this is not a default value of NULL,
-			// this seems to be closest in meaning.
-			return null;
-		} else {
-			try {
-				$dt = new DateTime($this->fecha_solic);
-			} catch (Exception $x) {
-				throw new PropelException("Internally stored date/time/timestamp value could not be converted to DateTime: " . var_export($this->fecha_solic, true), $x);
-			}
-		}
-
-		if ($format === null) {
-			// Because propel.useDateTimeClass is TRUE, we return a DateTime object.
-			return $dt;
-		} elseif (strpos($format, '%') !== false) {
-			return strftime($format, $dt->format('U'));
-		} else {
-			return $dt->format($format);
-		}
-	}
-
-	/**
-	 * Get the [hora_solic] column value.
-	 * 
-	 * @return     string
-	 */
-	public function getHora_solic()
-	{
-		return $this->hora_solic;
-	}
-
-	/**
-	 * Get the [optionally formatted] temporal [fecha_aprob] column value.
-	 * 
-	 *
-	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
-	 *							If format is NULL, then the raw DateTime object will be returned.
-	 * @return     mixed Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00
-	 * @throws     PropelException - if unable to parse/validate the date/time value.
-	 */
-	public function getFecha_aprob($format = '%x')
-	{
-		if ($this->fecha_aprob === null) {
-			return null;
-		}
-
-
-		if ($this->fecha_aprob === '0000-00-00') {
-			// while technically this is not a default value of NULL,
-			// this seems to be closest in meaning.
-			return null;
-		} else {
-			try {
-				$dt = new DateTime($this->fecha_aprob);
-			} catch (Exception $x) {
-				throw new PropelException("Internally stored date/time/timestamp value could not be converted to DateTime: " . var_export($this->fecha_aprob, true), $x);
-			}
-		}
-
-		if ($format === null) {
-			// Because propel.useDateTimeClass is TRUE, we return a DateTime object.
-			return $dt;
-		} elseif (strpos($format, '%') !== false) {
-			return strftime($format, $dt->format('U'));
-		} else {
-			return $dt->format($format);
-		}
-	}
-
-	/**
-	 * Get the [hora_aprob] column value.
-	 * 
-	 * @return     string
-	 */
-	public function getHora_aprob()
-	{
-		return $this->hora_aprob;
+		return $this->id_genero;
 	}
 
 	/**
 	 * Set the value of [id] column.
 	 * 
 	 * @param      int $v new value
-	 * @return     Solicitud The current object (for fluent API support)
+	 * @return     Usuario_intereses The current object (for fluent API support)
 	 */
 	public function setId($v)
 	{
@@ -257,51 +116,27 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 
 		if ($this->id !== $v) {
 			$this->id = $v;
-			$this->modifiedColumns[] = SolicitudPeer::ID;
+			$this->modifiedColumns[] = Usuario_interesesPeer::ID;
 		}
 
 		return $this;
 	} // setId()
 
 	/**
-	 * Set the value of [id_libro] column.
+	 * Set the value of [id_usuario] column.
 	 * 
 	 * @param      int $v new value
-	 * @return     Solicitud The current object (for fluent API support)
+	 * @return     Usuario_intereses The current object (for fluent API support)
 	 */
-	public function setId_libro($v)
+	public function setId_usuario($v)
 	{
 		if ($v !== null) {
 			$v = (int) $v;
 		}
 
-		if ($this->id_libro !== $v) {
-			$this->id_libro = $v;
-			$this->modifiedColumns[] = SolicitudPeer::ID_LIBRO;
-		}
-
-		if ($this->aLibro !== null && $this->aLibro->getId() !== $v) {
-			$this->aLibro = null;
-		}
-
-		return $this;
-	} // setId_libro()
-
-	/**
-	 * Set the value of [id_usuario_solicitante] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     Solicitud The current object (for fluent API support)
-	 */
-	public function setId_usuario_solicitante($v)
-	{
-		if ($v !== null) {
-			$v = (int) $v;
-		}
-
-		if ($this->id_usuario_solicitante !== $v) {
-			$this->id_usuario_solicitante = $v;
-			$this->modifiedColumns[] = SolicitudPeer::ID_USUARIO_SOLICITANTE;
+		if ($this->id_usuario !== $v) {
+			$this->id_usuario = $v;
+			$this->modifiedColumns[] = Usuario_interesesPeer::ID_USUARIO;
 		}
 
 		if ($this->aUsuario !== null && $this->aUsuario->getId() !== $v) {
@@ -309,115 +144,31 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 		}
 
 		return $this;
-	} // setId_usuario_solicitante()
+	} // setId_usuario()
 
 	/**
-	 * Set the value of [id_estado] column.
+	 * Set the value of [id_genero] column.
 	 * 
 	 * @param      int $v new value
-	 * @return     Solicitud The current object (for fluent API support)
+	 * @return     Usuario_intereses The current object (for fluent API support)
 	 */
-	public function setId_estado($v)
+	public function setId_genero($v)
 	{
 		if ($v !== null) {
 			$v = (int) $v;
 		}
 
-		if ($this->id_estado !== $v) {
-			$this->id_estado = $v;
-			$this->modifiedColumns[] = SolicitudPeer::ID_ESTADO;
+		if ($this->id_genero !== $v) {
+			$this->id_genero = $v;
+			$this->modifiedColumns[] = Usuario_interesesPeer::ID_GENERO;
 		}
 
-		if ($this->aSolicitud_estado !== null && $this->aSolicitud_estado->getId() !== $v) {
-			$this->aSolicitud_estado = null;
-		}
-
-		return $this;
-	} // setId_estado()
-
-	/**
-	 * Sets the value of [fecha_solic] column to a normalized version of the date/time value specified.
-	 * 
-	 * @param      mixed $v string, integer (timestamp), or DateTime value.
-	 *               Empty strings are treated as NULL.
-	 * @return     Solicitud The current object (for fluent API support)
-	 */
-	public function setFecha_solic($v)
-	{
-		$dt = PropelDateTime::newInstance($v, null, 'DateTime');
-		if ($this->fecha_solic !== null || $dt !== null) {
-			$currentDateAsString = ($this->fecha_solic !== null && $tmpDt = new DateTime($this->fecha_solic)) ? $tmpDt->format('Y-m-d') : null;
-			$newDateAsString = $dt ? $dt->format('Y-m-d') : null;
-			if ($currentDateAsString !== $newDateAsString) {
-				$this->fecha_solic = $newDateAsString;
-				$this->modifiedColumns[] = SolicitudPeer::FECHA_SOLIC;
-			}
-		} // if either are not null
-
-		return $this;
-	} // setFecha_solic()
-
-	/**
-	 * Set the value of [hora_solic] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     Solicitud The current object (for fluent API support)
-	 */
-	public function setHora_solic($v)
-	{
-		if ($v !== null) {
-			$v = (string) $v;
-		}
-
-		if ($this->hora_solic !== $v) {
-			$this->hora_solic = $v;
-			$this->modifiedColumns[] = SolicitudPeer::HORA_SOLIC;
+		if ($this->aGenero !== null && $this->aGenero->getId() !== $v) {
+			$this->aGenero = null;
 		}
 
 		return $this;
-	} // setHora_solic()
-
-	/**
-	 * Sets the value of [fecha_aprob] column to a normalized version of the date/time value specified.
-	 * 
-	 * @param      mixed $v string, integer (timestamp), or DateTime value.
-	 *               Empty strings are treated as NULL.
-	 * @return     Solicitud The current object (for fluent API support)
-	 */
-	public function setFecha_aprob($v)
-	{
-		$dt = PropelDateTime::newInstance($v, null, 'DateTime');
-		if ($this->fecha_aprob !== null || $dt !== null) {
-			$currentDateAsString = ($this->fecha_aprob !== null && $tmpDt = new DateTime($this->fecha_aprob)) ? $tmpDt->format('Y-m-d') : null;
-			$newDateAsString = $dt ? $dt->format('Y-m-d') : null;
-			if ($currentDateAsString !== $newDateAsString) {
-				$this->fecha_aprob = $newDateAsString;
-				$this->modifiedColumns[] = SolicitudPeer::FECHA_APROB;
-			}
-		} // if either are not null
-
-		return $this;
-	} // setFecha_aprob()
-
-	/**
-	 * Set the value of [hora_aprob] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     Solicitud The current object (for fluent API support)
-	 */
-	public function setHora_aprob($v)
-	{
-		if ($v !== null) {
-			$v = (string) $v;
-		}
-
-		if ($this->hora_aprob !== $v) {
-			$this->hora_aprob = $v;
-			$this->modifiedColumns[] = SolicitudPeer::HORA_APROB;
-		}
-
-		return $this;
-	} // setHora_aprob()
+	} // setId_genero()
 
 	/**
 	 * Indicates whether the columns in this object are only set to default values.
@@ -452,13 +203,8 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 		try {
 
 			$this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
-			$this->id_libro = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
-			$this->id_usuario_solicitante = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
-			$this->id_estado = ($row[$startcol + 3] !== null) ? (int) $row[$startcol + 3] : null;
-			$this->fecha_solic = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
-			$this->hora_solic = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
-			$this->fecha_aprob = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
-			$this->hora_aprob = ($row[$startcol + 7] !== null) ? (string) $row[$startcol + 7] : null;
+			$this->id_usuario = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
+			$this->id_genero = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
 			$this->resetModified();
 
 			$this->setNew(false);
@@ -467,10 +213,10 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 				$this->ensureConsistency();
 			}
 
-			return $startcol + 8; // 8 = SolicitudPeer::NUM_HYDRATE_COLUMNS.
+			return $startcol + 3; // 3 = Usuario_interesesPeer::NUM_HYDRATE_COLUMNS.
 
 		} catch (Exception $e) {
-			throw new PropelException("Error populating Solicitud object", $e);
+			throw new PropelException("Error populating Usuario_intereses object", $e);
 		}
 	}
 
@@ -490,14 +236,11 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 	public function ensureConsistency()
 	{
 
-		if ($this->aLibro !== null && $this->id_libro !== $this->aLibro->getId()) {
-			$this->aLibro = null;
-		}
-		if ($this->aUsuario !== null && $this->id_usuario_solicitante !== $this->aUsuario->getId()) {
+		if ($this->aUsuario !== null && $this->id_usuario !== $this->aUsuario->getId()) {
 			$this->aUsuario = null;
 		}
-		if ($this->aSolicitud_estado !== null && $this->id_estado !== $this->aSolicitud_estado->getId()) {
-			$this->aSolicitud_estado = null;
+		if ($this->aGenero !== null && $this->id_genero !== $this->aGenero->getId()) {
+			$this->aGenero = null;
 		}
 	} // ensureConsistency
 
@@ -522,13 +265,13 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(SolicitudPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(Usuario_interesesPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 
 		// We don't need to alter the object instance pool; we're just modifying this instance
 		// already in the pool.
 
-		$stmt = SolicitudPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
+		$stmt = Usuario_interesesPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
 		$row = $stmt->fetch(PDO::FETCH_NUM);
 		$stmt->closeCursor();
 		if (!$row) {
@@ -538,9 +281,8 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 
 		if ($deep) {  // also de-associate any related objects?
 
-			$this->aLibro = null;
 			$this->aUsuario = null;
-			$this->aSolicitud_estado = null;
+			$this->aGenero = null;
 		} // if (deep)
 	}
 
@@ -560,12 +302,12 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(SolicitudPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(Usuario_interesesPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 
 		$con->beginTransaction();
 		try {
-			$deleteQuery = SolicitudQuery::create()
+			$deleteQuery = Usuario_interesesQuery::create()
 				->filterByPrimaryKey($this->getPrimaryKey());
 			$ret = $this->preDelete($con);
 			if ($ret) {
@@ -602,7 +344,7 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(SolicitudPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(Usuario_interesesPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 
 		$con->beginTransaction();
@@ -622,7 +364,7 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 					$this->postUpdate($con);
 				}
 				$this->postSave($con);
-				SolicitudPeer::addInstanceToPool($this);
+				Usuario_interesesPeer::addInstanceToPool($this);
 			} else {
 				$affectedRows = 0;
 			}
@@ -656,13 +398,6 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aLibro !== null) {
-				if ($this->aLibro->isModified() || $this->aLibro->isNew()) {
-					$affectedRows += $this->aLibro->save($con);
-				}
-				$this->setLibro($this->aLibro);
-			}
-
 			if ($this->aUsuario !== null) {
 				if ($this->aUsuario->isModified() || $this->aUsuario->isNew()) {
 					$affectedRows += $this->aUsuario->save($con);
@@ -670,11 +405,11 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 				$this->setUsuario($this->aUsuario);
 			}
 
-			if ($this->aSolicitud_estado !== null) {
-				if ($this->aSolicitud_estado->isModified() || $this->aSolicitud_estado->isNew()) {
-					$affectedRows += $this->aSolicitud_estado->save($con);
+			if ($this->aGenero !== null) {
+				if ($this->aGenero->isModified() || $this->aGenero->isNew()) {
+					$affectedRows += $this->aGenero->save($con);
 				}
-				$this->setSolicitud_estado($this->aSolicitud_estado);
+				$this->setGenero($this->aGenero);
 			}
 
 			if ($this->isNew() || $this->isModified()) {
@@ -707,39 +442,24 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 		$modifiedColumns = array();
 		$index = 0;
 
-		$this->modifiedColumns[] = SolicitudPeer::ID;
+		$this->modifiedColumns[] = Usuario_interesesPeer::ID;
 		if (null !== $this->id) {
-			throw new PropelException('Cannot insert a value for auto-increment primary key (' . SolicitudPeer::ID . ')');
+			throw new PropelException('Cannot insert a value for auto-increment primary key (' . Usuario_interesesPeer::ID . ')');
 		}
 
 		 // check the columns in natural order for more readable SQL queries
-		if ($this->isColumnModified(SolicitudPeer::ID)) {
+		if ($this->isColumnModified(Usuario_interesesPeer::ID)) {
 			$modifiedColumns[':p' . $index++]  = '`ID`';
 		}
-		if ($this->isColumnModified(SolicitudPeer::ID_LIBRO)) {
-			$modifiedColumns[':p' . $index++]  = '`ID_LIBRO`';
+		if ($this->isColumnModified(Usuario_interesesPeer::ID_USUARIO)) {
+			$modifiedColumns[':p' . $index++]  = '`ID_USUARIO`';
 		}
-		if ($this->isColumnModified(SolicitudPeer::ID_USUARIO_SOLICITANTE)) {
-			$modifiedColumns[':p' . $index++]  = '`ID_USUARIO_SOLICITANTE`';
-		}
-		if ($this->isColumnModified(SolicitudPeer::ID_ESTADO)) {
-			$modifiedColumns[':p' . $index++]  = '`ID_ESTADO`';
-		}
-		if ($this->isColumnModified(SolicitudPeer::FECHA_SOLIC)) {
-			$modifiedColumns[':p' . $index++]  = '`FECHA_SOLIC`';
-		}
-		if ($this->isColumnModified(SolicitudPeer::HORA_SOLIC)) {
-			$modifiedColumns[':p' . $index++]  = '`HORA_SOLIC`';
-		}
-		if ($this->isColumnModified(SolicitudPeer::FECHA_APROB)) {
-			$modifiedColumns[':p' . $index++]  = '`FECHA_APROB`';
-		}
-		if ($this->isColumnModified(SolicitudPeer::HORA_APROB)) {
-			$modifiedColumns[':p' . $index++]  = '`HORA_APROB`';
+		if ($this->isColumnModified(Usuario_interesesPeer::ID_GENERO)) {
+			$modifiedColumns[':p' . $index++]  = '`ID_GENERO`';
 		}
 
 		$sql = sprintf(
-			'INSERT INTO `solicitud` (%s) VALUES (%s)',
+			'INSERT INTO `usuario_intereses` (%s) VALUES (%s)',
 			implode(', ', $modifiedColumns),
 			implode(', ', array_keys($modifiedColumns))
 		);
@@ -751,26 +471,11 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 					case '`ID`':
 						$stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
 						break;
-					case '`ID_LIBRO`':
-						$stmt->bindValue($identifier, $this->id_libro, PDO::PARAM_INT);
+					case '`ID_USUARIO`':
+						$stmt->bindValue($identifier, $this->id_usuario, PDO::PARAM_INT);
 						break;
-					case '`ID_USUARIO_SOLICITANTE`':
-						$stmt->bindValue($identifier, $this->id_usuario_solicitante, PDO::PARAM_INT);
-						break;
-					case '`ID_ESTADO`':
-						$stmt->bindValue($identifier, $this->id_estado, PDO::PARAM_INT);
-						break;
-					case '`FECHA_SOLIC`':
-						$stmt->bindValue($identifier, $this->fecha_solic, PDO::PARAM_STR);
-						break;
-					case '`HORA_SOLIC`':
-						$stmt->bindValue($identifier, $this->hora_solic, PDO::PARAM_STR);
-						break;
-					case '`FECHA_APROB`':
-						$stmt->bindValue($identifier, $this->fecha_aprob, PDO::PARAM_STR);
-						break;
-					case '`HORA_APROB`':
-						$stmt->bindValue($identifier, $this->hora_aprob, PDO::PARAM_STR);
+					case '`ID_GENERO`':
+						$stmt->bindValue($identifier, $this->id_genero, PDO::PARAM_INT);
 						break;
 				}
 			}
@@ -869,26 +574,20 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aLibro !== null) {
-				if (!$this->aLibro->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aLibro->getValidationFailures());
-				}
-			}
-
 			if ($this->aUsuario !== null) {
 				if (!$this->aUsuario->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aUsuario->getValidationFailures());
 				}
 			}
 
-			if ($this->aSolicitud_estado !== null) {
-				if (!$this->aSolicitud_estado->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aSolicitud_estado->getValidationFailures());
+			if ($this->aGenero !== null) {
+				if (!$this->aGenero->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aGenero->getValidationFailures());
 				}
 			}
 
 
-			if (($retval = SolicitudPeer::doValidate($this, $columns)) !== true) {
+			if (($retval = Usuario_interesesPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
@@ -911,7 +610,7 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 	 */
 	public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = SolicitudPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = Usuario_interesesPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		$field = $this->getByPosition($pos);
 		return $field;
 	}
@@ -930,25 +629,10 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 				return $this->getId();
 				break;
 			case 1:
-				return $this->getId_libro();
+				return $this->getId_usuario();
 				break;
 			case 2:
-				return $this->getId_usuario_solicitante();
-				break;
-			case 3:
-				return $this->getId_estado();
-				break;
-			case 4:
-				return $this->getFecha_solic();
-				break;
-			case 5:
-				return $this->getHora_solic();
-				break;
-			case 6:
-				return $this->getFecha_aprob();
-				break;
-			case 7:
-				return $this->getHora_aprob();
+				return $this->getId_genero();
 				break;
 			default:
 				return null;
@@ -973,30 +657,22 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 	 */
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
 	{
-		if (isset($alreadyDumpedObjects['Solicitud'][$this->getPrimaryKey()])) {
+		if (isset($alreadyDumpedObjects['Usuario_intereses'][$this->getPrimaryKey()])) {
 			return '*RECURSION*';
 		}
-		$alreadyDumpedObjects['Solicitud'][$this->getPrimaryKey()] = true;
-		$keys = SolicitudPeer::getFieldNames($keyType);
+		$alreadyDumpedObjects['Usuario_intereses'][$this->getPrimaryKey()] = true;
+		$keys = Usuario_interesesPeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getId(),
-			$keys[1] => $this->getId_libro(),
-			$keys[2] => $this->getId_usuario_solicitante(),
-			$keys[3] => $this->getId_estado(),
-			$keys[4] => $this->getFecha_solic(),
-			$keys[5] => $this->getHora_solic(),
-			$keys[6] => $this->getFecha_aprob(),
-			$keys[7] => $this->getHora_aprob(),
+			$keys[1] => $this->getId_usuario(),
+			$keys[2] => $this->getId_genero(),
 		);
 		if ($includeForeignObjects) {
-			if (null !== $this->aLibro) {
-				$result['Libro'] = $this->aLibro->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
-			}
 			if (null !== $this->aUsuario) {
 				$result['Usuario'] = $this->aUsuario->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
 			}
-			if (null !== $this->aSolicitud_estado) {
-				$result['Solicitud_estado'] = $this->aSolicitud_estado->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+			if (null !== $this->aGenero) {
+				$result['Genero'] = $this->aGenero->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
 			}
 		}
 		return $result;
@@ -1014,7 +690,7 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 	 */
 	public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = SolicitudPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = Usuario_interesesPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->setByPosition($pos, $value);
 	}
 
@@ -1033,25 +709,10 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 				$this->setId($value);
 				break;
 			case 1:
-				$this->setId_libro($value);
+				$this->setId_usuario($value);
 				break;
 			case 2:
-				$this->setId_usuario_solicitante($value);
-				break;
-			case 3:
-				$this->setId_estado($value);
-				break;
-			case 4:
-				$this->setFecha_solic($value);
-				break;
-			case 5:
-				$this->setHora_solic($value);
-				break;
-			case 6:
-				$this->setFecha_aprob($value);
-				break;
-			case 7:
-				$this->setHora_aprob($value);
+				$this->setId_genero($value);
 				break;
 		} // switch()
 	}
@@ -1075,16 +736,11 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 	 */
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = SolicitudPeer::getFieldNames($keyType);
+		$keys = Usuario_interesesPeer::getFieldNames($keyType);
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setId_libro($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setId_usuario_solicitante($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setId_estado($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setFecha_solic($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setHora_solic($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setFecha_aprob($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setHora_aprob($arr[$keys[7]]);
+		if (array_key_exists($keys[1], $arr)) $this->setId_usuario($arr[$keys[1]]);
+		if (array_key_exists($keys[2], $arr)) $this->setId_genero($arr[$keys[2]]);
 	}
 
 	/**
@@ -1094,16 +750,11 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 	 */
 	public function buildCriteria()
 	{
-		$criteria = new Criteria(SolicitudPeer::DATABASE_NAME);
+		$criteria = new Criteria(Usuario_interesesPeer::DATABASE_NAME);
 
-		if ($this->isColumnModified(SolicitudPeer::ID)) $criteria->add(SolicitudPeer::ID, $this->id);
-		if ($this->isColumnModified(SolicitudPeer::ID_LIBRO)) $criteria->add(SolicitudPeer::ID_LIBRO, $this->id_libro);
-		if ($this->isColumnModified(SolicitudPeer::ID_USUARIO_SOLICITANTE)) $criteria->add(SolicitudPeer::ID_USUARIO_SOLICITANTE, $this->id_usuario_solicitante);
-		if ($this->isColumnModified(SolicitudPeer::ID_ESTADO)) $criteria->add(SolicitudPeer::ID_ESTADO, $this->id_estado);
-		if ($this->isColumnModified(SolicitudPeer::FECHA_SOLIC)) $criteria->add(SolicitudPeer::FECHA_SOLIC, $this->fecha_solic);
-		if ($this->isColumnModified(SolicitudPeer::HORA_SOLIC)) $criteria->add(SolicitudPeer::HORA_SOLIC, $this->hora_solic);
-		if ($this->isColumnModified(SolicitudPeer::FECHA_APROB)) $criteria->add(SolicitudPeer::FECHA_APROB, $this->fecha_aprob);
-		if ($this->isColumnModified(SolicitudPeer::HORA_APROB)) $criteria->add(SolicitudPeer::HORA_APROB, $this->hora_aprob);
+		if ($this->isColumnModified(Usuario_interesesPeer::ID)) $criteria->add(Usuario_interesesPeer::ID, $this->id);
+		if ($this->isColumnModified(Usuario_interesesPeer::ID_USUARIO)) $criteria->add(Usuario_interesesPeer::ID_USUARIO, $this->id_usuario);
+		if ($this->isColumnModified(Usuario_interesesPeer::ID_GENERO)) $criteria->add(Usuario_interesesPeer::ID_GENERO, $this->id_genero);
 
 		return $criteria;
 	}
@@ -1118,8 +769,8 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 	 */
 	public function buildPkeyCriteria()
 	{
-		$criteria = new Criteria(SolicitudPeer::DATABASE_NAME);
-		$criteria->add(SolicitudPeer::ID, $this->id);
+		$criteria = new Criteria(Usuario_interesesPeer::DATABASE_NAME);
+		$criteria->add(Usuario_interesesPeer::ID, $this->id);
 
 		return $criteria;
 	}
@@ -1159,20 +810,15 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param      object $copyObj An object of Solicitud (or compatible) type.
+	 * @param      object $copyObj An object of Usuario_intereses (or compatible) type.
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
 	 * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
 	 * @throws     PropelException
 	 */
 	public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
 	{
-		$copyObj->setId_libro($this->getId_libro());
-		$copyObj->setId_usuario_solicitante($this->getId_usuario_solicitante());
-		$copyObj->setId_estado($this->getId_estado());
-		$copyObj->setFecha_solic($this->getFecha_solic());
-		$copyObj->setHora_solic($this->getHora_solic());
-		$copyObj->setFecha_aprob($this->getFecha_aprob());
-		$copyObj->setHora_aprob($this->getHora_aprob());
+		$copyObj->setId_usuario($this->getId_usuario());
+		$copyObj->setId_genero($this->getId_genero());
 
 		if ($deepCopy && !$this->startCopy) {
 			// important: temporarily setNew(false) because this affects the behavior of
@@ -1200,7 +846,7 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 	 * objects.
 	 *
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @return     Solicitud Clone of current object.
+	 * @return     Usuario_intereses Clone of current object.
 	 * @throws     PropelException
 	 */
 	public function copy($deepCopy = false)
@@ -1219,78 +865,29 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 	 * same instance for all member of this class. The method could therefore
 	 * be static, but this would prevent one from overriding the behavior.
 	 *
-	 * @return     SolicitudPeer
+	 * @return     Usuario_interesesPeer
 	 */
 	public function getPeer()
 	{
 		if (self::$peer === null) {
-			self::$peer = new SolicitudPeer();
+			self::$peer = new Usuario_interesesPeer();
 		}
 		return self::$peer;
-	}
-
-	/**
-	 * Declares an association between this object and a Libro object.
-	 *
-	 * @param      Libro $v
-	 * @return     Solicitud The current object (for fluent API support)
-	 * @throws     PropelException
-	 */
-	public function setLibro(Libro $v = null)
-	{
-		if ($v === null) {
-			$this->setId_libro(NULL);
-		} else {
-			$this->setId_libro($v->getId());
-		}
-
-		$this->aLibro = $v;
-
-		// Add binding for other direction of this n:n relationship.
-		// If this object has already been added to the Libro object, it will not be re-added.
-		if ($v !== null) {
-			$v->addSolicitud($this);
-		}
-
-		return $this;
-	}
-
-
-	/**
-	 * Get the associated Libro object
-	 *
-	 * @param      PropelPDO Optional Connection object.
-	 * @return     Libro The associated Libro object.
-	 * @throws     PropelException
-	 */
-	public function getLibro(PropelPDO $con = null)
-	{
-		if ($this->aLibro === null && ($this->id_libro !== null)) {
-			$this->aLibro = LibroQuery::create()->findPk($this->id_libro, $con);
-			/* The following can be used additionally to
-				guarantee the related object contains a reference
-				to this object.  This level of coupling may, however, be
-				undesirable since it could result in an only partially populated collection
-				in the referenced object.
-				$this->aLibro->addSolicituds($this);
-			 */
-		}
-		return $this->aLibro;
 	}
 
 	/**
 	 * Declares an association between this object and a Usuario object.
 	 *
 	 * @param      Usuario $v
-	 * @return     Solicitud The current object (for fluent API support)
+	 * @return     Usuario_intereses The current object (for fluent API support)
 	 * @throws     PropelException
 	 */
 	public function setUsuario(Usuario $v = null)
 	{
 		if ($v === null) {
-			$this->setId_usuario_solicitante(NULL);
+			$this->setId_usuario(NULL);
 		} else {
-			$this->setId_usuario_solicitante($v->getId());
+			$this->setId_usuario($v->getId());
 		}
 
 		$this->aUsuario = $v;
@@ -1298,7 +895,7 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 		// Add binding for other direction of this n:n relationship.
 		// If this object has already been added to the Usuario object, it will not be re-added.
 		if ($v !== null) {
-			$v->addSolicitud($this);
+			$v->addUsuario_intereses($this);
 		}
 
 		return $this;
@@ -1314,40 +911,40 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 	 */
 	public function getUsuario(PropelPDO $con = null)
 	{
-		if ($this->aUsuario === null && ($this->id_usuario_solicitante !== null)) {
-			$this->aUsuario = UsuarioQuery::create()->findPk($this->id_usuario_solicitante, $con);
+		if ($this->aUsuario === null && ($this->id_usuario !== null)) {
+			$this->aUsuario = UsuarioQuery::create()->findPk($this->id_usuario, $con);
 			/* The following can be used additionally to
 				guarantee the related object contains a reference
 				to this object.  This level of coupling may, however, be
 				undesirable since it could result in an only partially populated collection
 				in the referenced object.
-				$this->aUsuario->addSolicituds($this);
+				$this->aUsuario->addUsuario_interesess($this);
 			 */
 		}
 		return $this->aUsuario;
 	}
 
 	/**
-	 * Declares an association between this object and a Solicitud_estado object.
+	 * Declares an association between this object and a Genero object.
 	 *
-	 * @param      Solicitud_estado $v
-	 * @return     Solicitud The current object (for fluent API support)
+	 * @param      Genero $v
+	 * @return     Usuario_intereses The current object (for fluent API support)
 	 * @throws     PropelException
 	 */
-	public function setSolicitud_estado(Solicitud_estado $v = null)
+	public function setGenero(Genero $v = null)
 	{
 		if ($v === null) {
-			$this->setId_estado(NULL);
+			$this->setId_genero(NULL);
 		} else {
-			$this->setId_estado($v->getId());
+			$this->setId_genero($v->getId());
 		}
 
-		$this->aSolicitud_estado = $v;
+		$this->aGenero = $v;
 
 		// Add binding for other direction of this n:n relationship.
-		// If this object has already been added to the Solicitud_estado object, it will not be re-added.
+		// If this object has already been added to the Genero object, it will not be re-added.
 		if ($v !== null) {
-			$v->addSolicitud($this);
+			$v->addUsuario_intereses($this);
 		}
 
 		return $this;
@@ -1355,25 +952,25 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 
 
 	/**
-	 * Get the associated Solicitud_estado object
+	 * Get the associated Genero object
 	 *
 	 * @param      PropelPDO Optional Connection object.
-	 * @return     Solicitud_estado The associated Solicitud_estado object.
+	 * @return     Genero The associated Genero object.
 	 * @throws     PropelException
 	 */
-	public function getSolicitud_estado(PropelPDO $con = null)
+	public function getGenero(PropelPDO $con = null)
 	{
-		if ($this->aSolicitud_estado === null && ($this->id_estado !== null)) {
-			$this->aSolicitud_estado = Solicitud_estadoQuery::create()->findPk($this->id_estado, $con);
+		if ($this->aGenero === null && ($this->id_genero !== null)) {
+			$this->aGenero = GeneroQuery::create()->findPk($this->id_genero, $con);
 			/* The following can be used additionally to
 				guarantee the related object contains a reference
 				to this object.  This level of coupling may, however, be
 				undesirable since it could result in an only partially populated collection
 				in the referenced object.
-				$this->aSolicitud_estado->addSolicituds($this);
+				$this->aGenero->addUsuario_interesess($this);
 			 */
 		}
-		return $this->aSolicitud_estado;
+		return $this->aGenero;
 	}
 
 	/**
@@ -1382,13 +979,8 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 	public function clear()
 	{
 		$this->id = null;
-		$this->id_libro = null;
-		$this->id_usuario_solicitante = null;
-		$this->id_estado = null;
-		$this->fecha_solic = null;
-		$this->hora_solic = null;
-		$this->fecha_aprob = null;
-		$this->hora_aprob = null;
+		$this->id_usuario = null;
+		$this->id_genero = null;
 		$this->alreadyInSave = false;
 		$this->alreadyInValidation = false;
 		$this->clearAllReferences();
@@ -1411,9 +1003,8 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 		if ($deep) {
 		} // if ($deep)
 
-		$this->aLibro = null;
 		$this->aUsuario = null;
-		$this->aSolicitud_estado = null;
+		$this->aGenero = null;
 	}
 
 	/**
@@ -1423,7 +1014,7 @@ abstract class BaseSolicitud extends BaseObject  implements Persistent
 	 */
 	public function __toString()
 	{
-		return (string) $this->exportTo(SolicitudPeer::DEFAULT_STRING_FORMAT);
+		return (string) $this->exportTo(Usuario_interesesPeer::DEFAULT_STRING_FORMAT);
 	}
 
-} // BaseSolicitud
+} // BaseUsuario_intereses

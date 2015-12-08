@@ -7,43 +7,59 @@
  * 
  *
  * @method     SolicitudQuery orderById($order = Criteria::ASC) Order by the id column
- * @method     SolicitudQuery orderById_usuario_solicitado($order = Criteria::ASC) Order by the id_usuario_solicitado column
+ * @method     SolicitudQuery orderById_libro($order = Criteria::ASC) Order by the id_libro column
  * @method     SolicitudQuery orderById_usuario_solicitante($order = Criteria::ASC) Order by the id_usuario_solicitante column
- * @method     SolicitudQuery orderByEstado($order = Criteria::ASC) Order by the estado column
- * @method     SolicitudQuery orderByFecha($order = Criteria::ASC) Order by the fecha column
+ * @method     SolicitudQuery orderById_estado($order = Criteria::ASC) Order by the id_estado column
+ * @method     SolicitudQuery orderByFecha_solic($order = Criteria::ASC) Order by the fecha_solic column
+ * @method     SolicitudQuery orderByHora_solic($order = Criteria::ASC) Order by the hora_solic column
+ * @method     SolicitudQuery orderByFecha_aprob($order = Criteria::ASC) Order by the fecha_aprob column
+ * @method     SolicitudQuery orderByHora_aprob($order = Criteria::ASC) Order by the hora_aprob column
  *
  * @method     SolicitudQuery groupById() Group by the id column
- * @method     SolicitudQuery groupById_usuario_solicitado() Group by the id_usuario_solicitado column
+ * @method     SolicitudQuery groupById_libro() Group by the id_libro column
  * @method     SolicitudQuery groupById_usuario_solicitante() Group by the id_usuario_solicitante column
- * @method     SolicitudQuery groupByEstado() Group by the estado column
- * @method     SolicitudQuery groupByFecha() Group by the fecha column
+ * @method     SolicitudQuery groupById_estado() Group by the id_estado column
+ * @method     SolicitudQuery groupByFecha_solic() Group by the fecha_solic column
+ * @method     SolicitudQuery groupByHora_solic() Group by the hora_solic column
+ * @method     SolicitudQuery groupByFecha_aprob() Group by the fecha_aprob column
+ * @method     SolicitudQuery groupByHora_aprob() Group by the hora_aprob column
  *
  * @method     SolicitudQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     SolicitudQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     SolicitudQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     SolicitudQuery leftJoinUsuarioRelatedById_usuario_solicitado($relationAlias = null) Adds a LEFT JOIN clause to the query using the UsuarioRelatedById_usuario_solicitado relation
- * @method     SolicitudQuery rightJoinUsuarioRelatedById_usuario_solicitado($relationAlias = null) Adds a RIGHT JOIN clause to the query using the UsuarioRelatedById_usuario_solicitado relation
- * @method     SolicitudQuery innerJoinUsuarioRelatedById_usuario_solicitado($relationAlias = null) Adds a INNER JOIN clause to the query using the UsuarioRelatedById_usuario_solicitado relation
+ * @method     SolicitudQuery leftJoinLibro($relationAlias = null) Adds a LEFT JOIN clause to the query using the Libro relation
+ * @method     SolicitudQuery rightJoinLibro($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Libro relation
+ * @method     SolicitudQuery innerJoinLibro($relationAlias = null) Adds a INNER JOIN clause to the query using the Libro relation
  *
- * @method     SolicitudQuery leftJoinUsuarioRelatedById_usuario_solicitante($relationAlias = null) Adds a LEFT JOIN clause to the query using the UsuarioRelatedById_usuario_solicitante relation
- * @method     SolicitudQuery rightJoinUsuarioRelatedById_usuario_solicitante($relationAlias = null) Adds a RIGHT JOIN clause to the query using the UsuarioRelatedById_usuario_solicitante relation
- * @method     SolicitudQuery innerJoinUsuarioRelatedById_usuario_solicitante($relationAlias = null) Adds a INNER JOIN clause to the query using the UsuarioRelatedById_usuario_solicitante relation
+ * @method     SolicitudQuery leftJoinUsuario($relationAlias = null) Adds a LEFT JOIN clause to the query using the Usuario relation
+ * @method     SolicitudQuery rightJoinUsuario($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Usuario relation
+ * @method     SolicitudQuery innerJoinUsuario($relationAlias = null) Adds a INNER JOIN clause to the query using the Usuario relation
+ *
+ * @method     SolicitudQuery leftJoinSolicitud_estado($relationAlias = null) Adds a LEFT JOIN clause to the query using the Solicitud_estado relation
+ * @method     SolicitudQuery rightJoinSolicitud_estado($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Solicitud_estado relation
+ * @method     SolicitudQuery innerJoinSolicitud_estado($relationAlias = null) Adds a INNER JOIN clause to the query using the Solicitud_estado relation
  *
  * @method     Solicitud findOne(PropelPDO $con = null) Return the first Solicitud matching the query
  * @method     Solicitud findOneOrCreate(PropelPDO $con = null) Return the first Solicitud matching the query, or a new Solicitud object populated from the query conditions when no match is found
  *
  * @method     Solicitud findOneById(int $id) Return the first Solicitud filtered by the id column
- * @method     Solicitud findOneById_usuario_solicitado(int $id_usuario_solicitado) Return the first Solicitud filtered by the id_usuario_solicitado column
+ * @method     Solicitud findOneById_libro(int $id_libro) Return the first Solicitud filtered by the id_libro column
  * @method     Solicitud findOneById_usuario_solicitante(int $id_usuario_solicitante) Return the first Solicitud filtered by the id_usuario_solicitante column
- * @method     Solicitud findOneByEstado(int $estado) Return the first Solicitud filtered by the estado column
- * @method     Solicitud findOneByFecha(string $fecha) Return the first Solicitud filtered by the fecha column
+ * @method     Solicitud findOneById_estado(int $id_estado) Return the first Solicitud filtered by the id_estado column
+ * @method     Solicitud findOneByFecha_solic(string $fecha_solic) Return the first Solicitud filtered by the fecha_solic column
+ * @method     Solicitud findOneByHora_solic(string $hora_solic) Return the first Solicitud filtered by the hora_solic column
+ * @method     Solicitud findOneByFecha_aprob(string $fecha_aprob) Return the first Solicitud filtered by the fecha_aprob column
+ * @method     Solicitud findOneByHora_aprob(string $hora_aprob) Return the first Solicitud filtered by the hora_aprob column
  *
  * @method     array findById(int $id) Return Solicitud objects filtered by the id column
- * @method     array findById_usuario_solicitado(int $id_usuario_solicitado) Return Solicitud objects filtered by the id_usuario_solicitado column
+ * @method     array findById_libro(int $id_libro) Return Solicitud objects filtered by the id_libro column
  * @method     array findById_usuario_solicitante(int $id_usuario_solicitante) Return Solicitud objects filtered by the id_usuario_solicitante column
- * @method     array findByEstado(int $estado) Return Solicitud objects filtered by the estado column
- * @method     array findByFecha(string $fecha) Return Solicitud objects filtered by the fecha column
+ * @method     array findById_estado(int $id_estado) Return Solicitud objects filtered by the id_estado column
+ * @method     array findByFecha_solic(string $fecha_solic) Return Solicitud objects filtered by the fecha_solic column
+ * @method     array findByHora_solic(string $hora_solic) Return Solicitud objects filtered by the hora_solic column
+ * @method     array findByFecha_aprob(string $fecha_aprob) Return Solicitud objects filtered by the fecha_aprob column
+ * @method     array findByHora_aprob(string $hora_aprob) Return Solicitud objects filtered by the hora_aprob column
  *
  * @package    propel.generator.proylectura.model.om
  */
@@ -132,7 +148,7 @@ abstract class BaseSolicitudQuery extends ModelCriteria
 	 */
 	protected function findPkSimple($key, $con)
 	{
-		$sql = 'SELECT `ID`, `ID_USUARIO_SOLICITADO`, `ID_USUARIO_SOLICITANTE`, `ESTADO`, `FECHA` FROM `solicitud` WHERE `ID` = :p0';
+		$sql = 'SELECT `ID`, `ID_LIBRO`, `ID_USUARIO_SOLICITANTE`, `ID_ESTADO`, `FECHA_SOLIC`, `HORA_SOLIC`, `FECHA_APROB`, `HORA_APROB` FROM `solicitud` WHERE `ID` = :p0';
 		try {
 			$stmt = $con->prepare($sql);
 			$stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -244,18 +260,18 @@ abstract class BaseSolicitudQuery extends ModelCriteria
 	}
 
 	/**
-	 * Filter the query on the id_usuario_solicitado column
+	 * Filter the query on the id_libro column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterById_usuario_solicitado(1234); // WHERE id_usuario_solicitado = 1234
-	 * $query->filterById_usuario_solicitado(array(12, 34)); // WHERE id_usuario_solicitado IN (12, 34)
-	 * $query->filterById_usuario_solicitado(array('min' => 12)); // WHERE id_usuario_solicitado > 12
+	 * $query->filterById_libro(1234); // WHERE id_libro = 1234
+	 * $query->filterById_libro(array(12, 34)); // WHERE id_libro IN (12, 34)
+	 * $query->filterById_libro(array('min' => 12)); // WHERE id_libro > 12
 	 * </code>
 	 *
-	 * @see       filterByUsuarioRelatedById_usuario_solicitado()
+	 * @see       filterByLibro()
 	 *
-	 * @param     mixed $id_usuario_solicitado The value to use as filter.
+	 * @param     mixed $id_libro The value to use as filter.
 	 *              Use scalar values for equality.
 	 *              Use array values for in_array() equivalent.
 	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -263,16 +279,16 @@ abstract class BaseSolicitudQuery extends ModelCriteria
 	 *
 	 * @return    SolicitudQuery The current query, for fluid interface
 	 */
-	public function filterById_usuario_solicitado($id_usuario_solicitado = null, $comparison = null)
+	public function filterById_libro($id_libro = null, $comparison = null)
 	{
-		if (is_array($id_usuario_solicitado)) {
+		if (is_array($id_libro)) {
 			$useMinMax = false;
-			if (isset($id_usuario_solicitado['min'])) {
-				$this->addUsingAlias(SolicitudPeer::ID_USUARIO_SOLICITADO, $id_usuario_solicitado['min'], Criteria::GREATER_EQUAL);
+			if (isset($id_libro['min'])) {
+				$this->addUsingAlias(SolicitudPeer::ID_LIBRO, $id_libro['min'], Criteria::GREATER_EQUAL);
 				$useMinMax = true;
 			}
-			if (isset($id_usuario_solicitado['max'])) {
-				$this->addUsingAlias(SolicitudPeer::ID_USUARIO_SOLICITADO, $id_usuario_solicitado['max'], Criteria::LESS_EQUAL);
+			if (isset($id_libro['max'])) {
+				$this->addUsingAlias(SolicitudPeer::ID_LIBRO, $id_libro['max'], Criteria::LESS_EQUAL);
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -282,7 +298,7 @@ abstract class BaseSolicitudQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(SolicitudPeer::ID_USUARIO_SOLICITADO, $id_usuario_solicitado, $comparison);
+		return $this->addUsingAlias(SolicitudPeer::ID_LIBRO, $id_libro, $comparison);
 	}
 
 	/**
@@ -295,7 +311,7 @@ abstract class BaseSolicitudQuery extends ModelCriteria
 	 * $query->filterById_usuario_solicitante(array('min' => 12)); // WHERE id_usuario_solicitante > 12
 	 * </code>
 	 *
-	 * @see       filterByUsuarioRelatedById_usuario_solicitante()
+	 * @see       filterByUsuario()
 	 *
 	 * @param     mixed $id_usuario_solicitante The value to use as filter.
 	 *              Use scalar values for equality.
@@ -328,16 +344,18 @@ abstract class BaseSolicitudQuery extends ModelCriteria
 	}
 
 	/**
-	 * Filter the query on the estado column
+	 * Filter the query on the id_estado column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByEstado(1234); // WHERE estado = 1234
-	 * $query->filterByEstado(array(12, 34)); // WHERE estado IN (12, 34)
-	 * $query->filterByEstado(array('min' => 12)); // WHERE estado > 12
+	 * $query->filterById_estado(1234); // WHERE id_estado = 1234
+	 * $query->filterById_estado(array(12, 34)); // WHERE id_estado IN (12, 34)
+	 * $query->filterById_estado(array('min' => 12)); // WHERE id_estado > 12
 	 * </code>
 	 *
-	 * @param     mixed $estado The value to use as filter.
+	 * @see       filterBySolicitud_estado()
+	 *
+	 * @param     mixed $id_estado The value to use as filter.
 	 *              Use scalar values for equality.
 	 *              Use array values for in_array() equivalent.
 	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -345,16 +363,16 @@ abstract class BaseSolicitudQuery extends ModelCriteria
 	 *
 	 * @return    SolicitudQuery The current query, for fluid interface
 	 */
-	public function filterByEstado($estado = null, $comparison = null)
+	public function filterById_estado($id_estado = null, $comparison = null)
 	{
-		if (is_array($estado)) {
+		if (is_array($id_estado)) {
 			$useMinMax = false;
-			if (isset($estado['min'])) {
-				$this->addUsingAlias(SolicitudPeer::ESTADO, $estado['min'], Criteria::GREATER_EQUAL);
+			if (isset($id_estado['min'])) {
+				$this->addUsingAlias(SolicitudPeer::ID_ESTADO, $id_estado['min'], Criteria::GREATER_EQUAL);
 				$useMinMax = true;
 			}
-			if (isset($estado['max'])) {
-				$this->addUsingAlias(SolicitudPeer::ESTADO, $estado['max'], Criteria::LESS_EQUAL);
+			if (isset($id_estado['max'])) {
+				$this->addUsingAlias(SolicitudPeer::ID_ESTADO, $id_estado['max'], Criteria::LESS_EQUAL);
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -364,20 +382,20 @@ abstract class BaseSolicitudQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(SolicitudPeer::ESTADO, $estado, $comparison);
+		return $this->addUsingAlias(SolicitudPeer::ID_ESTADO, $id_estado, $comparison);
 	}
 
 	/**
-	 * Filter the query on the fecha column
+	 * Filter the query on the fecha_solic column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByFecha('2011-03-14'); // WHERE fecha = '2011-03-14'
-	 * $query->filterByFecha('now'); // WHERE fecha = '2011-03-14'
-	 * $query->filterByFecha(array('max' => 'yesterday')); // WHERE fecha > '2011-03-13'
+	 * $query->filterByFecha_solic('2011-03-14'); // WHERE fecha_solic = '2011-03-14'
+	 * $query->filterByFecha_solic('now'); // WHERE fecha_solic = '2011-03-14'
+	 * $query->filterByFecha_solic(array('max' => 'yesterday')); // WHERE fecha_solic > '2011-03-13'
 	 * </code>
 	 *
-	 * @param     mixed $fecha The value to use as filter.
+	 * @param     mixed $fecha_solic The value to use as filter.
 	 *              Values can be integers (unix timestamps), DateTime objects, or strings.
 	 *              Empty strings are treated as NULL.
 	 *              Use scalar values for equality.
@@ -387,16 +405,16 @@ abstract class BaseSolicitudQuery extends ModelCriteria
 	 *
 	 * @return    SolicitudQuery The current query, for fluid interface
 	 */
-	public function filterByFecha($fecha = null, $comparison = null)
+	public function filterByFecha_solic($fecha_solic = null, $comparison = null)
 	{
-		if (is_array($fecha)) {
+		if (is_array($fecha_solic)) {
 			$useMinMax = false;
-			if (isset($fecha['min'])) {
-				$this->addUsingAlias(SolicitudPeer::FECHA, $fecha['min'], Criteria::GREATER_EQUAL);
+			if (isset($fecha_solic['min'])) {
+				$this->addUsingAlias(SolicitudPeer::FECHA_SOLIC, $fecha_solic['min'], Criteria::GREATER_EQUAL);
 				$useMinMax = true;
 			}
-			if (isset($fecha['max'])) {
-				$this->addUsingAlias(SolicitudPeer::FECHA, $fecha['max'], Criteria::LESS_EQUAL);
+			if (isset($fecha_solic['max'])) {
+				$this->addUsingAlias(SolicitudPeer::FECHA_SOLIC, $fecha_solic['max'], Criteria::LESS_EQUAL);
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -406,45 +424,143 @@ abstract class BaseSolicitudQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(SolicitudPeer::FECHA, $fecha, $comparison);
+		return $this->addUsingAlias(SolicitudPeer::FECHA_SOLIC, $fecha_solic, $comparison);
 	}
 
 	/**
-	 * Filter the query by a related Usuario object
+	 * Filter the query on the hora_solic column
 	 *
-	 * @param     Usuario|PropelCollection $usuario The related object(s) to use as filter
+	 * Example usage:
+	 * <code>
+	 * $query->filterByHora_solic('fooValue');   // WHERE hora_solic = 'fooValue'
+	 * $query->filterByHora_solic('%fooValue%'); // WHERE hora_solic LIKE '%fooValue%'
+	 * </code>
+	 *
+	 * @param     string $hora_solic The value to use as filter.
+	 *              Accepts wildcards (* and % trigger a LIKE)
 	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
 	 *
 	 * @return    SolicitudQuery The current query, for fluid interface
 	 */
-	public function filterByUsuarioRelatedById_usuario_solicitado($usuario, $comparison = null)
+	public function filterByHora_solic($hora_solic = null, $comparison = null)
 	{
-		if ($usuario instanceof Usuario) {
+		if (null === $comparison) {
+			if (is_array($hora_solic)) {
+				$comparison = Criteria::IN;
+			} elseif (preg_match('/[\%\*]/', $hora_solic)) {
+				$hora_solic = str_replace('*', '%', $hora_solic);
+				$comparison = Criteria::LIKE;
+			}
+		}
+		return $this->addUsingAlias(SolicitudPeer::HORA_SOLIC, $hora_solic, $comparison);
+	}
+
+	/**
+	 * Filter the query on the fecha_aprob column
+	 *
+	 * Example usage:
+	 * <code>
+	 * $query->filterByFecha_aprob('2011-03-14'); // WHERE fecha_aprob = '2011-03-14'
+	 * $query->filterByFecha_aprob('now'); // WHERE fecha_aprob = '2011-03-14'
+	 * $query->filterByFecha_aprob(array('max' => 'yesterday')); // WHERE fecha_aprob > '2011-03-13'
+	 * </code>
+	 *
+	 * @param     mixed $fecha_aprob The value to use as filter.
+	 *              Values can be integers (unix timestamps), DateTime objects, or strings.
+	 *              Empty strings are treated as NULL.
+	 *              Use scalar values for equality.
+	 *              Use array values for in_array() equivalent.
+	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    SolicitudQuery The current query, for fluid interface
+	 */
+	public function filterByFecha_aprob($fecha_aprob = null, $comparison = null)
+	{
+		if (is_array($fecha_aprob)) {
+			$useMinMax = false;
+			if (isset($fecha_aprob['min'])) {
+				$this->addUsingAlias(SolicitudPeer::FECHA_APROB, $fecha_aprob['min'], Criteria::GREATER_EQUAL);
+				$useMinMax = true;
+			}
+			if (isset($fecha_aprob['max'])) {
+				$this->addUsingAlias(SolicitudPeer::FECHA_APROB, $fecha_aprob['max'], Criteria::LESS_EQUAL);
+				$useMinMax = true;
+			}
+			if ($useMinMax) {
+				return $this;
+			}
+			if (null === $comparison) {
+				$comparison = Criteria::IN;
+			}
+		}
+		return $this->addUsingAlias(SolicitudPeer::FECHA_APROB, $fecha_aprob, $comparison);
+	}
+
+	/**
+	 * Filter the query on the hora_aprob column
+	 *
+	 * Example usage:
+	 * <code>
+	 * $query->filterByHora_aprob('fooValue');   // WHERE hora_aprob = 'fooValue'
+	 * $query->filterByHora_aprob('%fooValue%'); // WHERE hora_aprob LIKE '%fooValue%'
+	 * </code>
+	 *
+	 * @param     string $hora_aprob The value to use as filter.
+	 *              Accepts wildcards (* and % trigger a LIKE)
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    SolicitudQuery The current query, for fluid interface
+	 */
+	public function filterByHora_aprob($hora_aprob = null, $comparison = null)
+	{
+		if (null === $comparison) {
+			if (is_array($hora_aprob)) {
+				$comparison = Criteria::IN;
+			} elseif (preg_match('/[\%\*]/', $hora_aprob)) {
+				$hora_aprob = str_replace('*', '%', $hora_aprob);
+				$comparison = Criteria::LIKE;
+			}
+		}
+		return $this->addUsingAlias(SolicitudPeer::HORA_APROB, $hora_aprob, $comparison);
+	}
+
+	/**
+	 * Filter the query by a related Libro object
+	 *
+	 * @param     Libro|PropelCollection $libro The related object(s) to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    SolicitudQuery The current query, for fluid interface
+	 */
+	public function filterByLibro($libro, $comparison = null)
+	{
+		if ($libro instanceof Libro) {
 			return $this
-				->addUsingAlias(SolicitudPeer::ID_USUARIO_SOLICITADO, $usuario->getId(), $comparison);
-		} elseif ($usuario instanceof PropelCollection) {
+				->addUsingAlias(SolicitudPeer::ID_LIBRO, $libro->getId(), $comparison);
+		} elseif ($libro instanceof PropelCollection) {
 			if (null === $comparison) {
 				$comparison = Criteria::IN;
 			}
 			return $this
-				->addUsingAlias(SolicitudPeer::ID_USUARIO_SOLICITADO, $usuario->toKeyValue('PrimaryKey', 'Id'), $comparison);
+				->addUsingAlias(SolicitudPeer::ID_LIBRO, $libro->toKeyValue('PrimaryKey', 'Id'), $comparison);
 		} else {
-			throw new PropelException('filterByUsuarioRelatedById_usuario_solicitado() only accepts arguments of type Usuario or PropelCollection');
+			throw new PropelException('filterByLibro() only accepts arguments of type Libro or PropelCollection');
 		}
 	}
 
 	/**
-	 * Adds a JOIN clause to the query using the UsuarioRelatedById_usuario_solicitado relation
+	 * Adds a JOIN clause to the query using the Libro relation
 	 *
 	 * @param     string $relationAlias optional alias for the relation
 	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
 	 *
 	 * @return    SolicitudQuery The current query, for fluid interface
 	 */
-	public function joinUsuarioRelatedById_usuario_solicitado($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	public function joinLibro($relationAlias = null, $joinType = Criteria::INNER_JOIN)
 	{
 		$tableMap = $this->getTableMap();
-		$relationMap = $tableMap->getRelation('UsuarioRelatedById_usuario_solicitado');
+		$relationMap = $tableMap->getRelation('Libro');
 
 		// create a ModelJoin object for this join
 		$join = new ModelJoin();
@@ -459,14 +575,14 @@ abstract class BaseSolicitudQuery extends ModelCriteria
 			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
 			$this->addJoinObject($join, $relationAlias);
 		} else {
-			$this->addJoinObject($join, 'UsuarioRelatedById_usuario_solicitado');
+			$this->addJoinObject($join, 'Libro');
 		}
 
 		return $this;
 	}
 
 	/**
-	 * Use the UsuarioRelatedById_usuario_solicitado relation Usuario object
+	 * Use the Libro relation Libro object
 	 *
 	 * @see       useQuery()
 	 *
@@ -474,13 +590,13 @@ abstract class BaseSolicitudQuery extends ModelCriteria
 	 *                                   to be used as main alias in the secondary query
 	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
 	 *
-	 * @return    UsuarioQuery A secondary query class using the current class as primary query
+	 * @return    LibroQuery A secondary query class using the current class as primary query
 	 */
-	public function useUsuarioRelatedById_usuario_solicitadoQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	public function useLibroQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
 	{
 		return $this
-			->joinUsuarioRelatedById_usuario_solicitado($relationAlias, $joinType)
-			->useQuery($relationAlias ? $relationAlias : 'UsuarioRelatedById_usuario_solicitado', 'UsuarioQuery');
+			->joinLibro($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Libro', 'LibroQuery');
 	}
 
 	/**
@@ -491,7 +607,7 @@ abstract class BaseSolicitudQuery extends ModelCriteria
 	 *
 	 * @return    SolicitudQuery The current query, for fluid interface
 	 */
-	public function filterByUsuarioRelatedById_usuario_solicitante($usuario, $comparison = null)
+	public function filterByUsuario($usuario, $comparison = null)
 	{
 		if ($usuario instanceof Usuario) {
 			return $this
@@ -503,22 +619,22 @@ abstract class BaseSolicitudQuery extends ModelCriteria
 			return $this
 				->addUsingAlias(SolicitudPeer::ID_USUARIO_SOLICITANTE, $usuario->toKeyValue('PrimaryKey', 'Id'), $comparison);
 		} else {
-			throw new PropelException('filterByUsuarioRelatedById_usuario_solicitante() only accepts arguments of type Usuario or PropelCollection');
+			throw new PropelException('filterByUsuario() only accepts arguments of type Usuario or PropelCollection');
 		}
 	}
 
 	/**
-	 * Adds a JOIN clause to the query using the UsuarioRelatedById_usuario_solicitante relation
+	 * Adds a JOIN clause to the query using the Usuario relation
 	 *
 	 * @param     string $relationAlias optional alias for the relation
 	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
 	 *
 	 * @return    SolicitudQuery The current query, for fluid interface
 	 */
-	public function joinUsuarioRelatedById_usuario_solicitante($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	public function joinUsuario($relationAlias = null, $joinType = Criteria::INNER_JOIN)
 	{
 		$tableMap = $this->getTableMap();
-		$relationMap = $tableMap->getRelation('UsuarioRelatedById_usuario_solicitante');
+		$relationMap = $tableMap->getRelation('Usuario');
 
 		// create a ModelJoin object for this join
 		$join = new ModelJoin();
@@ -533,14 +649,14 @@ abstract class BaseSolicitudQuery extends ModelCriteria
 			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
 			$this->addJoinObject($join, $relationAlias);
 		} else {
-			$this->addJoinObject($join, 'UsuarioRelatedById_usuario_solicitante');
+			$this->addJoinObject($join, 'Usuario');
 		}
 
 		return $this;
 	}
 
 	/**
-	 * Use the UsuarioRelatedById_usuario_solicitante relation Usuario object
+	 * Use the Usuario relation Usuario object
 	 *
 	 * @see       useQuery()
 	 *
@@ -550,11 +666,85 @@ abstract class BaseSolicitudQuery extends ModelCriteria
 	 *
 	 * @return    UsuarioQuery A secondary query class using the current class as primary query
 	 */
-	public function useUsuarioRelatedById_usuario_solicitanteQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	public function useUsuarioQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
 	{
 		return $this
-			->joinUsuarioRelatedById_usuario_solicitante($relationAlias, $joinType)
-			->useQuery($relationAlias ? $relationAlias : 'UsuarioRelatedById_usuario_solicitante', 'UsuarioQuery');
+			->joinUsuario($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Usuario', 'UsuarioQuery');
+	}
+
+	/**
+	 * Filter the query by a related Solicitud_estado object
+	 *
+	 * @param     Solicitud_estado|PropelCollection $solicitud_estado The related object(s) to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    SolicitudQuery The current query, for fluid interface
+	 */
+	public function filterBySolicitud_estado($solicitud_estado, $comparison = null)
+	{
+		if ($solicitud_estado instanceof Solicitud_estado) {
+			return $this
+				->addUsingAlias(SolicitudPeer::ID_ESTADO, $solicitud_estado->getId(), $comparison);
+		} elseif ($solicitud_estado instanceof PropelCollection) {
+			if (null === $comparison) {
+				$comparison = Criteria::IN;
+			}
+			return $this
+				->addUsingAlias(SolicitudPeer::ID_ESTADO, $solicitud_estado->toKeyValue('PrimaryKey', 'Id'), $comparison);
+		} else {
+			throw new PropelException('filterBySolicitud_estado() only accepts arguments of type Solicitud_estado or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the Solicitud_estado relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    SolicitudQuery The current query, for fluid interface
+	 */
+	public function joinSolicitud_estado($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('Solicitud_estado');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'Solicitud_estado');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the Solicitud_estado relation Solicitud_estado object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    Solicitud_estadoQuery A secondary query class using the current class as primary query
+	 */
+	public function useSolicitud_estadoQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+	{
+		return $this
+			->joinSolicitud_estado($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Solicitud_estado', 'Solicitud_estadoQuery');
 	}
 
 	/**
