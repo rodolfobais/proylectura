@@ -73,3 +73,20 @@ function formateartabla(){
         }
     } );
 }
+function solicitarcolaborar(id){
+    var json = {
+        id: id,
+        accion: "solicitarcolaborar"
+    };
+    $.ajax({
+        data: {json: $.toJSON(json) },
+        type: 'POST',
+        dataType: 'json',
+        url: 'pages/layout/clasificados_data.php',
+        success: function(data){
+            alert(data.msg);
+            refreshDivs('cuerpocentro','pages/layout/clasificados_lista.php');
+            formateartabla();
+        }
+   });
+}

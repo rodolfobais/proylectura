@@ -30,7 +30,7 @@ if($clasificados != null){
                 <td>".$reg->getLibro()->getNombre()."</td>
                 <td>".$reg->getTexto_corto()."</td>
                 <td>".$reg->getTexto_largo()."</td>
-                <td><i class='fa fa-fw fa-user-plus'></i></td>
+                <td><a onclick = 'solicitarcolaborar(\"".$reg->getId()."\");'><i class='fa fa-fw fa-user-plus'></i></a></td>
           </tr>";
     }
 }/*else{
