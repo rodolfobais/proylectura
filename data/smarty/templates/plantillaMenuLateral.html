@@ -1,32 +1,39 @@
+
 <aside class="main-sidebar">
-    <section class="sidebar">
-        <div class="user-panel">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+          <!-- Sidebar user panel -->
+          <div class="user-panel">
             <div class="pull-left image">
-                  <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+              <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
               <p>{$user_name}</p>
               <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
-        </div>      
-        <ul class="sidebar-menu">
+          </div>
+          
+          <!-- sidebar menu: : style can be found in sidebar.less -->
+          <ul class="sidebar-menu">
             <li class="header">PRINCIPAL</li>
             <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-files-o"></i>
-                    <span>Biblioteca</span>
-                    <!--<span class="label label-primary pull-right">4</span>-->
-                </a>
+              <a href="#">
+                <i class="fa fa-files-o"></i>
+                <span>Biblioteca</span>
+                <!--<span class="label label-primary pull-right">4</span>-->
+              </a>
                 <ul class="treeview-menu">
-                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/pdf.php')"><i class="fa fa-circle-o"></i> Subir PDF</a></li>
-                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/biblioteca.php')"><i class="fa fa-circle-o"></i> Listado</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/libros.php')"><i class="fa fa-circle-o"></i> Subir PDF</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/biblioteca.php')"><i class="fa fa-circle-o"></i> Biblioteca</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/perfillibro.php')"><i class="fa fa-circle-o"></i> Libro test</a></li>
                 </ul>
             </li>
             <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-files-o"></i>
-                    <span>Centro de Redaccion</span>
-                </a>
+              <a href="#">
+                <i class="fa fa-files-o"></i>
+                <span>Centro de Redaccion</span>
+                
+              </a>
                 <ul class="treeview-menu">
                     <li><a href="#" onclick="refreshDivs('cuerpocentro','pages/layout/editor.php');habilitareditor();"><i class="fa fa-circle-o"></i> Redactor</a></li>
                     <li><a href="#" onclick="refreshDivs('cuerpocentro','pages/layout/mis_proyectos.php');"><i class="fa fa-circle-o"></i> Mis proyectos</a></li>
@@ -34,43 +41,47 @@
                 </ul>
             </li>
             <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-files-o"></i>
-                    <span>Clasificados</span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/clasificados.php')"><i class="fa fa-circle-o"></i>ABM Clasificados</a></li>
-                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/clasificados_lista.php');formateartabla();"><i class="fa fa-circle-o"></i> Listado</a></li>
-                </ul>
-            </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-music"></i>
-                    <span>Audiolibros</span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/mp3.php')"><i class="fa fa-circle-o"></i> Subir Audiolibro</a></li>
-                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/audiolista.php')"><i class="fa fa-circle-o"></i> Crear Lista de Audiolibros</a></li>
-                </ul>
-            </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-users"></i>
-                    <span>Social</span>
+              <a href="#">
+                <i class="fa fa-files-o"></i>
+                <span>Clasificados</span>
                 
-                </a>
+              </a>
                 <ul class="treeview-menu">
-                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/buscaamigos.php')"><i class="fa fa-circle-o"></i> Buscar amigos</a></li>
-                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/amigos.php')"><i class="fa fa-circle-o"></i> Lectores Amigos</a></li>
-                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/perfil.php')"><i class="fa fa-circle-o"></i> perfil </a></li>
-                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/perfilvisita.php')"><i class="fa fa-circle-o"></i> perfil Visita</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/clasificados.php')"><i class="fa fa-circle-o"></i> Clasificados</a></li>
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/clasificados_lista.php')"><i class="fa fa-circle-o"></i> Listado</a></li>
                 </ul>
             </li>
             <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-files-o"></i>
-                    <span>Administrador</span>
-                </a>
+              <a href="#">
+                <i class="fa fa-music"></i>
+                <span>Audiolibros</span>
+                
+              </a>
+                <ul class="treeview-menu">
+                    <li><a onclick="refreshDivs('cuerpocentro','pages/layout/subirmp3.php')"><i class="fa fa-circle-o"></i> Subir Audiolibro</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-users"></i>
+                <span>Social</span>
+                
+              </a>
+              <ul class="treeview-menu">
+                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/buscaamigos.php')"><i class="fa fa-circle-o"></i> Buscar amigos</a></li>
+                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/amigos.php')"><i class="fa fa-circle-o"></i> Lectores Amigos</a></li>
+                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/perfil.php')"><i class="fa fa-circle-o"></i> perfil personal</a></li>
+                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/perfilvisita.php')"><i class="fa fa-circle-o"></i> perfil Visita</a></li>
+                <li><a onclick="refreshDivs('cuerpocentro','pages/layout/perfilamigo.php')"><i class="fa fa-circle-o"></i> perfil amigo</a></li>
+                
+              </ul>
+            </li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-files-o"></i>
+                <span>Administrador</span>
+                
+              </a>
                 <ul class="treeview-menu">
                     <li><a onclick="refreshDivs('cuerpocentro','pages/layout/usuarios.php')"><i class="fa fa-circle-o"></i> Usuarios</a></li>
                     <li><a onclick="refreshDivs('cuerpocentro','pages/layout/libros.php')"><i class="fa fa-circle-o"></i> Libros</a></li>
@@ -79,10 +90,11 @@
             </li>  
             <li class="treeview">
                 <div class="reproductor" id="contenedorReproductor">
-                    <embed src="reproductor/dewplayer-playlist.swf" height="200" width="240" wmode="transparent"/>
+                    <embed src="reproductor/dewplayer-playlist.swf" height="200" width="240" wmode="transparent"></embed>
                 </div>
             </li>
-        </ul>
-    </section>
-</aside>
+          </ul>
+        </section>
+        <!-- /.sidebar -->
+      </aside>
 <div class="control-sidebar-bg"></div>
