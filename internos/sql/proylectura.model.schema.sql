@@ -370,12 +370,12 @@ CREATE TABLE `solicitud_amistad`
 	`id_usuario_solicitante` INT(10) NOT NULL,
 	`estado` INT(1) NOT NULL,
 	PRIMARY KEY (`id`),
-	INDEX `FI_icitud_usuario_solicitado` (`id_usuario_solicitado`),
-	INDEX `FI_icitud_usuario_solicitante` (`id_usuario_solicitante`),
-	CONSTRAINT `solicitud_usuario_solicitado`
+	INDEX `FI_icitud_amistad_usuario_solicitado` (`id_usuario_solicitado`),
+	INDEX `FI_icitud_amistad_usuario_solicitante` (`id_usuario_solicitante`),
+	CONSTRAINT `solicitud_amistad_usuario_solicitado`
 		FOREIGN KEY (`id_usuario_solicitado`)
 		REFERENCES `usuario` (`id`),
-	CONSTRAINT `solicitud_usuario_solicitante`
+	CONSTRAINT `solicitud_amistad_usuario_solicitante`
 		FOREIGN KEY (`id_usuario_solicitante`)
 		REFERENCES `usuario` (`id`)
 ) ENGINE=InnoDB;
