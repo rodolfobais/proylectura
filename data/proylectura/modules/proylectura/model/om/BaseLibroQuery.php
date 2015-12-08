@@ -18,6 +18,7 @@
  * @method     LibroQuery orderByUsuario_ult_acc($order = Criteria::ASC) Order by the usuario_ult_acc column
  * @method     LibroQuery orderById_privacidad($order = Criteria::ASC) Order by the id_privacidad column
  * @method     LibroQuery orderByEs_editable($order = Criteria::ASC) Order by the es_editable column
+ * @method     LibroQuery orderById_usuario($order = Criteria::ASC) Order by the id_usuario column
  *
  * @method     LibroQuery groupById() Group by the id column
  * @method     LibroQuery groupByNombre() Group by the nombre column
@@ -31,14 +32,15 @@
  * @method     LibroQuery groupByUsuario_ult_acc() Group by the usuario_ult_acc column
  * @method     LibroQuery groupById_privacidad() Group by the id_privacidad column
  * @method     LibroQuery groupByEs_editable() Group by the es_editable column
+ * @method     LibroQuery groupById_usuario() Group by the id_usuario column
  *
  * @method     LibroQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     LibroQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     LibroQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     LibroQuery leftJoinUsuario($relationAlias = null) Adds a LEFT JOIN clause to the query using the Usuario relation
- * @method     LibroQuery rightJoinUsuario($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Usuario relation
- * @method     LibroQuery innerJoinUsuario($relationAlias = null) Adds a INNER JOIN clause to the query using the Usuario relation
+ * @method     LibroQuery leftJoinUsuarioRelatedByUsuario_ult_acc($relationAlias = null) Adds a LEFT JOIN clause to the query using the UsuarioRelatedByUsuario_ult_acc relation
+ * @method     LibroQuery rightJoinUsuarioRelatedByUsuario_ult_acc($relationAlias = null) Adds a RIGHT JOIN clause to the query using the UsuarioRelatedByUsuario_ult_acc relation
+ * @method     LibroQuery innerJoinUsuarioRelatedByUsuario_ult_acc($relationAlias = null) Adds a INNER JOIN clause to the query using the UsuarioRelatedByUsuario_ult_acc relation
  *
  * @method     LibroQuery leftJoinPrivacidad($relationAlias = null) Adds a LEFT JOIN clause to the query using the Privacidad relation
  * @method     LibroQuery rightJoinPrivacidad($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Privacidad relation
@@ -47,6 +49,10 @@
  * @method     LibroQuery leftJoinGenero($relationAlias = null) Adds a LEFT JOIN clause to the query using the Genero relation
  * @method     LibroQuery rightJoinGenero($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Genero relation
  * @method     LibroQuery innerJoinGenero($relationAlias = null) Adds a INNER JOIN clause to the query using the Genero relation
+ *
+ * @method     LibroQuery leftJoinUsuarioRelatedById_usuario($relationAlias = null) Adds a LEFT JOIN clause to the query using the UsuarioRelatedById_usuario relation
+ * @method     LibroQuery rightJoinUsuarioRelatedById_usuario($relationAlias = null) Adds a RIGHT JOIN clause to the query using the UsuarioRelatedById_usuario relation
+ * @method     LibroQuery innerJoinUsuarioRelatedById_usuario($relationAlias = null) Adds a INNER JOIN clause to the query using the UsuarioRelatedById_usuario relation
  *
  * @method     LibroQuery leftJoinAudiolibro($relationAlias = null) Adds a LEFT JOIN clause to the query using the Audiolibro relation
  * @method     LibroQuery rightJoinAudiolibro($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Audiolibro relation
@@ -95,6 +101,7 @@
  * @method     Libro findOneByUsuario_ult_acc(int $usuario_ult_acc) Return the first Libro filtered by the usuario_ult_acc column
  * @method     Libro findOneById_privacidad(int $id_privacidad) Return the first Libro filtered by the id_privacidad column
  * @method     Libro findOneByEs_editable(string $es_editable) Return the first Libro filtered by the es_editable column
+ * @method     Libro findOneById_usuario(int $id_usuario) Return the first Libro filtered by the id_usuario column
  *
  * @method     array findById(int $id) Return Libro objects filtered by the id column
  * @method     array findByNombre(string $nombre) Return Libro objects filtered by the nombre column
@@ -108,6 +115,7 @@
  * @method     array findByUsuario_ult_acc(int $usuario_ult_acc) Return Libro objects filtered by the usuario_ult_acc column
  * @method     array findById_privacidad(int $id_privacidad) Return Libro objects filtered by the id_privacidad column
  * @method     array findByEs_editable(string $es_editable) Return Libro objects filtered by the es_editable column
+ * @method     array findById_usuario(int $id_usuario) Return Libro objects filtered by the id_usuario column
  *
  * @package    propel.generator.proylectura.model.om
  */
@@ -196,7 +204,7 @@ abstract class BaseLibroQuery extends ModelCriteria
 	 */
 	protected function findPkSimple($key, $con)
 	{
-		$sql = 'SELECT `ID`, `NOMBRE`, `FECHA`, `ID_GENERO`, `AUTOR`, `IMAGE`, `SINOPSIS`, `FECHA_ULT_ACC`, `HORA_ULT_ACC`, `USUARIO_ULT_ACC`, `ID_PRIVACIDAD`, `ES_EDITABLE` FROM `libro` WHERE `ID` = :p0';
+		$sql = 'SELECT `ID`, `NOMBRE`, `FECHA`, `ID_GENERO`, `AUTOR`, `IMAGE`, `SINOPSIS`, `FECHA_ULT_ACC`, `HORA_ULT_ACC`, `USUARIO_ULT_ACC`, `ID_PRIVACIDAD`, `ES_EDITABLE`, `ID_USUARIO` FROM `libro` WHERE `ID` = :p0';
 		try {
 			$stmt = $con->prepare($sql);
 			$stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -583,7 +591,7 @@ abstract class BaseLibroQuery extends ModelCriteria
 	 * $query->filterByUsuario_ult_acc(array('min' => 12)); // WHERE usuario_ult_acc > 12
 	 * </code>
 	 *
-	 * @see       filterByUsuario()
+	 * @see       filterByUsuarioRelatedByUsuario_ult_acc()
 	 *
 	 * @param     mixed $usuario_ult_acc The value to use as filter.
 	 *              Use scalar values for equality.
@@ -686,6 +694,48 @@ abstract class BaseLibroQuery extends ModelCriteria
 	}
 
 	/**
+	 * Filter the query on the id_usuario column
+	 *
+	 * Example usage:
+	 * <code>
+	 * $query->filterById_usuario(1234); // WHERE id_usuario = 1234
+	 * $query->filterById_usuario(array(12, 34)); // WHERE id_usuario IN (12, 34)
+	 * $query->filterById_usuario(array('min' => 12)); // WHERE id_usuario > 12
+	 * </code>
+	 *
+	 * @see       filterByUsuarioRelatedById_usuario()
+	 *
+	 * @param     mixed $id_usuario The value to use as filter.
+	 *              Use scalar values for equality.
+	 *              Use array values for in_array() equivalent.
+	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    LibroQuery The current query, for fluid interface
+	 */
+	public function filterById_usuario($id_usuario = null, $comparison = null)
+	{
+		if (is_array($id_usuario)) {
+			$useMinMax = false;
+			if (isset($id_usuario['min'])) {
+				$this->addUsingAlias(LibroPeer::ID_USUARIO, $id_usuario['min'], Criteria::GREATER_EQUAL);
+				$useMinMax = true;
+			}
+			if (isset($id_usuario['max'])) {
+				$this->addUsingAlias(LibroPeer::ID_USUARIO, $id_usuario['max'], Criteria::LESS_EQUAL);
+				$useMinMax = true;
+			}
+			if ($useMinMax) {
+				return $this;
+			}
+			if (null === $comparison) {
+				$comparison = Criteria::IN;
+			}
+		}
+		return $this->addUsingAlias(LibroPeer::ID_USUARIO, $id_usuario, $comparison);
+	}
+
+	/**
 	 * Filter the query by a related Usuario object
 	 *
 	 * @param     Usuario|PropelCollection $usuario The related object(s) to use as filter
@@ -693,7 +743,7 @@ abstract class BaseLibroQuery extends ModelCriteria
 	 *
 	 * @return    LibroQuery The current query, for fluid interface
 	 */
-	public function filterByUsuario($usuario, $comparison = null)
+	public function filterByUsuarioRelatedByUsuario_ult_acc($usuario, $comparison = null)
 	{
 		if ($usuario instanceof Usuario) {
 			return $this
@@ -705,22 +755,22 @@ abstract class BaseLibroQuery extends ModelCriteria
 			return $this
 				->addUsingAlias(LibroPeer::USUARIO_ULT_ACC, $usuario->toKeyValue('PrimaryKey', 'Id'), $comparison);
 		} else {
-			throw new PropelException('filterByUsuario() only accepts arguments of type Usuario or PropelCollection');
+			throw new PropelException('filterByUsuarioRelatedByUsuario_ult_acc() only accepts arguments of type Usuario or PropelCollection');
 		}
 	}
 
 	/**
-	 * Adds a JOIN clause to the query using the Usuario relation
+	 * Adds a JOIN clause to the query using the UsuarioRelatedByUsuario_ult_acc relation
 	 *
 	 * @param     string $relationAlias optional alias for the relation
 	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
 	 *
 	 * @return    LibroQuery The current query, for fluid interface
 	 */
-	public function joinUsuario($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+	public function joinUsuarioRelatedByUsuario_ult_acc($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
 	{
 		$tableMap = $this->getTableMap();
-		$relationMap = $tableMap->getRelation('Usuario');
+		$relationMap = $tableMap->getRelation('UsuarioRelatedByUsuario_ult_acc');
 
 		// create a ModelJoin object for this join
 		$join = new ModelJoin();
@@ -735,14 +785,14 @@ abstract class BaseLibroQuery extends ModelCriteria
 			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
 			$this->addJoinObject($join, $relationAlias);
 		} else {
-			$this->addJoinObject($join, 'Usuario');
+			$this->addJoinObject($join, 'UsuarioRelatedByUsuario_ult_acc');
 		}
 
 		return $this;
 	}
 
 	/**
-	 * Use the Usuario relation Usuario object
+	 * Use the UsuarioRelatedByUsuario_ult_acc relation Usuario object
 	 *
 	 * @see       useQuery()
 	 *
@@ -752,11 +802,11 @@ abstract class BaseLibroQuery extends ModelCriteria
 	 *
 	 * @return    UsuarioQuery A secondary query class using the current class as primary query
 	 */
-	public function useUsuarioQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+	public function useUsuarioRelatedByUsuario_ult_accQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
 	{
 		return $this
-			->joinUsuario($relationAlias, $joinType)
-			->useQuery($relationAlias ? $relationAlias : 'Usuario', 'UsuarioQuery');
+			->joinUsuarioRelatedByUsuario_ult_acc($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'UsuarioRelatedByUsuario_ult_acc', 'UsuarioQuery');
 	}
 
 	/**
@@ -905,6 +955,80 @@ abstract class BaseLibroQuery extends ModelCriteria
 		return $this
 			->joinGenero($relationAlias, $joinType)
 			->useQuery($relationAlias ? $relationAlias : 'Genero', 'GeneroQuery');
+	}
+
+	/**
+	 * Filter the query by a related Usuario object
+	 *
+	 * @param     Usuario|PropelCollection $usuario The related object(s) to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    LibroQuery The current query, for fluid interface
+	 */
+	public function filterByUsuarioRelatedById_usuario($usuario, $comparison = null)
+	{
+		if ($usuario instanceof Usuario) {
+			return $this
+				->addUsingAlias(LibroPeer::ID_USUARIO, $usuario->getId(), $comparison);
+		} elseif ($usuario instanceof PropelCollection) {
+			if (null === $comparison) {
+				$comparison = Criteria::IN;
+			}
+			return $this
+				->addUsingAlias(LibroPeer::ID_USUARIO, $usuario->toKeyValue('PrimaryKey', 'Id'), $comparison);
+		} else {
+			throw new PropelException('filterByUsuarioRelatedById_usuario() only accepts arguments of type Usuario or PropelCollection');
+		}
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the UsuarioRelatedById_usuario relation
+	 *
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    LibroQuery The current query, for fluid interface
+	 */
+	public function joinUsuarioRelatedById_usuario($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('UsuarioRelatedById_usuario');
+
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'UsuarioRelatedById_usuario');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Use the UsuarioRelatedById_usuario relation Usuario object
+	 *
+	 * @see       useQuery()
+	 *
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    UsuarioQuery A secondary query class using the current class as primary query
+	 */
+	public function useUsuarioRelatedById_usuarioQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+	{
+		return $this
+			->joinUsuarioRelatedById_usuario($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'UsuarioRelatedById_usuario', 'UsuarioQuery');
 	}
 
 	/**

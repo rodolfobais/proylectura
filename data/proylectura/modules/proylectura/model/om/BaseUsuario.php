@@ -89,7 +89,12 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	/**
 	 * @var        array Libro[] Collection to store aggregation of Libro objects.
 	 */
-	protected $collLibros;
+	protected $collLibrosRelatedByUsuario_ult_acc;
+
+	/**
+	 * @var        array Libro[] Collection to store aggregation of Libro objects.
+	 */
+	protected $collLibrosRelatedById_usuario;
 
 	/**
 	 * @var        array Lista[] Collection to store aggregation of Lista objects.
@@ -183,7 +188,13 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	 * An array of objects scheduled for deletion.
 	 * @var		array
 	 */
-	protected $librosScheduledForDeletion = null;
+	protected $librosRelatedByUsuario_ult_accScheduledForDeletion = null;
+
+	/**
+	 * An array of objects scheduled for deletion.
+	 * @var		array
+	 */
+	protected $librosRelatedById_usuarioScheduledForDeletion = null;
 
 	/**
 	 * An array of objects scheduled for deletion.
@@ -541,7 +552,9 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 
 			$this->collComentarios = null;
 
-			$this->collLibros = null;
+			$this->collLibrosRelatedByUsuario_ult_acc = null;
+
+			$this->collLibrosRelatedById_usuario = null;
 
 			$this->collListas = null;
 
@@ -752,17 +765,34 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 				}
 			}
 
-			if ($this->librosScheduledForDeletion !== null) {
-				if (!$this->librosScheduledForDeletion->isEmpty()) {
+			if ($this->librosRelatedByUsuario_ult_accScheduledForDeletion !== null) {
+				if (!$this->librosRelatedByUsuario_ult_accScheduledForDeletion->isEmpty()) {
 		LibroQuery::create()
-						->filterByPrimaryKeys($this->librosScheduledForDeletion->getPrimaryKeys(false))
+						->filterByPrimaryKeys($this->librosRelatedByUsuario_ult_accScheduledForDeletion->getPrimaryKeys(false))
 						->delete($con);
-					$this->librosScheduledForDeletion = null;
+					$this->librosRelatedByUsuario_ult_accScheduledForDeletion = null;
 				}
 			}
 
-			if ($this->collLibros !== null) {
-				foreach ($this->collLibros as $referrerFK) {
+			if ($this->collLibrosRelatedByUsuario_ult_acc !== null) {
+				foreach ($this->collLibrosRelatedByUsuario_ult_acc as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->librosRelatedById_usuarioScheduledForDeletion !== null) {
+				if (!$this->librosRelatedById_usuarioScheduledForDeletion->isEmpty()) {
+		LibroQuery::create()
+						->filterByPrimaryKeys($this->librosRelatedById_usuarioScheduledForDeletion->getPrimaryKeys(false))
+						->delete($con);
+					$this->librosRelatedById_usuarioScheduledForDeletion = null;
+				}
+			}
+
+			if ($this->collLibrosRelatedById_usuario !== null) {
+				foreach ($this->collLibrosRelatedById_usuario as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -1140,8 +1170,16 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 					}
 				}
 
-				if ($this->collLibros !== null) {
-					foreach ($this->collLibros as $referrerFK) {
+				if ($this->collLibrosRelatedByUsuario_ult_acc !== null) {
+					foreach ($this->collLibrosRelatedByUsuario_ult_acc as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collLibrosRelatedById_usuario !== null) {
+					foreach ($this->collLibrosRelatedById_usuario as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -1328,8 +1366,11 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 			if (null !== $this->collComentarios) {
 				$result['Comentarios'] = $this->collComentarios->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
 			}
-			if (null !== $this->collLibros) {
-				$result['Libros'] = $this->collLibros->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			if (null !== $this->collLibrosRelatedByUsuario_ult_acc) {
+				$result['LibrosRelatedByUsuario_ult_acc'] = $this->collLibrosRelatedByUsuario_ult_acc->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			}
+			if (null !== $this->collLibrosRelatedById_usuario) {
+				$result['LibrosRelatedById_usuario'] = $this->collLibrosRelatedById_usuario->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
 			}
 			if (null !== $this->collListas) {
 				$result['Listas'] = $this->collListas->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
@@ -1556,9 +1597,15 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 				}
 			}
 
-			foreach ($this->getLibros() as $relObj) {
+			foreach ($this->getLibrosRelatedByUsuario_ult_acc() as $relObj) {
 				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-					$copyObj->addLibro($relObj->copy($deepCopy));
+					$copyObj->addLibroRelatedByUsuario_ult_acc($relObj->copy($deepCopy));
+				}
+			}
+
+			foreach ($this->getLibrosRelatedById_usuario() as $relObj) {
+				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addLibroRelatedById_usuario($relObj->copy($deepCopy));
 				}
 			}
 
@@ -1693,8 +1740,11 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 		if ('Comentario' == $relationName) {
 			return $this->initComentarios();
 		}
-		if ('Libro' == $relationName) {
-			return $this->initLibros();
+		if ('LibroRelatedByUsuario_ult_acc' == $relationName) {
+			return $this->initLibrosRelatedByUsuario_ult_acc();
+		}
+		if ('LibroRelatedById_usuario' == $relationName) {
+			return $this->initLibrosRelatedById_usuario();
 		}
 		if ('Lista' == $relationName) {
 			return $this->initListas();
@@ -2371,23 +2421,23 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	}
 
 	/**
-	 * Clears out the collLibros collection
+	 * Clears out the collLibrosRelatedByUsuario_ult_acc collection
 	 *
 	 * This does not modify the database; however, it will remove any associated objects, causing
 	 * them to be refetched by subsequent calls to accessor method.
 	 *
 	 * @return     void
-	 * @see        addLibros()
+	 * @see        addLibrosRelatedByUsuario_ult_acc()
 	 */
-	public function clearLibros()
+	public function clearLibrosRelatedByUsuario_ult_acc()
 	{
-		$this->collLibros = null; // important to set this to NULL since that means it is uninitialized
+		$this->collLibrosRelatedByUsuario_ult_acc = null; // important to set this to NULL since that means it is uninitialized
 	}
 
 	/**
-	 * Initializes the collLibros collection.
+	 * Initializes the collLibrosRelatedByUsuario_ult_acc collection.
 	 *
-	 * By default this just sets the collLibros collection to an empty array (like clearcollLibros());
+	 * By default this just sets the collLibrosRelatedByUsuario_ult_acc collection to an empty array (like clearcollLibrosRelatedByUsuario_ult_acc());
 	 * however, you may wish to override this method in your stub class to provide setting appropriate
 	 * to your application -- for example, setting the initial array to the values stored in database.
 	 *
@@ -2396,13 +2446,13 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	 *
 	 * @return     void
 	 */
-	public function initLibros($overrideExisting = true)
+	public function initLibrosRelatedByUsuario_ult_acc($overrideExisting = true)
 	{
-		if (null !== $this->collLibros && !$overrideExisting) {
+		if (null !== $this->collLibrosRelatedByUsuario_ult_acc && !$overrideExisting) {
 			return;
 		}
-		$this->collLibros = new PropelObjectCollection();
-		$this->collLibros->setModel('Libro');
+		$this->collLibrosRelatedByUsuario_ult_acc = new PropelObjectCollection();
+		$this->collLibrosRelatedByUsuario_ult_acc->setModel('Libro');
 	}
 
 	/**
@@ -2419,47 +2469,47 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	 * @return     PropelCollection|array Libro[] List of Libro objects
 	 * @throws     PropelException
 	 */
-	public function getLibros($criteria = null, PropelPDO $con = null)
+	public function getLibrosRelatedByUsuario_ult_acc($criteria = null, PropelPDO $con = null)
 	{
-		if(null === $this->collLibros || null !== $criteria) {
-			if ($this->isNew() && null === $this->collLibros) {
+		if(null === $this->collLibrosRelatedByUsuario_ult_acc || null !== $criteria) {
+			if ($this->isNew() && null === $this->collLibrosRelatedByUsuario_ult_acc) {
 				// return empty collection
-				$this->initLibros();
+				$this->initLibrosRelatedByUsuario_ult_acc();
 			} else {
-				$collLibros = LibroQuery::create(null, $criteria)
-					->filterByUsuario($this)
+				$collLibrosRelatedByUsuario_ult_acc = LibroQuery::create(null, $criteria)
+					->filterByUsuarioRelatedByUsuario_ult_acc($this)
 					->find($con);
 				if (null !== $criteria) {
-					return $collLibros;
+					return $collLibrosRelatedByUsuario_ult_acc;
 				}
-				$this->collLibros = $collLibros;
+				$this->collLibrosRelatedByUsuario_ult_acc = $collLibrosRelatedByUsuario_ult_acc;
 			}
 		}
-		return $this->collLibros;
+		return $this->collLibrosRelatedByUsuario_ult_acc;
 	}
 
 	/**
-	 * Sets a collection of Libro objects related by a one-to-many relationship
+	 * Sets a collection of LibroRelatedByUsuario_ult_acc objects related by a one-to-many relationship
 	 * to the current object.
 	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
 	 * and new objects from the given Propel collection.
 	 *
-	 * @param      PropelCollection $libros A Propel collection.
+	 * @param      PropelCollection $librosRelatedByUsuario_ult_acc A Propel collection.
 	 * @param      PropelPDO $con Optional connection object
 	 */
-	public function setLibros(PropelCollection $libros, PropelPDO $con = null)
+	public function setLibrosRelatedByUsuario_ult_acc(PropelCollection $librosRelatedByUsuario_ult_acc, PropelPDO $con = null)
 	{
-		$this->librosScheduledForDeletion = $this->getLibros(new Criteria(), $con)->diff($libros);
+		$this->librosRelatedByUsuario_ult_accScheduledForDeletion = $this->getLibrosRelatedByUsuario_ult_acc(new Criteria(), $con)->diff($librosRelatedByUsuario_ult_acc);
 
-		foreach ($libros as $libro) {
+		foreach ($librosRelatedByUsuario_ult_acc as $libroRelatedByUsuario_ult_acc) {
 			// Fix issue with collection modified by reference
-			if ($libro->isNew()) {
-				$libro->setUsuario($this);
+			if ($libroRelatedByUsuario_ult_acc->isNew()) {
+				$libroRelatedByUsuario_ult_acc->setUsuarioRelatedByUsuario_ult_acc($this);
 			}
-			$this->addLibro($libro);
+			$this->addLibroRelatedByUsuario_ult_acc($libroRelatedByUsuario_ult_acc);
 		}
 
-		$this->collLibros = $libros;
+		$this->collLibrosRelatedByUsuario_ult_acc = $librosRelatedByUsuario_ult_acc;
 	}
 
 	/**
@@ -2471,10 +2521,10 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	 * @return     int Count of related Libro objects.
 	 * @throws     PropelException
 	 */
-	public function countLibros(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	public function countLibrosRelatedByUsuario_ult_acc(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
 	{
-		if(null === $this->collLibros || null !== $criteria) {
-			if ($this->isNew() && null === $this->collLibros) {
+		if(null === $this->collLibrosRelatedByUsuario_ult_acc || null !== $criteria) {
+			if ($this->isNew() && null === $this->collLibrosRelatedByUsuario_ult_acc) {
 				return 0;
 			} else {
 				$query = LibroQuery::create(null, $criteria);
@@ -2482,11 +2532,11 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 					$query->distinct();
 				}
 				return $query
-					->filterByUsuario($this)
+					->filterByUsuarioRelatedByUsuario_ult_acc($this)
 					->count($con);
 			}
 		} else {
-			return count($this->collLibros);
+			return count($this->collLibrosRelatedByUsuario_ult_acc);
 		}
 	}
 
@@ -2497,25 +2547,25 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	 * @param      Libro $l Libro
 	 * @return     Usuario The current object (for fluent API support)
 	 */
-	public function addLibro(Libro $l)
+	public function addLibroRelatedByUsuario_ult_acc(Libro $l)
 	{
-		if ($this->collLibros === null) {
-			$this->initLibros();
+		if ($this->collLibrosRelatedByUsuario_ult_acc === null) {
+			$this->initLibrosRelatedByUsuario_ult_acc();
 		}
-		if (!$this->collLibros->contains($l)) { // only add it if the **same** object is not already associated
-			$this->doAddLibro($l);
+		if (!$this->collLibrosRelatedByUsuario_ult_acc->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddLibroRelatedByUsuario_ult_acc($l);
 		}
 
 		return $this;
 	}
 
 	/**
-	 * @param	Libro $libro The libro object to add.
+	 * @param	LibroRelatedByUsuario_ult_acc $libroRelatedByUsuario_ult_acc The libroRelatedByUsuario_ult_acc object to add.
 	 */
-	protected function doAddLibro($libro)
+	protected function doAddLibroRelatedByUsuario_ult_acc($libroRelatedByUsuario_ult_acc)
 	{
-		$this->collLibros[]= $libro;
-		$libro->setUsuario($this);
+		$this->collLibrosRelatedByUsuario_ult_acc[]= $libroRelatedByUsuario_ult_acc;
+		$libroRelatedByUsuario_ult_acc->setUsuarioRelatedByUsuario_ult_acc($this);
 	}
 
 
@@ -2524,7 +2574,7 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	 * an identical criteria, it returns the collection.
 	 * Otherwise if this Usuario is new, it will return
 	 * an empty collection; or if this Usuario has previously
-	 * been saved, it will retrieve related Libros from storage.
+	 * been saved, it will retrieve related LibrosRelatedByUsuario_ult_acc from storage.
 	 *
 	 * This method is protected by default in order to keep the public
 	 * api reasonable.  You can provide public methods for those you
@@ -2535,12 +2585,12 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
 	 * @return     PropelCollection|array Libro[] List of Libro objects
 	 */
-	public function getLibrosJoinPrivacidad($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	public function getLibrosRelatedByUsuario_ult_accJoinPrivacidad($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
 	{
 		$query = LibroQuery::create(null, $criteria);
 		$query->joinWith('Privacidad', $join_behavior);
 
-		return $this->getLibros($query, $con);
+		return $this->getLibrosRelatedByUsuario_ult_acc($query, $con);
 	}
 
 
@@ -2549,7 +2599,7 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	 * an identical criteria, it returns the collection.
 	 * Otherwise if this Usuario is new, it will return
 	 * an empty collection; or if this Usuario has previously
-	 * been saved, it will retrieve related Libros from storage.
+	 * been saved, it will retrieve related LibrosRelatedByUsuario_ult_acc from storage.
 	 *
 	 * This method is protected by default in order to keep the public
 	 * api reasonable.  You can provide public methods for those you
@@ -2560,12 +2610,210 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
 	 * @return     PropelCollection|array Libro[] List of Libro objects
 	 */
-	public function getLibrosJoinGenero($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	public function getLibrosRelatedByUsuario_ult_accJoinGenero($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
 	{
 		$query = LibroQuery::create(null, $criteria);
 		$query->joinWith('Genero', $join_behavior);
 
-		return $this->getLibros($query, $con);
+		return $this->getLibrosRelatedByUsuario_ult_acc($query, $con);
+	}
+
+	/**
+	 * Clears out the collLibrosRelatedById_usuario collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addLibrosRelatedById_usuario()
+	 */
+	public function clearLibrosRelatedById_usuario()
+	{
+		$this->collLibrosRelatedById_usuario = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collLibrosRelatedById_usuario collection.
+	 *
+	 * By default this just sets the collLibrosRelatedById_usuario collection to an empty array (like clearcollLibrosRelatedById_usuario());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @param      boolean $overrideExisting If set to true, the method call initializes
+	 *                                        the collection even if it is not empty
+	 *
+	 * @return     void
+	 */
+	public function initLibrosRelatedById_usuario($overrideExisting = true)
+	{
+		if (null !== $this->collLibrosRelatedById_usuario && !$overrideExisting) {
+			return;
+		}
+		$this->collLibrosRelatedById_usuario = new PropelObjectCollection();
+		$this->collLibrosRelatedById_usuario->setModel('Libro');
+	}
+
+	/**
+	 * Gets an array of Libro objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this Usuario is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array Libro[] List of Libro objects
+	 * @throws     PropelException
+	 */
+	public function getLibrosRelatedById_usuario($criteria = null, PropelPDO $con = null)
+	{
+		if(null === $this->collLibrosRelatedById_usuario || null !== $criteria) {
+			if ($this->isNew() && null === $this->collLibrosRelatedById_usuario) {
+				// return empty collection
+				$this->initLibrosRelatedById_usuario();
+			} else {
+				$collLibrosRelatedById_usuario = LibroQuery::create(null, $criteria)
+					->filterByUsuarioRelatedById_usuario($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collLibrosRelatedById_usuario;
+				}
+				$this->collLibrosRelatedById_usuario = $collLibrosRelatedById_usuario;
+			}
+		}
+		return $this->collLibrosRelatedById_usuario;
+	}
+
+	/**
+	 * Sets a collection of LibroRelatedById_usuario objects related by a one-to-many relationship
+	 * to the current object.
+	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+	 * and new objects from the given Propel collection.
+	 *
+	 * @param      PropelCollection $librosRelatedById_usuario A Propel collection.
+	 * @param      PropelPDO $con Optional connection object
+	 */
+	public function setLibrosRelatedById_usuario(PropelCollection $librosRelatedById_usuario, PropelPDO $con = null)
+	{
+		$this->librosRelatedById_usuarioScheduledForDeletion = $this->getLibrosRelatedById_usuario(new Criteria(), $con)->diff($librosRelatedById_usuario);
+
+		foreach ($librosRelatedById_usuario as $libroRelatedById_usuario) {
+			// Fix issue with collection modified by reference
+			if ($libroRelatedById_usuario->isNew()) {
+				$libroRelatedById_usuario->setUsuarioRelatedById_usuario($this);
+			}
+			$this->addLibroRelatedById_usuario($libroRelatedById_usuario);
+		}
+
+		$this->collLibrosRelatedById_usuario = $librosRelatedById_usuario;
+	}
+
+	/**
+	 * Returns the number of related Libro objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related Libro objects.
+	 * @throws     PropelException
+	 */
+	public function countLibrosRelatedById_usuario(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collLibrosRelatedById_usuario || null !== $criteria) {
+			if ($this->isNew() && null === $this->collLibrosRelatedById_usuario) {
+				return 0;
+			} else {
+				$query = LibroQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterByUsuarioRelatedById_usuario($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collLibrosRelatedById_usuario);
+		}
+	}
+
+	/**
+	 * Method called to associate a Libro object to this object
+	 * through the Libro foreign key attribute.
+	 *
+	 * @param      Libro $l Libro
+	 * @return     Usuario The current object (for fluent API support)
+	 */
+	public function addLibroRelatedById_usuario(Libro $l)
+	{
+		if ($this->collLibrosRelatedById_usuario === null) {
+			$this->initLibrosRelatedById_usuario();
+		}
+		if (!$this->collLibrosRelatedById_usuario->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddLibroRelatedById_usuario($l);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param	LibroRelatedById_usuario $libroRelatedById_usuario The libroRelatedById_usuario object to add.
+	 */
+	protected function doAddLibroRelatedById_usuario($libroRelatedById_usuario)
+	{
+		$this->collLibrosRelatedById_usuario[]= $libroRelatedById_usuario;
+		$libroRelatedById_usuario->setUsuarioRelatedById_usuario($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Usuario is new, it will return
+	 * an empty collection; or if this Usuario has previously
+	 * been saved, it will retrieve related LibrosRelatedById_usuario from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Usuario.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return     PropelCollection|array Libro[] List of Libro objects
+	 */
+	public function getLibrosRelatedById_usuarioJoinPrivacidad($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$query = LibroQuery::create(null, $criteria);
+		$query->joinWith('Privacidad', $join_behavior);
+
+		return $this->getLibrosRelatedById_usuario($query, $con);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Usuario is new, it will return
+	 * an empty collection; or if this Usuario has previously
+	 * been saved, it will retrieve related LibrosRelatedById_usuario from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Usuario.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return     PropelCollection|array Libro[] List of Libro objects
+	 */
+	public function getLibrosRelatedById_usuarioJoinGenero($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$query = LibroQuery::create(null, $criteria);
+		$query->joinWith('Genero', $join_behavior);
+
+		return $this->getLibrosRelatedById_usuario($query, $con);
 	}
 
 	/**
@@ -4249,8 +4497,13 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 					$o->clearAllReferences($deep);
 				}
 			}
-			if ($this->collLibros) {
-				foreach ($this->collLibros as $o) {
+			if ($this->collLibrosRelatedByUsuario_ult_acc) {
+				foreach ($this->collLibrosRelatedByUsuario_ult_acc as $o) {
+					$o->clearAllReferences($deep);
+				}
+			}
+			if ($this->collLibrosRelatedById_usuario) {
+				foreach ($this->collLibrosRelatedById_usuario as $o) {
 					$o->clearAllReferences($deep);
 				}
 			}
@@ -4322,10 +4575,14 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 			$this->collComentarios->clearIterator();
 		}
 		$this->collComentarios = null;
-		if ($this->collLibros instanceof PropelCollection) {
-			$this->collLibros->clearIterator();
+		if ($this->collLibrosRelatedByUsuario_ult_acc instanceof PropelCollection) {
+			$this->collLibrosRelatedByUsuario_ult_acc->clearIterator();
 		}
-		$this->collLibros = null;
+		$this->collLibrosRelatedByUsuario_ult_acc = null;
+		if ($this->collLibrosRelatedById_usuario instanceof PropelCollection) {
+			$this->collLibrosRelatedById_usuario->clearIterator();
+		}
+		$this->collLibrosRelatedById_usuario = null;
 		if ($this->collListas instanceof PropelCollection) {
 			$this->collListas->clearIterator();
 		}

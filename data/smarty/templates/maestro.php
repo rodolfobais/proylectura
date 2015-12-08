@@ -28,7 +28,7 @@
              folder instead of downloading all of them to reduce the load. -->
         <link rel="stylesheet" href="{$PROJECT_REL_DIR}/dist/css/skins/_all-skins.min.css">
         <link href="{$PROJECT_REL_DIR}/css/crearlista.css" type="text/css"  rel="stylesheet"/>
-        
+        <link rel="stylesheet" href="{$PROJECT_REL_DIR}/plugins/datatables/dataTables.bootstrap.css">
         
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -52,6 +52,8 @@
         <script src="{$PROJECT_REL_DIR}/plugins/jQuery/jQuery-2.1.4.min.js"></script>
         <!-- Bootstrap 3.3.5 -->
         <script src="{$PROJECT_REL_DIR}/bootstrap/js/bootstrap.min.js"></script>
+        <script src="{$PROJECT_REL_DIR}/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="{$PROJECT_REL_DIR}/plugins/datatables/dataTables.bootstrap.min.js"></script>
         <!-- FastClick -->
         <script src="{$PROJECT_REL_DIR}/plugins/fastclick/fastclick.min.js"></script>
         <!-- AdminLTE App -->
@@ -82,6 +84,7 @@
         <script src="{$PROJECT_REL_DIR}/js/solicitud.js"></script>
         <script src="{$PROJECT_REL_DIR}/js/notificacion.js"></script>
         <script src="{$PROJECT_REL_DIR}/js/mensaje.js"></script>
+        <script src="{$PROJECT_REL_DIR}/js/clasificados.js"></script>
         <script type="text/javascript">
             $( document ).ready(function() {
                 refreshDivs('cuerpocentro','pages/layout/home.php');

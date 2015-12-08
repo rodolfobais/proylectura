@@ -123,10 +123,12 @@ CREATE TABLE `libro`
 	`usuario_ult_acc` INT(10),
 	`id_privacidad` INT(10),
 	`es_editable` CHAR(1),
+	`id_usuario` INT(10),
 	PRIMARY KEY (`id`),
 	INDEX `FI_ro_usuario_ult_acc` (`usuario_ult_acc`),
 	INDEX `FI_ro_privacidad` (`id_privacidad`),
 	INDEX `FI_ro_genero` (`id_genero`),
+	INDEX `FI_ro_id_usuario` (`id_usuario`),
 	CONSTRAINT `libro_usuario_ult_acc`
 		FOREIGN KEY (`usuario_ult_acc`)
 		REFERENCES `usuario` (`id`),
@@ -135,7 +137,10 @@ CREATE TABLE `libro`
 		REFERENCES `privacidad` (`id`),
 	CONSTRAINT `libro_genero`
 		FOREIGN KEY (`id_genero`)
-		REFERENCES `genero` (`id`)
+		REFERENCES `genero` (`id`),
+	CONSTRAINT `libro_id_usuario`
+		FOREIGN KEY (`id_usuario`)
+		REFERENCES `usuario` (`id`)
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
@@ -150,11 +155,6 @@ CREATE TABLE `privacidad`
 	`nombre` CHAR(50) NOT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
-
-INSERT INTO `privacidad` (`id`, `nombre`) VALUES
-(0, 'Privado (Solo yo)'),
-(1, 'Privado (Con Amigos)'),
-(2, 'Publico');
 
 -- ---------------------------------------------------------------------
 -- usuario
@@ -172,14 +172,6 @@ CREATE TABLE `usuario`
 	`admin` INTEGER NOT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
-
-INSERT INTO `usuario` (`id`, `nick`, `nombre`, `mail`, `password`, `admin`) VALUES
-(16, '', 'Tecla', 'tecla@tecla.com', 'drodriguez', 0),
-(17, 'esrdgfhgjhk', 'Fer', 'fer@fer.com', '123456', 0),
-(18, '', 'admin', 'admin@admin.com', 'admin', 1),
-(20, '', 'Jorge Miranda', 'jorge@jorge.com', '12345', 0),
-(21, 'roooooo', 'Rodo', 'rodo@rodo.com', '123456', 0),
-(22, '', 'Chris', 'chris@chris.com', '123456', 0);
 
 -- ---------------------------------------------------------------------
 -- lista
