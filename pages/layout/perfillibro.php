@@ -4,10 +4,10 @@ error_reporting(E_ALL);
 ini_set("display_errors", 1);
 include_once("../../data/config.php");
 
-//$libros = LibroQuery::create()->find();
+//$libros = LibroQuery::create()->findOneById($_GET['id']);
 //$usuarios = UsuarioQuery::create()->find();
 $audiolibros = AudiolibroQuery::create()->find();
-$idLibro=2;
+$idLibro=$_GET['id'];
 $libro=  LibroQuery::create()->findOneById($idLibro);
 
 //$options = "<option value = ''>Seleccione un libro</option> ";
@@ -34,7 +34,7 @@ echo $listaLibros;
               <!-- Profile Image -->
               <div class="box box-primary">
                 <div class="box-body box-profile">
-                  <img style="width: 350px" class="profile-user-img img-responsive" src="portadas/<?php echo $idLibro?>.jpg" alt="User profile picture">
+                  <img style="width: 350px" class="profile-user-img img-responsive" src="portadas/<?php echo $idLibro; ?>.jpg" alt="User profile picture">
                   <h3 class="profile-username text-center"><?php echo $libro->getNombre(); ?></h3>
                   <p class="text-muted text-center"></p>
 

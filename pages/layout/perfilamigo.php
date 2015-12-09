@@ -13,7 +13,7 @@ include_once("../../data/config.php");
 $audiolibros = AudiolibroQuery::create()->find();
 $libros = LibroQuery::create()->find();
 //$libros=  LibroQuery::create()->findOneById($idLibro);
-$idusuario=18;
+$idusuario=$_GET['id'];
 $usuario=  UsuarioQuery::create()->findOneById($idusuario);
 
 //$options = "<option value = ''>Seleccione un libro</option> ";

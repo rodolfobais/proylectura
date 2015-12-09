@@ -7,13 +7,14 @@ include_once("../../data/config.php");
 //include("perfilpublico");
 //include("perfilprivado");
 
+//refreshDivs('cuerpocentro','pages/layout/perfilsesion.php', 'id=".$reg->getId()."')\
 
 //$libros = LibroQuery::create()->find();
 //$usuarios = UsuarioQuery::create()->find();
 $audiolibros = AudiolibroQuery::create()->find();
 $libros = LibroQuery::create()->find();
 //$libros=  LibroQuery::create()->findOneById($idLibro);
-$idusuario=18;
+$idusuario=$_SESSION['userid'];
 $usuario=  UsuarioQuery::create()->findOneById($idusuario);
 $user = UsuarioQuery::create()->find(); // ES PARA LLAMAR TODOS LOS USUARIOS
 //$options = "<option value = ''>Seleccione un libro</option> ";
@@ -28,16 +29,7 @@ foreach ($audiolibros as $reg) {
      //$options .= "<option value = '".$reg->getId()."'>".$reg->getNombre()."</option> ";
      //}
  }
- 
- foreach ($user as $reg) { 
-    //if(!array_key_exists($reg->getId(), $arr)){
-     //$arr[$reg->getId()] = "";
-     $nombrecito .= "<li>".$reg->getNombre()."</li>";
-     //$options .= "<option value = '".$reg->getId()."'>".$reg->getNombre()."</option> ";
-     //$options .= "<option value = '".$reg->getId()."'>".$reg->getNombre()."</option> ";
-     //$options .= "<option value = '".$reg->getId()."'>".$reg->getNombre()."</option> ";
-     //}
- }
+
  
 ?>
     <div class="wrappers">
@@ -111,7 +103,7 @@ foreach ($audiolibros as $reg) {
                             echo "<tr>"
                             . "<div class='user-block' >"
                             . "<img class='img-circle img-bordered-sm' src='portadas/".$reg->getImage().".jpg' alt='user image'/>"
-                            . "<span onclick=\"refreshDivs('cuerpocentro','pages/layout/perfillibro.php')\"  class='username'><a id = \"nombre_".$reg->getId()."\">".$reg->getNombre()."</a></span>"
+                            . "<span onclick=\"refreshDivs('cuerpocentro','pages/layout/perfillibro.php', 'id=".$reg->getId()."')\"  class='username'><a id = \"nombre_".$reg->getId()."\">".$reg->getNombre()."</a></span>"
                             . "</div>"
                             . "<p id = \"nombre_".$reg->getId()."\">".$reg->getSinopsis()."</p>"
                             . "</tr>";
