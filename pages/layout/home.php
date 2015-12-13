@@ -13,7 +13,7 @@ foreach ($libros as $reg) {
 $clasificados = ClasificadosQuery::create()->limit(5)->find(); 
 $listaClasificados = ""; 
 foreach ($clasificados as $reg) { 
-    $listaClasificados .= "<li>".$reg->getTeto_corto()."</li>"; 
+    $listaClasificados .= "<li>".$reg->getTexto_corto()."</li>"; 
 }
 
 $notificaciones = NotificacionQuery::create()->limit(5)->find(); 
