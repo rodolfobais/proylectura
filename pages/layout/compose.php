@@ -13,7 +13,7 @@ foreach ($usuario as $reg) {
   
 //$listaLibros .= "<li>".$reg->getNombre()."</li>";
 
-    $lista_usuarios .= '<option>'.$reg->getId()
+    $lista_usuarios .= '<option value = "'.$reg->getId().'">'.$reg->getNombre()
     .'</option>';               
                                 
 }
@@ -100,9 +100,9 @@ foreach ($usuario as $reg) {
                 <div class="box-body" >
                   <div class="form-group">
                    <input type="hidden" id="accion" value="n"/>
-                   <input type="hidden" id="leido" value="1"/>
+                   <input type="hidden" id="leido" value="n"/>
                    <input type="hidden" disabled id="id">
-                   <input type="hidden" id="id_usuario_remitente" value="<?php $usersession = $_SESSION["userid"]; ?>"/>
+                   <input type="hidden" id="id_usuario_remitente" value="<?php echo $_SESSION["userid"]; ?>"/>
                    Para: <select id="id_usuario_destinatario">    
                     <?php
                         echo $lista_usuarios;
