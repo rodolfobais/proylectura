@@ -1,68 +1,49 @@
-<!doctype html>
-<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!-->
-<!--../../
-http://localhost/proylectura/
+<?php
+//die;
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+include_once("../../data/config.php");
 
--->
-<link rel="stylesheet" href="http://localhost/proylectura/css/biblio.css">    
-</br>
-<form action="#" method="get" class="sidebar-form">
-         <div class="input-group">
-           <input type="text" name="q" class="form-control" placeholder="Buscar...">
-           <span class="input-group-btn">
-             <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
-           </span>
-         </div>
-</form>
-</br>
+//$libros = LibroQuery::create()->findOneById($_GET['id']);
+//$usuarios = UsuarioQuery::create()->find();
 
-<div role="main" id="main">
-  <div class="wrappe">
-    <ul id="filter-container-feature" class="feature">
-      <li> <a href="single.html" class="thumb"><img src="http://localhost/proylectura/imagen/portada/430x500a.jpg" alt="">
-        <div class="date"><span class="d">23</span><span class="m">Jan</span></div>
-        </a>
-        <div class="caption">Lorem ipsum dolor amet</div>
-      </li>
-      <li> <a href="single.html" class="thumb"><img src="http://localhost/proylectura/imagen/portada/430x500b.jpg" alt="">
-        <div class="date"><span class="d">23</span><span class="m">Jan</span></div>
-        </a>
-        <div class="caption">Lorem ipsum dolor amet</div>
-      </li>
-      <li> <a href="single.html" class="thumb"><img src="http://localhost/proylectura/imagen/portada/430x500c.jpg" alt="">
-        <div class="date"><span class="d">23</span><span class="m">Jan</span></div>
-        </a>
-        <div class="caption">Lorem ipsum dolor amet</div>
-      </li>
-      <li> <a href="single.html" class="thumb"><img src="http://localhost/proylectura/imagen/portada/430x500d.jpg" alt="">
-        <div class="date"><span class="d">23</span><span class="m">Jan</span></div>
-        </a>
-        <div class="caption">Lorem ipsum dolor amet</div>
-      </li>
-      <li> <a href="single.html" class="thumb"><img src="http://localhost/proylectura/imagen/portada/430x500e.jpg" alt="">
-        <div class="date"><span class="d">23</span><span class="m">Jan</span></div>
-        </a>
-        <div class="caption">Lorem ipsum dolor amet</div>
-      </li>
-      <li> <a href="single.html" class="thumb"><img src="http://localhost/proylectura/imagen/portada/430x500f.jpg" alt="">
-        <div class="date"><span class="d">23</span><span class="m">Jan</span></div>
-        </a>
-        <div class="caption">Lorem ipsum dolor amet</div>
-      </li>
-    </ul>
-  </div>
-</div>
-<script src="http://localhost/proylectura/js/biblioteca/custom.js"></script>
-<!-- superfish -->
+$idusuario=$_SESSION['userid'];
+$usuario=  UsuarioQuery::create()->findOneById($idusuario);
 
-<script src="http://localhost/proylectura/js/biblioteca/superfish.js"></script>
-<!-- ENDS superfish -->
-<script src="http://localhost/proylectura/js/biblioteca/jquery.isotope.min.js"></script>
-<script src="http://localhost/proylectura/js/biblioteca/jquery.nivo.slider.js"></script>
+$audiolibros = AudiolibroQuery::create()->find();
+$idLibro=$_GET['id'];
+$libro=  LibroQuery::create()->findOneById($idLibro);
+//echo $libro->getEs_editable();
 
-<script src="http://localhost/proylectura/js/biblioteca/tabs.js"></script>
-<script src="http://localhost/proylectura/js/biblioteca/jquery.poshytip.min.js"></script>
-
+//$options = "<option value = ''>Seleccione un libro</option> ";
+$listaaudios = ""; 
+//$arr=array();
+foreach ($audiolibros as $reg) { 
+    //if(!array_key_exists($reg->getId(), $arr)){
+     //$arr[$reg->getId()] = "";
+     $listaaudios .= "<li>".$reg->getNombre()."</li>";
+     //$options .= "<option value = '".$reg->getId()."'>".$reg->getNombre()."</option> ";
+     //$options .= "<option value = '".$reg->getId()."'>".$reg->getNombre()."</option> ";
+     //$options .= "<option value = '".$reg->getId()."'>".$reg->getNombre()."</option> ";
+     //}
+ }
+//echo $listaLibros;
+//$listaLibros = "";
+//$libros = LibroQuery::create()->find();
+?>
+<table>
+   <tr>
+   <?php
+        foreach ($libro as $reg) { 
+    //if(!array_key_exists($reg->getId(), $arr)){
+     //$arr[$reg->getId()] = "";
+     $listaimagen .= "<li>".$reg->get()."</li>";
+     //$options .= "<option value = '".$reg->getId()."'>".$reg->getNombre()."</option> ";
+     //$options .= "<option value = '".$reg->getId()."'>".$reg->getNombre()."</option> ";
+     //$options .= "<option value = '".$reg->getId()."'>".$reg->getNombre()."</option> ";
+     //}
+    }
+echo $listaimagen;
+    
+   ?>
+</table>

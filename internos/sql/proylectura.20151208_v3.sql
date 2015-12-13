@@ -471,7 +471,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
 INSERT INTO `usuario` (`id`, `nombre`, `mail`, `password`, `admin`, `educacion`, `lugar`, `nota`) VALUES
 (16, 'Tecla', 'tecla@tecla.com', 'drodriguez', 0, NULL, NULL, NULL),
 (17, 'Fer', 'fer@fer.com', '123456', 0, NULL, NULL, NULL),
-(18, 'admin', 'admin@admin.com', 'admin', 1, NULL, NULL, NULL),
+(18, 'admin', 'admin@admin.com', 'admin', 1, 'Universidad Nacional de la Matanza', 'La Matanza, San Justo', 'Quisiera participar en proyectos de programacion orientda a objetos'),
 (20, 'Jorge Miranda', 'jorge@jorge.com', '12345', 0, NULL, NULL, NULL),
 (21, 'Rodo', 'rodo@rodo.com', '123456', 0, NULL, NULL, NULL),
 (22, 'Chris', 'chris@chris.com', '123456', 0, NULL, NULL, NULL);

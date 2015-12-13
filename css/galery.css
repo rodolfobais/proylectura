@@ -1,0 +1,15 @@
+.galery {
+    overflow:hidden;
+    width:320px;
+}
+.galery div {
+    /* cualquier altura mayor que el total de sumar la anchura de las img */
+    width:330px;
+
+    /* para evitar el margen superior de la primera fila */
+    margin-top:-10px;
+}
+img {
+    float:left;
+    margin:10px 10px 0 0;
+}

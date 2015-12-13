@@ -4,6 +4,9 @@ error_reporting(E_ALL);
 ini_set("display_errors", 1);
 include_once("../../data/config.php");
 
+$idusuario=$_SESSION['userid'];
+$usuario=  UsuarioQuery::create()->findOneById($idusuario);
+
 //$libros = LibroQuery::create()->find();
 $libros = LibroQuery::create()->filterByDebaja(NULL)->find();
 //$usuarios = UsuarioQuery::create()->find();
@@ -39,18 +42,14 @@ foreach ($generos as $reg) {
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
-        
     </head>
     <body>
-        <!---start-wrap---->
-       
-				
+        <!---start-wrap---->			
         <!---end-header---->
         <!--start-image-slider---->
         <div class="wrap">
@@ -102,7 +101,7 @@ foreach ($generos as $reg) {
                                 </div>
                             </form>
                             <div class="form-group">
-                                <button class="btn btn-block btn-default" onclick="enviar_form_libro()">Subir</button>
+                                <button class="btn btn-block btn-default" value="<?php echo $usuario; ?>" onclick="enviar_form_libro()">Subir</button>
                             </div>
                         </div>
                     </div>

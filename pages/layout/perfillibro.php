@@ -6,9 +6,14 @@ include_once("../../data/config.php");
 
 //$libros = LibroQuery::create()->findOneById($_GET['id']);
 //$usuarios = UsuarioQuery::create()->find();
+
+$idusuario=$_SESSION['userid'];
+$usuario=  UsuarioQuery::create()->findOneById($idusuario);
+
 $audiolibros = AudiolibroQuery::create()->find();
 $idLibro=$_GET['id'];
 $libro=  LibroQuery::create()->findOneById($idLibro);
+//echo $libro->getEs_editable();
 
 //$options = "<option value = ''>Seleccione un libro</option> ";
 $listaaudios = ""; 
@@ -22,7 +27,7 @@ foreach ($audiolibros as $reg) {
      //$options .= "<option value = '".$reg->getId()."'>".$reg->getNombre()."</option> ";
      //}
  }
-echo $listaLibros;
+//echo $listaLibros;
 //$listaLibros = "";
 //$libros = LibroQuery::create()->find();
 ?>
@@ -46,8 +51,24 @@ echo $listaLibros;
                     <li class="list-group-item">
                         <b>Genero</b> <a class="pull-right"><?php echo $libro->getGenero()->getNombre(); ?></a>
                     </li>
+                    <li class="list-group-item">
+                    <b>Calificar: </b>
+                    <div class="ec-stars-wrapper">
+                            <a href="#" data-value="1" title="Votar con 1 estrellas">&#9733;</a>
+                            <a href="#" data-value="2" title="Votar con 2 estrellas">&#9733;</a>
+                            <a href="#" data-value="3" title="Votar con 3 estrellas">&#9733;</a>
+                            <a href="#" data-value="4" title="Votar con 4 estrellas">&#9733;</a>
+                            <a href="#" data-value="5" title="Votar con 5 estrellas">&#9733;</a>
+                    </div>
+                    <noscript>Necesitas tener habilitado javascript para poder votar</noscript>
+                    </li>
                   </ul>
-
+                  <?php 
+                    if($libro->getEs_editable()=='s'){
+                       // echo "<td><a href="#" target="_blank"class="btn btn-primary btn-block"><b>Enviar solicitud colaboracion</b></a>";
+                       echo "<a href=\"#\" target=\"_blank\" class=\"btn btn-primary btn-block\"><b>Enviar solicitud Colaboracion</b></a>";
+                    }
+                  ?>
                   <a href="pdf/<?php echo $idLibro; ?>.pdf" target="_blank"class="btn btn-primary btn-block"><b>Descargar libro</b></a>
                 </div><!-- /.box-body -->
               </div><!-- /.box -->
@@ -62,8 +83,17 @@ echo $listaLibros;
                   <p class="text-muted">
                     <?php echo $libro->getSinopsis(); ?>
                   </p>
+                  <a href="#" class="btn btn-block btn-info btn-xs"><b>Recomendar</b></a>
                 </div><!-- /.box-body -->
               </div><!-- /.box -->
+              <div class='form-group margin-bottom-none'>
+                  <?php 
+                    if(!$_SESSION['userid']==''){
+                       // echo "<td><a href="#" target="_blank"class="btn btn-primary btn-block"><b>Enviar solicitud colaboracion</b></a>";
+                       echo "<button  href=\"#\" class=\"btn btn-block btn-danger btn-sm\">Denunciar</button>";
+                    }
+                  ?>
+              </div>
             </div><!-- /.col -->
             <!--Fin Perfil general con imagen -->
             <div class="col-md-9">
@@ -71,6 +101,12 @@ echo $listaLibros;
                 <ul class="nav nav-tabs">
                   <li class="active"><a href="#activity" data-toggle="tab">Libreria</a></li>
                   <li><a href="#timeline" data-toggle="tab">Audios relacionados</a></li>
+                  <?php 
+                    if($libro->getEs_editable()=='s'){
+                       // echo "<td><a href="#" target="_blank"class="btn btn-primary btn-block"><b>Enviar solicitud colaboracion</b></a>";
+                       echo "<li>"."<a href=\"#colaboracion\" data-toggle=\"tab\">Solicitudes de colaboracion</a>"."</li>";
+                    }
+                  ?>
                 </ul>
                 <div class="tab-content">
                   <div class="active tab-pane" id="activity">
@@ -145,6 +181,9 @@ echo $listaLibros;
                                     }
                                 ?>
                             </table>
+                  </div><!-- /.tab-pane -->
+                  <div class="tab-pane" id="colaboracion">
+                            
                   </div><!-- /.tab-pane -->
                 </div><!-- /.tab-content -->
               </div><!-- /.nav-tabs-custom -->
