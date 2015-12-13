@@ -84,6 +84,7 @@
         <script src="{$PROJECT_REL_DIR}/js/solicitud.js"></script>
         <script src="{$PROJECT_REL_DIR}/js/notificacion.js"></script>
         <script src="{$PROJECT_REL_DIR}/js/mensaje.js"></script>
+        <script src="{$PROJECT_REL_DIR}/js/compose.js"></script>
         <script src="{$PROJECT_REL_DIR}/js/clasificados.js"></script>
         <script type="text/javascript">
             $( document ).ready(function() {
