@@ -41,6 +41,7 @@ switch ($_POST["accion"]) {
         $libroObj->setEs_editable("n");
         $libroObj->setSinopsis($_POST["sinopsis"]);
         $libroObj->setId_privacidad($_POST["privacidad"]);
+        $libroObj->setId_usuario($_SESSION["userid"]);
         $libroObj->save();
         
         $idImage = $libroObj->getId();
