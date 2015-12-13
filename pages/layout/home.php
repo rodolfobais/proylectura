@@ -4,16 +4,24 @@
  ini_set("display_errors", 1); 
  include_once("../../data/config.php"); 
   
- $libros = LibroQuery::create()->limit(5)->find(); 
-  
- $listaLibros = ""; 
- foreach ($libros as $reg) { 
-     $listaLibros .= "<li>".$reg->getNombre()."</li>"; 
- } 
- 
- //$sliderItem = Slider_maeQuery::create()->findOneById(1);
- //$sliderItem->getLibro()->getImage();
- //$sliderItem->getLibro()->getNombre();
+$libros = LibroQuery::create()->limit(5)->find(); 
+$listaLibros = ""; 
+foreach ($libros as $reg) { 
+    $listaLibros .= "<li>".$reg->getNombre()."</li>"; 
+} 
+
+$clasificados = ClasificadosQuery::create()->limit(5)->find(); 
+$listaClasificados = ""; 
+foreach ($clasificados as $reg) { 
+    $listaClasificados .= "<li>".$reg->getTeto_corto()."</li>"; 
+}
+
+$notificaciones = NotificacionQuery::create()->limit(5)->find(); 
+$listaNotificaciones = ""; 
+foreach ($notificaciones as $reg) { 
+    $listaNotificaciones .= "<li>".$reg->getDescripcion()."</li>"; 
+}
+
  //Armo los slider
  $categoriasSlider = Slider_categQuery::create()->limit(4)->find();
  $sliders = "";
@@ -69,23 +77,6 @@
         <title>AdminLTE 2 | Widgets</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        <!-- Bootstrap 3.3.5 
-        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">-->
-        <!-- Font Awesome 
-        <link rel="stylesheet" href="/css/font-awesome.min.css">-->
-        <!-- Ionicons 
-        <link rel="stylesheet" href="/css/ionicons.min.css">-->
-        <!-- Theme style -->
-        <!-- AdminLTE Skins. Choose a skin from the css/skins
-             folder instead of downloading all of them to reduce the load.
-        <link rel="stylesheet" href="/dist/css/skins/_all-skins.min.css"> -->
-
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
 	<script>
             {literal}
 	    // You can also use "$(window).load(function() {"
@@ -144,11 +135,7 @@
                             </div><!-- /.box-header -->
                             <div class="box-body">
                                 <ul>
-                                  <li>Lorem ipsum dolor sit amet</li>
-                                  <li>Consectetur adipiscing elit</li>
-                                  <li>Integer molestie lorem at massa</li>
-                                  <li>Facilisis in pretium nisl aliquet</li>
-                                  <li>Faucibus porta lacus fringilla vel</li>
+                                    <?php echo $listaNotificaciones;?>
                                 </ul>
                               </div>
                         </div>
@@ -164,11 +151,7 @@
                             </div><!-- /.box-header -->
                             <div class="box-body">
                                 <ul>
-                                  <li>Lorem ipsum dolor sit amet</li>
-                                  <li>Consectetur adipiscing elit</li>
-                                  <li>Integer molestie lorem at massa</li>
-                                  <li>Facilisis in pretium nisl aliquet</li>
-                                  <li>Faucibus porta lacus fringilla vel</li>
+                                    <?php echo $listaClasificados;?>
                                 </ul>
                               </div>
                         </div>

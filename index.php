@@ -5,7 +5,7 @@ ini_set("display_errors", 1);
 include_once("data/config.php");
 
 if(!isset($_SESSION["userid"])){
-    header("Location:login.php");
+    header("Location:home.php");
     //die();
 }
 
