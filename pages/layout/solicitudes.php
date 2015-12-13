@@ -1,3 +1,28 @@
+<?php 
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+include_once("../../data/config.php");
+
+$solicitud = Solicitud_amistadQuery::create()->find();
+//$solicitud = Solicitud_amistadQuery::create()->findOneById(1);
+//$usuario = UsuarioQuery :: create() ->findOneById(1);
+
+//$mensaje->getUsuarioRelatedById_usuario_remitente()->getNick();
+//'<li class="header">You have 5 messages</li>'
+
+foreach ($solicitud as $reg) {
+  
+//$listaLibros .= "<li>".$reg->getNombre()."</li>";
+
+    $lista_solicitudes .= '<tr> '.
+           '<td class="mailbox-name">'.$reg->getUsuarioRelatedById_usuario_solicitante()->getNombre() .'</td>'
+            .'<td class="mailbox-subject">te ha enviado una solicitud de amistad</td>'
+            .'<td><button class="btn btn-default btn-sm" onclick="aceptar_solicitud()"> Aceptar</button><button class="btn btn-default btn-sm" onclick="rechazar_solicitud()"> Rechazar</button></td>  '
+                 .'</tr>'
+            ;      
+}
+?>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -79,21 +104,9 @@
                   <div class="table-responsive mailbox-messages">
                     <table class="table table-hover table-striped">
                       <tbody>
-                        <tr>
-                         
-                         
-                          <td class="mailbox-name"><a href="read-mail.php">Alexander Pierce </a></td>
-                          <td class="mailbox-subject">te ha enviado una solicitud de amistad</td>
-                          <td><button class="btn btn-default btn-sm" onclick="aceptar_solicitud()"> Aceptar</button><button class="btn btn-default btn-sm" onclick="rechazar_solicitud()"> Rechazar</button></td>  
-                        </tr>
-                        <tr>
-                         
-                         
-                          <td class="mailbox-name"><a href="read-mail.html">Mario bros</a></td>
-                          <td class="mailbox-subject">te ha enviado una solicitud de amistad</td>
-                          <td><button class="btn btn-default btn-sm" onclick=""> Aceptar</button><button class="btn btn-default btn-sm" onclick=""> Rechazar</button></td>
-                        </tr>
-                        
+                        <?php
+                            echo $lista_solicitudes;
+                            ?>
                       </tbody>
                     </table><!-- /.table -->
                   </div><!-- /.mail-box-messages -->

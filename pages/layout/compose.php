@@ -13,7 +13,7 @@ foreach ($usuario as $reg) {
   
 //$listaLibros .= "<li>".$reg->getNombre()."</li>";
 
-    $lista_usuarios .= '<option>'.$reg->getNombre()
+    $lista_usuarios .= '<option>'.$reg->getId()
     .'</option>';               
                                 
 }
@@ -93,27 +93,26 @@ foreach ($usuario as $reg) {
   
             </div><!-- /.col -->
             <div class="col-md-9">
-              <div class="box box-primary">
+              <div class="box box-primary" id="formulario_mensajes">
                 <div class="box-header with-border">
                   <h3 class="box-title">Escribir mensaje nuevo</h3>
                 </div><!-- /.box-header -->
-                <div class="box-body">
+                <div class="box-body" >
                   <div class="form-group">
-                    Para: <select id="lista_usuarios">    
+                   <input type="hidden" id="accion" value="n"/>
+                   <input type="hidden" id="leido" value="1"/>
+                   <input type="hidden" disabled id="id">
+                   <input type="hidden" id="id_usuario_remitente" value="<?php $usersession = $_SESSION["userid"]; ?>"/>
+                   Para: <select id="id_usuario_destinatario">    
                     <?php
-                    echo $lista_usuarios;
+                        echo $lista_usuarios;
                     ?>
-                    
-                    </select>
-                   
-
+                            </select>
                      <!--<input class="form-control" placeholder="To:">--->
                   </div>
 
                   <div class="form-group">
-                    <textarea id="compose-textarea" class="form-control" style="height: 300px">
-
-                    </textarea>
+                    <textarea id="mensaje" class="form-control" style="height: 300px"></textarea>
                   </div>
 
                 </div><!-- /.box-body -->
@@ -121,8 +120,10 @@ foreach ($usuario as $reg) {
                   <div class="pull-right">
                     
                     <button onclick="enviar_mensaje()" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Enviar</button>
+                
                   </div>
-                  <button class="btn btn-default"><i class="fa fa-times"></i> Deshacer</button>
+                  
+                    <!--<button class="btn btn-default"><i class="fa fa-times"></i> Deshacer</button>-->
                 </div><!-- /.box-footer -->
               </div><!-- /. box -->
             </div><!-- /.col -->
@@ -321,10 +322,7 @@ foreach ($usuario as $reg) {
         $("#compose-textarea").wysihtml5();
       });
       
-      $(function enviar_mensaje()
-              
-            
-       });
+
 
     </script>
   </body>

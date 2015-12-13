@@ -12,7 +12,8 @@ $datos = json_decode($_POST['json']);
 switch ($datos->accion) {
     
     case "d"://Delete
-        $solicitudObj = SolicitudQuery::create()->findOneById($datos->id);
+        $solicitudObj = Solicitud_amistadQuery::create()->findOneById($datos->id);
+         
         //$objTerapia = TerapiasQuery::create()->findOneById($_GET["id"]);
         if($solicitudObj != null){
                 $solicitudObj->delete();
@@ -21,10 +22,10 @@ switch ($datos->accion) {
     break;
     
     case "n"://New
-        $solicitudObj = new Amistad();
-        $solicitudObj->setid_usuario($datos->idusuario);
-        $solicitudObj->setid_usuarioamigo($datos->id_usuarioamigo);
-        $setestado = $solicitudObj->setestado($datos->estado =1);
+        $solicitudObj = new AmistadQuery();
+        $solicitudObj->setid_usuario_solicitado($datos->id_usuario_solicitado);
+        $solicitudObj->setid_usuario_solicitante($datos->id_usuario_solicitante);
+        $solicitudObj->setestado($datos->estado);
         
         $solicitudObj->save();
         echo json_encode(array( 'error' => 0, 'msg' => "solicitud aceptada"));

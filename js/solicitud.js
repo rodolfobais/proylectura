@@ -18,19 +18,21 @@ function mostrar_solicitud(){
                 }*/
                 //alert(data.msg);
                 $('#lista_solicitudes').html(data.salida);
-                $('cantidad_solicitudes').html(data.cantidad);
+                $('#cantidad_solicitudes').html(data.cantidad);
                 //refreshDivs('cuerpocentro','pages/layout/solicitud.php');
                 proces = 0;
         }
    });
 }
- function aceptar_solicitud(){
-    alert('aceptar solicitud');
+ function aceptar_solicitud(id){
+alert(id);
+//alert(id2);
      var json = {
-        id: $("#formulario_solicitud #id").val() , 
-        id_usuario_solicitado: $("#formulario_usuarios #id_usuario_solicitado").val() , 
-        id_usuario_solicitante: $("#formulario_usuarios #id_usuario_solicitante").val(),        
-        accion : "n"
+        
+        //id_usuario_solicitado: $reg->get
+        id_usuario_solicitante: $("#formulario_solicitud #id_usuario_solicitante").val(),        
+        estado: $("#formulario_solicitud #estado").val(),
+         accion : "n"
     };
     $.ajax({
         data: {json: $.toJSON(json) },
@@ -45,7 +47,7 @@ function mostrar_solicitud(){
                        // alert(data.msg);
                 }*/
                 alert(data.msg);
-                refreshDivs('cuerpocentro','pages/layout/solicitud.php');
+                //refreshDivs('cuerpocentro','pages/layout/solicitud.php');
                 proces = 0;
         }
    });
@@ -71,7 +73,7 @@ function mostrar_solicitud(){
                        // alert(data.msg);
                 }*/
                 alert(data.msg);
-                refreshDivs('cuerpocentro','pages/layout/solicitud.php');
+              //  refreshDivs('cuerpocentro','pages/layout/solicitud.php');
                 proces = 0;
         }
    });
