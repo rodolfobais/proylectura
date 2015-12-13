@@ -9,10 +9,11 @@ include_once("../../data/config.php");
 
 $idusuario=$_SESSION['userid'];
 $usuario=  UsuarioQuery::create()->findOneById($idusuario);
-
-$audiolibros = AudiolibroQuery::create()->find();
 $idLibro=$_GET['id'];
 $libro=  LibroQuery::create()->findOneById($idLibro);
+$audiolibros = AudiolibroQuery::create()->filterByIdlibro($idLibro)->find();
+
+
 //echo $libro->getEs_editable();
 
 //$options = "<option value = ''>Seleccione un libro</option> ";
@@ -39,6 +40,14 @@ foreach ($audiolibros as $reg) {
               <!-- Profile Image -->
               <div class="box box-primary">
                 <div class="box-body box-profile">
+                  <div class='form-group margin-bottom-none'>
+                  <?php 
+                    if($_SESSION['userid']==18){
+                       // echo "<td><a href="#" target="_blank"class="btn btn-primary btn-block"><b>Enviar solicitud colaboracion</b></a>";
+                       echo "<button  href=\"#\" class=\"btn btn-block btn-danger btn-sm\">Banear/Bloquear</button>";
+                    }
+                  ?>
+              </div>
                   <img style="width: 350px" class="profile-user-img img-responsive" src="portadas/<?php echo $idLibro; ?>.jpg" alt="User profile picture">
                   <h3 class="profile-username text-center"><?php echo $libro->getNombre(); ?></h3>
                   <p class="text-muted text-center"></p>
@@ -88,7 +97,7 @@ foreach ($audiolibros as $reg) {
               </div><!-- /.box -->
               <div class='form-group margin-bottom-none'>
                   <?php 
-                    if(!$_SESSION['userid']==''){
+                    if($libro->getId_usuario()!=$idusuario){
                        // echo "<td><a href="#" target="_blank"class="btn btn-primary btn-block"><b>Enviar solicitud colaboracion</b></a>";
                        echo "<button  href=\"#\" class=\"btn btn-block btn-danger btn-sm\">Denunciar</button>";
                     }

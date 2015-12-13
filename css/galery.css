@@ -9,7 +9,9 @@
     /* para evitar el margen superior de la primera fila */
     margin-top:-10px;
 }
-img {
-    float:left;
+.galery img {
+    width:200px;
+    height:250px;
+    float:none;
     margin:10px 10px 0 0;
 }
