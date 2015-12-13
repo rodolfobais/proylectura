@@ -1,6 +1,6 @@
 
 function enviar_mensaje(){
-    alert("funcion envio mensajes");
+   // alert("funcion envio mensajes");
     var json = {
         id: $("#formulario_mensajes #id").val(),
         id_usuario_remitente: $("#formulario_mensajes #id_usuario_remitente").val(),

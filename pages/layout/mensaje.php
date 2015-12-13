@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 ini_set("display_errors", 1);
 include_once("../../data/config.php");
 
-$mensaje = MensajeQuery::create()->find();
+$mensaje = MensajeQuery::create()->filterById_usuario_destinatario($_SESSION['userid'])->find();
 
 //$mensaje = MensajeQuery::create() ->findOneById(0);
 

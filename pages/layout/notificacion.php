@@ -27,8 +27,6 @@ foreach ($notificacion as $reg) {
     . "</tr>";*/
 }
 
-
-
 $salida .= '</ul>
     </li>
 <li class="footer"><a href="#">Ver todas las notificaciones</a></li>';

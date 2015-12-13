@@ -1,3 +1,27 @@
+<?php
+
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+include_once("../../data/config.php");
+
+$mensaje = MensajeQuery::create()->filterById_usuario_destinatario($_SESSION['userid'])->find(); 
+//$mensaje= MensajeQuery::create()->findOneById(1);   
+
+//$salida = //'<li class="header">Tenes 10 solicitudes</li>'
+        
+        
+$cont= 0;
+foreach ($mensaje as $reg) {
+
+    $cont ++;                 
+    $salida .=  '<tr>'
+                . '<td><input type="checkbox" id="select_mensaje"></td>'
+                .'<td class="mailbox-name"><a href="pages/layout/read-mail.php?id='.$reg->getId().'">'.$reg->getUsuarioRelatedById_usuario_remitente()->getNombre().'</td></a>'
+                .'<td class="mailbox-subject"><a href="pages/layout/read-mail.php?id='.$reg->getId().'">'.$reg->getMensaje().'</td></a>'
+                .'</tr>';
+}
+        echo json_encode(array( 'error' => 0, 'salida' => $salida, 'cantidad' => $cont)); //muestra el array concatenado
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -39,7 +63,7 @@
         <section class="content-header">
           <h1>
             Mensajes
-            <small>13 mensajes nuevos</small>
+            <!--<small>13 mensajes nuevos</small>-->
           </h1>
           <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -51,8 +75,8 @@
         <section class="content">
           <div class="row">
             <div class="col-md-3">
-              <a href="compose.php" class="btn btn-primary btn-block margin-bottom">Escribir mensaje nuevo</a>
-              <div class="box box-solid">
+             <!-- <a href="compose.php" class="btn btn-primary btn-block margin-bottom">Escribir mensaje nuevo</a>-->
+              <!--<div class="box box-solid">
                 <div class="box-header with-border">
                   <h3 class="box-title">Carpetas</h3>
                   <div class="box-tools">
@@ -61,14 +85,14 @@
                 </div>
                 <div class="box-body no-padding">
                   <ul class="nav nav-pills nav-stacked">
-                    <li class="active"><a href="#"><i class="fa fa-inbox"></i> Buzon de entrada <span class="label label-primary pull-right">12</span></a></li>
+                    <li class="active"><a href="#"><i class="fa fa-inbox"></i> Buzon de entrada <span id="cantidad_mensajes" class="label label-primary pull-right"></span><?php echo $cont;?></a></li>
                     <li><a href="enviados.php"><i class="fa fa-envelope-o"></i> Enviados</a></li>
                                      
                     <li><a href="papelera,php"><i class="fa fa-trash-o"></i> Papelera</a></li>
                   </ul>
                 </div><!-- /.box-body -->
               </div><!-- /. box -->
-              
+              -->
             </div><!-- /.col -->
             <div class="col-md-9">
               <div class="box box-primary">
@@ -76,8 +100,8 @@
                   <h3 class="box-title">Buzon de entrada</h3>
                   <div class="box-tools pull-right">
                     <div class="has-feedback">
-                      <input type="text" class="form-control input-sm" placeholder="Buscar Mensaje">
-                      <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                      <!--<input type="text" class="form-control input-sm" placeholder="Buscar Mensaje">
+                      <span class="glyphicon glyphicon-search form-control-feedback"></span>-->
                     </div>
                   </div><!-- /.box-tools -->
                 </div><!-- /.box-header -->
@@ -92,32 +116,17 @@
                     </div><!-- /.btn-group -->
                     <button class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
                     <div class="pull-right">
-                      1-50/200
+                      1-50
                       <div class="btn-group">
                         <button class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
                         <button class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
                       </div><!-- /.btn-group -->
                     </div><!-- /.pull-right -->
                   </div>
-                  <div class="table-responsive mailbox-messages">
+                  <div id="tabla_mensajes" class="table-responsive mailbox-messages">
                     <table class="table table-hover table-striped">
                       <tbody>
-                        <tr>
-                          <td><input type="checkbox"></td>
-                          <td class="mailbox-star"><a href="#"><i class="fa fa-star text-yellow"></i></a></td>
-                          <td class="mailbox-name"><a href="read-mail.php">Alexander Pierce</a></td>
-                          <td class="mailbox-subject"><b>AdminLTE 2.0 Issue</b> - Trying to find a solution to this problem...</td>
-                          <td class="mailbox-attachment"></td>
-                          <td class="mailbox-date">5 mins ago</td>
-                        </tr>
-                        <tr>
-                          <td><input type="checkbox"></td>
-                          <td class="mailbox-star"><a href="#"><i class="fa fa-star-o text-yellow"></i></a></td>
-                          <td class="mailbox-name"><a href="read-mail.html">Alexander Pierce</a></td>
-                          <td class="mailbox-subject"><b>AdminLTE 2.0 Issue</b> - Trying to find a solution to this problem...</td>
-                          <td class="mailbox-attachment"><i class="fa fa-paperclip"></i></td>
-                          <td class="mailbox-date">28 mins ago</td>
-                        </tr>
+                        <?php   echo $salida;?>
                         
                       </tbody>
                     </table><!-- /.table -->
@@ -134,7 +143,7 @@
                     </div><!-- /.btn-group -->
                     <button class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
                     <div class="pull-right">
-                      1-50/200
+                      1-50
                       <div class="btn-group">
                         <button class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
                         <button class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>

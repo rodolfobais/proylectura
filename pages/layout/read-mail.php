@@ -1,3 +1,20 @@
+<?php 
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+include_once("../../data/config.php");
+
+//$usuario = MensajeQuery::create()->find();
+$usuario = MensajeQuery :: create() ->findOneById($_POST["id"]);
+
+foreach ($usuario as $reg) {
+  
+    //$listaLibros .= "<li>".$reg->getNombre()."</li>";
+    $nombre_usuario .= $reg->getUsuarioRelatedById_usuario_remitente()->getNombre();
+                                
+}
+
+?>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -51,7 +68,7 @@
         <section class="content">
           <div class="row">
             <div class="col-md-3">
-              <a href="compose.php" class="btn btn-primary btn-block margin-bottom">Escribir mensaje nuevo</a>
+              <!--<a href="compose.php" class="btn btn-primary btn-block margin-bottom">Escribir mensaje nuevo</a>
               <div class="box box-solid">
                 <div class="box-header with-border">
                   <h3 class="box-title">Carpetas</h3>
@@ -81,11 +98,13 @@
                 </div><!-- /.box-header -->
                 <div class="box-body no-padding">
                   <div class="mailbox-read-info">
-                    <h3>Message Subject Is Placed Here</h3>
-                    <h5>From: support@almsaeedstudio.com <span class="mailbox-read-time pull-right">15 Feb. 2015 11:03 PM</span></h5>
+                    <!--<h3>Message Subject Is Placed Here</h3>-->
+                    <h5>From: <?php echo $nombre_usuario; ?> <!--<span class="mailbox-read-time pull-right">15 Feb. 2015 11:03 PM</span></h5>-->
                   </div><!-- /.mailbox-read-info -->
                   <div class="mailbox-controls with-border text-center">
-                    <div class="btn-group">
+                      
+                      <textarea id="mensaje" class="form-control" style="height: 300px"></textarea>
+                      <div class="btn-group">
                       <button class="btn btn-default btn-sm" data-toggle="tooltip" title="Eliminar"><i class="fa fa-trash-o"></i></button>
                       <button class="btn btn-default btn-sm" data-toggle="tooltip" title="Responder"><i class="fa fa-reply"></i></button>
                       

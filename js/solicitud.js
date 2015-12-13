@@ -2,7 +2,7 @@ function mostrar_solicitud(){
     var json = {
         id: $("#lista_solicitudes #id").val(),
         mensaje: $("#lista_solicitudes #descripcion").val(),
-        accion: "d"
+        accion: "m"
     };
     $.ajax({
         data: {json: $.toJSON(json) },
@@ -26,12 +26,12 @@ function mostrar_solicitud(){
 }
  function aceptar_solicitud(id){
 alert(id);
-//alert(id2);
+
      var json = {
         
-        //id_usuario_solicitado: $reg->get
-        id_usuario_solicitante: $("#formulario_solicitud #id_usuario_solicitante").val(),        
-        estado: $("#formulario_solicitud #estado").val(),
+        id_usuarioamigo: id, 
+    //    id_usuario_solicitado: ,
+        estado: 0,
          accion : "n"
     };
     $.ajax({

@@ -1,14 +1,14 @@
-function mostrar_notificacion(){
+function mostrar_mensaje(){
     var json = {
-        id: $("#lista_notificaciones #id").val(),
-        mensaje: $("#lista_notificaciones #descripcion").val(),
+        id: $("#lista_mensajes #id").val(),
+        mensaje: $("#lista_mensajes #mensaje").val(),
         accion: "d"
     };
     $.ajax({
         data: {json: $.toJSON(json) },
         type: 'POST',
         dataType: 'json',
-        url: 'pages/layout/notificacion.php',
+        url: 'pages/layout/mensaje.php',
         success: function(data){/*
                 if (data.error == 0){
                         //alert('success!');
@@ -17,11 +17,12 @@ function mostrar_notificacion(){
                        // alert(data.msg);
                 }*/
                 //alert(data.msg);
-                $('#lista_notificaciones').html(data.salida);
-                $('#cantidad_notificaciones').html(data.cantidad);
-                //refreshDivs('cuerpocentro','pages/layout/notificacion.php');
+                $('#lista_mensajes').html(data.salida);
+                $('#cantidad_mensajes').html(data.cantidad);
+            //refreshDivs('cuerpocentro','pages/layout/mensaje.php');
                 proces = 0;
         }
    });
 }
+
 
