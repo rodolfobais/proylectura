@@ -53,10 +53,6 @@ $usuarios = UsuarioQuery::create()->find();
                                 <input type="text" class="form-control" placeholder="ID" disabled id="id">
                             </div>
                             <div class="form-group">
-                                <label>Nick</label>
-                                <input type="text" class="form-control" placeholder="Nick" id="nick">
-                            </div>
-                            <div class="form-group">
                                 <label>Nombre</label>
                                 <input type="text" class="form-control" placeholder="Nick" id="nombre">
                             </div>
@@ -81,7 +77,6 @@ $usuarios = UsuarioQuery::create()->find();
                             <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Nick</th>
                                     <th>Nombre</th>
                                     <th>E-Mail</th>
                                     <th>Password</th>
@@ -94,7 +89,6 @@ $usuarios = UsuarioQuery::create()->find();
                                         //$listaLibros .= "<li>".$reg->getNombre()."</li>";
                                         echo "<tr>"
                                         . "<td>".$reg->getId()."</td>"
-                                        . "<td id = \"nick_".$reg->getId()."\">".$reg->getNick()."</td>"
                                         . "<td id = \"nombre_".$reg->getId()."\">".$reg->getNombre()."</td>"
                                         . "<td id = \"mail_".$reg->getId()."\">".$reg->getMail()."</td>"
                                         . "<td id = \"passw_".$reg->getId()."\">".$reg->getPassword()."</td>"

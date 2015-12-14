@@ -85,3 +85,19 @@ function borrar_libro(id){
         refreshDivs('cuerpocentro','pages/layout/libros.php');
     });
 }
+
+function recomendacion(){
+    alert("Estoy dentro de libros.js y me llamo function recomendacion(), ME VEN TODOS LOS USUARIOS");
+}
+
+function bloquear(){
+    alert("Estoy dentro de libros.js y me llamo function bloquear(), SOLO ME VE EL ADMINISTRADOR");
+}
+
+function votar(){
+    alert("Estoy dentro de libros.js y me llamo function votar(), ME PUEDEN VOTAR TODOS LOS USUARIOS SOLO UNA VEZ");
+}
+
+function denunciar(){
+    alert("Estoy dentro de libros.js y me llamo function denunciar(), ME PUEDEN DENUNCIAR TODOS LOS USUARIOS, MENOS YO MISMO");
+}

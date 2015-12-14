@@ -1,6 +1,5 @@
 function editaregistro(id){
     $("#formulario_usuarios #id").val(id);
-    $("#formulario_usuarios #nick").val($("#nick_"+id).html());
     $("#formulario_usuarios #nombre").val($("#nombre_"+id).html());
     $("#formulario_usuarios #mail").val($("#mail_"+id).html());
     $("#formulario_usuarios #password").val($("#password_"+id).html());
@@ -12,10 +11,9 @@ function editaregistro(id){
 function enviar_form_usuarios(){
     var json = {
         id: $("#formulario_usuarios #id").val() , 
-        nick: $("#formulario_usuarios #nick").val() , 
         nombre: $("#formulario_usuarios #nombre").val() , 
         mail: $("#formulario_usuarios #mail").val() , 
-        mail: $("#formulario_usuarios #password").val() , 
+        password: $("#formulario_usuarios #password").val() , 
         accion: $("#formulario_usuarios #accion").val()
     };
     $.ajax({

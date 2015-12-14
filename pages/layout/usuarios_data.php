@@ -13,7 +13,6 @@ switch ($datos->accion) {
     case "e"://Edit
         $usuarioObj = UsuarioQuery::create()->findOneById($datos->id);
         //echo $usuarioObj->toArray();
-        $usuarioObj->setNick($datos->nick);
         $usuarioObj->setNombre($datos->nombre);
         $usuarioObj->setMail($datos->mail);
 
@@ -31,7 +30,6 @@ switch ($datos->accion) {
     break;
     case "n"://New
         $usuarioObj = new Usuario();
-        $usuarioObj->setNick($datos->nick);
         $usuarioObj->setNombre($datos->nombre);
         $usuarioObj->setMail($datos->mail);
 

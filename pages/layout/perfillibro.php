@@ -44,7 +44,7 @@ foreach ($audiolibros as $reg) {
                   <?php 
                     if($_SESSION['userid']==18){
                        // echo "<td><a href="#" target="_blank"class="btn btn-primary btn-block"><b>Enviar solicitud colaboracion</b></a>";
-                       echo "<button  href=\"#\" class=\"btn btn-block btn-danger btn-sm\">Banear/Bloquear</button>";
+                       echo "<button  href=\"#\" onclick=\"bloquear()\" class=\"btn btn-block btn-danger btn-sm\">Banear/Bloquear</button>";
                     }
                   ?>
               </div>
@@ -63,11 +63,11 @@ foreach ($audiolibros as $reg) {
                     <li class="list-group-item">
                     <b>Calificar: </b>
                     <div class="ec-stars-wrapper">
-                            <a href="#" data-value="1" title="Votar con 1 estrellas">&#9733;</a>
-                            <a href="#" data-value="2" title="Votar con 2 estrellas">&#9733;</a>
-                            <a href="#" data-value="3" title="Votar con 3 estrellas">&#9733;</a>
-                            <a href="#" data-value="4" title="Votar con 4 estrellas">&#9733;</a>
-                            <a href="#" data-value="5" title="Votar con 5 estrellas">&#9733;</a>
+                            <a href="#" onclick="votar()" data-value="1" title="Votar con 1 estrellas">&#9733;</a>
+                            <a href="#" onclick="votar()" data-value="2" title="Votar con 2 estrellas">&#9733;</a>
+                            <a href="#" onclick="votar()" data-value="3" title="Votar con 3 estrellas">&#9733;</a>
+                            <a href="#" onclick="votar()" data-value="4" title="Votar con 4 estrellas">&#9733;</a>
+                            <a href="#" onclick="votar()" data-value="5" title="Votar con 5 estrellas">&#9733;</a>
                     </div>
                     <noscript>Necesitas tener habilitado javascript para poder votar</noscript>
                     </li>
@@ -92,14 +92,14 @@ foreach ($audiolibros as $reg) {
                   <p class="text-muted">
                     <?php echo $libro->getSinopsis(); ?>
                   </p>
-                  <a href="#" class="btn btn-block btn-info btn-xs"><b>Recomendar</b></a>
+                  <a href="#" onclick="recomendacion()" class="btn btn-block btn-info btn-xs"><b>Recomendar</b></a>
                 </div><!-- /.box-body -->
               </div><!-- /.box -->
               <div class='form-group margin-bottom-none'>
                   <?php 
                     if($libro->getId_usuario()!=$idusuario){
                        // echo "<td><a href="#" target="_blank"class="btn btn-primary btn-block"><b>Enviar solicitud colaboracion</b></a>";
-                       echo "<button  href=\"#\" class=\"btn btn-block btn-danger btn-sm\">Denunciar</button>";
+                       echo "<button  href=\"#\" onclick=\"denunciar()\" class=\"btn btn-block btn-danger btn-sm\">Denunciar</button>";
                     }
                   ?>
               </div>
