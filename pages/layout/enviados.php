@@ -5,25 +5,17 @@ ini_set("display_errors", 1);
 include_once("../../data/config.php");
 
 $mensaje = MensajeQuery::create()->find(); 
-//$mensaje = MensajeQuery::create()->findOneById(1);   
+//$mensaje = MensajeQuery::create()->findOneById($datos->id);
 
-//$salida .= //'<li class="header">Tenes 10 solicitudes</li>'
-        
-$cont= 0;
-foreach ($mensaje as $reg) {
-
-    $cont ++;                 
-                        
+foreach ($mensaje as $reg) {            
     $salida .=  '.<tr>.'
                 .'<td><input type="checkbox" id="select_mensaje"></td>'
-                .'<td class="mailbox-name"><a href="pages/layout/read-mail.php">'.$reg->getUsuarioRelatedById_usuario_destinatario()->getNombre().'</td></a>'
-                .'<td class="mailbox-subject"><a href="pages/layout/read-mail.php">'.$reg->getMensaje().'</td></a>'
+                .'<td class="mailbox-name"><a onclick="mostrar_panel_enviado('.$reg->getId().')" href="#">'.$reg->getUsuarioRelatedById_usuario_destinatario()->getNombre().'</td></a>'
+                .'<td class="mailbox-subject"><a onclick="mostrar_panel_enviado('.$reg->getId().')" href="#">'.$reg->getMensaje().'</td></a>'
                 .'.</tr>.';
 }
 
-        
-
-        echo json_encode(array( 'error' => 0, 'salida' => $salida, 'cantidad' => $cont)); //muestra el array concatenado
+    //    echo json_encode(array( 'error' => 0, 'salida' => $salida, 'cantidad' => $cont)); //muestra el array concatenado
 ?>
 
 <!DOCTYPE html>
@@ -78,30 +70,12 @@ foreach ($mensaje as $reg) {
         <!-- Main content -->
         <section class="content">
           <div class="row">
-            <div class="col-md-3">
-             <!-- <a href="compose.php" class="btn btn-primary btn-block margin-bottom">Escribir mensaje nuevo</a>
-              <div class="box box-solid">
-                <div class="box-header with-border">
-                  <h3 class="box-title">Carpetas</h3>
-                  <div class="box-tools">
-                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                  </div>
-                </div>
-                <div class="box-body no-padding">
-                  <ul class="nav nav-pills nav-stacked">
-                    <li class="active"><a href="#"><i class="fa fa-inbox"></i> Buzon de entrada <span class="label label-primary pull-right">12</span></a></li>
-                    <li><a href="enviados.php"><i class="fa fa-envelope-o"></i> Enviados</a></li>
-                                     
-                    <li><a href="papelera.php"><i class="fa fa-trash-o"></i> Papelera</a></li>
-                  </ul>
-                </div><!-- /.box-body -->
-              </div><!-- /. box -->
-              
-            </div><!-- /.col -->
-            <div class="col-md-9">
+           
+            
+            <div class="col-md-6">
               <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Buzon de entrada</h3>
+                  <h3 class="box-title">Mensajes enviados</h3>
                   <div class="box-tools pull-right">
                     <div class="has-feedback">
                       <input type="text" class="form-control input-sm" placeholder="Buscar Mensaje">
@@ -127,11 +101,15 @@ foreach ($mensaje as $reg) {
                       </div><!-- /.btn-group -->
                     </div><!-- /.pull-right -->
                   </div>
-                  <div class="table-responsive mailbox-messages">
+                    <div class="table-responsive mailbox-messages">
                     <table class="table table-hover table-striped">
-                      <tbody>
-                         <?php echo $salida ?>
-                        
+                          <tr>
+                              <td></td>
+                              <td>Para:</td>
+                              <td>Asunto:</td>
+                          </tr>
+                   <tbody>                         
+                         <?php echo $salida ?> 
                       </tbody>
                     </table><!-- /.table -->
                   </div><!-- /.mail-box-messages -->
@@ -143,9 +121,9 @@ foreach ($mensaje as $reg) {
                     <div class="btn-group">
                       <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
                       <button class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
-                      <button class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>
+                     
                     </div><!-- /.btn-group -->
-                    <button class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                    
                     <div class="pull-right">
                       1-50
                       <div class="btn-group">
@@ -157,10 +135,38 @@ foreach ($mensaje as $reg) {
                 </div>
               </div><!-- /. box -->
             </div><!-- /.col -->
-          </div><!-- /.row -->
-        </section><!-- /.content -->
-      </div><!-- /.content-wrapper -->
+            
+            <div class="col-md-6">
+              <div class="box box-primary" id="formulario_mensajes">
+               <div class="box-header with-border">
+              <h3 class="box-title">Mensaje</h3>
+              </div><!-- /.box-header -->
+                
+              <div   class="box-body" >
+                  <div id="divMensaje" class="form-group">
+                  
+                  <!--   <input type="hidden" id="leido" value="s"/>
+                   De: <span id="id_usuario_destinatario"> <?php echo $remitente ?></span>
+                  </div>
 
+                  <div class="form-group">
+                    <textarea id="mensaje" class="form-control" style="height: 300px"><?php echo $texto ?></textarea>
+                  </div>
+                  -->
+                </div><!-- /.box-body --> 
+                <div class="box-footer">
+                  <!--<div class="pull-right">
+                    <button onclick="enviar_mensaje()" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Enviar</button>
+                  </div>-->
+                
+                </div><!-- /.box-footer -->
+              </div><!-- /. box -->'
+            </div><!-- /.col -->  
+            
+          </div><!-- /.row -->
+      </section>  
+      </div><!-- /.content-wrapper -->
+      
 
       <!-- Control Sidebar -->
       <aside class="control-sidebar control-sidebar-dark">
