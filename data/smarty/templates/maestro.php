@@ -79,6 +79,8 @@
         <script src="{$PROJECT_REL_DIR}/js/libros.js"></script>
         <script src="{$PROJECT_REL_DIR}/js/generos.js"></script>
         <script src="{$PROJECT_REL_DIR}/js/editor.js"></script>
+        <script src="{$PROJECT_REL_DIR}/js/mailbox.js"></script>
+        <script src="{$PROJECT_REL_DIR}/js/enviados.js"></script>
         <script src="{$PROJECT_REL_DIR}/js/revision_de_modificaciones.js"></script>
         <script src="{$PROJECT_REL_DIR}/js/home.js"></script>
         <script src="{$PROJECT_REL_DIR}/js/solicitud.js"></script>

@@ -73,27 +73,7 @@ foreach ($usuario as $reg) {
         <!-- Main content -->
         <section class="content">
           <div class="row" >
-            <div class="col-md-3">
-             <!--<a href="mailbox.php" class="btn btn-primary btn-block margin-bottom">Bandeja de entrada</a>-->
-            <!--  <div class="box box-solid">-->
-                <!--
-                  <div class="box-header with-border">
-                  <h3 class="box-title">Carpetas</h3>
-                  <div class="box-tools">
-                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                  </div>
-                </div>-->
-                <!--
-                  <div class="box-body no-padding">
-                  <ul class="nav nav-pills nav-stacked">
-                    <li><a href="mailbox.php"><i class="fa fa-inbox"></i> Buzon de entrada <span class="label label-primary pull-right">12</span></a></li>
-                    <li><a href="pages/layout/enviados.php"><i class="fa fa-envelope-o"></i> Enviados</a></li>
-                    <li><a href="papelera.php"><i class="fa fa-trash-o"></i> Papelera</a></li>
-                  </ul>
-                </div><!-- /.box-body -->
-                <!--</div>--><!-- /. box -->
-  
-            </div><!-- /.col -->
+
             <div class="col-md-9">
               <div class="box box-primary" id="formulario_mensajes">
                 <div class="box-header with-border">
