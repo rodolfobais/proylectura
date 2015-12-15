@@ -71,6 +71,7 @@
         <column name="es_editable"    phpName="Es_editable" type="CHAR" size="1" required="false" />
         <column name="id_usuario" phpName="Id_usuario" type="INTEGER" required="false" sqlType="INT(10)" />
         <column name="debaja"    phpName="Debaja" type="CHAR" size="1" required="false" />
+        <column name="estado"    phpName="Estado" type="CHAR" size="1" required="false" />
         
         <foreign-key foreignTable="usuario" name="libro_usuario_ult_acc">
             <reference local="usuario_ult_acc" foreign="id"/>
@@ -101,6 +102,7 @@
         <column name="educacion"   phpName="Educacion"   type="CHAR" size="255" required="false" />
         <column name="lugar"   phpName="Lugar"   type="CHAR" size="255" required="false" />
         <column name="nota"   phpName="Nota"   type="CHAR" size="255" required="false" />
+        <column name="estado"   phpName="Estado"   type="CHAR" size="1" required="false" />
     </table>
     
     <table name="usuario_intereses"  phpName="Usuario_intereses" idMethod="native" package="proylectura.model">

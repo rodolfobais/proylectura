@@ -13,6 +13,18 @@ $idLibro=$_GET['id'];
 $libro=  LibroQuery::create()->findOneById($idLibro);
 $audiolibros = AudiolibroQuery::create()->filterByIdlibro($idLibro)->find();
 
+//obtengo la puntuación del libro
+$puntaje = 0;
+$calificacionLibro = CalificacionQuery::create()->filterById_libro($idLibro)->find();
+foreach ($calificacionLibro as $reg) { 
+     $puntaje += $reg->getPuntuacion();
+}
+$cantidadVotos = $calificacionLibro->count();
+if($cantidadVotos != 0){
+    $promedioPuntaje = round($puntaje / $cantidadVotos, 1);
+}
+
+$votoPropio = CalificacionQuery::create()->filterById_libro($idLibro)->filterById_usuario($idusuario)->find()->count();
 
 //echo $libro->getEs_editable();
 
@@ -26,8 +38,8 @@ foreach ($audiolibros as $reg) {
      //$options .= "<option value = '".$reg->getId()."'>".$reg->getNombre()."</option> ";
      //$options .= "<option value = '".$reg->getId()."'>".$reg->getNombre()."</option> ";
      //$options .= "<option value = '".$reg->getId()."'>".$reg->getNombre()."</option> ";
-     //}
- }
+     //
+}
 //echo $listaLibros;
 //$listaLibros = "";
 //$libros = LibroQuery::create()->find();
@@ -48,36 +60,44 @@ foreach ($audiolibros as $reg) {
                     }
                   ?>
               </div>
-                  <img style="width: 350px" class="profile-user-img img-responsive" src="portadas/<?php echo $idLibro; ?>.jpg" alt="User profile picture">
-                  <h3 class="profile-username text-center"><?php echo $libro->getNombre(); ?></h3>
-                  <p class="text-muted text-center"></p>
-
-                  <ul class="list-group list-group-unbordered">
-                   
-                      <li class="list-group-item">
-                          <b>Autor</b> <a class="pull-right"><?php echo $libro->getAutor(); ?></a>
-                    </li>
-                    <li class="list-group-item">
-                        <b>Genero</b> <a class="pull-right"><?php echo $libro->getGenero()->getNombre(); ?></a>
-                    </li>
-                    <li class="list-group-item">
-                    <b>Calificar: </b>
-                    <div class="ec-stars-wrapper">
-                            <a href="#" onclick="votar()" data-value="1" title="Votar con 1 estrellas">&#9733;</a>
-                            <a href="#" onclick="votar()" data-value="2" title="Votar con 2 estrellas">&#9733;</a>
-                            <a href="#" onclick="votar()" data-value="3" title="Votar con 3 estrellas">&#9733;</a>
-                            <a href="#" onclick="votar()" data-value="4" title="Votar con 4 estrellas">&#9733;</a>
-                            <a href="#" onclick="votar()" data-value="5" title="Votar con 5 estrellas">&#9733;</a>
-                    </div>
-                    <noscript>Necesitas tener habilitado javascript para poder votar</noscript>
-                    </li>
-                  </ul>
-                  <?php 
-                    if($libro->getEs_editable()=='s'){
-                       // echo "<td><a href="#" target="_blank"class="btn btn-primary btn-block"><b>Enviar solicitud colaboracion</b></a>";
-                       echo "<a href=\"#\" target=\"_blank\" class=\"btn btn-primary btn-block\"><b>Enviar solicitud Colaboracion</b></a>";
-                    }
-                  ?>
+                    <img style="width: 350px" class="profile-user-img img-responsive" src="portadas/<?php echo $idLibro; ?>.jpg" alt="User profile picture">
+                    <h3 class="profile-username text-center"><?php echo $libro->getNombre(); ?></h3>
+                    <p class="text-muted text-center"></p>
+                    <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                            <b>Autor</b> <a class="pull-right"><?php echo $libro->getAutor(); ?></a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Genero</b> <a class="pull-right"><?php echo $libro->getGenero()->getNombre(); ?></a>
+                        </li>
+                        <li class="list-group-item" id="puntaje_voto">
+                            <?php
+                                if($cantidadVotos != 0){
+                                    echo "<b>Puntaje actual: ".$promedioPuntaje." <a href='#' title='Puntaje actual ".$promedioPuntaje."'>&#9733;</a></b>";
+                                }else{
+                                    echo "<b>Puntaje actual:</b> <small>Aun sin votos</small>";
+                                }
+                            ?>
+                        </li>
+                        <?php if($votoPropio == 0){ ?>
+                            <li class="list-group-item" id="estrellas_voto">
+                                <b>Calificar: </b>
+                                <div class="ec-stars-wrapper">
+                                    <a href="#" onclick="votar_libro(1)" data-value="1" title="Votar con 1 estrellas">&#9733;</a>
+                                    <a href="#" onclick="votar_libro(2)" data-value="2" title="Votar con 2 estrellas">&#9733;</a>
+                                    <a href="#" onclick="votar_libro(3)" data-value="3" title="Votar con 3 estrellas">&#9733;</a>
+                                    <a href="#" onclick="votar_libro(4)" data-value="4" title="Votar con 4 estrellas">&#9733;</a>
+                                    <a href="#" onclick="votar_libro(5)" data-value="5" title="Votar con 5 estrellas">&#9733;</a>
+                                </div>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                    <?php 
+                      if($libro->getEs_editable()=='s'){
+                         // echo "<td><a href="#" target="_blank"class="btn btn-primary btn-block"><b>Enviar solicitud colaboracion</b></a>";
+                         echo "<a href=\"#\" target=\"_blank\" class=\"btn btn-primary btn-block\"><b>Enviar solicitud Colaboracion</b></a>";
+                      }
+                    ?>
                   <a href="pdf/<?php echo $idLibro; ?>.pdf" target="_blank"class="btn btn-primary btn-block"><b>Descargar libro</b></a>
                 </div><!-- /.box-body -->
               </div><!-- /.box -->
@@ -203,7 +223,7 @@ foreach ($audiolibros as $reg) {
       </div><!-- /.content-wrappers -->
       <div class="control-sidebar-bg"></div>
     </div><!-- ./wrappers -->
-
+    <input type="hidden" id="pefillibro_idlibro" value="<?=$idLibro;?>">
     <!-- jQuery 2.1.4 -->
     <script src="../../plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <!-- Bootstrap 3.3.5 -->

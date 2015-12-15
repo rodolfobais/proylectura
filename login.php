@@ -88,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div> /.social-auth-links -->
 
         <a href="#">¿No recuerda su contraseña?</a><br>
-        <a href="register.html" class="text-center">Registar como Nuevo Miembro</a>
+        <a href="registro.php" class="text-center">Registar como Nuevo Miembro</a>
 
       </div><!-- /.login-box-body -->
     </div><!-- /.login-box -->

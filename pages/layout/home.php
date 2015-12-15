@@ -7,19 +7,19 @@
 $libros = LibroQuery::create()->limit(5)->find(); 
 $listaLibros = ""; 
 foreach ($libros as $reg) { 
-    $listaLibros .= "<li>".$reg->getNombre()."</li>"; 
+    $listaLibros .= "<li><a href='#' onclick=\"refreshDivs('cuerpocentro','pages/layout/perfillibro.php','id=".$reg->getId()."')\">".$reg->getNombre()."</a></li>"; 
 } 
 
 $clasificados = ClasificadosQuery::create()->limit(5)->find(); 
 $listaClasificados = ""; 
 foreach ($clasificados as $reg) { 
-    $listaClasificados .= "<li>".$reg->getTexto_corto()."</li>"; 
+    $listaClasificados .= "<li><a href='#'>".$reg->getTexto_corto()."</a></li>"; 
 }
 
 $notificaciones = NotificacionQuery::create()->limit(5)->find(); 
 $listaNotificaciones = ""; 
 foreach ($notificaciones as $reg) { 
-    $listaNotificaciones .= "<li>".$reg->getDescripcion()."</li>"; 
+    $listaNotificaciones .= "<li><a href='#'>".$reg->getDescripcion()."</a></li>"; 
 }
 
  //Armo los slider
@@ -49,7 +49,7 @@ foreach ($notificaciones as $reg) {
     foreach ($sliderMae as $sliderItem) {
         if($pos != 0){$active = "";}
         $pos++;
-        $sliders .= '                <div class="item'.$active.'">
+        $sliders .= '                <div class="item'.$active.'" onclick="refreshDivs(\'cuerpocentro\',\'pages/layout/perfillibro.php\',\'id='.$sliderItem->getId_libro().'\')">
                                         <img style="max-height:300px" src="'.PROJECT_REL_DIR.'/imagen/'.$sliderItem->getLibro()->getImage().'" alt="'.$sliderItem->getLibro()->getNombre().'">
                                         <div class="carousel-caption"><b>'.$sliderItem->getLibro()->getNombre().'</b></div>
                                     </div>
