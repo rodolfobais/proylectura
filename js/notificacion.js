@@ -31,3 +31,33 @@ function marcarnotificacionleida(id){
         }
    });
 }
+
+function vertodaslasnotificaciones(){
+    refreshDivs('cuerpocentro','pages/layout/notificaciones_listado.php','verleid=n');
+    formateartabla_notificaciones();
+}
+function listadonotificacionesverleidos(){
+    if($("#listado_notificaciones_ver_leidos").prop("checked")){
+        refreshDivs('cuerpocentro','pages/layout/notificaciones_listado.php','verleid=s');
+    }else{
+        refreshDivs('cuerpocentro','pages/layout/notificaciones_listado.php','verleid=n');
+    }
+    formateartabla_notificaciones();
+}
+
+function formateartabla_notificaciones(){
+    $("#lista_clasif").DataTable( {
+        "language": {
+            "lengthMenu": "Mostrando _MENU_ registros por pagina",
+            "zeroRecords": "No se encontraron registros",
+            "info": "Mostrando pagina _PAGE_ de _PAGES_",
+            "infoEmpty": "No se encontraron registros",
+            "infoFiltered": "(_MAX_ registros totales)",
+            "paginate": {
+                "previous": "Anterior",
+                "next": "Siguiente"
+            },
+            "search": "Filtrar:"
+        }
+    } );
+}

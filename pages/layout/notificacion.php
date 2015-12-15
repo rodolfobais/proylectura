@@ -2,8 +2,8 @@
     error_reporting(E_ALL);
     ini_set("display_errors", 0);
     include_once("../../data/config.php");
-
-    $notificacion = NotificacionQuery::create()->filterByLeido("n")->find();
+    //$notificacion = NotificacionQuery::create()->filterById_receptor($_SESSION['userid'])->find();
+    $notificacion = NotificacionQuery::create()->filterById_receptor($_SESSION['userid'])->filterByLeido("n")->find();
     $salida = //'<li class="header">Tenes 10 notificaciones</li>'
             '<li>'
             . '<ul class="menu">';
@@ -18,7 +18,7 @@
     }
     $salida .= '</ul>
             </li>
-            <li class="footer"><a href="#">Ver todas las notificaciones</a></li>';
+            <li class="footer"><a href="#" onclick = "vertodaslasnotificaciones();">Ver todas las notificaciones</a></li>';
     echo json_encode(array( 'error' => 0, 'salida' => $salida, 'cantidad' => $cont));
 ?>
                     
