@@ -32,7 +32,7 @@ if ($_GET['verleid'] == "n") {
                         foreach ($notificaciones as $reg) {
                             $leido = ($reg->getLeido() == "s" ? "Si" : "No");
                             echo "  <tr>".
-                                        "<td><a href='#'>".$reg->getDescripcion()."</a></td>".
+                                        "<td><a href='#' onclick=\"marcarnotificacionleida('".$reg->getId()."')\">".$reg->getDescripcion()."</a></td>".
                                         "<td>".$reg->getUsuarioRelatedById_emisor()->getNombre()."</td>".
                                         "<td>".$leido."</td>".
                                     "</tr>";
