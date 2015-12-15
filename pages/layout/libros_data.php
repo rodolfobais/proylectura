@@ -32,6 +32,7 @@ switch ($_POST["accion"]) {
         echo "Libro borrado correctamente";
     break;
     case "n"://New
+        include 'notificacion_data.php';
         $libroObj = new Libro();
         //$libroObj->setNombre($datos->nombre);
         $libroObj->setNombre($_POST["nombrelibro"]);
@@ -45,9 +46,13 @@ switch ($_POST["accion"]) {
         $libroObj->save();
         
         $idImage = $libroObj->getId();
+        
+        $mesajeNotificacion = "<span onclick=\"refreshDivs('cuerpocentro','pages/layout/perfillibro.php?id=".$idImage."')\">El usuario '".UsuarioQuery::create()->findOneById($_SESSION["userid"])->getNombre()."' ha subido un libro.</span>";
+        guardarNotificacion(ID_ADMIN_USER, $mesajeNotificacion, 6);
+        
         // obtenemos los datos del archivo
-        $tamano = $_FILES["image"]['size'];
-        $tipo = $_FILES["image"]['type'];
+        //$tamano = $_FILES["image"]['size'];
+        //$tipo = $_FILES["image"]['type'];
         $archivo = $_FILES["image"]['name'];
         //$prefijo = substr(md5(uniqid(rand())),0,6);
 	//echo $_FILES['image']['tmp_name'];       
@@ -60,22 +65,22 @@ switch ($_POST["accion"]) {
             // guardamos el archivo a la carpeta files
             $destino =  "../../portadas/".$idImage.'.jpg';
           if (copy($_FILES['image']['tmp_name'],$destino)) {
-                $status = "Archivo subido: ".$archivo."";
+                //$status = "Archivo subido: ".$archivo."";
                 $libroObj->setImage($idImage);
                 $libroObj->save();
 				//header('Location: subirmp3.php?upload=1');
             } else {
-                $status = "Error al subir la portada";
+                $status = "Error al subir la portada. ";
             }
         } else {
-            $status = "Error al subir la portada";
+            $status = "Error al subir la portada. ";
         }
         echo  $status;
         
         $idPdf = $libroObj->getId();
         // obtenemos los datos del archivo
-        $tamano = $_FILES["pdf"]['size'];
-        $tipo = $_FILES["pdf"]['type'];
+        //$tamano = $_FILES["pdf"]['size'];
+        //$tipo = $_FILES["pdf"]['type'];
         $archivo = $_FILES["pdf"]['name'];
         //$prefijo = substr(md5(uniqid(rand())),0,6);
 	//echo $_FILES['image']['tmp_name'];       
@@ -88,7 +93,8 @@ switch ($_POST["accion"]) {
             // guardamos el archivo a la carpeta files
             $destino =  "../../pdf/".$idPdf.'.pdf';
           if (copy($_FILES['pdf']['tmp_name'],$destino)) {
-                $status = "Archivo subido: ".$archivo."";
+                //$status = "Archivo subido: ".$archivo."";
+                $status = "Libro subido correctamente";
 				//header('Location: subirmp3.php?upload=1');
             } else {
                 $status = "Error al subir el PDF";
