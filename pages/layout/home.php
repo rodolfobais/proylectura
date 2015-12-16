@@ -13,7 +13,7 @@ foreach ($libros as $reg) {
 $clasificados = ClasificadosQuery::create()->limit(5)->find(); 
 $listaClasificados = ""; 
 foreach ($clasificados as $reg) { 
-    $listaClasificados .= "<li><a href='#'>".$reg->getTexto_corto()."</a></li>"; 
+    $listaClasificados .= "<li><a href='#' onclick = \"refreshDivs('cuerpocentro','pages/layout/clasificados_lista.php');formateartabla();\">".$reg->getTexto_corto()."</a></li>"; 
 }
 
 $notificaciones = NotificacionQuery::create()->limit(5)->find(); 
