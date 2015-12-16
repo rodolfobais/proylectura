@@ -5,9 +5,9 @@ error_reporting(E_ALL);
 ini_set("display_errors", 1);
 include_once("../../data/config.php");
 
-//$libros = LibroQuery::create()->find();
+$libros = LibroQuery::create()->filterById_usuario($_SESSION['userid'])->filterByEs_editable("s")->find();
 //$usuarios = UsuarioQuery::create()->find();
-$misproyectos = Libro_colaboradorQuery::create()->find();//filterByIdusuario($_SESSION['userid']);
+$misproyectos = Libro_colaboradorQuery::create()->filterByIdusuario($_SESSION['userid'])->find();//filterByIdusuario($_SESSION['userid']);
 
 //$listaLibros = "";
 
@@ -52,6 +52,16 @@ $misproyectos = Libro_colaboradorQuery::create()->find();//filterByIdusuario($_S
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php
+                                    foreach ($libros as $reg) {
+                                        echo "<tr>"
+                                            . "<td>".$reg->getNombre()."</td>"
+                                            . "<td>"
+                                                . "<a href = \"#\" onclick=\"refreshDivs('cuerpocentro','pages/layout/editor.php','id=".$reg->getId()."');habilitareditor();\"><span class=\"glyphicon glyphicon-pencil\"></span></a>&nbsp;&nbsp;&nbsp;"
+                                            . "</td>"
+                                        . "</tr>";
+                                    }//refreshDivs('cuerpocentro','pages/layout/mis_proyectos.php','".$reg->getId()."')
+                                ?>
                                 <?php
                                     foreach ($misproyectos as $reg) {
                                         echo "<tr>"
