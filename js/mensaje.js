@@ -24,5 +24,43 @@ function mostrar_mensaje(){
         }
    });
 }
+function vertodoslosmensajes(){
+    refreshDivs('cuerpocentro','pages/layout/mailbox.php','verleid=n');
+    
+}
 
+function vermensajeseleccionado(id){
+    refreshDivs('cuerpocentro','pages/layout/mailbox.php','verleid=n');
+    var json = {
+        id: id,
+        accion: "l"
+    };
+    $.ajax({
+        data: {json: $.toJSON(json) },
+        type: 'POST',
+        dataType: 'json',
+        url: 'pages/layout/mensaje_data.php',
+        success: function(data){
+            
+            $('#div_mensaje').html(data.html);
+        }
+   });
+   
+    
+}
 
+function marcarMensajeLeido(id){
+    var json = {
+        id: id,
+        accion: "marcar"
+    };
+    $.ajax({
+        data: {json: $.toJSON(json) },
+        type: 'POST',
+        dataType: 'json',
+        url: 'pages/layout/mensaje_data.php',
+        success: function(){
+            mostrar_notificacion();
+        }
+   });
+}

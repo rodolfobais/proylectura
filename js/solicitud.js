@@ -25,13 +25,12 @@ function mostrar_solicitud(){
    });
 }
  function aceptar_solicitud(id){
-alert(id);
 
      var json = {
         
         id_usuarioamigo: id, 
     //    id_usuario_solicitado: ,
-        estado: 0,
+         estado: 0,
          accion : "n"
     };
     $.ajax({
@@ -47,7 +46,7 @@ alert(id);
                        // alert(data.msg);
                 }*/
                 alert(data.msg);
-                //refreshDivs('cuerpocentro','pages/layout/solicitud.php');
+                refreshDivs('cuerpocentro','pages/layout/solicitud_listado.php');
                 proces = 0;
         }
    });
@@ -55,7 +54,7 @@ alert(id);
  }
  
  function rechazar_solicitud(id){
-     alert(id);
+     
      var json = {
         id: id,
         accion: "d"
@@ -72,10 +71,15 @@ alert(id);
                 }else{
                        // alert(data.msg);
                 }*/
-                alert(data.msg);
-              //  refreshDivs('cuerpocentro','pages/layout/solicitud.php');
+               // alert(data.msg);
+                refreshDivs('cuerpocentro','pages/layout/solicitud_listado.php');
                 proces = 0;
         }
    });
      
  }
+ 
+ function vertodaslassolicitudes(){
+    refreshDivs('cuerpocentro','pages/layout/solicitudes_listado.php','verleid=n');
+    formateartabla_notificaciones();
+}

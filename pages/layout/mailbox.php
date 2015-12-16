@@ -13,8 +13,8 @@ foreach ($mensaje as $reg) {
     $cont ++;                 
     $salida .=  '<tr>'
                 . '<td><input type="checkbox" id="select_mensaje"></td>'
-                .'<td class="mailbox-name"><a onclick="mostrar_panel_mensaje('.$reg->getId().')" href="#">'.$reg->getUsuarioRelatedById_usuario_remitente()->getNombre().'</td></a>'
-                .'<td class="mailbox-subject"><a onclick="mostrar_panel_mensaje('.$reg->getId().')" href="#">'.$reg->getMensaje().'</td></a>'
+                .'<td class="mailbox-name"><a onclick="mostrar_panel_mensaje('.$reg->getId().');marcarMensajeLeido('.$reg->getId().')" href="#">'.$reg->getUsuarioRelatedById_usuario_remitente()->getNombre().'</td></a>'
+                .'<td class="mailbox-subject"><a onclick="mostrar_panel_mensaje('.$reg->getId().');marcarMensajeLeido('.$reg->getId().')" href="#">'.$reg->getMensaje().'</td></a>'
                 .'</tr>';
 }
 

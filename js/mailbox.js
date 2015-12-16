@@ -84,7 +84,7 @@ function responder_mensaje(id){
 }
 
 function enviar_respuesta(){
-  alert("funcion envio respuesta");
+
     
     var json = {
         id: $("#respuesta #id").val(),
@@ -109,6 +109,22 @@ function enviar_respuesta(){
                 alert(data.msg);
                 refreshDivs('cuerpocentro','pages/layout/mailbox.php');
                 proces = 0;
+        }
+   });
+}
+
+function marcarMensajeLeido(id){
+    var json = {
+        id: id,
+        accion: "marcar"
+    };
+    $.ajax({
+        data: {json: $.toJSON(json) },
+        type: 'POST',
+        dataType: 'json',
+        url: 'pages/layout/mailbox_data.php',
+        success: function(){
+            mostrar_mensaje();
         }
    });
 }

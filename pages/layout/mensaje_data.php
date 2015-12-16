@@ -9,6 +9,12 @@ $datos = json_decode($_POST['json']);
     
 switch($datos->accion){
     
+    case "marcar"://leido
+        $mensaje = MensajeQuery::create()->findOneById($datos->id);
+        $mensaje->setLeido("s");
+        $mensaje->save();
+    break;
+    
     case "d"://borrar mensajes
           
         $mensajeObj = MensajeQuery::create()->findOneById($datos->id);
@@ -37,14 +43,16 @@ switch($datos->accion){
                       </div>
                 </div><!-- /.box-body -->';
                 
-
+        $mensaje->setLeido("s");       
+        $mensaje->save();
         echo json_encode(array( 'error' => 0, 'html' => $salida));
-
+        
         break;
 
     case "r"://responder mensajes
         
     $mensaje = MensajeQuery::create()->findOneById($datos->id);               
+    
     //$texto = $mensaje->getMensaje();
         
         //en la respuesta el remitente es el destinatario
@@ -70,8 +78,8 @@ switch($datos->accion){
                 
                   </div>
                 ';
-                
-
+        $mensaje->setLeido("s");       
+        $mensaje->save();
         echo json_encode(array( 'error' => 0, 'html' => $salida));
 
         break;
