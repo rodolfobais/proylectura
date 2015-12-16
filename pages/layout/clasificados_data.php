@@ -50,15 +50,7 @@ switch ($datos->accion) {
     case "solicitarcolaborar":
         $clasificadosObj = ClasificadosQuery::create()->findOneById($datos->id);  
         $solicitud = new Solicitud();
-        /*<column name="id"    phpName="Id"   type="INTEGER" required="true" sqlType="INT(10)" primaryKey= "true" autoIncrement="true" />
-        <column name="id_libro"    phpName="Id_libro"   type="INTEGER" required="true" sqlType="INT(10)" />
-        <column name="id_usuario_solicitante"   phpName="Id_usuario_solicitante"  type="INTEGER" required="true" sqlType="INT(10)" />
-        <column name="id_estado"   phpName="Id_estado"  type="INTEGER"  required="true" sqlType="INT(10)" />
-        <column name="fecha_solic"  phpName="Fecha_solic" type="DATE" required="false"/>
-        <column name="hora_solic"   phpName="Hora_solic"    size="8"     required="false" type="CHAR" />
-        <column name="fecha_aprob"  phpName="Fecha_aprob" type="DATE" required="false"/>
-        <column name="hora_aprob"   phpName="Hora_aprob"    size="8"     required="false" type="CHAR" />*/
-        //$nom=date('Y-m-d H:i:s');
+        
         $solicitud->setId_libro($clasificadosObj->getId_libro());
         $solicitud->setId_usuario_solicitante($_SESSION['userid']);
         $solicitud->setId_estado("1");
@@ -67,10 +59,12 @@ switch ($datos->accion) {
         
         $solicitud->save();
         
+        include 'notificacion_data.php';
+        $mesajeNotificacion = "<span onclick=\"refreshDivs('cuerpocentro','pages/layout/perfillibro.php?id=".$clasificadosObj->getId_libro()."')\">El usuario '".UsuarioQuery::create()->findOneById($_SESSION["userid"])->getNombre()."' solicito colaborar en tu libro '".$clasificadosObj->getLibro()->getNombre()."'.</span>";
+        guardarNotificacion($clasificadosObj->getLibro()->getId_usuario(), $mesajeNotificacion, 11);
+        
         //echo $clasificadosObj->toArray();
-        echo json_encode(array( 
-            'msg' => "Solicitud enviada correctamente"
-        ));
+        echo json_encode(array( 'msg' => "Solicitud enviada correctamente" ));
     break;
 }
 

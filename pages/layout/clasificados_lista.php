@@ -1,6 +1,6 @@
 <?php 
 error_reporting(E_ALL);
-ini_set("display_errors", 1);
+ini_set("display_errors", 0);
 include_once("../../data/config.php");
 
 $clasificados = ClasificadosQuery::create()->find();
@@ -24,14 +24,16 @@ $clasificados = ClasificadosQuery::create()->find();
         <tbody>
 <?php
 if($clasificados != null){
-    foreach ($clasificados as $reg) {
-    echo "<tr>
-                <td>".$reg->getLibro()->getUsuarioRelatedById_usuario()->getNombre()."</td>
-                <td>".$reg->getLibro()->getNombre()."</td>
-                <td>".$reg->getTexto_corto()."</td>
-                <td>".$reg->getTexto_largo()."</td>
-                <td><a onclick = 'solicitarcolaborar(\"".$reg->getId()."\");'><i class='fa fa-fw fa-user-plus'></i></a></td>
-          </tr>";
+    foreach ($clasificados as $reg) {//
+        if(SolicitudQuery::create()->filterById_usuario_solicitante($_SESSION['userid'])->filterById_libro($reg->getId_libro)->find()->count() == 0){
+            echo "<tr>
+                    <td>".$reg->getLibro()->getUsuarioRelatedById_usuario()->getNombre()."</td>
+                    <td>".$reg->getLibro()->getNombre()."</td>
+                    <td>".$reg->getTexto_corto()."</td>
+                    <td>".$reg->getTexto_largo()."</td>
+                    <td><a onclick = 'solicitarcolaborar(\"".$reg->getId()."\");'><i class='fa fa-fw fa-user-plus'></i></a></td>
+              </tr>";
+        }
     }
 }/*else{
     echo "<tr>
