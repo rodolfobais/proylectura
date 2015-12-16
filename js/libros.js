@@ -19,7 +19,7 @@ function editaregistro_libro(id){
         $("#formulario_libros #sinopsis").val(data.sinopsis);
         $("#formulario_libros #privacidad").val(data.privacidad);
 
-        $("#formulario_libros #campo_imagen").hide();
+        //$("#formulario_libros #campo_imagen").hide();
         $("#formulario_libros #campo_pdf").hide();
 
         $("#formulario_libros #titulo_formulario").html("Editar libro.");

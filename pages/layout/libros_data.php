@@ -19,8 +19,25 @@ switch ($_POST["accion"]) {
         //$libroObj->setEs_editable("n");
         $libroObj->setSinopsis($_POST["sinopsis"]);
         $libroObj->setId_privacidad($_POST["privacidad"]);
+        
+        
+        $archivo = $_FILES["image"]['name'];
+        if ($archivo != "") {
+            //$nom=date('Y-m-d H:i:s');
+            //$hasharchivo = hash('md5',$nom); 
+           // $audiolibroObj->setHash($datosaudio->hasharchivo);
+            //echo $hasharchivo;   
+            // guardamos el archivo a la carpeta files
+            $destino =  "../../portadas/".$_POST["id"].'.jpg';
+          if (copy($_FILES['image']['tmp_name'],$destino)) {
+                $libroObj->setImage($_POST["id"]);
+            } else {
+                $status = "Error al subir la portada. ";
+            }
+        } else {
+            $status = "Error al subir la portada. ";
+        }
         $libroObj->save();
-         
         $status = "Libro actualizado correctamente";
         echo  $status;
     break;
@@ -54,9 +71,6 @@ switch ($_POST["accion"]) {
         //$tamano = $_FILES["image"]['size'];
         //$tipo = $_FILES["image"]['type'];
         $archivo = $_FILES["image"]['name'];
-        //$prefijo = substr(md5(uniqid(rand())),0,6);
-	//echo $_FILES['image']['tmp_name'];       
-       //VER!!!
         if ($archivo != "") {
             //$nom=date('Y-m-d H:i:s');
             //$hasharchivo = hash('md5',$nom); 
