@@ -65,6 +65,7 @@
 <html>
     <head>
         <title>Proyecto lectura</title>
+        <link rel="icon"  href="<?php echo PROJECT_REL_DIR;?>/images/favicon.ico" />
         <script src="js/jquery.min.js"></script>
         <link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />
         <meta name="keywords" content="legend iphone web template, Andriod web template, Smartphone web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
@@ -136,12 +137,12 @@
             </div>
         </div>
         <div class="clear"> </div>
-
-        <div class="wrap">
-            <div class="row"><?php echo $sliders; ?></div>
-            <div class="clear"> </div>
-        </div>
-
+        <center>
+            <div class="wrap">
+                <div class="row"><?php echo $sliders; ?></div>
+                <div class="clear"> </div>    
+            </div>
+        </center>
         <div class="footer"> 
             <div class="wrap"> 
                 <div class="footer-left">&copy; 2015 ProyectoLectura.com</div>
