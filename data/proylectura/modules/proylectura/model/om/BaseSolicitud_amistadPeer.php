@@ -62,8 +62,8 @@ abstract class BaseSolicitud_amistadPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	protected static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Id_libro', 'Id_usuario_solicitante', 'estado', ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'id_libro', 'id_usuario_solicitante', 'estado', ),
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Id_usuario_solicitado', 'Id_usuario_solicitante', 'estado', ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'id_usuario_solicitado', 'id_usuario_solicitante', 'estado', ),
 		BasePeer::TYPE_COLNAME => array (self::ID, self::ID_USUARIO_SOLICITADO, self::ID_USUARIO_SOLICITANTE, self::ESTADO, ),
 		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'ID_USUARIO_SOLICITADO', 'ID_USUARIO_SOLICITANTE', 'ESTADO', ),
 		BasePeer::TYPE_FIELDNAME => array ('id', 'id_usuario_solicitado', 'id_usuario_solicitante', 'estado', ),
@@ -77,8 +77,8 @@ abstract class BaseSolicitud_amistadPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	protected static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Id_libro' => 1, 'Id_usuario_solicitante' => 2, 'estado' => 3, ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'id_libro' => 1, 'id_usuario_solicitante' => 2, 'estado' => 3, ),
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Id_usuario_solicitado' => 1, 'Id_usuario_solicitante' => 2, 'estado' => 3, ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'id_usuario_solicitado' => 1, 'id_usuario_solicitante' => 2, 'estado' => 3, ),
 		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::ID_USUARIO_SOLICITADO => 1, self::ID_USUARIO_SOLICITANTE => 2, self::ESTADO => 3, ),
 		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'ID_USUARIO_SOLICITADO' => 1, 'ID_USUARIO_SOLICITANTE' => 2, 'ESTADO' => 3, ),
 		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'id_usuario_solicitado' => 1, 'id_usuario_solicitante' => 2, 'estado' => 3, ),
@@ -450,7 +450,7 @@ abstract class BaseSolicitud_amistadPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UsuarioRelatedById_libro table
+	 * Returns the number of rows matching criteria, joining the related UsuarioRelatedById_usuario_solicitado table
 	 *
 	 * @param      Criteria $criteria
 	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
@@ -458,7 +458,7 @@ abstract class BaseSolicitud_amistadPeer {
 	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
 	 * @return     int Number of matching rows.
 	 */
-	public static function doCountJoinUsuarioRelatedById_libro(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	public static function doCountJoinUsuarioRelatedById_usuario_solicitado(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -558,7 +558,7 @@ abstract class BaseSolicitud_amistadPeer {
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinUsuarioRelatedById_libro(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	public static function doSelectJoinUsuarioRelatedById_usuario_solicitado(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
 	{
 		$criteria = clone $criteria;
 
@@ -604,7 +604,7 @@ abstract class BaseSolicitud_amistadPeer {
 				} // if obj2 already loaded
 
 				// Add the $obj1 (Solicitud_amistad) to $obj2 (Usuario)
-				$obj2->addSolicitud_amistadRelatedById_libro($obj1);
+				$obj2->addSolicitud_amistadRelatedById_usuario_solicitado($obj1);
 
 			} // if joined row was not null
 
@@ -796,7 +796,7 @@ abstract class BaseSolicitud_amistadPeer {
 				} // if obj2 loaded
 
 				// Add the $obj1 (Solicitud_amistad) to the collection in $obj2 (Usuario)
-				$obj2->addSolicitud_amistadRelatedById_libro($obj1);
+				$obj2->addSolicitud_amistadRelatedById_usuario_solicitado($obj1);
 			} // if joined row not null
 
 			// Add objects for joined Usuario rows
@@ -825,7 +825,7 @@ abstract class BaseSolicitud_amistadPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UsuarioRelatedById_libro table
+	 * Returns the number of rows matching criteria, joining the related UsuarioRelatedById_usuario_solicitado table
 	 *
 	 * @param      Criteria $criteria
 	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
@@ -833,7 +833,7 @@ abstract class BaseSolicitud_amistadPeer {
 	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
 	 * @return     int Number of matching rows.
 	 */
-	public static function doCountJoinAllExceptUsuarioRelatedById_libro(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	public static function doCountJoinAllExceptUsuarioRelatedById_usuario_solicitado(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -921,7 +921,7 @@ abstract class BaseSolicitud_amistadPeer {
 
 
 	/**
-	 * Selects a collection of Solicitud_amistad objects pre-filled with all related objects except UsuarioRelatedById_libro.
+	 * Selects a collection of Solicitud_amistad objects pre-filled with all related objects except UsuarioRelatedById_usuario_solicitado.
 	 *
 	 * @param      Criteria  $criteria
 	 * @param      PropelPDO $con
@@ -930,7 +930,7 @@ abstract class BaseSolicitud_amistadPeer {
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinAllExceptUsuarioRelatedById_libro(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	public static function doSelectJoinAllExceptUsuarioRelatedById_usuario_solicitado(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
 	{
 		$criteria = clone $criteria;
 

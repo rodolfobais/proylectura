@@ -157,7 +157,7 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	/**
 	 * @var        array Solicitud_amistad[] Collection to store aggregation of Solicitud_amistad objects.
 	 */
-	protected $collSolicitud_amistadsRelatedById_libro;
+	protected $collSolicitud_amistadsRelatedById_usuario_solicitado;
 
 	/**
 	 * @var        array Solicitud_amistad[] Collection to store aggregation of Solicitud_amistad objects.
@@ -276,7 +276,7 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	 * An array of objects scheduled for deletion.
 	 * @var		array
 	 */
-	protected $solicitud_amistadsRelatedById_libroScheduledForDeletion = null;
+	protected $solicitud_amistadsRelatedById_usuario_solicitadoScheduledForDeletion = null;
 
 	/**
 	 * An array of objects scheduled for deletion.
@@ -705,7 +705,7 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 
 			$this->collNotificacionsRelatedById_receptor = null;
 
-			$this->collSolicitud_amistadsRelatedById_libro = null;
+			$this->collSolicitud_amistadsRelatedById_usuario_solicitado = null;
 
 			$this->collSolicitud_amistadsRelatedById_usuario_solicitante = null;
 
@@ -1072,17 +1072,17 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 				}
 			}
 
-			if ($this->solicitud_amistadsRelatedById_libroScheduledForDeletion !== null) {
-				if (!$this->solicitud_amistadsRelatedById_libroScheduledForDeletion->isEmpty()) {
+			if ($this->solicitud_amistadsRelatedById_usuario_solicitadoScheduledForDeletion !== null) {
+				if (!$this->solicitud_amistadsRelatedById_usuario_solicitadoScheduledForDeletion->isEmpty()) {
 		Solicitud_amistadQuery::create()
-						->filterByPrimaryKeys($this->solicitud_amistadsRelatedById_libroScheduledForDeletion->getPrimaryKeys(false))
+						->filterByPrimaryKeys($this->solicitud_amistadsRelatedById_usuario_solicitadoScheduledForDeletion->getPrimaryKeys(false))
 						->delete($con);
-					$this->solicitud_amistadsRelatedById_libroScheduledForDeletion = null;
+					$this->solicitud_amistadsRelatedById_usuario_solicitadoScheduledForDeletion = null;
 				}
 			}
 
-			if ($this->collSolicitud_amistadsRelatedById_libro !== null) {
-				foreach ($this->collSolicitud_amistadsRelatedById_libro as $referrerFK) {
+			if ($this->collSolicitud_amistadsRelatedById_usuario_solicitado !== null) {
+				foreach ($this->collSolicitud_amistadsRelatedById_usuario_solicitado as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -1439,8 +1439,8 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 					}
 				}
 
-				if ($this->collSolicitud_amistadsRelatedById_libro !== null) {
-					foreach ($this->collSolicitud_amistadsRelatedById_libro as $referrerFK) {
+				if ($this->collSolicitud_amistadsRelatedById_usuario_solicitado !== null) {
+					foreach ($this->collSolicitud_amistadsRelatedById_usuario_solicitado as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -1613,8 +1613,8 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 			if (null !== $this->collNotificacionsRelatedById_receptor) {
 				$result['NotificacionsRelatedById_receptor'] = $this->collNotificacionsRelatedById_receptor->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
 			}
-			if (null !== $this->collSolicitud_amistadsRelatedById_libro) {
-				$result['Solicitud_amistadsRelatedById_libro'] = $this->collSolicitud_amistadsRelatedById_libro->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+			if (null !== $this->collSolicitud_amistadsRelatedById_usuario_solicitado) {
+				$result['Solicitud_amistadsRelatedById_usuario_solicitado'] = $this->collSolicitud_amistadsRelatedById_usuario_solicitado->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
 			}
 			if (null !== $this->collSolicitud_amistadsRelatedById_usuario_solicitante) {
 				$result['Solicitud_amistadsRelatedById_usuario_solicitante'] = $this->collSolicitud_amistadsRelatedById_usuario_solicitante->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
@@ -1898,9 +1898,9 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 				}
 			}
 
-			foreach ($this->getSolicitud_amistadsRelatedById_libro() as $relObj) {
+			foreach ($this->getSolicitud_amistadsRelatedById_usuario_solicitado() as $relObj) {
 				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-					$copyObj->addSolicitud_amistadRelatedById_libro($relObj->copy($deepCopy));
+					$copyObj->addSolicitud_amistadRelatedById_usuario_solicitado($relObj->copy($deepCopy));
 				}
 			}
 
@@ -2023,8 +2023,8 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 		if ('NotificacionRelatedById_receptor' == $relationName) {
 			return $this->initNotificacionsRelatedById_receptor();
 		}
-		if ('Solicitud_amistadRelatedById_libro' == $relationName) {
-			return $this->initSolicitud_amistadsRelatedById_libro();
+		if ('Solicitud_amistadRelatedById_usuario_solicitado' == $relationName) {
+			return $this->initSolicitud_amistadsRelatedById_usuario_solicitado();
 		}
 		if ('Solicitud_amistadRelatedById_usuario_solicitante' == $relationName) {
 			return $this->initSolicitud_amistadsRelatedById_usuario_solicitante();
@@ -4410,23 +4410,23 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	}
 
 	/**
-	 * Clears out the collSolicitud_amistadsRelatedById_libro collection
+	 * Clears out the collSolicitud_amistadsRelatedById_usuario_solicitado collection
 	 *
 	 * This does not modify the database; however, it will remove any associated objects, causing
 	 * them to be refetched by subsequent calls to accessor method.
 	 *
 	 * @return     void
-	 * @see        addSolicitud_amistadsRelatedById_libro()
+	 * @see        addSolicitud_amistadsRelatedById_usuario_solicitado()
 	 */
-	public function clearSolicitud_amistadsRelatedById_libro()
+	public function clearSolicitud_amistadsRelatedById_usuario_solicitado()
 	{
-		$this->collSolicitud_amistadsRelatedById_libro = null; // important to set this to NULL since that means it is uninitialized
+		$this->collSolicitud_amistadsRelatedById_usuario_solicitado = null; // important to set this to NULL since that means it is uninitialized
 	}
 
 	/**
-	 * Initializes the collSolicitud_amistadsRelatedById_libro collection.
+	 * Initializes the collSolicitud_amistadsRelatedById_usuario_solicitado collection.
 	 *
-	 * By default this just sets the collSolicitud_amistadsRelatedById_libro collection to an empty array (like clearcollSolicitud_amistadsRelatedById_libro());
+	 * By default this just sets the collSolicitud_amistadsRelatedById_usuario_solicitado collection to an empty array (like clearcollSolicitud_amistadsRelatedById_usuario_solicitado());
 	 * however, you may wish to override this method in your stub class to provide setting appropriate
 	 * to your application -- for example, setting the initial array to the values stored in database.
 	 *
@@ -4435,13 +4435,13 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	 *
 	 * @return     void
 	 */
-	public function initSolicitud_amistadsRelatedById_libro($overrideExisting = true)
+	public function initSolicitud_amistadsRelatedById_usuario_solicitado($overrideExisting = true)
 	{
-		if (null !== $this->collSolicitud_amistadsRelatedById_libro && !$overrideExisting) {
+		if (null !== $this->collSolicitud_amistadsRelatedById_usuario_solicitado && !$overrideExisting) {
 			return;
 		}
-		$this->collSolicitud_amistadsRelatedById_libro = new PropelObjectCollection();
-		$this->collSolicitud_amistadsRelatedById_libro->setModel('Solicitud_amistad');
+		$this->collSolicitud_amistadsRelatedById_usuario_solicitado = new PropelObjectCollection();
+		$this->collSolicitud_amistadsRelatedById_usuario_solicitado->setModel('Solicitud_amistad');
 	}
 
 	/**
@@ -4458,47 +4458,47 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	 * @return     PropelCollection|array Solicitud_amistad[] List of Solicitud_amistad objects
 	 * @throws     PropelException
 	 */
-	public function getSolicitud_amistadsRelatedById_libro($criteria = null, PropelPDO $con = null)
+	public function getSolicitud_amistadsRelatedById_usuario_solicitado($criteria = null, PropelPDO $con = null)
 	{
-		if(null === $this->collSolicitud_amistadsRelatedById_libro || null !== $criteria) {
-			if ($this->isNew() && null === $this->collSolicitud_amistadsRelatedById_libro) {
+		if(null === $this->collSolicitud_amistadsRelatedById_usuario_solicitado || null !== $criteria) {
+			if ($this->isNew() && null === $this->collSolicitud_amistadsRelatedById_usuario_solicitado) {
 				// return empty collection
-				$this->initSolicitud_amistadsRelatedById_libro();
+				$this->initSolicitud_amistadsRelatedById_usuario_solicitado();
 			} else {
-				$collSolicitud_amistadsRelatedById_libro = Solicitud_amistadQuery::create(null, $criteria)
-					->filterByUsuarioRelatedById_libro($this)
+				$collSolicitud_amistadsRelatedById_usuario_solicitado = Solicitud_amistadQuery::create(null, $criteria)
+					->filterByUsuarioRelatedById_usuario_solicitado($this)
 					->find($con);
 				if (null !== $criteria) {
-					return $collSolicitud_amistadsRelatedById_libro;
+					return $collSolicitud_amistadsRelatedById_usuario_solicitado;
 				}
-				$this->collSolicitud_amistadsRelatedById_libro = $collSolicitud_amistadsRelatedById_libro;
+				$this->collSolicitud_amistadsRelatedById_usuario_solicitado = $collSolicitud_amistadsRelatedById_usuario_solicitado;
 			}
 		}
-		return $this->collSolicitud_amistadsRelatedById_libro;
+		return $this->collSolicitud_amistadsRelatedById_usuario_solicitado;
 	}
 
 	/**
-	 * Sets a collection of Solicitud_amistadRelatedById_libro objects related by a one-to-many relationship
+	 * Sets a collection of Solicitud_amistadRelatedById_usuario_solicitado objects related by a one-to-many relationship
 	 * to the current object.
 	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
 	 * and new objects from the given Propel collection.
 	 *
-	 * @param      PropelCollection $solicitud_amistadsRelatedById_libro A Propel collection.
+	 * @param      PropelCollection $solicitud_amistadsRelatedById_usuario_solicitado A Propel collection.
 	 * @param      PropelPDO $con Optional connection object
 	 */
-	public function setSolicitud_amistadsRelatedById_libro(PropelCollection $solicitud_amistadsRelatedById_libro, PropelPDO $con = null)
+	public function setSolicitud_amistadsRelatedById_usuario_solicitado(PropelCollection $solicitud_amistadsRelatedById_usuario_solicitado, PropelPDO $con = null)
 	{
-		$this->solicitud_amistadsRelatedById_libroScheduledForDeletion = $this->getSolicitud_amistadsRelatedById_libro(new Criteria(), $con)->diff($solicitud_amistadsRelatedById_libro);
+		$this->solicitud_amistadsRelatedById_usuario_solicitadoScheduledForDeletion = $this->getSolicitud_amistadsRelatedById_usuario_solicitado(new Criteria(), $con)->diff($solicitud_amistadsRelatedById_usuario_solicitado);
 
-		foreach ($solicitud_amistadsRelatedById_libro as $solicitud_amistadRelatedById_libro) {
+		foreach ($solicitud_amistadsRelatedById_usuario_solicitado as $solicitud_amistadRelatedById_usuario_solicitado) {
 			// Fix issue with collection modified by reference
-			if ($solicitud_amistadRelatedById_libro->isNew()) {
-				$solicitud_amistadRelatedById_libro->setUsuarioRelatedById_libro($this);
+			if ($solicitud_amistadRelatedById_usuario_solicitado->isNew()) {
+				$solicitud_amistadRelatedById_usuario_solicitado->setUsuarioRelatedById_usuario_solicitado($this);
 			}
-			$this->addSolicitud_amistadRelatedById_libro($solicitud_amistadRelatedById_libro);
+			$this->addSolicitud_amistadRelatedById_usuario_solicitado($solicitud_amistadRelatedById_usuario_solicitado);
 		}
 
-		$this->collSolicitud_amistadsRelatedById_libro = $solicitud_amistadsRelatedById_libro;
+		$this->collSolicitud_amistadsRelatedById_usuario_solicitado = $solicitud_amistadsRelatedById_usuario_solicitado;
 	}
 
 	/**
@@ -4510,10 +4510,10 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	 * @return     int Count of related Solicitud_amistad objects.
 	 * @throws     PropelException
 	 */
-	public function countSolicitud_amistadsRelatedById_libro(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	public function countSolicitud_amistadsRelatedById_usuario_solicitado(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
 	{
-		if(null === $this->collSolicitud_amistadsRelatedById_libro || null !== $criteria) {
-			if ($this->isNew() && null === $this->collSolicitud_amistadsRelatedById_libro) {
+		if(null === $this->collSolicitud_amistadsRelatedById_usuario_solicitado || null !== $criteria) {
+			if ($this->isNew() && null === $this->collSolicitud_amistadsRelatedById_usuario_solicitado) {
 				return 0;
 			} else {
 				$query = Solicitud_amistadQuery::create(null, $criteria);
@@ -4521,11 +4521,11 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 					$query->distinct();
 				}
 				return $query
-					->filterByUsuarioRelatedById_libro($this)
+					->filterByUsuarioRelatedById_usuario_solicitado($this)
 					->count($con);
 			}
 		} else {
-			return count($this->collSolicitud_amistadsRelatedById_libro);
+			return count($this->collSolicitud_amistadsRelatedById_usuario_solicitado);
 		}
 	}
 
@@ -4536,25 +4536,25 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 	 * @param      Solicitud_amistad $l Solicitud_amistad
 	 * @return     Usuario The current object (for fluent API support)
 	 */
-	public function addSolicitud_amistadRelatedById_libro(Solicitud_amistad $l)
+	public function addSolicitud_amistadRelatedById_usuario_solicitado(Solicitud_amistad $l)
 	{
-		if ($this->collSolicitud_amistadsRelatedById_libro === null) {
-			$this->initSolicitud_amistadsRelatedById_libro();
+		if ($this->collSolicitud_amistadsRelatedById_usuario_solicitado === null) {
+			$this->initSolicitud_amistadsRelatedById_usuario_solicitado();
 		}
-		if (!$this->collSolicitud_amistadsRelatedById_libro->contains($l)) { // only add it if the **same** object is not already associated
-			$this->doAddSolicitud_amistadRelatedById_libro($l);
+		if (!$this->collSolicitud_amistadsRelatedById_usuario_solicitado->contains($l)) { // only add it if the **same** object is not already associated
+			$this->doAddSolicitud_amistadRelatedById_usuario_solicitado($l);
 		}
 
 		return $this;
 	}
 
 	/**
-	 * @param	Solicitud_amistadRelatedById_libro $solicitud_amistadRelatedById_libro The solicitud_amistadRelatedById_libro object to add.
+	 * @param	Solicitud_amistadRelatedById_usuario_solicitado $solicitud_amistadRelatedById_usuario_solicitado The solicitud_amistadRelatedById_usuario_solicitado object to add.
 	 */
-	protected function doAddSolicitud_amistadRelatedById_libro($solicitud_amistadRelatedById_libro)
+	protected function doAddSolicitud_amistadRelatedById_usuario_solicitado($solicitud_amistadRelatedById_usuario_solicitado)
 	{
-		$this->collSolicitud_amistadsRelatedById_libro[]= $solicitud_amistadRelatedById_libro;
-		$solicitud_amistadRelatedById_libro->setUsuarioRelatedById_libro($this);
+		$this->collSolicitud_amistadsRelatedById_usuario_solicitado[]= $solicitud_amistadRelatedById_usuario_solicitado;
+		$solicitud_amistadRelatedById_usuario_solicitado->setUsuarioRelatedById_usuario_solicitado($this);
 	}
 
 	/**
@@ -5180,8 +5180,8 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 					$o->clearAllReferences($deep);
 				}
 			}
-			if ($this->collSolicitud_amistadsRelatedById_libro) {
-				foreach ($this->collSolicitud_amistadsRelatedById_libro as $o) {
+			if ($this->collSolicitud_amistadsRelatedById_usuario_solicitado) {
+				foreach ($this->collSolicitud_amistadsRelatedById_usuario_solicitado as $o) {
 					$o->clearAllReferences($deep);
 				}
 			}
@@ -5258,10 +5258,10 @@ abstract class BaseUsuario extends BaseObject  implements Persistent
 			$this->collNotificacionsRelatedById_receptor->clearIterator();
 		}
 		$this->collNotificacionsRelatedById_receptor = null;
-		if ($this->collSolicitud_amistadsRelatedById_libro instanceof PropelCollection) {
-			$this->collSolicitud_amistadsRelatedById_libro->clearIterator();
+		if ($this->collSolicitud_amistadsRelatedById_usuario_solicitado instanceof PropelCollection) {
+			$this->collSolicitud_amistadsRelatedById_usuario_solicitado->clearIterator();
 		}
-		$this->collSolicitud_amistadsRelatedById_libro = null;
+		$this->collSolicitud_amistadsRelatedById_usuario_solicitado = null;
 		if ($this->collSolicitud_amistadsRelatedById_usuario_solicitante instanceof PropelCollection) {
 			$this->collSolicitud_amistadsRelatedById_usuario_solicitante->clearIterator();
 		}

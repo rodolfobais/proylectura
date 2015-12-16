@@ -69,7 +69,7 @@ class UsuarioTableMap extends TableMap
 		$this->addRelation('MensajeRelatedById_usuario_remitente', 'Mensaje', RelationMap::ONE_TO_MANY, array('id' => 'id_usuario_remitente', ), null, null, 'MensajesRelatedById_usuario_remitente');
 		$this->addRelation('NotificacionRelatedById_emisor', 'Notificacion', RelationMap::ONE_TO_MANY, array('id' => 'id_emisor', ), null, null, 'NotificacionsRelatedById_emisor');
 		$this->addRelation('NotificacionRelatedById_receptor', 'Notificacion', RelationMap::ONE_TO_MANY, array('id' => 'id_receptor', ), null, null, 'NotificacionsRelatedById_receptor');
-		$this->addRelation('Solicitud_amistadRelatedById_libro', 'Solicitud_amistad', RelationMap::ONE_TO_MANY, array('id' => 'id_usuario_solicitado', ), null, null, 'Solicitud_amistadsRelatedById_libro');
+		$this->addRelation('Solicitud_amistadRelatedById_usuario_solicitado', 'Solicitud_amistad', RelationMap::ONE_TO_MANY, array('id' => 'id_usuario_solicitado', ), null, null, 'Solicitud_amistadsRelatedById_usuario_solicitado');
 		$this->addRelation('Solicitud_amistadRelatedById_usuario_solicitante', 'Solicitud_amistad', RelationMap::ONE_TO_MANY, array('id' => 'id_usuario_solicitante', ), null, null, 'Solicitud_amistadsRelatedById_usuario_solicitante');
 		$this->addRelation('Solicitud', 'Solicitud', RelationMap::ONE_TO_MANY, array('id' => 'id_usuario_solicitante', ), null, null, 'Solicituds');
 		$this->addRelation('Postulantes', 'Postulantes', RelationMap::ONE_TO_MANY, array('id' => 'id_postulante', ), null, null, 'Postulantess');

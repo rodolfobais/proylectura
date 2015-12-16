@@ -212,7 +212,7 @@
     
     <table name="solicitud_amistad" phpName="Solicitud_amistad" idMethod="native" package="proylectura.model">
         <column name="id"    phpName="Id"   type="INTEGER" required="true" sqlType="INT(10)" primaryKey= "true" autoIncrement="true" />
-        <column name="id_usuario_solicitado"    phpName="Id_libro"   type="INTEGER" required="true" sqlType="INT(10)" />
+        <column name="id_usuario_solicitado"    phpName="Id_usuario_solicitado"   type="INTEGER" required="true" sqlType="INT(10)" />
         <column name="id_usuario_solicitante"   phpName="Id_usuario_solicitante"  type="INTEGER" required="true" sqlType="INT(10)" />
         <column name="estado"   phpName="estado"  type="INTEGER"  required="true" sqlType="INT(1)" />
         

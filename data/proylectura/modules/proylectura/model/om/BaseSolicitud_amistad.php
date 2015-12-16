@@ -57,7 +57,7 @@ abstract class BaseSolicitud_amistad extends BaseObject  implements Persistent
 	/**
 	 * @var        Usuario
 	 */
-	protected $aUsuarioRelatedById_libro;
+	protected $aUsuarioRelatedById_usuario_solicitado;
 
 	/**
 	 * @var        Usuario
@@ -93,7 +93,7 @@ abstract class BaseSolicitud_amistad extends BaseObject  implements Persistent
 	 * 
 	 * @return     int
 	 */
-	public function getId_libro()
+	public function getId_usuario_solicitado()
 	{
 		return $this->id_usuario_solicitado;
 	}
@@ -144,7 +144,7 @@ abstract class BaseSolicitud_amistad extends BaseObject  implements Persistent
 	 * @param      int $v new value
 	 * @return     Solicitud_amistad The current object (for fluent API support)
 	 */
-	public function setId_libro($v)
+	public function setId_usuario_solicitado($v)
 	{
 		if ($v !== null) {
 			$v = (int) $v;
@@ -155,12 +155,12 @@ abstract class BaseSolicitud_amistad extends BaseObject  implements Persistent
 			$this->modifiedColumns[] = Solicitud_amistadPeer::ID_USUARIO_SOLICITADO;
 		}
 
-		if ($this->aUsuarioRelatedById_libro !== null && $this->aUsuarioRelatedById_libro->getId() !== $v) {
-			$this->aUsuarioRelatedById_libro = null;
+		if ($this->aUsuarioRelatedById_usuario_solicitado !== null && $this->aUsuarioRelatedById_usuario_solicitado->getId() !== $v) {
+			$this->aUsuarioRelatedById_usuario_solicitado = null;
 		}
 
 		return $this;
-	} // setId_libro()
+	} // setId_usuario_solicitado()
 
 	/**
 	 * Set the value of [id_usuario_solicitante] column.
@@ -273,8 +273,8 @@ abstract class BaseSolicitud_amistad extends BaseObject  implements Persistent
 	public function ensureConsistency()
 	{
 
-		if ($this->aUsuarioRelatedById_libro !== null && $this->id_usuario_solicitado !== $this->aUsuarioRelatedById_libro->getId()) {
-			$this->aUsuarioRelatedById_libro = null;
+		if ($this->aUsuarioRelatedById_usuario_solicitado !== null && $this->id_usuario_solicitado !== $this->aUsuarioRelatedById_usuario_solicitado->getId()) {
+			$this->aUsuarioRelatedById_usuario_solicitado = null;
 		}
 		if ($this->aUsuarioRelatedById_usuario_solicitante !== null && $this->id_usuario_solicitante !== $this->aUsuarioRelatedById_usuario_solicitante->getId()) {
 			$this->aUsuarioRelatedById_usuario_solicitante = null;
@@ -318,7 +318,7 @@ abstract class BaseSolicitud_amistad extends BaseObject  implements Persistent
 
 		if ($deep) {  // also de-associate any related objects?
 
-			$this->aUsuarioRelatedById_libro = null;
+			$this->aUsuarioRelatedById_usuario_solicitado = null;
 			$this->aUsuarioRelatedById_usuario_solicitante = null;
 		} // if (deep)
 	}
@@ -435,11 +435,11 @@ abstract class BaseSolicitud_amistad extends BaseObject  implements Persistent
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aUsuarioRelatedById_libro !== null) {
-				if ($this->aUsuarioRelatedById_libro->isModified() || $this->aUsuarioRelatedById_libro->isNew()) {
-					$affectedRows += $this->aUsuarioRelatedById_libro->save($con);
+			if ($this->aUsuarioRelatedById_usuario_solicitado !== null) {
+				if ($this->aUsuarioRelatedById_usuario_solicitado->isModified() || $this->aUsuarioRelatedById_usuario_solicitado->isNew()) {
+					$affectedRows += $this->aUsuarioRelatedById_usuario_solicitado->save($con);
 				}
-				$this->setUsuarioRelatedById_libro($this->aUsuarioRelatedById_libro);
+				$this->setUsuarioRelatedById_usuario_solicitado($this->aUsuarioRelatedById_usuario_solicitado);
 			}
 
 			if ($this->aUsuarioRelatedById_usuario_solicitante !== null) {
@@ -617,9 +617,9 @@ abstract class BaseSolicitud_amistad extends BaseObject  implements Persistent
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aUsuarioRelatedById_libro !== null) {
-				if (!$this->aUsuarioRelatedById_libro->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUsuarioRelatedById_libro->getValidationFailures());
+			if ($this->aUsuarioRelatedById_usuario_solicitado !== null) {
+				if (!$this->aUsuarioRelatedById_usuario_solicitado->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsuarioRelatedById_usuario_solicitado->getValidationFailures());
 				}
 			}
 
@@ -672,7 +672,7 @@ abstract class BaseSolicitud_amistad extends BaseObject  implements Persistent
 				return $this->getId();
 				break;
 			case 1:
-				return $this->getId_libro();
+				return $this->getId_usuario_solicitado();
 				break;
 			case 2:
 				return $this->getId_usuario_solicitante();
@@ -710,13 +710,13 @@ abstract class BaseSolicitud_amistad extends BaseObject  implements Persistent
 		$keys = Solicitud_amistadPeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getId(),
-			$keys[1] => $this->getId_libro(),
+			$keys[1] => $this->getId_usuario_solicitado(),
 			$keys[2] => $this->getId_usuario_solicitante(),
 			$keys[3] => $this->getestado(),
 		);
 		if ($includeForeignObjects) {
-			if (null !== $this->aUsuarioRelatedById_libro) {
-				$result['UsuarioRelatedById_libro'] = $this->aUsuarioRelatedById_libro->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+			if (null !== $this->aUsuarioRelatedById_usuario_solicitado) {
+				$result['UsuarioRelatedById_usuario_solicitado'] = $this->aUsuarioRelatedById_usuario_solicitado->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
 			}
 			if (null !== $this->aUsuarioRelatedById_usuario_solicitante) {
 				$result['UsuarioRelatedById_usuario_solicitante'] = $this->aUsuarioRelatedById_usuario_solicitante->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
@@ -756,7 +756,7 @@ abstract class BaseSolicitud_amistad extends BaseObject  implements Persistent
 				$this->setId($value);
 				break;
 			case 1:
-				$this->setId_libro($value);
+				$this->setId_usuario_solicitado($value);
 				break;
 			case 2:
 				$this->setId_usuario_solicitante($value);
@@ -789,7 +789,7 @@ abstract class BaseSolicitud_amistad extends BaseObject  implements Persistent
 		$keys = Solicitud_amistadPeer::getFieldNames($keyType);
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setId_libro($arr[$keys[1]]);
+		if (array_key_exists($keys[1], $arr)) $this->setId_usuario_solicitado($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setId_usuario_solicitante($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setestado($arr[$keys[3]]);
 	}
@@ -869,7 +869,7 @@ abstract class BaseSolicitud_amistad extends BaseObject  implements Persistent
 	 */
 	public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
 	{
-		$copyObj->setId_libro($this->getId_libro());
+		$copyObj->setId_usuario_solicitado($this->getId_usuario_solicitado());
 		$copyObj->setId_usuario_solicitante($this->getId_usuario_solicitante());
 		$copyObj->setestado($this->getestado());
 
@@ -935,20 +935,20 @@ abstract class BaseSolicitud_amistad extends BaseObject  implements Persistent
 	 * @return     Solicitud_amistad The current object (for fluent API support)
 	 * @throws     PropelException
 	 */
-	public function setUsuarioRelatedById_libro(Usuario $v = null)
+	public function setUsuarioRelatedById_usuario_solicitado(Usuario $v = null)
 	{
 		if ($v === null) {
-			$this->setId_libro(NULL);
+			$this->setId_usuario_solicitado(NULL);
 		} else {
-			$this->setId_libro($v->getId());
+			$this->setId_usuario_solicitado($v->getId());
 		}
 
-		$this->aUsuarioRelatedById_libro = $v;
+		$this->aUsuarioRelatedById_usuario_solicitado = $v;
 
 		// Add binding for other direction of this n:n relationship.
 		// If this object has already been added to the Usuario object, it will not be re-added.
 		if ($v !== null) {
-			$v->addSolicitud_amistadRelatedById_libro($this);
+			$v->addSolicitud_amistadRelatedById_usuario_solicitado($this);
 		}
 
 		return $this;
@@ -962,19 +962,19 @@ abstract class BaseSolicitud_amistad extends BaseObject  implements Persistent
 	 * @return     Usuario The associated Usuario object.
 	 * @throws     PropelException
 	 */
-	public function getUsuarioRelatedById_libro(PropelPDO $con = null)
+	public function getUsuarioRelatedById_usuario_solicitado(PropelPDO $con = null)
 	{
-		if ($this->aUsuarioRelatedById_libro === null && ($this->id_usuario_solicitado !== null)) {
-			$this->aUsuarioRelatedById_libro = UsuarioQuery::create()->findPk($this->id_usuario_solicitado, $con);
+		if ($this->aUsuarioRelatedById_usuario_solicitado === null && ($this->id_usuario_solicitado !== null)) {
+			$this->aUsuarioRelatedById_usuario_solicitado = UsuarioQuery::create()->findPk($this->id_usuario_solicitado, $con);
 			/* The following can be used additionally to
 				guarantee the related object contains a reference
 				to this object.  This level of coupling may, however, be
 				undesirable since it could result in an only partially populated collection
 				in the referenced object.
-				$this->aUsuarioRelatedById_libro->addSolicitud_amistadsRelatedById_libro($this);
+				$this->aUsuarioRelatedById_usuario_solicitado->addSolicitud_amistadsRelatedById_usuario_solicitado($this);
 			 */
 		}
-		return $this->aUsuarioRelatedById_libro;
+		return $this->aUsuarioRelatedById_usuario_solicitado;
 	}
 
 	/**
@@ -1057,7 +1057,7 @@ abstract class BaseSolicitud_amistad extends BaseObject  implements Persistent
 		if ($deep) {
 		} // if ($deep)
 
-		$this->aUsuarioRelatedById_libro = null;
+		$this->aUsuarioRelatedById_usuario_solicitado = null;
 		$this->aUsuarioRelatedById_usuario_solicitante = null;
 	}
 

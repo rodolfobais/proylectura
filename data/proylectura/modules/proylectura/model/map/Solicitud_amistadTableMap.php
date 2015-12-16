@@ -39,7 +39,7 @@ class Solicitud_amistadTableMap extends TableMap
 		$this->setUseIdGenerator(true);
 		// columns
 		$this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
-		$this->addForeignKey('ID_USUARIO_SOLICITADO', 'Id_libro', 'INTEGER', 'usuario', 'ID', true, null, null);
+		$this->addForeignKey('ID_USUARIO_SOLICITADO', 'Id_usuario_solicitado', 'INTEGER', 'usuario', 'ID', true, null, null);
 		$this->addForeignKey('ID_USUARIO_SOLICITANTE', 'Id_usuario_solicitante', 'INTEGER', 'usuario', 'ID', true, null, null);
 		$this->addColumn('ESTADO', 'estado', 'INTEGER', true, null, null);
 		// validators
@@ -50,7 +50,7 @@ class Solicitud_amistadTableMap extends TableMap
 	 */
 	public function buildRelations()
 	{
-		$this->addRelation('UsuarioRelatedById_libro', 'Usuario', RelationMap::MANY_TO_ONE, array('id_usuario_solicitado' => 'id', ), null, null);
+		$this->addRelation('UsuarioRelatedById_usuario_solicitado', 'Usuario', RelationMap::MANY_TO_ONE, array('id_usuario_solicitado' => 'id', ), null, null);
 		$this->addRelation('UsuarioRelatedById_usuario_solicitante', 'Usuario', RelationMap::MANY_TO_ONE, array('id_usuario_solicitante' => 'id', ), null, null);
 	} // buildRelations()
 
