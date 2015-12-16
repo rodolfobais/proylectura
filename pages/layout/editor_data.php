@@ -12,6 +12,7 @@ switch ($datos->acc) {
             $libroObj = new Libro();
             $libroObj->setNombre($datos->nombrelibro);
             $libroObj->setEs_editable("s");
+            $libroObj->setId_usuario($_SESSION['userid']);
             $libroObj->save();
 
             file_put_contents(SITE_PATH."/libros/libro_".$libroObj->getId().".txt", $datos->texto);
