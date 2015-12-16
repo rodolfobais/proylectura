@@ -1,7 +1,7 @@
 <?php
 
 error_reporting(E_ALL);
-ini_set("display_errors", 1);
+ini_set("display_errors", 0);
 include_once("../../data/config.php");
 
 //echo "<pre>";print_r(json_decode($_POST['json']));  echo "</pre>";

@@ -26,6 +26,7 @@ $smarty->assign("titulo", "Asistencia"); //Título en la barra del explorador
 $smarty->assign("menu", "asistencias"); //indentificador de menú
 $smarty->assign("PROJECT_REL_DIR", PROJECT_REL_DIR); //indentificador de menú
 $smarty->assign("user_name", $_SESSION["mail"]);
+$smarty->assign("nombre", $_SESSION["nombre"]);
 /*
 $objAutor = AutorQuery::create()->findOneById(1);
 echo $objAutor->getNombre();die;

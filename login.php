@@ -11,6 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }else{
         $Usuario2 = UsuarioQuery::create()->findOneBymail($_POST['mail']);
         $_SESSION['userid'] = $Usuario2->getId();
+        $_SESSION['nombre'] = $Usuario2->getNombre();
         $_SESSION['mail'] = $_POST['mail'];
         
         header('location: index.php');
