@@ -49,7 +49,7 @@ switch ($datos->accion) {
         guardarNotificacion($libro->getId_usuario(), $mesajeNotificacion, 10);
         
         $libro->save();
-        echo json_encode(array('msg' => "Libro bloqueado correctamente."));
+        echo json_encode(array('msg' => "Libro verificado correctamente."));
     break;
 }
 
