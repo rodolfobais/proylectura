@@ -58,7 +58,11 @@ foreach ($audiolibros as $reg) {
                     <div class="box box-primary">
                         <div class="box-body box-profile">
                             <div class='form-group margin-bottom-none'>
-                                <?php 
+                                <?php
+                                    if($libro->getEstado() == NULL || $libro->getEstado() == "p"){
+                                        echo '<div style="color: red;">Libro pendiente de verificacion.</div>'
+                                        . '<button class="btn btn-block btn-success btn-xs" onclick = "verificar_libro()">Marcar libro como verificado</button>';
+                                    }
                                     if($_SESSION['userid']==ID_ADMIN_USER){
                                         echo "<button  href=\"#\" onclick=\"bloquear_libro()\" class=\"btn btn-block btn-danger btn-sm\">Banear/Bloquear</button>";
                                     }

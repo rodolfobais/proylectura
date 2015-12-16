@@ -33,3 +33,19 @@ function bloquear_libro(){
         }
    });
 }
+function verificar_libro(){
+    var json = {
+        libro: $("#pefillibro_idlibro").val(),
+        accion: "verificar"
+    };
+    //alert($("#formeditor #editor1").val());
+    $.ajax({
+        data: {json: $.toJSON(json) },
+        type: 'POST',
+        dataType: 'json',
+        url: 'pages/layout/perfillibro_data.php',
+        success: function(data){
+            alert(data.msg);
+        }
+   });
+}

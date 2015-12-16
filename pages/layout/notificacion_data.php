@@ -28,7 +28,8 @@ function guardarNotificacion($idReceptor, $descripcion, $idTipoNotif){
     
     $notificacion->save();
     
-    echo json_encode(array( 'error' => 0, 'respuesta' => "Notificacion guardada correctamente"));
+    //echo json_encode(array( 'error' => 0, 'respuesta' => "Notificacion guardada correctamente"));
+    return true;
 }
 
 ?>
