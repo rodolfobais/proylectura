@@ -40,18 +40,7 @@ switch ($datos->accion) {
         $libro->save();
         echo json_encode(array('msg' => "Libro bloqueado correctamente."));
     break;
-    case "verificar":
-        $libro = LibroQuery::create()->findOneById($datos->libro);
-        $libro->setEstado("v");
-        
-        include 'notificacion_data.php';
-        $mesajeNotificacion = "<span onclick=\"refreshDivs('cuerpocentro','pages/layout/perfillibro.php?id=".$datos->libro."')\">Tu libro '".$libro->getNombre()."' ha sido marcado como verificado por el administrador.</span>";
-        guardarNotificacion($libro->getId_usuario(), $mesajeNotificacion, 10);
-        
-        $libro->save();
-        echo json_encode(array('msg' => "Libro verificado correctamente."));
-    break;
-	case "nuevo_comentario":
+    case "nuevo_comentario":
         $comentario = new Comentario();
         $comentario->setId_usuario($_SESSION['userid']);
         $comentario->setId_libro($datos->libro);
@@ -60,6 +49,8 @@ switch ($datos->accion) {
         echo json_encode(array( 'error' => 0, 'msg' => "Comentario ingresado correctamente "));
         
     break;
+
+
 }
 
 ?>

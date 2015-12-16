@@ -1,4 +1,9 @@
-function solicitaramistad(id){
+function solicitaramistad(){
+    alert('La solicitud fue enviada, aguarde la respuesta');
+    
+}
+
+/*function solicitaramistad(id){
     var json = {
         id: id,
         accion: "solicitaramistad"
@@ -14,7 +19,7 @@ function solicitaramistad(id){
             formateartabla();
         }
    });
-}
+}*/
 
 function terminaramistad(id){
     var json = {

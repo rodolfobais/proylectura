@@ -48,12 +48,6 @@ foreach ($audiolibros as $reg) {
 //echo $listaLibros;
 //$listaLibros = "";
 //$libros = LibroQuery::create()->find();
-
-$comentario = ComentarioQuery::create()->find();
-//$comenta = ComentarioQuery::create()->findOneById(2);
-
-$idSoli=$_GET['id'];
-$solicitud=  SolicitudQuery::create()->findOneById($idSoli);
 ?>
 <div class="wrappers">
     <div class="content-wrappers">
@@ -220,18 +214,7 @@ $solicitud=  SolicitudQuery::create()->findOneById($idSoli);
                                     ?>
                                 </table>
                             </div><!-- /.tab-pane -->
-                            <div class="tab-pane" id="colaboracion">
-                                <?php 
-                                if($idSoli->getId_estado==1){
-                                    foreach ($idSoli as $soli) {
-                                            
-                                            echo "<tr>"
-                                            . "<td><a href='#' class='username' onclick=\"refreshDivs('cuerpocentro','pages/layout/perfilsesion.php','id=".$soli->getId_usuario_solicitante()."')\">".$soli->getUsuario()->getNombre()."</a></td>"      
-                                            . "</tr>";
-                                    }
-                                }
-                                ?>  
-                            </div><!-- /.tab-pane -->
+                            <div class="tab-pane" id="colaboracion"></div><!-- /.tab-pane -->
                         </div><!-- /.tab-content -->
                     </div><!-- /.nav-tabs-custom -->
                 </div><!-- /.col -->
