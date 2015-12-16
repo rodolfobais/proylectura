@@ -16,3 +16,20 @@ function votar_libro(puntos){
         }
    });
 }
+
+function bloquear_libro(){
+    var json = {
+        libro: $("#pefillibro_idlibro").val(),
+        accion: "bloquear"
+    };
+    //alert($("#formeditor #editor1").val());
+    $.ajax({
+        data: {json: $.toJSON(json) },
+        type: 'POST',
+        dataType: 'json',
+        url: 'pages/layout/perfillibro_data.php',
+        success: function(data){
+            alert(data.msg);
+        }
+   });
+}

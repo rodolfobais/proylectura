@@ -129,9 +129,9 @@ foreach ($generos as $reg) {
                                         echo "<tr>"
                                         . "<td>".$reg->getId()."</td>"
                                        
-                                        . "<td id = \"nombre_".$reg->getId()."\">".$reg->getNombre()."</td>"
-                                        . "<td id = \"nombre_".$reg->getId()."\">".$reg->getAutor()."</td>"
-                                        . "<td id = \"nombre_".$reg->getId()."\">".$reg->getSinopsis()."</td>"
+                                        . "<td><a href='#' onclick=\"refreshDivs('cuerpocentro','pages/layout/perfillibro.php','id=".$reg->getId()."')\">".$reg->getNombre()."</a></td>"
+                                        . "<td>".$reg->getAutor()."</td>"
+                                        . "<td>".$reg->getSinopsis()."</td>"
                                         . "<td><a href = \"#\" onclick=\"editaregistro_libro('".$reg->getId()."')\"><span class=\"glyphicon glyphicon-pencil\"></span></a>&nbsp;&nbsp;&nbsp;"
                                                 . "<a href = \"#\" onclick=\"borrar_libro('".$reg->getId()."')\"><span class=\"glyphicon glyphicon-remove\"></span></a></td>"
                                         . "</tr>";

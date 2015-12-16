@@ -28,6 +28,18 @@ switch ($datos->accion) {
         $html = "<b>Puntaje actual: ".$promedioPuntaje." <a href='#' title='Puntaje actual ".$promedioPuntaje."'>&#9733;</a></b>";
         echo json_encode(array('html' => $html));
     break;
+    case "bloquear":
+        $libro = LibroQuery::create()->findOneById($datos->libro);
+        $libro->setDebaja("s");
+        
+        
+        include 'notificacion_data.php';
+        $mesajeNotificacion = "Tu libro '".$libro->getNombre()."' ha sido bloqueado por el administrador.";
+        guardarNotificacion($libro->getId_usuario(), $mesajeNotificacion, 9);
+        
+        $libro->save();
+        echo json_encode(array('msg' => "Libro bloqueado correctamente."));
+    break;
 }
 
 ?>
