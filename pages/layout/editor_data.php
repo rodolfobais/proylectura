@@ -11,6 +11,7 @@ switch ($datos->acc) {
         if($datos->idlibro == ""){
             $libroObj = new Libro();
             $libroObj->setNombre($datos->nombrelibro);
+            $libroObj->setEs_editable("s");
             $libroObj->save();
 
             file_put_contents(SITE_PATH."/libros/libro_".$libroObj->getId().".txt", $datos->texto);
@@ -58,9 +59,6 @@ switch ($datos->acc) {
         $libroObj->setHora_ult_acc($hora);
         $libroObj->setUsuario_ult_acc($_SESSION['userid']);
         $libroObj->save();
-        
-        
-        
         
         echo json_encode(array( 'fecha' => $fecha." ".$hora));
     break;
