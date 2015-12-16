@@ -9,6 +9,7 @@ $usuario=  UsuarioQuery::create()->findOneById($idusuario);
 
 //$libros = LibroQuery::create()->find();
 $libros = LibroQuery::create()->filterByDebaja(NULL)->find();
+//$libros = LibroQuery::create()->findOneById(1);
 //$usuarios = UsuarioQuery::create()->find();
 $generos = GeneroQuery::create()->find();
         
@@ -120,20 +121,27 @@ foreach ($generos as $reg) {
                                     <th>Nombre</th>
                                     <th>Autor</th>
                                     <th>Sinopsis</th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
                                     foreach ($libros as $reg) {
                                         //$listaLibros .= "<li>".$reg->getNombre()."</li>";
-                                        echo "<tr>"
-                                        . "<td>".$reg->getId()."</td>"
-                                       
-                                        . "<td><a href='#' onclick=\"refreshDivs('cuerpocentro','pages/layout/perfillibro.php','id=".$reg->getId()."')\">".$reg->getNombre()."</a></td>"
-                                        . "<td>".$reg->getAutor()."</td>"
-                                        . "<td>".$reg->getSinopsis()."</td>"
-                                        . "<td><a href = \"#\" onclick=\"editaregistro_libro('".$reg->getId()."')\"><span class=\"glyphicon glyphicon-pencil\"></span></a>&nbsp;&nbsp;&nbsp;"
-                                                . "<a href = \"#\" onclick=\"borrar_libro('".$reg->getId()."')\"><span class=\"glyphicon glyphicon-remove\"></span></a></td>"
+                                        echo 
+                                        "<tr>"
+                                            . "<td>".$reg->getId()."</td>"
+
+                                            . "<td><a href='#' onclick=\"refreshDivs('cuerpocentro','pages/layout/perfillibro.php','id=".$reg->getId()."')\">".$reg->getNombre()."</a></td>"
+                                            . "<td>".$reg->getAutor()."</td>"
+                                            . "<td>".$reg->getSinopsis()."</td>"
+                                            . "<td>"
+                                                . "<a href = \"#\" title = 'Editar libro' onclick=\"editaregistro_libro('".$reg->getId()."')\"><span class=\"glyphicon glyphicon-pencil\"></span></a>&nbsp;&nbsp;&nbsp;"
+                                                . "<a href = \"#\" title = 'Borrar libro' onclick=\"borrar_libro('".$reg->getId()."')\"><span class=\"glyphicon glyphicon-remove\"></span></a>&nbsp;&nbsp;&nbsp;";
+                                        if($reg->getEs_editable() == "s"){
+                                            echo "<a href = \"#\" title = 'Publicar libro' onclick=\"publicar_libro('".$reg->getId()."')\"><span class=\"glyphicon glyphicon-send\"></span></a>";
+                                        }
+                                        echo "</td>"
                                         . "</tr>";
                                     }
                                 ?>

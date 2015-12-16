@@ -116,7 +116,15 @@ switch ($_POST["accion"]) {
             'privacidad' => $libro->getId_privacidad()
         ));
     break;
-
+    case "publicar_libro":
+        $generar_fisico = "s";
+        $idlibro = $_POST["id"];
+        include ('generarlibropdf.php');
+        $libro = LibroQuery::create()->findOneById($_POST["id"]);      
+        $libro->setEs_editable("n");
+        $libro->save();
+        echo json_encode(array('msg' => 'Libro publicado correctamente'));
+    break;
 }
 
 ?>

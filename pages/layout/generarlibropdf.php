@@ -9,9 +9,16 @@ require_once("pdfgen/dompdf/dompdf_config.inc.php");
 include_once("../../data/config.php");
 spl_autoload_register('DOMPDF_autoload');
 
-$archivoSalida = "libro_".$_GET['id'].".pdf";
+global $generar_fisico, $idlibro;
 
-$texto = file_get_contents(SITE_PATH."/libros/libro_".$_GET['id'].".txt");
+if($idlibro != ""){
+    $archivoSalida = "".$idlibro.".pdf";
+}else{
+    $archivoSalida = "".$_GET['id'].".pdf";
+    $idlibro = $_GET['id'];
+}
+
+$texto = file_get_contents(SITE_PATH."/libros/libro_".$idlibro.".txt");
 $html = base64_decode($texto);
 
 $salida = "
@@ -41,6 +48,9 @@ $array_opciones = array(
 	"compress" => 1,
 	"p" => "portrait"
 );
-$dompdf->stream($archivoSalida,$array_opciones);
-
+if($generar_fisico == "s"){
+    file_put_contents(SITE_PATH."/pdf/".$archivoSalida, $dompdf->output());     
+}else{
+    $dompdf->stream($archivoSalida,$array_opciones);
+}
 ?>

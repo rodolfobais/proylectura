@@ -86,6 +86,25 @@ function borrar_libro(id){
     });
 }
 
+function publicar_libro(id){
+    $("#formulario_libros #accion").val("publicar_libro");
+    $("#formulario_libros #id").val(id);
+    var fd = new FormData(document.getElementById("formpdf"));
+    
+    $.ajax({
+      url: "pages/layout/libros_data.php",
+      type: "POST",
+      data: fd,
+      dataType: 'json',
+      enctype: 'multipart/form-data',
+      processData: false,  // tell jQuery not to process the data
+      contentType: false   // tell jQuery not to set contentType
+    }).done(function( data ) {
+        alert(data.msg);
+        refreshDivs('cuerpocentro','pages/layout/libros.php');
+    });
+}
+
 function recomendacion(){
     alert("Estoy dentro de libros.js y me llamo function recomendacion(), ME VEN TODOS LOS USUARIOS");
 }
