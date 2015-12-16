@@ -51,15 +51,6 @@ switch ($datos->accion) {
         $libro->save();
         echo json_encode(array('msg' => "Libro verificado correctamente."));
     break;
-	case "nuevo_comentario":
-        $comentario = new Comentario();
-        $comentario->setId_usuario($_SESSION['userid']);
-        $comentario->setId_libro($datos->libro);
-        $comentario->setComentario($datos->comentario);
-        $comentario->save();
-        echo json_encode(array( 'error' => 0, 'msg' => "Comentario ingresado correctamente "));
-        
-    break;
 }
 
 ?>

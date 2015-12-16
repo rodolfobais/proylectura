@@ -64,11 +64,7 @@ $solicitud=  SolicitudQuery::create()->findOneById($idSoli);
                     <div class="box box-primary">
                         <div class="box-body box-profile">
                             <div class='form-group margin-bottom-none'>
-                                <?php
-                                    if($libro->getEstado() == NULL || $libro->getEstado() == "p"){
-                                        echo '<div style="color: red;">Libro pendiente de verificacion.</div>'
-                                        . '<button class="btn btn-block btn-success btn-xs" onclick = "verificar_libro()">Marcar libro como verificado</button>';
-                                    }
+                                <?php 
                                     if($_SESSION['userid']==ID_ADMIN_USER){
                                         echo "<button  href=\"#\" onclick=\"bloquear_libro()\" class=\"btn btn-block btn-danger btn-sm\">Banear/Bloquear</button>";
                                     }
@@ -144,61 +140,13 @@ $solicitud=  SolicitudQuery::create()->findOneById($idSoli);
                             <li class="active"><a href="#activity" data-toggle="tab">Libreria</a></li>
                             <li><a href="#timeline" data-toggle="tab">Audios relacionados</a></li>
                             <?php 
-                                if($libro->getEs_editable()=='s'){
+                                if($libro->getEs_editable()=='n'){
                                     echo "<li>"."<a href=\"#colaboracion\" data-toggle=\"tab\">Solicitudes de colaboracion</a>"."</li>";
                                 }
                             ?>
                         </ul>
-                        <div class="tab-content">
-                            <div class="active tab-pane" id="activity">
-                              <!-- Post -->
-                                <div>
-                                    <h3>Comentarios</h3>
-                                </div>
-                                <div class="post">
-                                    <div class="user-block">
-                                        <img class="img-circle img-bordered-sm" src="http://localhost/proylectura/dist/img/user1-128x128.jpg" alt="user image">
-                                    </div><!-- /.user-block -->
-                                    <p>
-                                        Por generaciones existe un debate sobre el origen del termino "naraja" ¿fue primero un color o una fruta?.
-                                        Eso no fue resuelto hoy dia.
-                                        Expertos en su intencion de acercarse a la respuesta decidieron llevalo a un esquema mas practico.
-                                        Estamos hablando de la ciencia prescisa de "como comer una naranja"
-                                    </p>
-                                    <ul class="list-inline">
-                                        <li><a href="#" class="link-black text-sm"><i class="fa fa-share margin-r-5"></i> Compartir</a></li>
-                                        <li><a href="#" class="link-black text-sm"><i class="fa fa-thumbs-o-up margin-r-5"></i> Dejar punto</a></li>
-                                        <li class="pull-right"><a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i> Comentarios (5)</a></li>
-                                    </ul>
-
-                                    <input class="form-control input-sm" type="text" placeholder="Escriba un comentario">
-                                </div><!-- /.post -->
-                              <!-- Post -->
-                                <div class="post clearfix">
-                                    <div class='user-block'>
-                                        <img class='img-circle img-bordered-sm' src='http://localhost/proylectura/dist/img/user7-128x128.jpg' alt='user image'>
-                                        <span class='username'>
-                                            <a href="#">Tecnicas de programacion para el sabado a la noche</a>
-                                            <a href='#' class='pull-right btn-box-tool'><i class='fa fa-times'></i></a>
-                                        </span>
-                                        <span class='description'>Publicado - 8:37 PM Jueves</span>
-                                    </div><!-- /.user-block -->
-                                    <p>
-                                        Como si fuera poco, la programacion se extiende los sabados a la noche.
-                                        Ahora uno puede disfrutar del codigo antes de ir a bailar.
-                                        Disfruten!!
-                                    </p>
-                                    <form class='form-horizontal'>
-                                        <div class='form-group margin-bottom-none'>
-                                            <div class='col-sm-9'>
-                                                <input class="form-control input-sm" placeholder="Response">
-                                            </div>                          
-                                            <div class='col-sm-3'>
-                                                <button class='btn btn-danger pull-right btn-block btn-sm'>Send</button>
-                                            </div>                          
-                                        </div>                        
-                                    </form>
-                                </div><!-- /.post -->
+                        <div class="tab-content" id="formulario_comentarios">
+                            <div class="active tab-pane"  id="activity">
                               <!-- Post -->
                             </div><!-- /.tab-pane -->
                             <div class="tab-pane" id="timeline">

@@ -55,7 +55,7 @@ $user = UsuarioQuery::create()->find(); // ES PARA LLAMAR TODOS LOS USUARIOS
                   </p>
                   <hr>
                   <strong><i class="fa fa-map-marker margin-r-5"></i> Lugar</strong>
-                  <p class="text-muted">UNLaM, La Matanza</p>
+                  <p class="text-muted">San Justo, La Matanza</p>
 
                   <hr>
 
@@ -101,27 +101,45 @@ $user = UsuarioQuery::create()->find(); // ES PARA LLAMAR TODOS LOS USUARIOS
                   </div><!-- /.tab-pane -->
                   <div class="tab-pane" id="timeline">
                       <div class="content">
-                            <div class="section group" id="formulario_usuarios">
+                            <div class="section group" >
                                     <div class="box-body" >
-                                        <input type="hidden" id="accion" value="n"/>
+                                        <form id="formfoto">
+                                        <input type="hidden" id="accion" value="e"/>
+                                        <div class="form-group">
+                                            <label>Subir imagen de perfil</label>
+                                            <input type="file" id="imagenperfil" value="" name="imagenperfil"  /> 
+                                        </div>  
                                         <div class="form-group">
                                             <label>Id</label>
-                                            <input type="text" class="form-control" placeholder="ID" disabled id="id">
+                                            <input type="text" class="form-control" placeholder="ID" disabled id="">
                                         </div>
                                         <div class="form-group">
                                             <label>Nombre</label>
-                                            <input type="text" class="form-control" placeholder="nombre" value="<?php echo $usuario->getNombre(); ?>" id="nombre">
+                                            <input type="text" class="form-control" placeholder="nombre" value="<?php echo $usuario->getNombre(); ?>" id="">
                                         </div>
                                         <div class="form-group">
                                             <label>E-Mail</label>
-                                            <input type="email" class="form-control" placeholder="E-Mail" value="<?php echo $usuario->getMail(); ?>" id="mail">
+                                            <input type="email" class="form-control" placeholder="E-Mail" value="<?php echo $usuario->getMail(); ?>" id="">
                                         </div>
                                         <div class="form-group">
                                             <label>Password</label>
-                                            <input type="password" class="form-control" placeholder="Password" value="<?php echo $usuario->getPassword(); ?>" id="password" name="password">
+                                            <input type="password" class="form-control" placeholder="Password" value="<?php echo $usuario->getPassword(); ?>" id="" name="password">
                                         </div>
                                         <div class="form-group">
-                                            <button class="btn btn-block btn-default" onclick="enviar_form_usuarios()">Confirmar modificacion</button>
+                                            <label>Educacion</label>
+                                            <input type="text" class="form-control" placeholder="edu" value="<?php echo $usuario->getEducacion(); ?>" id="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Intereses</label>
+                                            <input type="text" class="form-control" placeholder="interes" value="<?php echo $usuario->getLugar(); ?>" id="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Nota de perfil</label>
+                                            <input type="text" class="form-control" placeholder="nota" value="<?php echo $usuario->getNota(); ?>" id="">
+                                        </div>
+                                        </form>
+                                        <div class="form-group">
+                                            <button class="btn btn-block btn-default" onclick="editaperfilfoto()">Confirmar modificacion</button>
                                         </div>
                                     </div>
                             </div>	

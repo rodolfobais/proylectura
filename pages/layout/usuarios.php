@@ -54,7 +54,7 @@ $usuarios = UsuarioQuery::create()->find();
                             </div>
                             <div class="form-group">
                                 <label>Nombre</label>
-                                <input type="text" class="form-control" placeholder="Nick" id="nombre">
+                                <input type="text" class="form-control" placeholder="nombre" id="nombre">
                             </div>
                             <div class="form-group">
                                 <label>E-Mail</label>
